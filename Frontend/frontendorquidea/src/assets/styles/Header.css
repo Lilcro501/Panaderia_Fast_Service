@@ -1,5 +1,6 @@
 /* ~~~~~~~~~~~~~~~~ Encabezado ~~~~~~~~~~~~~~~~ */
 .header {
+  padding: 70px 20px;
 
   z-index: 1;
 }
@@ -11,7 +12,7 @@
   align-items: flex-start;
   gap: 20px;
   position: relative;
-  top: 80px;
+  top: -50px;
 }
 
 
@@ -130,7 +131,8 @@
 
 .estilo-logo {
   border-radius: 50%; /*redondea el logo en forma de circulo*/
-  
+  width: 130px; /*ancho del logo*/
+  height: 130px; /*alto del logo*/
 }
 
 .estilo-logo:hover{

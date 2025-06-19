@@ -1,4 +1,6 @@
 import React from "react"
+// importo los links de la biblioteca react-router-dom
+import { Link } from 'react-router-dom';
 
 import "../assets/styles/Categorias.css"
 import Bebidas from "../assets/icons/bebidas.png"
@@ -9,17 +11,39 @@ import Pan from  "../assets/icons/pan.png"
 
 
 
-function Categorias() {
-    return <section class="categorias">
-        <div class="recuadro-categoria">
-        <div class="categoria"><img src={Pan} alt="Panes" width="60" /><h5 class="nom-categoria">Panes</h5></div>
-        <div class="categoria"><img src={Fritos} alt="Fritos" width="60" /><h5 class="nom-categoria">Fritos</h5></div>
-        <div class="categoria"><img src={Mecato} alt="Mecato" width="60" /><h5 class="nom-categoria">Mecato</h5></div>
-        <div class="categoria"><img src={Bebidas} alt="Bebidas" width="60" /><h5 class="nom-categoria">Bebidas</h5></div>
-        <div class="categoria"><img src={Helados} alt="Helados" width="62" /><h5 class="nom-categoria">Helados</h5></div>
-        </div>
+export default function Categorias() {
+  return (
+    <section className="categorias">
+      <div className="recuadro-categoria">
+
+        <Link to="/categorias/CategoriaPanes" className="categoria">
+          <img src={Pan} alt="Panes" width="60" />
+          <h5 className="nom-categoria">Panes</h5>
+        </Link>
+
+        <Link to="/categorias/CategoriasFritos" className="categoria">
+          <img src={Fritos} alt="Fritos" width="60" />
+          <h5 className="nom-categoria">Fritos</h5>
+        </Link>
+
+        <Link to="/categorias/CategoriasMecato" className="categoria">
+          <img src={Mecato} alt="Mecato" width="60" />
+          <h5 className="nom-categoria">Mecato</h5>
+        </Link>
+
+        <Link to="/categorias/CategoriasBebidas" className="categoria">
+          <img src={Bebidas} alt="Bebidas" width="60" />
+          <h5 className="nom-categoria">Bebidas</h5>
+        </Link>
+
+        <Link to="/categorias/CategoriasHelados" className="categoria">
+          <img src={Helados} alt="Helados" width="62" />
+          <h5 className="nom-categoria">Helados</h5>
+        </Link>
+
+      </div>
     </section>
+  );
 }
 
-export default Categorias;
 
