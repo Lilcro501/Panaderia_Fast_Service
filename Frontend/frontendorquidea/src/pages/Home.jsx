@@ -37,14 +37,10 @@ export default function Home() {
       <h2 className="titulo-productos" style={{textAlign: "center"}}>Productos destacados</h2>
       <br />
       <br />
-
       <Carrusel2></Carrusel2>
-      
-      
-      
       <br />
       <br />
-      
+
       <section class="frase-logo">
             <div class="texto-slogan">
                 <h3> Más que 

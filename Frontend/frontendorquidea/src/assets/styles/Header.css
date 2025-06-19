@@ -59,6 +59,7 @@
     background-size: 100% calc(2vw + 300px);
   }
 }
+
 /* FIn estilos de la plantilla */
 /*~~~~~~~~~~~~~~~~ Fin encabezado ~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -122,3 +123,22 @@
 /*validar dos clases que no se encuentran*/
 /*menu-secundario*/
 /*bi bi-search*/
+
+.logo-container{
+  z-index: 5;
+}
+
+.estilo-logo {
+  border-radius: 50%; /*redondea el logo en forma de circulo*/
+  
+}
+
+.estilo-logo:hover{
+  transform: rotate(360deg);
+  transition-duration: 1.4s ;
+}
+
+.logo-container:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+}
