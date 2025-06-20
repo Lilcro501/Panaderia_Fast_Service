@@ -1,0 +1,50 @@
+.recuadro-experiencia {
+    background-color:#f0b875  ;
+    border-radius: 15px;
+    transition: ease-in-out 0.2s;
+}
+
+.recuadro-experiencia:hover {
+    transform: scale(1.1);
+}
+
+
+.contenedor-encuesta {
+    background-color: white;
+    border-radius: 10px;
+    padding-bottom: 20px;
+    margin: 15px;
+}
+.tamaño-calificacion {
+    width: 125px;
+    height: auto;
+
+}
+
+
+.contenedor-input {
+    margin-left: 60px;
+    width: 500px;
+    background-color: #f0b875;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.input-defecto {
+    border: none;
+    margin-left: 50px;
+    background-color: #f0b9755c;
+    width: 400px;
+    height: 40px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.recuadro-encuesta {
+    margin-left: 300px;
+    width: 50%;
+    background-color: rgb(213, 0, 0);
+    border-radius: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+ }

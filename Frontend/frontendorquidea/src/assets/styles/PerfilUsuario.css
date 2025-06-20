@@ -1,0 +1,37 @@
+.recuadro-perfil {
+    margin-left: 33%;
+    width: 500px;
+    height: 500px;
+    background-color: #d9d9d96f;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column; /* Ahora es columna para que el contenido y el botón se apilen */
+    justify-content: space-between; /* Para que los datos queden arriba y el botón abajo */
+    align-items: center; /* Centrar horizontalmente */
+    padding: 20px;
+}
+
+.boton-actualizar {
+    width: 150px;  /* más ancho para que se vea mejor */
+    height: 40px;
+    margin: 0;     /* quitamos el margin innecesario */
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid pink;
+    color: pink;
+}
+
+.datos1 {
+    width: 100%;
+}
+
+.entrada {
+    background-color: #554949;
+    border-radius: 10px;
+    width: 450px;
+    height: 30px;
+}
+
+.foto-perfil {
+    width: 60px;
+}

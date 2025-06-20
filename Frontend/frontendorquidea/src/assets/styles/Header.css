@@ -95,15 +95,16 @@
   gap: 40px;
 }
 
-.lista-info li a:hover{
+.lista-info li:hover{
   color: #997b6c;
 }
 
-.lista-info li  a{
+.lista-info li {
   text-decoration: none;
   color: #e4e1e1;
   font-weight: bold;
   font-size: 1.8rem;
+  list-style: none;
 }
 
 /* ~~~~~~~~~~~~~~~~ Fin de la barra de navegación del encabezado ~~~~~~~~~~~~~~~~ */
@@ -135,6 +136,7 @@
   height: 130px; /*alto del logo*/
 }
 
+
 .estilo-logo:hover{
   transform: rotate(360deg);
   transition-duration: 1.4s ;
@@ -143,4 +145,19 @@
 .logo-container:hover{
   transform: scale(1.1);
   cursor: pointer;
+}
+
+.estilo-logo-perfil {
+  border-radius: 50%; /*redondea el logo en forma de circulo*/
+  width: 130px; /*ancho del logo*/
+  height: auto; /*alto del logo*/
+}
+
+.estilo-logo-perfil:hover {
+  transform: scale(0.5s);
+}
+
+
+.sin-subrayado {
+  text-decoration: none;
 }

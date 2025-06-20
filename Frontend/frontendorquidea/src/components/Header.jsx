@@ -1,9 +1,15 @@
 // src/components/Header.jsx
 import React from 'react';
+//importar las rutas 
+import { Link } from 'react-router-dom';
 import '../assets/styles/Header.css';  // Ajusta el path según dónde pongas el CSS
 import logo from '../assets/images/logo_header.png';
 import carritoIcon from '../assets/icons/icono-carrito.svg';
 // Si usas Bootstrap Icons vía CDN no hace falta importarlo aquí
+ import { FaRegUserCircle } from "react-icons/fa";
+ import PerfilLogo from "../assets/icons/logo.png"
+
+
 
 const Header = () => {
   return (
@@ -28,12 +34,16 @@ const Header = () => {
           <nav className="menu-secundario">
             <ul className="lista-info">
               <li><a href="#">Conócenos</a></li>
-              <li><a href="#">Calificar experiencia</a></li>
+                  <Link to="/CalificarExperiencia" className='sin-subrayado'><li>Calificar Experiencia</li></Link>
               <li><a href="#">Favoritos</a></li>
             </ul>
           </nav>
         </div>
-
+        <div className='logo-container'>
+          <Link to="/Perfil/usuario">
+          <img src={PerfilLogo} className='estilo-logo-perfil' alt='perfillogo'></img></Link>
+          
+        </div>
         {/* ~~~~~~~~~~~~~~~~ Carrito ~~~~~~~~~~~~~~~~ */}
         <div className="icono-carrito">
           <img src={carritoIcon} alt="Carrito" />

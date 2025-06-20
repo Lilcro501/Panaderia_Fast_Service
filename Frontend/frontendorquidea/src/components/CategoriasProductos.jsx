@@ -1,21 +1,21 @@
 import React from "react";
-
+import "../assets/styles/CategoriasProductos.css"
 import PanAgriduclce from "../assets/images/panes/pan agridulce.jpg"
 
 
 export default function CategoriaProductos() {
     return (
-        <div className="recuadro-catalogo">
+        <div className="contenedor-producto ">
             <img 
-                className="carrusel-catalogo" 
+                className="posicion-img" 
                 src={PanAgriduclce} 
                 alt="Pan agridulce" 
             />
             <div className="contenido-producto">
-                <h3>Pan agridulce</h3>
+                <h6>Pan agridulce</h6>
                 <p className="precio">$1500</p>
-                <section className="number-input" aria-label="Control para añadir producto">
-                    <button id="añadirProducto" type="button">
+                <section className="" aria-label="Control para añadir producto">
+                    <button className="boton-añadir" id="añadirProducto" type="button">
                         Añadir
                     </button>
                 </section>

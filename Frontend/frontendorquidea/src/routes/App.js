@@ -8,6 +8,9 @@ import CategoriasFritos from "../pages/CategoriasFritos"
 import CategoriasMecato from "../pages/CategoriasMecato"
 import CategoriasHelados from "../pages/CategoriasHelados"
 import CategoriasBebidas from '../pages/CategoriasBebidas';
+import PerfilUsuario from '../pages/PerfilUsuario';
+import ActualizarPerfil from "../pages/ActualizarPerfil"
+import CalificarExperiencia from '../pages/CalificarExperiencia';
 
 
 
@@ -65,6 +68,33 @@ const AppRouter = () => {
             </MainLayout>
           } 
         />
+
+        <Route 
+          path="Perfil/usuario"
+          element={
+            <MainLayout>
+              <PerfilUsuario />
+            </MainLayout>
+          } 
+        />
+        <Route 
+          path="Actualizar"
+          element={
+            <MainLayout>
+              <ActualizarPerfil></ActualizarPerfil>
+            </MainLayout>
+          } 
+        />
+
+        <Route 
+          path="CalificarExperiencia"
+          element={
+            <MainLayout>
+              <CalificarExperiencia></CalificarExperiencia>
+            </MainLayout>
+          } 
+        />
+
       </Routes>
     </Router>
   );
