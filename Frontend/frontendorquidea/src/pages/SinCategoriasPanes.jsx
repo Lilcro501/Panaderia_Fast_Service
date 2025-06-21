@@ -13,7 +13,6 @@ import PanAgridulce from '../assets/images/panes/pan agridulce.jpg';
 import PanChicharron from '../assets/images/panes/pan-chicharron.jpg';
 import Pera from '../assets/images/panes/pera.jpg';
 import Rollo from '../assets/images/panes/rollos.jpg';
-import Categorias from '../components/Categorias';
 
 
 export default function CategoriaPanes() {
@@ -37,20 +36,11 @@ export default function CategoriaPanes() {
     ];
     
     return (
-    <>
-    <Categorias></Categorias>
-
-    <br />
-    <br />
-    <br />
-    
     <div>
         {categorias.map((cat, i) => (
         <Categoria key={i} nombre={cat.nombre} productos={cat.productos} />
         ))}
     </div>
-    
-    </>
     );
 };
 

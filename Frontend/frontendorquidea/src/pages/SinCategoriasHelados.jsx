@@ -10,7 +10,6 @@ import Dracula from '../assets/images/helados/dracula.png';
 import NubesColores from '../assets/images/helados/nubes-colores.png';
 import PaletaLimon from '../assets/images/helados/paleta-limon.png';
 import Polette from '../assets/images/helados/polette.png';
-import Categorias from '../components/Categorias';
 
 
 export default function CategoriasHelados() {
@@ -31,19 +30,11 @@ export default function CategoriasHelados() {
     ];
     
     return (
-        <>
-        <Categorias></Categorias>
-
-        <br />
-        <br />
-        <br />
-
-             <div>
-                {categorias.map((cat, i) => (
-                <Categoria key={i} nombre={cat.nombre} productos={cat.productos} />
-                ))}
-            </div>
-    </>
+    <div>
+        {categorias.map((cat, i) => (
+        <Categoria key={i} nombre={cat.nombre} productos={cat.productos} />
+        ))}
+    </div>
     );
 };
 

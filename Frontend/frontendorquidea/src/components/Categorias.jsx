@@ -11,14 +11,15 @@ import Pan from  "../assets/icons/pan.png"
 
 
 
+
 export default function Categorias() {
   return (
     <section className="categorias">
       <div className="recuadro-categoria">
 
-        <Link to="/categorias/CategoriaPanes" className="categoria">
+        <Link to="/categorias/CategoriaPanes" className="categoria" >
           <img src={Pan} alt="Panes" width="60" />
-          <h5 className="nom-categoria">Panes</h5>
+          <h5 className="nom-categoria" >Panes</h5>
         </Link>
         
 

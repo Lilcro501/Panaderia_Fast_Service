@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Categoria from '../components/Categoria';
-import Categorias from '../components/Categorias';
 
 import Cheesetris from '../assets/images/mecato/cheesetris.png';
 import Cheetos from '../assets/images/mecato/cheetos.png';
@@ -41,18 +40,11 @@ export default function CategoriasMecato() {
     ];
     
     return (
-    <>
-    <Categorias></Categorias>
-
-    <br />
-    <br />
-    <br />
-    
     <div>
         {categorias.map((cat, i) => (
         <Categoria key={i} nombre={cat.nombre} productos={cat.productos} />
         ))}
     </div>
-    </>
     );
 };
+

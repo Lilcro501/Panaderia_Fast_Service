@@ -12,6 +12,8 @@ import PerfilUsuario from '../pages/PerfilUsuario';
 import ActualizarPerfil from "../pages/ActualizarPerfil"
 import CalificarExperiencia from '../pages/CalificarExperiencia';
 import Recomendacion from '../pages/Recomendacion';
+import Conocenos from '../pages/Conocenos';
+import AccedeAqui from '../pages/AccedeAqui';
 
 
 
@@ -104,6 +106,23 @@ const AppRouter = () => {
           }
         />
 
+        <Route 
+          path="/conocenos"
+          element={
+            <MainLayout>
+              <Conocenos />
+            </MainLayout>
+          } 
+        />
+        
+        <Route
+        path='/AccedeAqui'
+        element={
+          <MainLayout>
+            <AccedeAqui />
+          </MainLayout>
+        }
+        />
       </Routes>
     </Router>
   );

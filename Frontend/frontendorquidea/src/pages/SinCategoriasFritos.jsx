@@ -1,7 +1,6 @@
 
 import React from 'react';
 import Categoria from '../components/Categoria';
-import Categorias from '../components/Categorias';
 
 import Buñuelo from '../assets/images/fritos/buñuelo.png';
 import Pollo from '../assets/images/fritos/pollo.png';
@@ -20,17 +19,11 @@ export default function CategoriasFritos() {
     ];
     
     return (
-    <>
-    <Categorias></Categorias>
-    
-    <br />
-    <br />
-    <br />
     <div>
         {categorias.map((cat, i) => (
         <Categoria key={i} nombre={cat.nombre} productos={cat.productos} />
         ))}
     </div>
-    </>
     );
 };
+
