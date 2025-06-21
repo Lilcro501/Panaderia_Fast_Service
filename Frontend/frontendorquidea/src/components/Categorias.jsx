@@ -20,6 +20,7 @@ export default function Categorias() {
           <img src={Pan} alt="Panes" width="60" />
           <h5 className="nom-categoria">Panes</h5>
         </Link>
+        
 
         <Link to="/categorias/CategoriasFritos" className="categoria">
           <img src={Fritos} alt="Fritos" width="60" />

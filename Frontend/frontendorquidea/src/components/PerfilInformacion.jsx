@@ -1,17 +1,25 @@
 import React from "react";
 import "../assets/styles/PerfilUsuario.css"
 import PerfilLogo from "../assets/icons/perfil-negro-2.png"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 
 export default function PerfilUsuario() {
+  const navegacion = useNavigate();
+  const EnviarDatos = (e) => {
+    e.preventDefault()
+    navegacion("/")
+  }
+
+
   return (
     <div>
         <h1 style={{textAlign: "center"}}>Informacion de usuario</h1>
         <br />
         <br />
 
-        <form className="recuadro-perfil">
+        <form className="recuadro-perfil" onSubmit={(e) => EnviarDatos(e) }>
       <img src={PerfilLogo} className="foto-perfil" alt="Foto de perfil" />
 
       <div className="datos1">
@@ -60,10 +68,7 @@ export default function PerfilUsuario() {
           />
         </label>
       </div>
-
-     <Link to="/actualizar">
-        <button className="boton-actualizar">Actualizar Datos</button>
-      </Link>
+        <button className="boton-actualizar" type="submit">Actualizar Datos</button>
     </form>
     </div>
   );

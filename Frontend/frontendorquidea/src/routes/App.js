@@ -11,6 +11,7 @@ import CategoriasBebidas from '../pages/CategoriasBebidas';
 import PerfilUsuario from '../pages/PerfilUsuario';
 import ActualizarPerfil from "../pages/ActualizarPerfil"
 import CalificarExperiencia from '../pages/CalificarExperiencia';
+import Recomendacion from '../pages/Recomendacion';
 
 
 
@@ -93,6 +94,14 @@ const AppRouter = () => {
               <CalificarExperiencia></CalificarExperiencia>
             </MainLayout>
           } 
+        />
+        <Route 
+          path="recomendacion"
+          element={
+            <MainLayout>
+              <Recomendacion></Recomendacion>
+            </MainLayout>
+          }
         />
 
       </Routes>

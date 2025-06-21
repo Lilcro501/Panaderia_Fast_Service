@@ -5,6 +5,7 @@ import calificacion3 from "../assets/icons/calificacion-3.png";
 import calificacion4 from "../assets/icons/calificacion-4.png";
 import calificacion5 from "../assets/icons/calificacion-5.png";
 
+
 export default function RecuadroEncuesta({ texto }) {
   return (
     <div className="recuadro-encuesta">
@@ -24,5 +25,5 @@ export default function RecuadroEncuesta({ texto }) {
       </div>
     </div>
   );
-}
+};
 

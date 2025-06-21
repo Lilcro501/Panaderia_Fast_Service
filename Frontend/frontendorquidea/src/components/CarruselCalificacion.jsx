@@ -101,3 +101,11 @@ export default function CarruselDestacados() {
     </section>
   );
 }
+
+
+
+
+
+
+
+//nav use navigate
