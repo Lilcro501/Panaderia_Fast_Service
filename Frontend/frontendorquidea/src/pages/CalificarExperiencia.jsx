@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import "../assets/styles/Experiencia.css"
 import RecuadroEncuesta from "../components/CompoEncuesExperiencia"
 import CalificacionInformacion from "../components/CalificacionInformacion";
-
+imp
 
 export default function CalificarExperiencia() {
     return (
