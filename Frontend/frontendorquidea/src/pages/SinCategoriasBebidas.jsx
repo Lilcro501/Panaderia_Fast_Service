@@ -1,7 +1,6 @@
 
 import React from 'react';
 import Categoria from '../components/Categoria';
-import Categorias from '../components/Categorias';
 
 import AguaPool from '../assets/images/bebidas/agua-pool.png';
 import Aguila from '../assets/images/bebidas/aguila.png';
@@ -17,8 +16,6 @@ import Pilsen from '../assets/images/bebidas/pilsen.png';
 import Pool from '../assets/images/bebidas/pool.jpg';
 import YogurtBolsa from '../assets/images/bebidas/yogurt-bolsa.png';
 import Yogurt from '../assets/images/bebidas/yogurt.jpg';
-
-
 
 
 const CategoriasBebidas = () => {
@@ -45,19 +42,11 @@ const CategoriasBebidas = () => {
     ];
     
     return (
-    <>
-    <Categorias></Categorias>
-
-    <br />
-    <br />
-    <br />
-    
     <div>
         {categorias.map((cat, i) => (
         <Categoria key={i} nombre={cat.nombre} productos={cat.productos} />
         ))}
     </div>
-    </>
     );
 };
 

@@ -12,14 +12,26 @@ import Magdalena from '../assets/images/panes/magdalena.jpg';
 import PanAgridulce from '../assets/images/panes/pan agridulce.jpg';
 import PanChicharron from '../assets/images/panes/pan-chicharron.jpg';
 import Pera from '../assets/images/panes/pera.jpg';
-import Rollo from '../assets/images/panes/rollos.jpg';
+import TortaPescado from '../assets/images/fritos/torta-pescado.png';
+import Pilsen from '../assets/images/bebidas/pilsen.png';
+import Pool from '../assets/images/bebidas/pool.jpg';
+import YogurtBolsa from '../assets/images/bebidas/yogurt-bolsa.png';
+import Yogurt from '../assets/images/bebidas/yogurt.jpg'
+
+
+
+
+
+
+
+
 import Categorias from '../components/Categorias';
 
 
-export default function CategoriaPanes() {
+export default function Favoritos() {
     const categorias = [
     {
-        nombre: "Panes",
+        nombre: "Favoritos",
         productos: [
         { imagen: PanTrenza, nombre: 'Pan trenza', precio: 4500 },
         { imagen: Almojabana, nombre: 'Almojábana', precio: 2500 },
@@ -31,15 +43,18 @@ export default function CategoriaPanes() {
         { imagen: PanAgridulce, nombre: 'Pan agridulce', precio: 700},
         { imagen: PanChicharron, nombre: 'Pan chicharrón', precio: 1900},
         { imagen: Pera, nombre: "Pera", precio: 2700},
-        { imagen: Rollo, nombre: "Rollo", precio: 3000}
+        { imagen: TortaPescado, nombre: 'Torta de pescado', precio: 4500 },
+        { imagen: Pilsen, nombre: 'Cerveza pilsen', precio: 5000 },
+        { imagen: Pool, nombre: 'Pool', precio: 4500 },
+        { imagen: YogurtBolsa, nombre: 'Yogurt en bolsa', precio: 4500 },
+        { imagen: Yogurt, nombre: 'Yogurt', precio: 4500 },
+        
         ]
     }
     ];
     
     return (
     <>
-    <Categorias></Categorias>
-
     <br />
     <br />
     <br />
@@ -53,4 +68,3 @@ export default function CategoriaPanes() {
     </>
     );
 };
-

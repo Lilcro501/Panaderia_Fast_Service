@@ -1,0 +1,13 @@
+.heart-button {
+  background-color: transparent;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.5s;
+}
+
+.heart-button.activo {
+  background-color: rgb(180, 104, 104);
+  color: white; /* Opcional: cambia el color del corazón */
+}

@@ -18,7 +18,7 @@ const Header = () => {
 
         {/* ~~~~~~~~~~~~~ Logo ~~~~~~~~~~~~~ */}
         <div className="logo-container">
-          <img src={logo} alt="logo-panaderia" className="estilo-logo" />
+          <Link to="/"><img src={logo} alt="logo-panaderia" className="estilo-logo" /></Link>
         </div>
 
         {/* ~~~~~~~~~~~~~~~~ Barra de buscador ~~~~~~~~~~~~~~~~ */}
@@ -33,9 +33,9 @@ const Header = () => {
           {/* ~~~~~~~~~~~~~~~~ Lista de navegación al costado ~~~~~~~~~~~~~~~~ */}
           <nav className="menu-secundario">
             <ul className="lista-info">
-              <li><a href="#">Conócenos</a></li>
+                  <Link to="/conocenos" className='sin-subrayado'><li>Conocenos</li></Link>
                   <Link to="/CalificarExperiencia" className='sin-subrayado'><li>Calificar Experiencia</li></Link>
-              <li><a href="#">Favoritos</a></li>
+                  <Link to="/Favoritos" className="sin-subrayado"><li>Favoritos</li></Link>
             </ul>
           </nav>
         </div>

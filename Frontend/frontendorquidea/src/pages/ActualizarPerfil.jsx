@@ -1,11 +1,11 @@
 import React from "react";
-import PerfilInformacion from "../components/PerfilInformacion"
+import ActualizarDatos  from "../components/PerfilInformacion";
 
 
 export default function ActualizarPerfil() {
     return (
         <>
-        <PerfilInformacion></PerfilInformacion>
+        <ActualizarDatos></ActualizarDatos>
         
         </>
     )
