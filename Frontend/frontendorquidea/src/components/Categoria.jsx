@@ -1,6 +1,7 @@
 
-import React from 'react';
 import "../assets/styles/Categoria.css";
+import React, { useState } from 'react';
+import HeartButton from './Corazon';
 
 const Categoria = ({ nombre, productos }) => {
   return (
@@ -17,7 +18,10 @@ const Categoria = ({ nombre, productos }) => {
             <div className="producto-info">
               <p className="producto-nombre">{producto.nombre}</p>
               <p className="producto-precio">${producto.precio}</p>
-              <button className="agregar">Añadir</button>
+              <div className="acomodar-corazon-agregar">
+                <button className="agregar">Añadir</button>
+              <HeartButton></HeartButton>
+              </div>
             </div>
           </div>
         ))}

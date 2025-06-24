@@ -1,8 +1,9 @@
 import PerfilInformacion from "../components/PerfilInformacion"
+import { MostrarInformacion } from "../components/PerfilInformacion"
 
 
 export default function PerfilUsario(){
     return (
-        <PerfilInformacion></PerfilInformacion>
+        <MostrarInformacion></MostrarInformacion>
     )
 }

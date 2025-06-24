@@ -75,3 +75,26 @@
 .agregar:hover {
     background-color: rgb(67, 44, 33);
 }
+<<<<<<< HEAD
+=======
+
+.heart-button {
+  background-color: transparent;
+  border: none;
+  font-size: 40px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.heart-button.activo {
+  background-color: black;
+  color: white; /* Opcional: cambia el color del corazón */
+}
+
+.acomodar-corazon-agregar {
+    display: flex;
+    justify-content: space-between;
+}
+>>>>>>> desarrollo
