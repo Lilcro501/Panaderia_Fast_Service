@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import Categoria from '../components/Categoria';
+import Categoria from '../../components/Categoria';
 
 import Cheesetris from '../assets/images/mecato/cheesetris.png';
 import Cheetos from '../assets/images/mecato/cheetos.png';

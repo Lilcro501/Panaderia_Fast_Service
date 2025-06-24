@@ -75,8 +75,6 @@
 .agregar:hover {
     background-color: rgb(67, 44, 33);
 }
-<<<<<<< HEAD
-=======
 
 .heart-button {
   background-color: transparent;
@@ -97,4 +95,4 @@
     display: flex;
     justify-content: space-between;
 }
->>>>>>> desarrollo
+

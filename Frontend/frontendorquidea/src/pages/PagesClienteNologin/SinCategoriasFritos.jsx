@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Categoria from '../components/Categoria';
+import Categoria from '../../components/Categoria';
 
 import Buñuelo from '../assets/images/fritos/buñuelo.png';
 import Pollo from '../assets/images/fritos/pollo.png';

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Categoria from '../components/Categoria';
+import Categoria from '../../components/Categoria';
 
 import PanTrenza from '../assets/images/panes/pan trenza.jpg';
 import Almojabana from '../assets/images/panes/almojabana.jpg';

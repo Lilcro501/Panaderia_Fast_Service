@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import '../assets/styles/HomeSinRegistrar.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
 import mostrador from "../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del mostrador ~~~~~~ */
-import Categorias from "../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
-import Carrusel1 from "../components/CarruselIncremento"; /* ~~~~~~ Componente del carrusel con botones ~~~~~~ */
-import Carrusel2 from "../components/CarruselCalificacion"; /* ~~~~~~ Componente darrusel con calificaciones ~~~~~~ */ 
+import Categorias from "../../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
+import Carrusel1 from "../../components/CarruselIncremento"; /* ~~~~~~ Componente del carrusel con botones ~~~~~~ */
+import Carrusel2 from "../../components/CarruselCalificacion"; /* ~~~~~~ Componente darrusel con calificaciones ~~~~~~ */ 
 
 
 /* ~~~~~~ Función del Index sin registrar ~~~~~~ */

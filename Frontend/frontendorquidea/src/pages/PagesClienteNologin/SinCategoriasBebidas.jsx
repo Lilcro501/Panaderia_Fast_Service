@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Categoria from '../components/Categoria';
+import Categoria from '../../components/Categoria';
 
 import AguaPool from '../assets/images/bebidas/agua-pool.png';
 import Aguila from '../assets/images/bebidas/aguila.png';

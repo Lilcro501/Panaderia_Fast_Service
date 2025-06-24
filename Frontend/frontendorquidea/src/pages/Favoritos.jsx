@@ -1,24 +1,5 @@
-<<<<<<< HEAD
-import React from "react";
-import Experiencia from "../components/Calificar";
-
-export default function Favoritos(){
-    return(
-        <>
-        <h1>
-            Favoritos    
-        </h1>
-        <Experiencia>
-            
-        </Experiencia>
-        </>
-    )
-}
-=======
-
 import React from 'react';
 import Categoria from '../components/Categoria';
-
 import PanTrenza from '../assets/images/panes/pan trenza.jpg';
 import Almojabana from '../assets/images/panes/almojabana.jpg';
 import Churro from '../assets/images/panes/churro.jpg';
@@ -34,14 +15,6 @@ import Pilsen from '../assets/images/bebidas/pilsen.png';
 import Pool from '../assets/images/bebidas/pool.jpg';
 import YogurtBolsa from '../assets/images/bebidas/yogurt-bolsa.png';
 import Yogurt from '../assets/images/bebidas/yogurt.jpg'
-
-
-
-
-
-
-
-
 import Categorias from '../components/Categorias';
 
 
@@ -85,4 +58,4 @@ export default function Favoritos() {
     </>
     );
 };
->>>>>>> desarrollo
+

@@ -33,7 +33,7 @@ const Header = () => {
           {/* ~~~~~~~~~~~~~~~~ Lista de navegación al costado ~~~~~~~~~~~~~~~~ */}
           <nav className="menu-secundario">
             <ul className="lista-info">
-                  <Link to="/conocenos" className='sin-subrayado'><li>Conocenos</li></Link>rollo
+                  <Link to="/conocenos" className='sin-subrayado'><li>Conocenos</li></Link>
                   <Link to="/CalificarExperiencia" className='sin-subrayado'><li>Calificar Experiencia</li></Link>
                   <Link to="/Favoritos" className="sin-subrayado"><li>Favoritos</li></Link>
             </ul>
