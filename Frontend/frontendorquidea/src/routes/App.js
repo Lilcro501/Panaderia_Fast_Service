@@ -2,19 +2,38 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
-import Home from '../pages/Home';
-import CategoriasPanes from '../pages/CategoriaPanes';
-import CategoriasFritos from "../pages/CategoriasFritos"
-import CategoriasMecato from "../pages/CategoriasMecato"
-import CategoriasHelados from "../pages/CategoriasHelados"
-import CategoriasBebidas from '../pages/CategoriasBebidas';
-import PerfilUsuario from '../pages/PerfilUsuario';
-import ActualizarPerfil from "../pages/ActualizarPerfil"
-import CalificarExperiencia from '../pages/CalificarExperiencia';
-import Recomendacion from '../pages/Recomendacion';
-import Conocenos from '../pages/Conocenos';
-import AccedeAqui from '../pages/AccedeAqui';
-import Favoritos from "../pages/Favoritos"
+import Home from '../pages/PagesClientes/Home';
+
+import CategoriasPanes from '../pages/PagesClientes/CategoriaPanes';
+import CategoriasFritos from "../pages/PagesClientes/CategoriasFritos"
+import CategoriasMecato from "../pages/PagesClientes/CategoriasMecato"
+import CategoriasHelados from "../pages/PagesClientes/CategoriasHelados"
+import CategoriasBebidas from '../pages/PagesClientes/CategoriasBebidas';
+import PerfilUsuario from '../pages/PagesClientes/PerfilUsuario';
+import ActualizarPerfil from "../pages/PagesClientes/ActualizarPerfil"
+import CalificarExperiencia from '../pages/PagesClientes/CalificarExperiencia';
+import Recomendacion from '../pages/PagesClientes/Recomendacion';
+import Conocenos from '../pages/PagesClientes/Conocenos';
+import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui'
+import Favoritos from "../pages/PagesClientes/Favoritos"
+import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
+import MainLayoutSinLogin from '../layouts/MainLayoutSinLogin';
+import CambioDeContraseña from "../pages/PagesLogin/CambioContraseña"
+import OlvidoContraseña from "../pages/PagesLogin/OlvidoContraseña"
+import IngresarCodigo from '../pages/PagesLogin/IngresarCodigo';
+import Registro from '../pages/PagesLogin/Registro';
+import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
+import InfoLegal from '../pages/PagesClientes/InfoLegal';
+import TYC from "../pages/PagesClientes/TYC"
+import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad"
+import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
+
+
+
+
+
+
+
 
   const AppRouter = () => {
     return (
@@ -131,8 +150,106 @@ import Favoritos from "../pages/Favoritos"
             </MainLayout>
           }
           />
+          
+          <Route
+          path='/HomeSinRegistrar'
+          element={
+            <MainLayoutSinLogin>
+              <HomeSinRegistrar></HomeSinRegistrar>
+            </MainLayoutSinLogin>
+          }
+          />
+
+          <Route
+          path='/CambioDeContraseña'
+          element={
+            <CambioDeContraseña></CambioDeContraseña>
+          }
+          />
+
+          <Route
+          path='/OlvidoContraseña'
+          element={
+            <MainLayoutSinLogin>
+              <OlvidoContraseña></OlvidoContraseña>
+            </MainLayoutSinLogin>
+          }
+          />
+          <Route
+          path='/IngresarCodigo'
+          element={
+            <MainLayoutSinLogin>
+              <IngresarCodigo></IngresarCodigo>
+            </MainLayoutSinLogin>
+          }
+          />
+
+          <Route
+          path='/Registro'
+          element={
+            <MainLayoutSinLogin>
+              <Registro></Registro>
+            </MainLayoutSinLogin>
+          }
+          />
+
+
+          <Route
+          path='/ManifiestoDelConsumidor'
+          element={
+            <MainLayout>
+              <ManifiestoConsumidor>
+              </ManifiestoConsumidor>
+            </MainLayout>
+            
+          }
+          />
+
+           <Route
+          path='/InfoLegal'
+          element={
+            <MainLayout>
+             <InfoLegal></InfoLegal>
+            </MainLayout>
+            
+          }
+          />
+
+        <Route
+          path='/TYC'
+          element={
+            <MainLayout>
+            <TYC></TYC>
+            </MainLayout>
+            
+          }
+          />
+
+          <Route
+          path='/PoliticaPrivacidad'
+          element={
+            <MainLayout>
+             <PoliticaPrivacidad></PoliticaPrivacidad>
+            </MainLayout>
+            
+          }
+          />
+
+          <Route
+          path='/PoliticaCookies'
+          element={
+            <MainLayout>
+            <PoliticaCookies></PoliticaCookies>
+            </MainLayout>
+            
+          }
+          />
+
+
+
         </Routes>
       </Router>
+      
     );
   };
 

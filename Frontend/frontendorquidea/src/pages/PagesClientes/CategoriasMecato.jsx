@@ -1,21 +1,21 @@
 
 
 import React from 'react';
-import Categoria from '../components/Categoria';
-import Categorias from '../components/Categorias';
+import Categoria from '../../components/Categoria';
+import Categorias from '../../components/Categorias';
 
-import Cheesetris from '../assets/images/mecato/cheesetris.png';
-import Cheetos from '../assets/images/mecato/cheetos.png';
-import Chokis from '../assets/images/mecato/chokis.png';
-import Detodito from '../assets/images/mecato/detodito.png';
-import Dinamita from '../assets/images/mecato/dinamita.png';
-import Doritos from '../assets/images/mecato/doritos.png';
-import FlamingHot from '../assets/images/mecato/flaming-hot.png';
-import Margaritas from '../assets/images/mecato/margaritas.jpg';
-import NatuChipsPlat from '../assets/images/mecato/natu-chips-plat.png';
-import NatuChipsVerd from '../assets/images/mecato/natu-chips-verd.png';
-import Pasabocas from '../assets/images/mecato/pasabocas.jpg';
-import PopetasMix from '../assets/images/mecato/popetas-mixtas.png';
+import Cheesetris from '../../assets/images/mecato/cheesetris.png';
+import Cheetos from '../../assets/images/mecato/cheetos.png';
+import Chokis from '../../assets/images/mecato/chokis.png';
+import Detodito from '../../assets/images/mecato/detodito.png';
+import Dinamita from '../../assets/images/mecato/dinamita.png';
+import Doritos from '../../assets/images/mecato/doritos.png';
+import FlamingHot from '../../assets/images/mecato/flaming-hot.png';
+import Margaritas from '../../assets/images/mecato/margaritas.jpg';
+import NatuChipsPlat from '../../assets/images/mecato/natu-chips-plat.png';
+import NatuChipsVerd from '../../assets/images/mecato/natu-chips-verd.png';
+import Pasabocas from '../../assets/images/mecato/pasabocas.jpg';
+import PopetasMix from '../../assets/images/mecato/popetas-mixtas.png';
 
 
 

@@ -1,21 +1,21 @@
 import React from 'react';
-import Categoria from '../components/Categoria';
-import PanTrenza from '../assets/images/panes/pan trenza.jpg';
-import Almojabana from '../assets/images/panes/almojabana.jpg';
-import Churro from '../assets/images/panes/churro.jpg';
-import GalletaChoco from '../assets/images/panes/galleta-chips-choco.jpg';
-import GalletaMermelada from '../assets/images/panes/galleta-mermelada.jpg';
-import Lengua from '../assets/images/panes/lengua.jpg';
-import Magdalena from '../assets/images/panes/magdalena.jpg';
-import PanAgridulce from '../assets/images/panes/pan agridulce.jpg';
-import PanChicharron from '../assets/images/panes/pan-chicharron.jpg';
-import Pera from '../assets/images/panes/pera.jpg';
-import TortaPescado from '../assets/images/fritos/torta-pescado.png';
-import Pilsen from '../assets/images/bebidas/pilsen.png';
-import Pool from '../assets/images/bebidas/pool.jpg';
-import YogurtBolsa from '../assets/images/bebidas/yogurt-bolsa.png';
-import Yogurt from '../assets/images/bebidas/yogurt.jpg'
-import Categorias from '../components/Categorias';
+import Categoria from '../../components/Categoria';
+import PanTrenza from '../../assets/images/panes/pan trenza.jpg';
+import Almojabana from '../../assets/images/panes/almojabana.jpg';
+import Churro from '../../assets/images/panes/churro.jpg';
+import GalletaChoco from '../../assets/images/panes/galleta-chips-choco.jpg';
+import GalletaMermelada from '../../assets/images/panes/galleta-mermelada.jpg';
+import Lengua from '../../assets/images/panes/lengua.jpg';
+import Magdalena from '../../assets/images/panes/magdalena.jpg';
+import PanAgridulce from '../../assets/images/panes/pan agridulce.jpg';
+import PanChicharron from '../../assets/images/panes/pan-chicharron.jpg';
+import Pera from '../../assets/images/panes/pera.jpg';
+import TortaPescado from '../../assets/images/fritos/torta-pescado.png';
+import Pilsen from '../../assets/images/bebidas/pilsen.png';
+import Pool from '../../assets/images/bebidas/agua-pool.png';
+import YogurtBolsa from '../../assets/images/bebidas/yogurt-bolsa.png';
+import Yogurt from '../../assets/images/bebidas/yogurt.jpg'
+import Categorias from '../../components/Categorias';
 
 
 export default function Favoritos() {

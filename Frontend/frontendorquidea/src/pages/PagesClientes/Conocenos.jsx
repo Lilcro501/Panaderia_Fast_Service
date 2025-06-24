@@ -1,10 +1,10 @@
 import React from 'react';
-import '../assets/styles/Conocenos.css';
+import '../../assets/styles/Conocenos.css';
 
-import VitrinaPanes from '../assets/icons/vitrina_panes.jpg';
-import VitrinaGalletas from '../assets/icons/vitrina_galletas.jpg';
-import Mostrador from '../assets/icons/mostrador.jpg';
-import Location from '../assets/icons/location.png';
+import VitrinaPanes from '../../assets/icons/vitrina_panes.jpg';
+import VitrinaGalletas from '../../assets/icons/vitrina_galletas.jpg';
+import Mostrador from '../../assets/icons/mostrador.jpg';
+import Location from '../../assets/icons/location.png';
 
 export default function Conocenos() {
     return (

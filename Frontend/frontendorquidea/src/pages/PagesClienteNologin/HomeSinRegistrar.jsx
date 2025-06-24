@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import '../assets/styles/HomeSinRegistrar.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
-import mostrador from "../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del mostrador ~~~~~~ */
+import '../../assets/styles/HomeSinRegistrar.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
+import mostrador from "../../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del mostrador ~~~~~~ */
 import Categorias from "../../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
 import Carrusel1 from "../../components/CarruselIncremento"; /* ~~~~~~ Componente del carrusel con botones ~~~~~~ */
 import Carrusel2 from "../../components/CarruselCalificacion"; /* ~~~~~~ Componente darrusel con calificaciones ~~~~~~ */ 
@@ -31,8 +31,6 @@ export default function HomeSinRegistrar() {
           </article>
       <br />
       <br />
-
-      <h2 className="titulo-productos" style={{textAlign: "center"}}>Productos destacados</h2>
       <br />
       <br />
       <Carrusel2/>

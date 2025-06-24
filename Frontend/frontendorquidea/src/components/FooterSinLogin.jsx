@@ -5,7 +5,7 @@ import logoFooter from '../assets/icons/logo-Fast_Service.png'; // ~~~~~~ Logo d
 import { BiSolidCookie } from "react-icons/bi";
 import VentanaCookies from '../components/VentanaCookies'; // ~~~~~~ Ventana cookies ~~~~~~
 
-const Footer = () => {
+const FooterSinLogin = () => {
   const navigate = useNavigate();
   const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado para mostrar u ocultar cookies ~~~~~~
 
@@ -48,23 +48,17 @@ const Footer = () => {
         <br />
 
         <div className="links-agrupar">
-          <span className='separar'>
-              <Link to="/InfoLegal">
-              Informacion Legal
-              </Link>
-            </span>
-            <span>
-              <Link to="/ManifiestoDelConsumidor">
-              Manifiesto del consumidor
-              </Link>
-             </span> 
-          
+          <span>
+            <p> {/* &nbsp; para hacer un espaciado*/}
+              
+              <a href="InfoLegal">Información legal</a> &nbsp; | &nbsp; <a href="ManifiestoConsumidor">Manifiesto del consumidor</a>
+            </p>
+          </span>
         </div>
       </footer>
     </>
   );
 };
 
-export default Footer;
-
+export default FooterSinLogin;
 

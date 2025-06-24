@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import "../assets/styles/Experiencia.css"
-import RecuadroEncuesta from "../components/CompoEncuesExperiencia"
-import CalificacionInformacion from "../components/CalificacionInformacion";
+import "../../assets/styles/Experiencia.css"
+import RecuadroEncuesta from "../../components/CompoEncuesExperiencia"
+import CalificacionInformacion from "../../components/CalificacionInformacion";
 
 
 export default function CalificarExperiencia() {

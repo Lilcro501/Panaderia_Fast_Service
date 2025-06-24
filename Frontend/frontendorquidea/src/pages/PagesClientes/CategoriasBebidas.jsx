@@ -1,24 +1,22 @@
 
 import React from 'react';
-import Categoria from '../components/Categoria';
-import Categorias from '../components/Categorias';
+import Categoria from '../../components/Categoria';
+import Categorias from '../../components/Categorias';
 
-import AguaPool from '../assets/images/bebidas/agua-pool.png';
-import Aguila from '../assets/images/bebidas/aguila.png';
-import BigCola from '../assets/images/bebidas/bigcola.jpg';
-import Electrolit from '../assets/images/bebidas/electrolit.png';
-import Gatorade from '../assets/images/bebidas/gatorade.png';
-import LecheAlqueria from '../assets/images/bebidas/leche-alqueria.png';
-import LecheColanta from '../assets/images/bebidas/leche-colanta.png';
-import Like from '../assets/images/bebidas/like.jpg';
-import MaltaMini from '../assets/images/bebidas/malta-mini.jpg';
-import Malta from '../assets/images/bebidas/malta.png';
-import Pilsen from '../assets/images/bebidas/pilsen.png';
-import Pool from '../assets/images/bebidas/pool.jpg';
-import YogurtBolsa from '../assets/images/bebidas/yogurt-bolsa.png';
-import Yogurt from '../assets/images/bebidas/yogurt.jpg';
-
-
+import AguaPool from '../../assets/images/bebidas/agua-pool.png';
+import Aguila from '../../assets/images/bebidas/aguila.png';
+import BigCola from '../../assets/images/bebidas/bigcola.jpg';
+import Electrolit from '../../assets/images/bebidas/electrolit.png';
+import Gatorade from '../../assets/images/bebidas/gatorade.png';
+import LecheAlqueria from '../../assets/images/bebidas/leche-alqueria.png';
+import LecheColanta from '../../assets/images/bebidas/leche-colanta.png';
+import Like from '../../assets/images/bebidas/like.jpg';
+import MaltaMini from '../../assets/images/bebidas/malta-mini.jpg';
+import Malta from '../../assets/images/bebidas/malta.png';
+import Pilsen from '../../assets/images/bebidas/pilsen.png';
+import Pool from '../../assets/images/bebidas/agua-pool.png';
+import YogurtBolsa from '../../assets/images/bebidas/yogurt-bolsa.png';
+import Yogurt from '../../assets/images/bebidas/yogurt.jpg';
 
 
 const CategoriasBebidas = () => {

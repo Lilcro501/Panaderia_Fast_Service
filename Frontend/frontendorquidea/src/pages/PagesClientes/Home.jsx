@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react';
-import '../assets/styles/Home.css'; // ajusta según tu proyecto
-import pan from "../assets/icons/pan.png"
-import mostrador from "../assets/icons/mostrador.jpg"
-import Categorias from "../components/Categorias"
-import Carrusel1 from "../components/CarruselIncremento"
-import "../assets/styles/Global.css"
-import Carrusel2 from "../components/CarruselCalificacion"
-
+import '../../assets/styles/Home.css'; // ajusta según tu proyecto
+import pan from "../../assets/icons/pan.png"
+import mostrador from "../../assets/icons/mostrador.jpg"
+import Categorias from "../../components/Categorias"
+import Carrusel1 from "../../components/CarruselIncremento"
+import "../../assets/styles/Global.css"
+import Carrusel2 from "../../components/CarruselCalificacion"
 
 
 export default function Home() {

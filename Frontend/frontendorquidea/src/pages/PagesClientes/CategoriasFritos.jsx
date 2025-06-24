@@ -1,11 +1,11 @@
 
 import React from 'react';
-import Categoria from '../components/Categoria';
-import Categorias from '../components/Categorias';
+import Categoria from '../../components/Categoria';
+import Categorias from '../../components/Categorias';
 
-import Buñuelo from '../assets/images/fritos/buñuelo.png';
-import Pollo from '../assets/images/fritos/pollo.png';
-import TortaPescado from '../assets/images/fritos/torta-pescado.png';
+import Buñuelo from '../../assets/images/fritos/buñuelo.png';
+import Pollo from '../../assets/images/fritos/pollo.png';
+import TortaPescado from '../../assets/images/fritos/torta-pescado.png';
 
 export default function CategoriasFritos() {
     const categorias = [

@@ -1,16 +1,16 @@
 
 import React from 'react';
-import Categoria from '../components/Categoria';
+import Categoria from '../../components/Categoria';
 
-import Aloha from '../assets/images/helados/aloha.png';
-import Artesanal from '../assets/images/helados/artesanal.png';
-import Bocatto from '../assets/images/helados/bocatto.png';
-import Chococono from '../assets/images/helados/chococono.png';
-import Dracula from '../assets/images/helados/dracula.png';
-import NubesColores from '../assets/images/helados/nubes-colores.png';
-import PaletaLimon from '../assets/images/helados/paleta-limon.png';
-import Polette from '../assets/images/helados/polette.png';
-import Categorias from '../components/Categorias';
+import Aloha from '../../assets/images/helados/aloha.png';
+import Artesanal from '../../assets/images/helados/artesanal.png';
+import Bocatto from '../../assets/images/helados/bocatto.png';
+import Chococono from '../../assets/images/helados/chococono.png';
+import Dracula from '../../assets/images/helados/dracula.png';
+import NubesColores  from '../../assets/images/helados/nubes-colores.png';
+import PaletaLimon from '../../assets/images/helados/paleta-limon.png';
+import Polette from '../../assets/images/helados/polette.png';
+import Categorias from '../../components/Categorias';
 
 
 export default function CategoriasHelados() {
