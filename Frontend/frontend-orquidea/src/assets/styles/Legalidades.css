@@ -1,0 +1,114 @@
+
+.ContenedorInfo {
+    background-color: #464242b9;
+    border-radius: 50px;
+    border: 1px solid #ffffff;
+    padding: 50px;
+    margin: 10px 80px;
+}
+
+.Titulo {
+    margin: 5px 100px;
+    color: #ebe8e8;
+    -webkit-text-stroke: 1.2px #000000;
+    font-size: 45px;
+}
+
+.Subtitulo {
+    color: #acacac;
+    -webkit-text-stroke: 0.7px #000000;
+    font-size: 30px;
+}
+
+.Parrafo {
+    color: #ffffff;
+    -webkit-text-stroke: 0.3px #000000;
+    font-size: 25px;
+}
+
+.ContenedorParrafo {
+    padding: 5px 30px;
+}
+
+.Letras {
+    margin: 20px 35px;
+    list-style: upper-alpha;
+    color: #ffffff;
+    -webkit-text-stroke: 0.3px #000000;
+    font-size: 20px;
+}
+
+.Circulo {
+    margin: 15px 35px;
+    list-style: disc;
+    color: #ffffff;
+    -webkit-text-stroke: 0.3px #000000;
+    font-size: 20px;
+}
+
+
+/* ~~~~~~~~ Manifiesto del consumidor ~~~~~~~~ */
+
+.ContenedorInfoM {
+    background-color: #464242b9;
+    border-radius: 50px;
+    border: 1px solid #ffffff;
+    padding: 50px;
+    margin: 10px 150px;
+}
+
+.ContenedorInfoM input{
+    background: #918c8c;
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    font-size: 17px;
+    border-radius: 10px;
+    padding: 5px;
+    width: 30%;
+}
+
+.ContenedorInfoM label {
+    font-size: 22px;
+    margin: 5px 15px;
+}
+
+.ContenedorInfoM select {
+    background-color: #6d6d6d;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+.ContenedorInfoM textarea{
+    min-width: 60%;
+    min-height: 250px;
+    border-radius: 10px;
+    color: #000;
+    padding: 10px;
+    margin-left: 28%;
+}
+
+.ContenedorInputt label {
+    display: flex;
+    font-size: 25px;
+}
+
+.ContenedorBoton {
+    justify-items: center;
+}
+
+.Enviar {
+    padding: 8px 40px;
+    display: flex;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.Enviar:hover {
+    transform: scale(1.1);
+}
+
+.comprobante {
+    max-width: 20%;
+}
