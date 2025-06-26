@@ -1,0 +1,60 @@
+
+
+/* ~~~~~~ Ícono de información ~~~~~~ */
+.InfoIcon {
+    margin-left: 57%;
+}
+
+/* ~~~~~~ Título principal ~~~~~~ */
+.Legalidades {
+    -webkit-text-stroke: 1px #262525;
+    text-align: center;
+    font-size: 38px;
+}
+
+/* ~~~~~~ Contenedor de las tarjetas ~~~~~~ */
+.ContenedorImagenes {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* Contenedor de cada tarjeta individual */
+.ContenedorImagen {
+    width: 400px;
+    position: relative;
+    border-radius: 15px;
+}
+
+/* Contenedor interno que incluye imagen y botón */
+.ImagenContenedor {
+    position: relative;
+    width: 400px;
+    border-radius: 12px;
+}
+
+/* Imagen */
+.ImagenLegal {
+    width: 100%;
+    height: 250px;
+    border-radius: 12px;
+}
+
+/* Botón sobre la imagen, centrado abajo */
+.BotonLegal {
+    position: absolute;
+    bottom: 20px; /* Referente a position: absolute*/
+    left: 26%; /* Referente a position: absolute*/
+    background-color: #815d5d;
+    padding: 12px;
+    border-radius: 30px;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto al pasar el cursor */
+.BotonLegal:hover {
+    transform: scale(1.1);
+}

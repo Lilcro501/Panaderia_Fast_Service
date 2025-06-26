@@ -1,0 +1,117 @@
+
+.info h1 {
+    text-align: center;
+    padding-bottom: 30px;
+    font-size: 50px;
+    color: black;
+}
+
+.AcercaDe {
+    margin: 60px;
+    border-radius: 50px;
+    background-color: rgba(147, 113, 93, 0.718);
+    display: flex;
+    justify-content: center;
+    padding: 45px;
+}
+
+.info {
+    max-width: 1000px;
+}
+
+.info h2 {
+    font-size: 45px;
+    color: black;
+}
+
+.info p {
+    margin-bottom: 15px;
+    line-height: 1.3;
+    font-size: 37px;
+    color: black;
+}
+
+
+.ContenedorMision {
+    display: flex;
+    gap: 10px;
+}
+
+.PMision {
+    margin-top: 90px;
+
+}
+
+.Mision {
+    text-align: left;
+}
+
+.VitrinaPanes {
+    max-width: 450px;
+    border-radius: 12px;
+}
+
+.Vision {
+    text-align: right;
+    padding-right: 100%;
+}
+
+p.PVision {
+    margin-top: 37px;
+}
+
+.ContenedorVision {
+    display: flex;
+    gap: 50px;
+}
+
+.Mostrador {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+}
+
+
+.info h3 {
+    font-size: 35px;
+    color: rgb(0, 0, 0);
+    margin: 10px;
+    text-align: left;
+}
+
+li.PPagoEntrega  {
+    color: rgb(0, 0, 0);
+    font-size: 33px;
+}
+
+span.PPagoEntrega{
+    margin-top: 90px;
+}
+
+.ContenedorPagoEntrega {
+    display: flex;
+    gap: 100px;
+}
+
+.VitrinaGalletas {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 12px;
+    margin: 10px 0 30px;
+}
+
+
+.ContenedorLocacion {
+    display: flex;
+    gap: 40px;
+}
+
+.Location {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+}
+
+.PLocation {
+    padding-top: 60px ;
+}

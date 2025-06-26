@@ -1,0 +1,77 @@
+/*estilo para el carrusel del home*/
+
+.carrusel-centralizado{
+  display: flex;
+  gap: 10px;
+  margin: 20px auto;
+  max-width: 100%;
+  justify-content: center;
+}
+.boton-carrusel{
+  background-color: #8b5e3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.boton-carrusel:hover {
+  background-color: #a26e46;
+}
+
+.catalogo-deslizar{
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px;
+  background-color: #c29b79a6;
+  border-radius: 15px;
+  width: 80%;
+}
+
+.catalogo-deslizar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Carrusel destacados */
+.contenedor-carrusel-centralizado {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px auto;
+  max-width: 100%;
+  justify-content: center;
+}
+
+.btn-carrusel {
+  background-color: #8b5e3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.btn-carrusel:hover {
+  background-color: #a26e46;
+}
+
+.catalogo-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px;
+  background-color: #c99e78aa;
+  border-radius: 15px;
+  width: 80%;
+}
+
+.catalogo-scroll::-webkit-scrollbar {
+  display: none;
+}
+
