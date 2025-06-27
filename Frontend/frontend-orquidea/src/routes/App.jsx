@@ -33,6 +33,9 @@ import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
 import AgregarInven from '../pages/PagesAdmin/AgregarInven'
 import EditarInven from '../pages/PagesAdmin/EditarInven'
 import EliminarInven from '../pages/PagesAdmin/EliminarInven';
+import AdministrarTrabajadores from '../pages/PagesAdmin/AdministrarTrabajadores';
+import Agregar_EditarTrabajador from '../pages/PagesAdmin/Agregar_EditarTrabajador';
+import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
 
 
 
@@ -282,6 +285,35 @@ import EliminarInven from '../pages/PagesAdmin/EliminarInven';
             </AdminLayout>
           }
           />
+
+          <Route
+          path='/AdministrarTrabajadores'
+          element={
+            <AdminLayout>
+              <AdministrarTrabajadores/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/Agregar_EditarTrabajador'
+          element={
+            <AdminLayout>
+              <Agregar_EditarTrabajador/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/EliminarTrabajador'
+          element={
+            <AdminLayout>
+              <EliminarTrabajador/>
+            </AdminLayout>
+          }
+          />
+
+
 
         </Routes>
       </Router>

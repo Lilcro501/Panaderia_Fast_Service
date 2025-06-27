@@ -1,50 +1,33 @@
 import React, { useRef, useState } from 'react';
-//~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
-import '../../assets/styles/AgregarInven.css'; 
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
-import CategoriasAdmin from "../../components/CategoriasAdmin"
 import FormularioAdmin from '../../components/FormularioAdmin';
 //~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
 import "../../assets/styles/Global.css"
 
 
-export default function AgregarInven() {
+export default function Agregar_EditarTrabajador() {
     // Definimos los campos del formulario
     const camposProducto = [
         {
-            nombre: 'imagen',
-            etiqueta: 'Imagen del producto',
-            tipo: 'file',
+            nombre: 'stock',
+            etiqueta: 'Cédula',
+            tipo: 'number',
             requerido: true
         },
+
         {
             nombre: 'nombre',
-            etiqueta: 'Nombre del producto',
+            etiqueta: 'Nombre Completo',
             tipo: 'text',
-            placeholder: 'Ej: Pan integral',
-            requerido: true
-        },
-        {
-            nombre: 'precio',
-            etiqueta: 'Precio ($)',
-            tipo: 'number',
-            placeholder: 'Ej: 2500',
             requerido: true
         },
         {
             nombre: 'descripcion',
-            etiqueta: 'Descripción',
-            tipo: 'textarea',
-            placeholder: 'Ej: Pan hecho con harina integral 100%',
+            etiqueta: 'Cargo',
+            tipo: 'text',
             requerido: true
         },
-        {
-            nombre: 'stock',
-            etiqueta: 'Stock disponible',
-            tipo: 'number',
-            placeholder: 'Ej: 30',
-            requerido: true
-        }
+
     ];
 
     // Función para manejar el envío de datos del formulario
@@ -63,19 +46,13 @@ export default function AgregarInven() {
 
         const botones = [
             {
-                texto: 'Guardar',      // Texto que se verá en el botón
+                texto: 'Aceptar',      // Texto que se verá en el botón
                 tipo: 'submit',        // Tipo submit: envía el formulario
                 clase: 'guardar',      // Clase CSS para estilo personalizado
                 onClick: null          // Usa el onSubmit del formulario
             },
             {
-                texto: 'Limpiar',     
-                tipo: 'reset',       //limpia los campos
-                clase: 'Limpiar',     
-                onClick: null         
-            },
-            {
-                texto: 'Salir',
+                texto: 'Cancelar',
                 tipo: 'button',
                 clase: 'salir',
                 onClick: () => {
@@ -89,15 +66,7 @@ export default function AgregarInven() {
 
     return (
         <>
-            {/* Categorias */}
-            <CategoriasAdmin></CategoriasAdmin>
-            <br />
-            <br />
-
             <div className="contenedor_formulario_inventario">
-                <h2>Registrar nuevo producto</h2>
-                <br />
-
                 {/* Aquí insertamos el formulario reutilizable */}
                 <FormularioAdmin 
                 campos={camposProducto} 
