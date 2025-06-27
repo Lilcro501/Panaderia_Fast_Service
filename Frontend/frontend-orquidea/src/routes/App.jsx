@@ -27,8 +27,7 @@ import InfoLegal from '../pages/PagesClientes/InfoLegal';
 import TYC from "../pages/PagesClientes/TYC"
 import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad"
 import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
-
-
+import Experiencia from "../pages/PagesClientes/Experiencia";
   const AppRouter = () => {
     return (
       <Router>
@@ -40,7 +39,7 @@ import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
                 <Home />
               </MainLayout>
             } 
-          />
+          />7
           <Route 
             path="categorias/CategoriaPanes"
             element={
@@ -236,6 +235,14 @@ import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
             <PoliticaCookies></PoliticaCookies>
             </MainLayout>
             
+          }
+          />
+          <Route
+          path='/Experiencia'
+          element={
+            <MainLayout>
+            <Experiencia></Experiencia>
+            </MainLayout>
           }
           />
         </Routes>
