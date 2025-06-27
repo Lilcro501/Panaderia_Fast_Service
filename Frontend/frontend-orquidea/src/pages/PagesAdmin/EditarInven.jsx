@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 //~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
 import '../../assets/styles/EditarInven.css'
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
-import Categorias from "../../components/Categorias"
+import CategoriasAdmin from "../../components/CategoriasAdmin"
 import FormularioAdmin from '../../components/FormularioAdmin';
 //~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
 import "../../assets/styles/Global.css"
@@ -77,7 +77,7 @@ export default function EditarInven() {
     return (
         <>
             {/* Categorias */}
-            <Categorias></Categorias>
+            <CategoriasAdmin></CategoriasAdmin>
 
             <div className="contenedor_formulario_inventario">
                 <h2>Editar producto</h2>
