@@ -1,0 +1,39 @@
+import React, { useRef, useState } from 'react';
+//~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
+import TablaAdmin from '../../components/TablaAdmin';
+//~~~~~~~~~~~~~~ Imagenes ~~~~~~~~~~~~~~
+import agregar_documento  from '../../assets/images/agregar_documento.png'
+import editar_documento from '../../assets/images/editar_documento.png'
+import eliminar_documento from '../../assets/images/eliminar_documento.png'
+//~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
+import "../../assets/styles/Global.css"
+
+export default function AdministrarTrabajadores() {
+    const encabezados = ['Cédula', 'Nombre completo', 'Cargo'];
+    
+    const filas = Array.from({ length: 5 }, (_, i) => [
+        `${i + 123456789}`,
+        `Daniela Sanchez`,
+        `Panader@,Pincero,A-Cliente`,
+    ]);
+
+    return (
+        <>
+            {/* Tabla de inventario */}
+            <div>
+                <TablaAdmin encabezados={encabezados} filas={filas} />
+                <br />
+            </div>
+
+            {/* Iconos parte baja */}
+                <div className='iconos_acciones'>
+                    <img src={agregar_documento} alt="Agregar" />
+                    <img src={editar_documento} alt="Editar" />
+                    <img src={eliminar_documento} alt="Eliminar" />
+                </div>
+        </>
+    );
+}
+
+

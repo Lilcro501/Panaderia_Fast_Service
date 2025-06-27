@@ -26,7 +26,20 @@ import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
 import InfoLegal from '../pages/PagesClientes/InfoLegal';
 import TYC from "../pages/PagesClientes/TYC"
 import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad"
+<<<<<<< HEAD
 import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
+=======
+import PoliticaCookies from "../pages/PagesClientes/Politica"
+/*Administrador */
+import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
+import AgregarInven from '../pages/PagesAdmin/AgregarInven'
+import EditarInven from '../pages/PagesAdmin/EditarInven'
+import EliminarInven from '../pages/PagesAdmin/EliminarInven';
+import AdministrarTrabajadores from '../pages/PagesAdmin/AdministrarTrabajadores';
+import Agregar_EditarTrabajador from '../pages/PagesAdmin/Agregar_EditarTrabajador';
+import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
+
+>>>>>>> 1776a54146bc260318cf662d9e9557fe9cf52578
 
 
   const AppRouter = () => {
@@ -236,6 +249,69 @@ import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
             <PoliticaCookies></PoliticaCookies>
             </MainLayout>
             
+          }
+          />
+          {/*Inventario -- Admin*/}
+          <Route
+          path='/AdministrarInven'
+          element={
+            <AdminLayout>
+              <AdministrarInven/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/AgregarInven'
+          element={
+            <AdminLayout>
+              <AgregarInven/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/EditarInven'
+          element={
+            <AdminLayout>
+              <EditarInven/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/EliminarInven'
+          element={
+            <AdminLayout>
+              <EliminarInven/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/AdministrarTrabajadores'
+          element={
+            <AdminLayout>
+              <AdministrarTrabajadores/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/Agregar_EditarTrabajador'
+          element={
+            <AdminLayout>
+              <Agregar_EditarTrabajador/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/EliminarTrabajador'
+          element={
+            <AdminLayout>
+              <EliminarTrabajador/>
+            </AdminLayout>
           }
           />
         </Routes>
