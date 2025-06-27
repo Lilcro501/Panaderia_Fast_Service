@@ -10,6 +10,7 @@
   border-radius: 27px;
   justify-content: space-between;
   text-align: center;
+  gap: 10px;
 }
 
 .recuadro-categoria {
@@ -21,3 +22,19 @@
   height: auto;
 }
 
+
+
+
+.animacion {
+  background-color: #b8875b;
+  cursor:  pointer;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.animacion:hover {
+  background-color: #be9979;
+    transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
