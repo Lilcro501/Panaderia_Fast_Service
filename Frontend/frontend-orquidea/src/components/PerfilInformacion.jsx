@@ -15,7 +15,7 @@ export default function PerfilInformacion() {
 
   return (
     <div>
-        <h1 style={{textAlign: "center" }}>Actualizar Perfil</h1>
+        <h1 style={{textAlign: "center"}}>Informacion de usuario</h1>
         <br />
         <br />
 
@@ -76,6 +76,7 @@ export default function PerfilInformacion() {
 
 
 export function MostrarInformacion() {
+  // Ejemplo de datos; puedes reemplazar con datos reales o props
   const datosUsuario = {
     nombre: "Cristian",
     correo: "juan@example.com",
@@ -86,40 +87,35 @@ export function MostrarInformacion() {
 
   return (
     <div className="recuadro-perfil">
-      <h1 style={{ textAlign: "center", color:"black"}}>Información de usuario</h1>
+      <h1 style={{ textAlign: "center" }}>Información de usuario</h1>
       <br />
       <br />
       <div style={{ textAlign: "center" }}>
         <img src={PerfilLogo} className="foto-perfil" alt="Foto de perfil"/>
       </div>
       <br />
-      <table className="tabla-perfil">
+      <table className="tabla-perfil" style={{ margin: "0 auto", borderCollapse: "collapse", width: "60%" }}>
         <tbody>
           <tr>
             <th style={estiloCelda}>Nombre</th>
             <td style={estiloCelda}>{datosUsuario.nombre}</td>
           </tr>
-          <hr />
           <tr>
             <th style={estiloCelda}>Correo</th>
             <td style={estiloCelda}>{datosUsuario.correo}</td>
           </tr>
-          <hr />
           <tr>
             <th style={estiloCelda}>Dirección</th>
             <td style={estiloCelda}>{datosUsuario.direccion}</td>
           </tr>
-          <hr />
           <tr>
             <th style={estiloCelda}>Teléfono</th>
             <td style={estiloCelda}>{datosUsuario.telefono}</td>
           </tr>
-          <hr />
           <tr>
             <th style={estiloCelda}>Rol</th>
             <td style={estiloCelda}>{datosUsuario.rol}</td>
           </tr>
-          <hr />
         </tbody>
       </table>
       <br />
@@ -129,8 +125,7 @@ export function MostrarInformacion() {
 }
 
 const estiloCelda = {
-  border: "none",
+  border: "1px solid #ddd",
   padding: "8px",
-  textAlign: "left",
-  color: "black"
+  textAlign: "left"
 };

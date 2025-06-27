@@ -1,5 +1,5 @@
 .recuadro-experiencia {
-    background-color:#ffffff15  ;
+    background-color:#f2be7ea0  ;
     border-radius: 15px;
 }
 .contenedor-encuesta {
@@ -104,7 +104,7 @@
  }
 
 .contenedor-recuadro-enviar {
-    background-color: rgba(255, 255, 255, 0.626);
+    background-color: rgb(255, 255, 255);
     border-radius: 10px;
     justify-content: center;
     margin: 10px;

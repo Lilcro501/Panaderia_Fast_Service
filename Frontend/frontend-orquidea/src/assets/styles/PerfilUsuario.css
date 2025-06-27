@@ -2,27 +2,13 @@
     margin-left: 33%;
     width: 500px;
     height: 500px;
-    background-color: #dbd6d6e1;
+    background-color: #d9d9d96f;
     border-radius: 10px;
     display: flex;
     flex-direction: column; /* Ahora es columna para que el contenido y el botón se apilen */
     justify-content: space-between; /* Para que los datos queden arriba y el botón abajo */
     align-items: center; /* Centrar horizontalmente */
     padding: 20px;
-    border: none;
-    transition: all 0.2s ease-in;
-    color: black;
-}
-
-.recuadro-perfil:hover {
-    transform: scale(1.1);
-}
-
-
-
-.recuadro-perfil:hover {
-    break-inside: auto;
-
 }
 
 .boton-actualizar {
@@ -35,13 +21,12 @@
     color: pink;
 }
 
-.datos1 strong {
+.datos1 {
     width: 100%;
-    color: black;
 }
 
 .entrada {
-    background-color: #787373;
+    background-color: #554949;
     border-radius: 10px;
     width: 450px;
     height: 30px;
@@ -50,5 +35,4 @@
 .foto-perfil {
     width: 60px;
 }
-
 

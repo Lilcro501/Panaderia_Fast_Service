@@ -2,7 +2,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
-import AdminLayout from '../layouts/AdminLayout'
 import Home from '../pages/PagesClientes/Home';
 
 import CategoriasPanes from '../pages/PagesClientes/CategoriaPanes';
@@ -27,13 +26,7 @@ import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
 import InfoLegal from '../pages/PagesClientes/InfoLegal';
 import TYC from "../pages/PagesClientes/TYC"
 import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad"
-import PoliticaCookies from "../pages/PagesClientes/Politica"
-/*Administrador */
-import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
-import AgregarInven from '../pages/PagesAdmin/AgregarInven'
-import EditarInven from '../pages/PagesAdmin/EditarInven'
-import EliminarInven from '../pages/PagesAdmin/EliminarInven';
-
+import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
 
 
   const AppRouter = () => {
@@ -206,11 +199,11 @@ import EliminarInven from '../pages/PagesAdmin/EliminarInven';
           }
           />
 
-          <Route
+           <Route
           path='/InfoLegal'
           element={
             <MainLayout>
-              <InfoLegal></InfoLegal>
+             <InfoLegal></InfoLegal>
             </MainLayout>
             
           }
@@ -220,7 +213,7 @@ import EliminarInven from '../pages/PagesAdmin/EliminarInven';
           path='/TYC'
           element={
             <MainLayout>
-              <TYC></TYC>
+            <TYC></TYC>
             </MainLayout>
             
           }
@@ -240,49 +233,11 @@ import EliminarInven from '../pages/PagesAdmin/EliminarInven';
           path='/PoliticaCookies'
           element={
             <MainLayout>
-              <PoliticaCookies></PoliticaCookies>
+            <PoliticaCookies></PoliticaCookies>
             </MainLayout>
             
           }
           />
-
-            {/*Inventario -- Admin*/}
-          <Route
-          path='/AdministrarInven'
-          element={
-            <AdminLayout>
-              <AdministrarInven/>
-            </AdminLayout>
-          }
-          />
-
-          <Route
-          path='/AgregarInven'
-          element={
-            <AdminLayout>
-              <AgregarInven/>
-            </AdminLayout>
-          }
-          />
-
-          <Route
-          path='/EditarInven'
-          element={
-            <AdminLayout>
-              <EditarInven/>
-            </AdminLayout>
-          }
-          />
-
-          <Route
-          path='/EliminarInven'
-          element={
-            <AdminLayout>
-              <EliminarInven/>
-            </AdminLayout>
-          }
-          />
-
         </Routes>
       </Router>
       
