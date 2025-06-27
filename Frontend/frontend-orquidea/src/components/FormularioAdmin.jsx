@@ -141,7 +141,7 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [] }) => {
       {botonesPersonalizados.length > 0 && (
         <div className="formulario-botones">
           {botonesPersonalizados.map((btn, i) => (
-            <button
+            <button 
               key={i}
               type={btn.tipo || 'button'}
               className={`btn-formulario ${btn.clase || ''}`}

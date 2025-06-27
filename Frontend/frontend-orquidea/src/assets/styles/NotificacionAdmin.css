@@ -57,20 +57,7 @@
     top: -120px;
 }
 
-button{
-    border:none;
-    border-radius:5px;
-    font-size:15px;
-    cursor:pointer;
-    width: 200px;
-    color: #000000;
-    font-weight: bold;
 
-}
-
-button:hover{
-    background-color:#ebb589;
-}
 
 .dropdown-options {
     display: none;
