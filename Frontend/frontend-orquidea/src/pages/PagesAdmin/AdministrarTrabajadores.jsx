@@ -1,8 +1,6 @@
 import React, { useRef, useState } from 'react';
 //~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
-import '../../assets/styles/AdministrarInven.css'; 
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
-import CategoriasAdmin from "../../components/CategoriasAdmin"
 import TablaAdmin from '../../components/TablaAdmin';
 //~~~~~~~~~~~~~~ Imagenes ~~~~~~~~~~~~~~
 import agregar_documento  from '../../assets/images/agregar_documento.png'
@@ -11,22 +9,17 @@ import eliminar_documento from '../../assets/images/eliminar_documento.png'
 //~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
 import "../../assets/styles/Global.css"
 
-export default function AdministrarInven() {
-    const encabezados = ['Código producto', 'Nombre producto', 'Precio', 'Descripción', 'Stock'];
+export default function AdministrarTrabajadores() {
+    const encabezados = ['Cédula', 'Nombre completo', 'Cargo'];
     
-    const filas = Array.from({ length: 11 }, (_, i) => [
-        `P00${i + 1}`,
-        `Producto ${i + 1}`,
-        `$${(Math.random() * 10000).toFixed(0)}`,
-        'Descripción breve',
-        Math.floor(Math.random() * 100),
+    const filas = Array.from({ length: 5 }, (_, i) => [
+        `${i + 123456789}`,
+        `Daniela Sanchez`,
+        `Panader@,Pincero,A-Cliente`,
     ]);
 
     return (
         <>
-            {/* Categorias */}
-            <CategoriasAdmin></CategoriasAdmin>
-
             {/* Tabla de inventario */}
             <div>
                 <TablaAdmin encabezados={encabezados} filas={filas} />

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
-import Categorias from "../../components/Categorias"
+import CategoriasAdmin from "../../components/CategoriasAdmin"
 import FormularioAdmin from '../../components/FormularioAdmin';
 import NotificacionAdmin from '../../components/NotificacionAdmin';
 //~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
@@ -62,7 +62,7 @@ export default function EliminarInven() {
     return (
         <>
             {/* Categorias */}
-            <Categorias></Categorias>
+            <CategoriasAdmin></CategoriasAdmin>
 
             <div className="contenedor_formulario_inventario">
                 <h2>Eliminar producto</h2>
