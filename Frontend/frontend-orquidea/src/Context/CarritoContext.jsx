@@ -1,47 +1,38 @@
-import React, { createContext, useContext, useState } from 'react';
-
+// src/context/CarritoContext.jsx
+import { createContext, useContext, useState } from "react";
 const CarritoContext = createContext();
 
 export const CarritoProvider = ({ children }) => {
   const [carrito, setCarrito] = useState([]);
 
   const agregarProducto = (producto) => {
-    setCarrito((prevCarrito) => {
-      const existe = prevCarrito.find(item => item.id === producto.id);
+    setCarrito((prev) => {
+      const existe = prev.find((item) => item.id === producto.id);
       if (existe) {
-        return prevCarrito.map(item =>
+        return prev.map((item) =>
           item.id === producto.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, cantidad: item.cantidad + 1 }
             : item
         );
-      } else {
-        return [...prevCarrito, { ...producto, quantity: 1 }];
       }
+      return [...prev, { ...producto, cantidad: 1 }];
     });
   };
 
-  const quitarProducto = (id) => {
-    setCarrito((prevCarrito) => {
-      return prevCarrito
-        .map(item =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-        )
-        .filter(item => item.quantity > 0);
-    });
+  const eliminarProducto = (id) => {
+    setCarrito((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const vaciarCarrito = () => {
-    setCarrito([]);
-  };
+  const vaciarCarrito = () => setCarrito([]);
 
   return (
     <CarritoContext.Provider
-      value={{ carrito, agregarProducto, quitarProducto, vaciarCarrito }}
+      value={{ carrito, agregarProducto, eliminarProducto, vaciarCarrito }}
     >
       {children}
     </CarritoContext.Provider>
   );
 };
 
-// ✅ Este es el hook que te falta exportar correctamente
-export const useCarrito = () => useContext(CarritoContext);
+
+export const useCarritoContext = () => useContext(CarritoContext);
