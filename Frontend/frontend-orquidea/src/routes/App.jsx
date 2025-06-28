@@ -1,6 +1,7 @@
 // src/routes/AppRouter.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AdminLayout from '../layouts/AdminLayout';
 import MainLayout from '../layouts/MainLayout';
 import Home from '../pages/PagesClientes/Home';
 
@@ -26,7 +27,7 @@ import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
 import InfoLegal from '../pages/PagesClientes/InfoLegal';
 import TYC from "../pages/PagesClientes/TYC"
 import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad"
-import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
+import PoliticaCo from "../pages/PagesClientes/PoliticaCo"
 /*Administrador */
 import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
 import AgregarInven from '../pages/PagesAdmin/AgregarInven'
@@ -35,6 +36,10 @@ import EliminarInven from '../pages/PagesAdmin/EliminarInven';
 import AdministrarTrabajadores from '../pages/PagesAdmin/AdministrarTrabajadores';
 import Agregar_EditarTrabajador from '../pages/PagesAdmin/Agregar_EditarTrabajador';
 import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
+import Cronograma from '../pages/PagesAdmin/Cronograma';
+import Agregar_EditarCrono from '../pages/PagesAdmin/Agregar_EditarCrono';
+import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
+
 
 
 
@@ -242,7 +247,7 @@ import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
           path='/PoliticaCookies'
           element={
             <MainLayout>
-            <PoliticaCookies></PoliticaCookies>
+            <PoliticaCo></PoliticaCo>
             </MainLayout>
             
           }
@@ -311,6 +316,32 @@ import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
           }
           />
 
+          <Route
+          path='/Cronograma'
+          element={
+            <AdminLayout>
+              <Cronograma/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/Agregar_EditarCronograma'
+          element={
+            <AdminLayout>
+              <Agregar_EditarCrono/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/HistorialPedido'
+          element={
+            <AdminLayout>
+              <HistorialPedido/>
+            </AdminLayout>
+          }
+          />
 
 
         </Routes>

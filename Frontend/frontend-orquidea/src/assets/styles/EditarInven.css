@@ -1,0 +1,36 @@
+/* Centra el formulario en la pantalla */
+Add commentMore actions .contenedor_formulario_inventario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centra horizontalmente */
+    justify-content: center;
+    /* Centra verticalmente */
+    min-height: 80vh;
+    /* Ocupa toda la altura de la ventana */
+    padding: 10px;
+}
+
+/* Estilo del formulario reutilizable */
+.formulario-grid {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    /* Tamaño máximo para mantenerlo centrado */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contenedor_formulario_inventario h2 {
+    color: white;
+    text-align: center;
+}
+
+.formulario-botones {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
