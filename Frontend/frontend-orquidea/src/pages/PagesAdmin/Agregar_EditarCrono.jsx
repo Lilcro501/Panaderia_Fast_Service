@@ -1,32 +1,63 @@
 import React, { useRef, useState } from 'react';
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
 import FormularioAdmin from '../../components/FormularioAdmin';
-import NotificacionAdmin from '../../components/NotificacionAdmin';
 //~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
 import "../../assets/styles/Global.css"
 
 
-export default function EliminarTrabajador() {
-    // estado para mostrar u ocultar la notificacion
-    const [mostrarNotificacion, setMostrarNotificacion] = useState(false);
-
-
+export default function Agregar_EditarCrono() {
     // Definimos los campos del formulario
     const camposProducto = [
         {
-            nombre: 'stock',
+            nombre: 'cc',
             etiqueta: 'Cédula',
             tipo: 'number',
             requerido: true
         },
+
+        {
+            nombre: 'nombre',
+            etiqueta: 'Nombre Completo',
+            tipo: 'text',
+            requerido: true
+        },
+        {
+            nombre: 'cargo',
+            etiqueta: 'Cargo',
+            tipo: 'text',
+            requerido: true
+        },
+        {
+            nombre: 'actividad',
+            etiqueta: 'Actividades',
+            tipo: 'textarea',
+            requerido: true
+        },
+        {
+            nombre: 'horario',
+            etiqueta: 'Horarios',
+            tipo: 'select',
+            requerido: true,
+            opciones: [
+                {Valor: "mañana",label: "Mañana"},
+                {Valor: "tarde",label: "Tarde"},
+                {Valor: "noche",label: "Noche"},
+            ]
+        },
+        {
+            nombre: 'fecha',
+            etiqueta: 'Fecha',
+            tipo: 'date',
+            requerido: true
+        },
+
     ];
 
     // Función para manejar el envío de datos del formulario
-    const manejarEnvio = (datos, evento) => {
-        if (evento) evento.preventDefault();
+    const manejarEnvio = (datos) => {
         console.log("Datos recibidos del formulario:", datos);
 
-        // Ejemplo de creacion de formdata (útil para enviar datos a backend)
+        // Enviar datos como FormData
         const formData = new FormData();
         for (const clave in datos) {
             formData.append(clave, datos[clave]);
@@ -34,8 +65,6 @@ export default function EliminarTrabajador() {
 
         // Aquí podrías hacer una petición POST al backend
         // fetch('/api/productos', { method: 'POST', body: formData })
-
-        setMostrarNotificacion(true)
     };
 
         const botones = [
@@ -57,7 +86,6 @@ export default function EliminarTrabajador() {
             }
     ];
 
-
     return (
         <>
             <div className="contenedor_formulario_inventario">
@@ -66,22 +94,6 @@ export default function EliminarTrabajador() {
                 campos={camposProducto} 
                 onSubmit={manejarEnvio} 
                 botonesPersonalizados={botones}/>
-
-                {/*Notificacion */}
-                {mostrarNotificacion && (
-                    <NotificacionAdmin
-                        mensaje="¿Deseas eliminar este trabajador?"
-                        onConfirmar={() => {
-                            //Acción a ejecutar si el usuario confirma la eliminación
-                            console.log("Trabajador eliminado"); // aquí puedes usar valores reales del formulario
-                            setMostrarNotificacion(false);
-                        }}
-                        onCancelar={() => {
-                            console.log("Operación cancelada");
-                            setMostrarNotificacion(false)
-                        }}
-                    />
-                )}
             </div>
         </>
     );

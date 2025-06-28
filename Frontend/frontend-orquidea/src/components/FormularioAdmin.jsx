@@ -44,7 +44,7 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [] }) => {
   return (
     <form className="formulario-grid" onSubmit={manejarSubmit}>
       
-      {/* Columna izquierda: campo imagen */}
+      {/*  campo imagen */}
       {campoImagen && (
         <div className="columna izquierda">
           <div className="grupo-campo">
@@ -123,7 +123,7 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [] }) => {
               />
             )}
 
-            {['text', 'number', 'email'].includes(campo.tipo) && (
+            {['text', 'number', 'email', 'date'].includes(campo.tipo) && (
               <input
                 className="input-estilo"
                 type={campo.tipo}

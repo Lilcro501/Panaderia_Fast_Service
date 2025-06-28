@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Contenedor principal que distribuye los paneles */
+.contenedor-pedidos {
+    display: flex;
+    justify-content: space-around;
+    padding: 30px;
+    background-color: #000000af;
+}
+
+/* Cada panel negro */
+.panel {
+    background-color: #000;
+    /*padding interno */
+    padding: 30px;
+    border-radius: 10px;
+    /*ancho mayor */
+    width: 400px;
+    
+}
+
+/* Título de cada panel */
+.titulo-panel {
+    color: #fff;
+    text-align:center ;
+    /*más espacio abajo */
+    margin-bottom: 25px;
+    /*  título más grande */
+    font-weight: bold;
+    font-size: 30px;
+    /*Sin tanto espacio en la parte superior */
+    margin-top: 10px;
+    
+}
+
+/* Mensaje cuando no hay datos */
+.mensaje-vacio {
+    color: #aaa;
+    text-align: center;
+    /*texto un poco más grande */
+    font-size: 19px;
+    margin-top: 20px;
+}
+
+/* Cada fila de pedido */
+.pedido-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #444;
+    /*más espacio entre filas */
+    margin-bottom: 15px;
+    /*más padding interno */
+    padding: 15px 20px;
+    border-radius: 6px;
+}
+
+/* Icono de usuario */
+.icono-usuario {
+    /*más separación */
+    margin-right: 12px;
+    /*icono más grande */
+    font-size: 20px;
+    color: #fff;
+}
+
+/* Nombre del cliente */
+.nombre-cliente {
+    color: #fff;
+    flex-grow: 1;
+    /*texto más grande */
+    font-size: 16px;
+}
+
+/* Botones de acción */
+.btn-accion {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    /* iconos más grandes */
+    font-size: 20px;
+    /* más espacio entre botones */
+    margin-left: 10px;
+    transition: transform 0.2s;
+}
+
+.btn-accion:hover {
+    transform: scale(1.1);
+    /* efecto hover más notorio */
+}
+
