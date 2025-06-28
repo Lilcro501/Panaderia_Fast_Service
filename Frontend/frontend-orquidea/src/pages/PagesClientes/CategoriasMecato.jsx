@@ -1,9 +1,13 @@
-import ComponenteCategoriasMecato from "../../components/ComponenteCategoriaMecato";
+// src/pages/categorias/CategoriaPanes.jsx
 
-export default function CategoriasFritos() {
+import React from "react";
+import ComponenteProductos from "../../components/ComponenteCategorias";
+
+export default function CategoriaMecato() {
     return (
         <>
-        <ComponenteCategoriasMecato></ComponenteCategoriasMecato>
+            <ComponenteProductos nombreCategoria="mecato" />
         </>
-    )
+    );
 }
+

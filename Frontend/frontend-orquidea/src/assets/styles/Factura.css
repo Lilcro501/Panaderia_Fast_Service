@@ -1,0 +1,67 @@
+.factura-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #978977;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.factura-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.factura-tabla th,
+.factura-tabla td {
+  padding: 10px;
+  text-align: center;
+  border: none;
+}
+
+.factura-total {
+  text-align: right;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.btn-control {
+  margin: 0 4px;
+  background-color: #e0e0e0;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-control:hover {
+  background-color: #d4d4d4;
+}
+
+.btn-delete {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background-color: #e60000;
+}
+
+.btn-vaciar {
+  margin-top: 1.5rem;
+  background-color: #cc0000;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn-vaciar:hover {
+  background-color: #990000;
+}

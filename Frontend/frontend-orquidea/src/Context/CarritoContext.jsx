@@ -1,6 +1,5 @@
 // src/context/CarritoContext.jsx
 import { createContext, useContext, useState } from "react";
-
 const CarritoContext = createContext();
 
 export const CarritoProvider = ({ children }) => {
@@ -35,5 +34,5 @@ export const CarritoProvider = ({ children }) => {
   );
 };
 
+
 export const useCarritoContext = () => useContext(CarritoContext);
-    

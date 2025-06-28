@@ -1,10 +1,14 @@
-import ComponenteCategoriaPanes from "../../components/ComponenteCategoriaPanes";
+// src/pages/categorias/CategoriaPanes.jsx
 
-export default function SinCategoriaPanes(){
+import React from "react";
+import ComponenteProductos from "../../components/ComponenteCategorias";
+
+export default function CategoriaPanes() {
     return (
         <>
-        <ComponenteCategoriaPanes></ComponenteCategoriaPanes>
+            <ComponenteProductos nombreCategoria="helado" />
         </>
-
-    )
+    );
 }
+
+
