@@ -1,12 +1,19 @@
-import ComponenteCategoriasFritos from "../../components/ComponenteCategoriasFritos"
+// src/pages/categorias/CategoriaPanes.jsx
 
-export default function CategoriasFritos() {
-    return(
+import React from "react";
+import ComponenteProductos from "../../components/ComponenteCategorias";
+
+export default function CategoriaFritos() {
+    return (
         <>
-        <ComponenteCategoriasFritos></ComponenteCategoriasFritos>
-
+            <ComponenteProductos nombreCategoria="helado" />
         </>
     );
-};
+}
+
+
+
+
+
 
 

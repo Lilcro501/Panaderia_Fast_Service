@@ -1,9 +1,11 @@
-
 import "../assets/styles/Categoria.css";
-import React, { useState } from 'react';
+import React from 'react';
 import HeartButton from './Corazon';
+import { useCarrito } from "../Context/CarritoContext"; // 👈 importar hook
 
 const Categoria = ({ nombre, productos }) => {
+  const { agregarProducto } = useCarrito(); // 👈 usar función para agregar
+
   return (
     <div className="categoria-seccion">
       {nombre && <h2 className="categoria-titulo">{nombre}</h2>}
@@ -11,16 +13,21 @@ const Categoria = ({ nombre, productos }) => {
         {productos.map((producto, index) => (
           <div key={index} className="producto-tarjeta">
             <img
-              src={producto.imagen}
-              alt={producto.nombre}
+              src={producto.image}
+              alt={producto.nameProduct}
               className="producto-imagen"
             />
             <div className="producto-info">
-              <p className="producto-nombre">{producto.nombre}</p>
-              <p className="producto-precio">${producto.precio}</p>
+              <p className="producto-nombre">{producto.nameProduct}</p>
+              <p className="producto-precio">${producto.price}</p>
               <div className="acomodar-corazon-agregar">
-                <button className="agregar">Añadir</button>
-              <HeartButton></HeartButton>
+                <button
+                  className="agregar"
+                  onClick={() => agregarProducto(producto)} // 👈 agregar al carrito
+                >
+                  Añadir
+                </button>
+                <HeartButton />
               </div>
             </div>
           </div>

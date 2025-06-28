@@ -1,44 +1,54 @@
 // src/routes/AppRouter.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AdminLayout from '../layouts/AdminLayout';
-import MainLayout from '../layouts/MainLayout';
-import Home from '../pages/PagesClientes/Home';
 
-import CategoriasPanes from '../pages/PagesClientes/CategoriaPanes';
-import CategoriasFritos from "../pages/PagesClientes/CategoriasFritos"
-import CategoriasMecato from "../pages/PagesClientes/CategoriasMecato"
-import CategoriasHelados from "../pages/PagesClientes/CategoriasHelados"
-import CategoriasBebidas from '../pages/PagesClientes/CategoriasBebidas';
-import PerfilUsuario from '../pages/PagesClientes/PerfilUsuario';
-import ActualizarPerfil from "../pages/PagesClientes/ActualizarPerfil"
-import CalificarExperiencia from '../pages/PagesClientes/CalificarExperiencia';
-import Recomendacion from '../pages/PagesClientes/Recomendacion';
-import Conocenos from '../pages/PagesClientes/Conocenos';
-import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui'
-import Favoritos from "../pages/PagesClientes/Favoritos"
-import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
+// Layouts
+import MainLayout from '../layouts/MainLayout';
 import MainLayoutSinLogin from '../layouts/MainLayoutSinLogin';
-import CambioDeContraseña from "../pages/PagesLogin/CambioContraseña"
-import OlvidoContraseña from "../pages/PagesLogin/OlvidoContraseña"
-import IngresarCodigo from '../pages/PagesLogin/IngresarCodigo';
-import Registro from '../pages/PagesLogin/Registro';
-import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
+import AdminLayout from '../layouts/AdminLayout';
+
+// ------------------- Páginas Clientes -------------------
+import Home from '../pages/PagesClientes/Home';
+import ActualizarPerfil from '../pages/PagesClientes/ActualizarPerfil';
+import CalificarExperiencia from '../pages/PagesClientes/CalificarExperiencia';
+import CategoriasBebidas from '../pages/PagesClientes/CategoriasBebidas';
+import CategoriasFritos from "../pages/PagesClientes/CategoriasFritos";
+import CategoriasHelados from "../pages/PagesClientes/CategoriasHelados";
+import CategoriasMecato from "../pages/PagesClientes/CategoriasMecato";
+import CategoriasPanes from '../pages/PagesClientes/CategoriaPanes';
+import Conocenos from '../pages/PagesClientes/Conocenos';
+import Favoritos from "../pages/PagesClientes/Favoritos";
 import InfoLegal from '../pages/PagesClientes/InfoLegal';
-import TYC from "../pages/PagesClientes/TYC"
-import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad"
-import PoliticaCo from "../pages/PagesClientes/PoliticaCo"
-/*Administrador */
+import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
+import PerfilUsuario from '../pages/PagesClientes/PerfilUsuario';
+import PoliticaCo from "../pages/PagesClientes/PoliticaCo";
+import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad";
+import Recomendacion from '../pages/PagesClientes/Recomendacion';
+import TYC from "../pages/PagesClientes/TYC";
+
+// ------------------- Páginas Cliente No Login -------------------
+import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
+import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
+
+// ------------------- Páginas Login -------------------
+import CambioDeContraseña from "../pages/PagesLogin/CambioContraseña";
+import IngresarCodigo from '../pages/PagesLogin/IngresarCodigo';
+import OlvidoContraseña from "../pages/PagesLogin/OlvidoContraseña";
+import Registro from '../pages/PagesLogin/Registro';
+import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
+
+// ------------------- Páginas Administrador -------------------
 import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
-import AgregarInven from '../pages/PagesAdmin/AgregarInven'
-import EditarInven from '../pages/PagesAdmin/EditarInven'
-import EliminarInven from '../pages/PagesAdmin/EliminarInven';
 import AdministrarTrabajadores from '../pages/PagesAdmin/AdministrarTrabajadores';
-import Agregar_EditarTrabajador from '../pages/PagesAdmin/Agregar_EditarTrabajador';
-import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
-import Cronograma from '../pages/PagesAdmin/Cronograma';
+import AgregarInven from '../pages/PagesAdmin/AgregarInven';
 import Agregar_EditarCrono from '../pages/PagesAdmin/Agregar_EditarCrono';
+import Agregar_EditarTrabajador from '../pages/PagesAdmin/Agregar_EditarTrabajador';
+import Cronograma from '../pages/PagesAdmin/Cronograma';
+import EditarInven from '../pages/PagesAdmin/EditarInven';
+import EliminarInven from '../pages/PagesAdmin/EliminarInven';
+import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
 import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
+
 
 
 
@@ -249,9 +259,22 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
             <MainLayout>
             <PoliticaCo></PoliticaCo>
             </MainLayout>
+
             
           }
           />
+
+          <Route
+          path='FacturaProductos'
+          element={
+            <MainLayout>
+              <FacturaProductos></FacturaProductos>
+            </MainLayout>
+          }
+          
+          
+          />
+
           {/*Inventario -- Admin*/}
           <Route
           path='/AdministrarInven'
