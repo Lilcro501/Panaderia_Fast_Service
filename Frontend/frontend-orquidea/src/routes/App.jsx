@@ -2,7 +2,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
-import AdminLayout from '../layouts/AdminLayout'
 import Home from '../pages/PagesClientes/Home';
 
 import CategoriasPanes from '../pages/PagesClientes/CategoriaPanes';
@@ -27,7 +26,7 @@ import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
 import InfoLegal from '../pages/PagesClientes/InfoLegal';
 import TYC from "../pages/PagesClientes/TYC"
 import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad"
-import PoliticaCookies from "../pages/PagesClientes/Politica"
+import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
 /*Administrador */
 import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
 import AgregarInven from '../pages/PagesAdmin/AgregarInven'
@@ -36,9 +35,6 @@ import EliminarInven from '../pages/PagesAdmin/EliminarInven';
 import AdministrarTrabajadores from '../pages/PagesAdmin/AdministrarTrabajadores';
 import Agregar_EditarTrabajador from '../pages/PagesAdmin/Agregar_EditarTrabajador';
 import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
-import Cronograma from '../pages/PagesAdmin/Cronograma';
-import Agregar_EditarCrono from '../pages/PagesAdmin/Agregar_EditarCrono';
-import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
 
 
 
@@ -212,11 +208,11 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           }
           />
 
-          <Route
+           <Route
           path='/InfoLegal'
           element={
             <MainLayout>
-              <InfoLegal></InfoLegal>
+             <InfoLegal></InfoLegal>
             </MainLayout>
             
           }
@@ -226,7 +222,7 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           path='/TYC'
           element={
             <MainLayout>
-              <TYC></TYC>
+            <TYC></TYC>
             </MainLayout>
             
           }
@@ -246,13 +242,12 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           path='/PoliticaCookies'
           element={
             <MainLayout>
-              <PoliticaCookies></PoliticaCookies>
+            <PoliticaCookies></PoliticaCookies>
             </MainLayout>
             
           }
           />
-
-            {/*Inventario -- Admin*/}
+          {/*Inventario -- Admin*/}
           <Route
           path='/AdministrarInven'
           element={
@@ -316,32 +311,7 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           }
           />
 
-          <Route
-          path='/Cronograma'
-          element={
-            <AdminLayout>
-              <Cronograma/>
-            </AdminLayout>
-          }
-          />
 
-          <Route
-          path='/Agregar_EditarCronograma'
-          element={
-            <AdminLayout>
-              <Agregar_EditarCrono/>
-            </AdminLayout>
-          }
-          />
-
-          <Route
-          path='/HistorialPedido'
-          element={
-            <AdminLayout>
-              <HistorialPedido/>
-            </AdminLayout>
-          }
-          />
 
         </Routes>
       </Router>
