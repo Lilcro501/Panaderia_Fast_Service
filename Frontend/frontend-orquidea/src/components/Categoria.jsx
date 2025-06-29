@@ -1,10 +1,19 @@
 import "../assets/styles/Categoria.css";
-import React from 'react';
-import HeartButton from './Corazon';
-import { useCarrito } from "../Context/CarritoContext"; // 👈 importar hook
+import React, { useState } from "react";
+import HeartButton from "./Corazon";
+import { useCarrito } from "../Context/CarritoContext";
 
 const Categoria = ({ nombre, productos }) => {
-  const { agregarProducto } = useCarrito(); // 👈 usar función para agregar
+  const { agregarProducto } = useCarrito();
+  const [popup, setPopup] = useState(null);
+
+  const manejarAgregar = (producto) => {
+    agregarProducto(producto);
+    setPopup(producto.nameProduct);
+
+    // Ocultar ventana después de 2 segundos
+    setTimeout(() => setPopup(null), 2000);
+  };
 
   return (
     <div className="categoria-seccion">
@@ -23,7 +32,7 @@ const Categoria = ({ nombre, productos }) => {
               <div className="acomodar-corazon-agregar">
                 <button
                   className="agregar"
-                  onClick={() => agregarProducto(producto)} // 👈 agregar al carrito
+                  onClick={() => manejarAgregar(producto)}
                 >
                   Añadir
                 </button>
@@ -33,8 +42,16 @@ const Categoria = ({ nombre, productos }) => {
           </div>
         ))}
       </div>
+
+      {/* Mini ventana emergente */}
+      {popup && (
+        <div className="popup-mini">
+          ✅ {popup} añadido al carrito
+        </div>
+      )}
     </div>
   );
 };
 
 export default Categoria;
+
