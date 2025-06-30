@@ -48,6 +48,7 @@ import EditarInven from '../pages/PagesAdmin/EditarInven';
 import EliminarInven from '../pages/PagesAdmin/EliminarInven';
 import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
 import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
+import Catalogo_Admin from '../pages/PagesAdmin/Catalogo_Admin';
 
 
 
@@ -275,7 +276,7 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           
           />
 
-          {/*Inventario -- Admin*/}
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
           <Route
           path='/AdministrarInven'
           element={
@@ -362,6 +363,15 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           element={
             <AdminLayout>
               <HistorialPedido/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/CatalogoAdmin'
+          element={
+            <AdminLayout>
+              <Catalogo_Admin/>
             </AdminLayout>
           }
           />

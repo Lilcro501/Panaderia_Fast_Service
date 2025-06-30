@@ -1,4 +1,4 @@
-// src/pages/PagesClientes/Factura.jsx
+src/pages/PagesClientes/Factura.jsx
 import React from 'react';
 import { useCarrito } from '../../Context/CarritoContext';
 import '../../assets/styles/Factura.css';
