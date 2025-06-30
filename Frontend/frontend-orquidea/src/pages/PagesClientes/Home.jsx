@@ -20,12 +20,12 @@ export default function Home() {
       <br />
       <br />
 
-      <article class="recuadro-informacion">
-          <div class="nosotros">
-              <center> <h2 class="sobre"> Sobre nosostros</h2>
-                <p class="objetivo"> Queremos ser tu panadería favorita, por lo que cada día nuestro equipo de panaderos trabajan con pasión, 
+      <article className="recuadro-informacion">
+          <div className="nosotros">
+              <center> <h2 className="sobre"> Sobre nosostros</h2>
+                <p className="objetivo"> Queremos ser tu panadería favorita, por lo que cada día nuestro equipo de panaderos trabajan con pasión, 
                   cariño y dedicación para ofrecerte productos que te deleiten y te hagan sentir como en casa. 
-                  Conoce más sobre nosotros haciendo <a class="sobre" href=""> click aquí </a>.
+                  Conoce más sobre nosotros haciendo <a className="sobre" href=""> click aquí </a>.
                 </p>
               </center>
             </div>
@@ -40,8 +40,8 @@ export default function Home() {
       <br />
       <br />
 
-      <section class="frase-logo">
-            <div class="texto-slogan">
+      <section className="frase-logo">
+            <div className="texto-slogan">
                 <h3> Más que 
                     <br/> una panadería, somos un
                         <br/> lugar donde los aromas 
@@ -51,8 +51,8 @@ export default function Home() {
                 </h3>
             </div>
 
-            <div class="home-mostrador">
-                <img class="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />
+            <div className="home-mostrador">
+                <img className="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />
             </div>
         </section>
 
