@@ -1,11 +1,11 @@
+// src/pages/categorias/CategoriaPanes.jsx
 import React from "react";
-import ComponenteCategoriaPanes from "../../components/ComponenteCategoriaPanes";
+import ComponenteProductos from "../../components/ComponenteCategorias";
 
 export default function CategoriaPanes() {
     return (
         <>
-        <ComponenteCategoriaPanes></ComponenteCategoriaPanes>
+            <ComponenteProductos nombreCategoria="panes" />
         </>
-
-    )
-};
+    );
+}

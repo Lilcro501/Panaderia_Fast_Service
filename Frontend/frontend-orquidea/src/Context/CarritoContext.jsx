@@ -1,4 +1,3 @@
-// src/context/CarritoContext.jsx
 import { createContext, useContext, useState } from "react";
 
 const CarritoContext = createContext();
@@ -12,11 +11,11 @@ export const CarritoProvider = ({ children }) => {
       if (existe) {
         return prev.map((item) =>
           item.id === producto.id
-            ? { ...item, cantidad: item.cantidad + 1 }
+            ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prev, { ...producto, cantidad: 1 }];
+      return [...prev, { ...producto, quantity: 1 }];
     });
   };
 
@@ -35,5 +34,5 @@ export const CarritoProvider = ({ children }) => {
   );
 };
 
-export const useCarritoContext = () => useContext(CarritoContext);
-    
+export const useCarrito = () => useContext(CarritoContext);
+

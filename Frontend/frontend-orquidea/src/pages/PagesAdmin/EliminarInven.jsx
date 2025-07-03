@@ -62,7 +62,8 @@ export default function EliminarInven() {
     return (
         <>
             {/* Categorias */}
-            <CategoriasAdmin></CategoriasAdmin>
+            <CategoriasAdmin ></CategoriasAdmin>
+            <br />
 
             <div className="contenedor_formulario_inventario">
                 <h2>Eliminar producto</h2>

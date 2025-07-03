@@ -24,10 +24,7 @@ const Footer = () => {
           {/* Ícono decorativo o para volver a mostrar las cookies si se ocultan */}
           <BiSolidCookie onClick={() => setMostrarCookies(true)} />
         </div>
-        
-
-      
-
+    
         <div className="logo">
           <Link to='/'>
             <img src={logoFooter} alt="Logo Fast Service" />

@@ -23,24 +23,24 @@ const HeaderAdmin = () => {
                 <div className="dropdown">
                     <button className='boton-admin'>Gestión de inventario</button>
                     <div className="dropdown-options">
-                        <a href="#">Administrar Inventario</a>
-                        <a href="#">Cátalogo</a>
+                        <Link to="/AdministrarInven" className='links'>Administrar Inventario</Link>
+                        <Link to="/CatalogoAdmin" className='links'>Cátalogo</Link>
                     </div>
                 </div>
 
                 <div className="dropdown">
                     <button className='boton-admin'>Gestión de trabajadores</button>
                     <div className="dropdown-options">
-                        <a href="#">Administrar Trabajadores</a>
-                        <a href="#">Cronograma y actividades</a>
+                        <Link to="/AdministrarTrabajadores" className='links'>Administrar Trabajadores</Link>
+                        <Link to="/Cronograma" className='links'>Cronograma y actividades</Link>
                     </div>
                 </div>
 
                 <div className="dropdown">
                     <button className='boton-admin'>Gestión de cliente </button>
                     <div className="dropdown-options">
-                        <a href="#">Historial pedidos</a>
-                        <a href="#">Comunicación</a>
+                        <Link to="/HistorialPedido" className='links'>Historial pedidos</Link>
+                        <Link to="/" className='links'>Comunicación</Link>
                     </div>
                 </div>
             </div>        

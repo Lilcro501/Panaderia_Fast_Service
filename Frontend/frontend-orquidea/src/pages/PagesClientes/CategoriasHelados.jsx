@@ -1,9 +1,12 @@
-import ComponenteCategoriasHelados from "../../components/ComponenteCategoriasHelados";
+// src/pages/categorias/CategoriaPanes.jsx
 
-export default function CategoriaHelados(){
+import React from "react";
+import ComponenteProductos from "../../components/ComponenteCategorias";
+
+export default function CategoriaHelados() {
     return (
         <>
-        <ComponenteCategoriasHelados></ComponenteCategoriasHelados>
+            <ComponenteProductos nombreCategoria="helados" />
         </>
-    )
+    );
 }

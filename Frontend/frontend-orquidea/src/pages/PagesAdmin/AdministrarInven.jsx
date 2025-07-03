@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 //~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
 import '../../assets/styles/AdministrarInven.css'; 
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
@@ -26,18 +27,26 @@ export default function AdministrarInven() {
         <>
             {/* Categorias */}
             <CategoriasAdmin></CategoriasAdmin>
+            <br />
+            <br />
 
             {/* Tabla de inventario */}
-            <div>
+            <div className='admintabla'>
                 <TablaAdmin encabezados={encabezados} filas={filas} />
                 <br />
             </div>
 
             {/* Iconos parte baja */}
                 <div className='iconos_acciones'>
-                    <img src={agregar_documento} alt="Agregar" />
-                    <img src={editar_documento} alt="Editar" />
-                    <img src={eliminar_documento} alt="Eliminar" />
+                    <Link to='/AgregarInven'>
+                        <img src={agregar_documento} alt="Agregar" />
+                    </Link>
+                    <Link to='/EditarInven'>
+                        <img src={editar_documento} alt="Editar" />
+                    </Link>
+                    <Link to='/EliminarInven'>
+                        <img src={eliminar_documento} alt="Eliminar" />
+                    </Link>
                 </div>
         </>
     );

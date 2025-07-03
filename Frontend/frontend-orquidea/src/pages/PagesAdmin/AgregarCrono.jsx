@@ -5,11 +5,11 @@ import FormularioAdmin from '../../components/FormularioAdmin';
 import "../../assets/styles/Global.css"
 
 
-export default function Agregar_EditarTrabajador() {
+export default function AgregarCrono() {
     // Definimos los campos del formulario
     const camposProducto = [
         {
-            nombre: 'stock',
+            nombre: 'cc',
             etiqueta: 'Cédula',
             tipo: 'number',
             requerido: true
@@ -22,9 +22,32 @@ export default function Agregar_EditarTrabajador() {
             requerido: true
         },
         {
-            nombre: 'descripcion',
+            nombre: 'cargo',
             etiqueta: 'Cargo',
             tipo: 'text',
+            requerido: true
+        },
+        {
+            nombre: 'actividad',
+            etiqueta: 'Actividades',
+            tipo: 'textarea',
+            requerido: true
+        },
+        {
+            nombre: 'horario',
+            etiqueta: 'Horarios',
+            tipo: 'select',
+            requerido: true,
+            opciones: [
+                {Valor: "mañana",label: "Mañana"},
+                {Valor: "tarde",label: "Tarde"},
+                {Valor: "noche",label: "Noche"},
+            ]
+        },
+        {
+            nombre: 'fecha',
+            etiqueta: 'Fecha',
+            tipo: 'date',
             requerido: true
         },
 
@@ -62,7 +85,6 @@ export default function Agregar_EditarTrabajador() {
             }
             }
     ];
-
 
     return (
         <>
