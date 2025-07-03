@@ -50,13 +50,6 @@
     z-index: 5;
 }
 
-.dropdown {
-    display: flex;
-    position: relative;
-    height: 30px;
-    top: -120px;
-}
-
 .boton-admin{
     border:none;
     border-radius:5px;
@@ -70,6 +63,13 @@
 
 .boton-admin:hover{
     background-color:#ebb589;
+}
+
+.dropdown {
+    display: flex;
+    position: relative;
+    height: 30px;
+    top: -120px;
 }
 
 .dropdown-options {
@@ -86,7 +86,8 @@
     display: block;
 }
 
-.dropdown-options a {
+
+.links {
     display: block;
     color: #000000;
     text-decoration: none;

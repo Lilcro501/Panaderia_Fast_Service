@@ -1,7 +1,7 @@
 import "../assets/styles/Categoria.css";
 import React from 'react';
 import HeartButton from './Corazon';
-import { useCarrito } from "../Context/CarritoContext"; // 👈 importar hook
+//import { useCarrito } from "../Context/CarritoContext"; // 👈 importar hook
 
 const Categoria = ({ nombre, productos }) => {
   const { agregarProducto } = useCarrito(); // 👈 usar función para agregar

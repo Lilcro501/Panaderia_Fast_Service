@@ -1,6 +1,7 @@
 import React from "react";
 //importar rutas
 import { Link } from "react-router-dom";
+
 import "../assets/styles/TablaAdmin.css";
 
 const TablaAdmin = ({ encabezados, filas }) => {
