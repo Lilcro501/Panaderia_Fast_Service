@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 //~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
 import TablaAdmin from '../../components/TablaAdmin';
@@ -28,9 +29,18 @@ export default function AdministrarTrabajadores() {
 
             {/* Iconos parte baja */}
                 <div className='iconos_acciones'>
-                    <img src={agregar_documento} alt="Agregar" />
-                    <img src={editar_documento} alt="Editar" />
-                    <img src={eliminar_documento} alt="Eliminar" />
+
+                    <Link to='/AgregarTrabajador'>
+                        <img src={agregar_documento} alt="Agregar" />
+                    </Link>
+
+                    <Link to='/EditarTrabajador'>
+                        <img src={editar_documento} alt="Editar" />
+                    </Link>
+
+                    <Link to='/EliminarTrabajador'>
+                        <img src={eliminar_documento} alt="Eliminar" />
+                    </Link>
                 </div>
         </>
     );

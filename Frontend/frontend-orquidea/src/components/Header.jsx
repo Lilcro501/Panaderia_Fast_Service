@@ -24,7 +24,7 @@ const Header = () => {
               <i className="bi bi-search"></i>
             </button>
           </form>
-
+          
           <nav className="menu-secundario">
             <ul className="lista-info">
               <Link to="/conocenos" className='sin-subrayado'><li>Conócenos</li></Link>
