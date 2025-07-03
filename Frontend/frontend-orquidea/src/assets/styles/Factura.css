@@ -2,7 +2,7 @@
   padding: 2rem;
   max-width: 800px;
   margin: 0 auto;
-  background-color: #978977;
+  background-color: #ffffff46;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -20,6 +20,7 @@
   border: none;
 }
 
+
 .factura-total {
   text-align: right;
   font-size: 1.2rem;
@@ -28,7 +29,7 @@
 
 .btn-control {
   margin: 0 4px;
-  background-color: #e0e0e0;
+  background-color: #292727;
   border: none;
   padding: 5px;
   border-radius: 5px;
@@ -62,6 +63,127 @@
   cursor: pointer;
 }
 
+.btn-continuar {
+  margin-top: 1.5rem;
+  background-color: #07c119;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+
+
+
+
 .btn-vaciar:hover {
   background-color: #990000;
+}
+
+.contenedor-linea {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+  position: relative;
+}
+
+
+
+/*apartado del proceso del circulo*/
+.formato-circulo {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  padding: 20px 0;
+}
+
+/* Círculo */
+.circulo-rojo {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  border-radius: 50%;
+  z-index: 1;
+  border: 5px solid black; /* ✅ corregido */
+
+  display: flex; /* Centrar texto */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  color: white;
+  font-size: 12px;
+}
+
+
+/* Círculo */
+.circulo-verde {
+  width: 100px;
+  height: 100px;
+  background-color: rgb(56, 239, 0);
+  border-radius: 50%;
+  z-index: 1;
+  border: 2px solid rgb(255, 255, 255); /* ✅ corregido */
+
+  display: flex; /* Centrar texto */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  color: white;
+  font-size: 12px;
+}
+
+/* Círculo */
+.circulo-amarillo {
+  width: 100px;
+  height: 100px;
+  background-color: rgb(255, 234, 0);
+  border-radius: 50%;
+  z-index: 1;
+  border: 3px solid rgb(255, 254, 254); /* ✅ corregido */
+
+  display: flex; /* Centrar texto */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  color: white;
+  font-size: 12px;
+}
+
+/* Línea que conecta los círculos */
+.formato-circulo::before {
+  content: '';
+  position: absolute;
+  top: 50%; /* alineado verticalmente con los círculos */
+  left: 30px; /* empieza un poco dentro del primer círculo */
+  right: 30px; /* termina un poco dentro del último círculo */
+  height: 4px;
+  background-color: black;
+  z-index: 0;
+}
+
+
+/*metoodo de pago*/
+
+.metodo-entrega {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.btn-continuar {
+  padding: 10px 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.posicicion-botones {
+  display: flex;
+  justify-content: space-between;
 }

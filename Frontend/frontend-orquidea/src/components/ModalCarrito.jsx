@@ -1,4 +1,4 @@
-src/components/ModalCarrito.jsx
+//src/components/ModalCarrito.jsx
 import React from 'react';
 import { useCarrito } from '../Context/CarritoContext';
 import { useNavigate } from 'react-router-dom'; // ✅ Importar
