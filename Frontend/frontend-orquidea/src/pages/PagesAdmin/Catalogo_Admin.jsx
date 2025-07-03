@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import "../../assets/styles/CatalogoAdmin.css"; 
+
+
 import ProductCard from "../../components/ProductCard";
 import EditProductModal from "../../components/EditProductModal";
 import EditCommentsModal from "../../components/EditCommentsModal";
@@ -18,35 +22,50 @@ function CatalogoPage() {
         },
         {
             id: 2,
-            name: "Pan trenza",
+            name: "Churro",
             description: "Deliciosa pieza de pan esponjoso",
             image:rollos,
             comments: ["Me encantó", "Perfecto con café"],
             active: false,
         },
+
+        {
+            id: 3,
+            name: " Churro",
+            description: "Deliciosa pieza de pan esponjoso",
+            image:rollos,
+            comments: ["Me encantó", "Perfecto con café"],
+            active: false,
+        },
+        
     ]);
 
+    // Estado que controla qué producto se está editando (contenido)
     const [editingProduct, setEditingProduct] = useState(null);
+    // Estado que controla qué producto se está editando (comentarios)
     const [editingComments, setEditingComments] = useState(null);
 
+    // Cambia el estado de activado/desactivado
     const handleStatusChange = (id, newStatus) => {
         const updated = products.map((p) =>
             p.id === id ? { ...p, active: newStatus } : p
         );
         setProducts(updated);
-        console.log("Nuevo estado producto:", updated);
     };
 
+    //Abre modal de edición de contenido del producto
     const handleEditProduct = (id) => {
         const product = products.find((p) => p.id === id);
         setEditingProduct(product);
     };
 
+    // Abre modal de edición de comentarios
     const handleEditComments = (id) => {
         const product = products.find((p) => p.id === id);
         setEditingComments(product);
     };
 
+    // Guarda cambios del contenido del producto
     const handleSaveProduct = (updatedProduct) => {
         const updated = products.map((p) =>
             p.id === updatedProduct.id ? updatedProduct : p
@@ -55,6 +74,7 @@ function CatalogoPage() {
         setEditingProduct(null);
     };
 
+    // Guarda cambios de los comentarios del producto
     const handleSaveComments = (updatedProduct) => {
         const updated = products.map((p) =>
             p.id === updatedProduct.id ? updatedProduct : p
@@ -64,17 +84,20 @@ function CatalogoPage() {
     };
 
     return (
-        <div style={{ display: "flex", gap: "20px" }}>
+        <div className="catalogo-container">
             {products.map((product) => (
                 <ProductCard
                     key={product.id}
                     {...product}
-                    onStatusChange={handleStatusChange}
+                    // nombres de las props
+                    // Ahora: onToggleActive, onEditProduct, onEditComments
                     onEditProduct={handleEditProduct}
                     onEditComments={handleEditComments}
+                    onToggleActive={handleStatusChange}
                 />
             ))}
 
+            {/* Modal para editar el producto */}
             <EditProductModal
                 isOpen={!!editingProduct}
                 onClose={() => setEditingProduct(null)}
@@ -82,6 +105,7 @@ function CatalogoPage() {
                 productData={editingProduct}
             />
 
+            {/* Modal para editar comentarios */}
             <EditCommentsModal
                 isOpen={!!editingComments}
                 onClose={() => setEditingComments(null)}
@@ -91,5 +115,6 @@ function CatalogoPage() {
         </div>
     );
 }
+
 
 export default CatalogoPage;
