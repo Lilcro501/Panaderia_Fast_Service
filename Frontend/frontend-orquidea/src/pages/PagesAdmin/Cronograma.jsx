@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-//~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
+import { Link } from 'react-router-dom';
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
 import TablaAdmin from '../../components/TablaAdmin';
 //~~~~~~~~~~~~~~ Imagenes ~~~~~~~~~~~~~~
@@ -30,8 +30,13 @@ export default function Cronograma() {
 
             {/* Iconos parte baja */}
                 <div className='iconos_acciones'>
-                    <img src={agregar_documento} alt="Agregar" />
-                    <img src={editar_documento} alt="Editar" />
+                    <Link to='/AgregarCrono'>
+                        <img src={agregar_documento} alt="Agregar" />
+                    </Link>
+
+                    <Link to='/EditarCrono'>
+                        <img src={editar_documento} alt="Editar" />
+                    </Link>
                 </div>
         </>
     );

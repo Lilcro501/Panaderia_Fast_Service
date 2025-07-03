@@ -39,16 +39,22 @@ import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
 
 // ------------------- Páginas Administrador -------------------
 import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
-import AdministrarTrabajadores from '../pages/PagesAdmin/AdministrarTrabajadores';
 import AgregarInven from '../pages/PagesAdmin/AgregarInven';
-import Agregar_EditarCrono from '../pages/PagesAdmin/Agregar_EditarCrono';
-import Agregar_EditarTrabajador from '../pages/PagesAdmin/Agregar_EditarTrabajador';
-import Cronograma from '../pages/PagesAdmin/Cronograma';
 import EditarInven from '../pages/PagesAdmin/EditarInven';
 import EliminarInven from '../pages/PagesAdmin/EliminarInven';
-import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
-import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
+
 import Catalogo_Admin from '../pages/PagesAdmin/Catalogo_Admin';
+
+import AdministrarTrabajadores from '../pages/PagesAdmin/AdministrarTrabajadores';
+import AgregarTrabajador from '../pages/PagesAdmin/AgregarTrabajador';
+import EditarTrabajador from '../pages/PagesAdmin/EditarTrabajador';
+import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
+
+import Cronograma from '../pages/PagesAdmin/Cronograma';
+import AgregarCrono from '../pages/PagesAdmin/AgregarCrono';
+import EditarCrono from '../pages/PagesAdmin/EditarCrono';
+
+import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
 
 
 
@@ -323,13 +329,23 @@ import Catalogo_Admin from '../pages/PagesAdmin/Catalogo_Admin';
           />
 
           <Route
-          path='/Agregar_EditarTrabajador'
+          path='/AgregarTrabajador'
           element={
             <AdminLayout>
-              <Agregar_EditarTrabajador/>
+              <AgregarTrabajador/>
             </AdminLayout>
           }
           />
+
+          <Route
+          path='/EditarTrabajador'
+          element={
+            <AdminLayout>
+              <EditarTrabajador/>
+            </AdminLayout>
+          }
+          />
+
 
           <Route
           path='/EliminarTrabajador'
@@ -350,10 +366,19 @@ import Catalogo_Admin from '../pages/PagesAdmin/Catalogo_Admin';
           />
 
           <Route
-          path='/Agregar_EditarCronograma'
+          path='/AgregarCrono'
           element={
             <AdminLayout>
-              <Agregar_EditarCrono/>
+              <AgregarCrono/>
+            </AdminLayout>
+          }
+          />
+
+          <Route
+          path='/EditarCrono'
+          element={
+            <AdminLayout>
+              <EditarCrono/>
             </AdminLayout>
           }
           />
@@ -375,6 +400,8 @@ import Catalogo_Admin from '../pages/PagesAdmin/Catalogo_Admin';
             </AdminLayout>
           }
           />
+
+        
 
 
         </Routes>
