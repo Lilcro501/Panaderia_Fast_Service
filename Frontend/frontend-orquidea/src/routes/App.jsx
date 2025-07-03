@@ -25,6 +25,8 @@ import PoliticaCo from "../pages/PagesClientes/PoliticaCo";
 import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad";
 import Recomendacion from '../pages/PagesClientes/Recomendacion';
 import TYC from "../pages/PagesClientes/TYC";
+import EntregaDomicilio from '../pages/PagesClientes/EntregaDomicilio';
+import EntregaLocal from '../pages/PagesClientes/PagoLocal';
 
 // ------------------- Páginas Cliente No Login -------------------
 import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
@@ -266,14 +268,30 @@ import Catalogo_Admin from '../pages/PagesAdmin/Catalogo_Admin';
           />
 
           <Route
-          path='FacturaProductos'
+          path='/FacturaProductos'
           element={
             <MainLayout>
               <FacturaProductos></FacturaProductos>
             </MainLayout>
           }
-          
-          
+          />
+
+          <Route
+          path='/EntregaDomicilio'
+          element={
+            <MainLayout>
+              <EntregaDomicilio></EntregaDomicilio>
+            </MainLayout>
+          }
+          />
+
+          <Route
+          path='/EntregaLocal'
+          element={
+            <MainLayout>
+              <EntregaLocal></EntregaLocal>
+            </MainLayout>
+          }
           />
 
           {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
