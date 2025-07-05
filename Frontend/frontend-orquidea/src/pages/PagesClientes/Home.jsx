@@ -29,7 +29,7 @@ export default function Home() {
                 </p>
               </center>
             </div>
-          </article>
+        </article>
       <br />
       <br />
 

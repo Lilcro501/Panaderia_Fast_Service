@@ -75,3 +75,16 @@
 .catalogo-scroll::-webkit-scrollbar {
   display: none;
 }
+
+.home-mostrador {
+  background-color: rgba(250, 235, 215, 0);
+  padding: 2px;
+  transition: all 0.3s ease, box-shadow 2.3s ease;
+  border-radius: 20px;
+}
+
+.home-mostrador:hover {
+transform: scale(1.1);
+  box-shadow: 1px 40px 40px rgba(0, 0, 0, 0.2);
+
+}

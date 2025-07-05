@@ -1,0 +1,9 @@
+.etiqueta-pago {
+  background-color: #ffe1a1;   /* color suave tipo panadería */
+  color: #5c3b00;              /* color marrón para letra */
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  margin-right: 10px;
+  display: inline-block;
+}
