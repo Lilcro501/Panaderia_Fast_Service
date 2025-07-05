@@ -20,7 +20,16 @@ body {
   border-radius: 10px;
   padding: 10px;
   font-size: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
 }
+
+.recuadro-informacion:hover {
+  transform: scale(1.05);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+}
+
+
 
 .sobre {
   color: #2a150b;

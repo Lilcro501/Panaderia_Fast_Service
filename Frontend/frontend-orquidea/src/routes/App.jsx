@@ -1,34 +1,40 @@
 // src/routes/AppRouter.jsx
-import React from 'react';
+import React from 'react'; 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import Home from '../pages/PagesClientes/Home';
-
 import CategoriasPanes from '../pages/PagesClientes/CategoriaPanes';
-import CategoriasFritos from "../pages/PagesClientes/CategoriasFritos"
-import CategoriasMecato from "../pages/PagesClientes/CategoriasMecato"
-import CategoriasHelados from "../pages/PagesClientes/CategoriasHelados"
+import CategoriasFritos from '../pages/PagesClientes/CategoriasFritos';
+import CategoriasMecato from '../pages/PagesClientes/CategoriasMecato';
+import CategoriasHelados from '../pages/PagesClientes/CategoriasHelados';
 import CategoriasBebidas from '../pages/PagesClientes/CategoriasBebidas';
 import PerfilUsuario from '../pages/PagesClientes/PerfilUsuario';
-import ActualizarPerfil from "../pages/PagesClientes/ActualizarPerfil"
+import ActualizarPerfil from '../pages/PagesClientes/ActualizarPerfil';
 import CalificarExperiencia from '../pages/PagesClientes/CalificarExperiencia';
 import Recomendacion from '../pages/PagesClientes/Recomendacion';
 import Conocenos from '../pages/PagesClientes/Conocenos';
-import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui'
-import Favoritos from "../pages/PagesClientes/Favoritos"
+import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
+import Favoritos from '../pages/PagesClientes/Favoritos';
 import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
 import MainLayoutSinLogin from '../layouts/MainLayoutSinLogin';
-import CambioDeContraseña from "../pages/PagesLogin/CambioContraseña"
-import OlvidoContraseña from "../pages/PagesLogin/OlvidoContraseña"
+import CambioDeContraseña from '../pages/PagesLogin/CambioContraseña';
+import OlvidoContraseña from '../pages/PagesLogin/OlvidoContraseña';
 import IngresarCodigo from '../pages/PagesLogin/IngresarCodigo';
 import Registro from '../pages/PagesLogin/Registro';
 import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
 import InfoLegal from '../pages/PagesClientes/InfoLegal';
-import TYC from "../pages/PagesClientes/TYC"
-import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad"
-import PoliticaCookies from "../pages/PagesClientes/PoliticaCookies"
-import Experiencia from "../pages/PagesClientes/Experiencia";
-  const AppRouter = () => {
+import TYC from '../pages/PagesClientes/TYC';
+import PoliticaPrivacidad from '../pages/PagesClientes/PoliticaPrivacidad';
+import Politica from '../pages/PagesClientes/Politica';
+import DetallesPedido from '../pages/PagesTrabajador/DetallesPedido';
+import Formulario from '../pages/PagesTrabajador/Formulario';
+import EstadosPedidos from '../pages/PagesTrabajador/EstadosPedidos';
+import HistorialPedidos from '../pages/PagesTrabajador/HistorialPedidos';
+import InfoCliente from '../pages/PagesTrabajador/InfoCliente';
+import Inicio from '../pages/PagesTrabajador/Inicio';
+import ListaPedidos from '../pages/PagesTrabajador/ListaPedidos';
+
+const AppRouter = () => {
     return (
       <Router>
         <Routes>
@@ -39,7 +45,7 @@ import Experiencia from "../pages/PagesClientes/Experiencia";
                 <Home />
               </MainLayout>
             } 
-          />7
+          />
           <Route 
             path="categorias/CategoriaPanes"
             element={
@@ -229,23 +235,74 @@ import Experiencia from "../pages/PagesClientes/Experiencia";
           />
 
           <Route
-          path='/PoliticaCookies'
+          path='/Politica'
           element={
             <MainLayout>
-            <PoliticaCookies></PoliticaCookies>
+            <Politica></Politica>
             </MainLayout>
             
           }
           />
-          <Route
-          path='/Experiencia'
+           <Route
+          path='DetallesPedido'
           element={
             <MainLayout>
-            <Experiencia></Experiencia>
+            <DetallesPedido></DetallesPedido>
             </MainLayout>
           }
           />
-        </Routes>
+          <Route
+          path='/Formulario'
+          element={
+            <MainLayout>
+            <Formulario></Formulario>
+            </MainLayout>
+          }
+          />
+      
+          <Route
+          path='/EstadosPedidos'
+          element={
+            <MainLayout>
+            <EstadosPedidos></EstadosPedidos>
+            </MainLayout>
+          }
+          />
+          
+          <Route
+          path='/HistorialPedidos'
+          element={
+            <MainLayout>
+            <HistorialPedidos></HistorialPedidos>
+            </MainLayout>
+          }
+          />
+        
+          <Route
+          path='/InfoCliente'
+          element={
+            <MainLayout>
+            <InfoCliente></InfoCliente>
+            </MainLayout>
+          }
+          />
+          <Route
+          path='/Inicio'
+          element={
+            <MainLayout>
+            <Inicio></Inicio>
+            </MainLayout>
+          }
+          />
+          <Route
+          path='/ListaPedidos'
+          element={
+            <MainLayout>
+            <ListaPedidos></ListaPedidos>
+            </MainLayout>
+          }
+          />
+          </Routes>
       </Router>
       
     );

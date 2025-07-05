@@ -1,0 +1,42 @@
+
+/* Contenedor de la tabla centrado y con margen */
+.Tabla-5c {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+/* Tabla principal */
+.Tabla-5c table {
+    width: 70%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Color del texto del encabezado */
+.Tabla-5c thead th {
+    color: black;
+    font-weight: bold;
+    background-color: white; /* también podrías mover este aquí */
+}
+
+
+/* Estilo para el cuerpo de la tabla */
+.Tabla-5c tbody tr {
+    background-color: black;
+    transition: background-color 0.3s ease;
+}
+
+.Tabla-5c tbody tr:hover {
+    background-color: #333;
+}
+
+/* Celdas: encabezado y datos */
+.Tabla-5c th, .Tabla-5c td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+

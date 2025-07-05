@@ -1,0 +1,125 @@
+/* Estilo en general*/
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #121212;
+  justify-content: center;
+ 
+}
+
+h2.titulo {
+  text-align: center;
+  color: #f2c087;
+  margin-bottom: 20px;
+}
+
+/* Contenedores para las vistas*/
+.contenedor-lista,
+.contenedor-historial,
+.contenedor-estados,
+.contenedor-detalles {
+  padding: 20px;
+  background-color: #1f1f1f;
+  color: white;
+  border-radius: 15px;
+  width: 300px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+/* Botón que se reutiliza */
+.boton {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  background-color: #f2c087;
+  color: #333;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.boton:hover {
+  background-color: #dba55e;
+}
+
+/*  la tabla base */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.tabla th,
+.tabla td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla th {
+  background-color: #333;
+  color: #f2c087;
+}
+
+.tabla td {
+  background-color: #222;
+  color: white;
+}
+
+/* Los estados: Recibido, En proceso, Despachado) */
+.estado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.circulo {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.rojo {
+  background-color: red;
+}
+
+.amarillo {
+  background-color: gold;
+}
+
+.verde {
+  background-color: limegreen;
+}
+
+.texto-estado {
+  font-size: 14px;
+  color: white;
+}
+
+
+.etiqueta-pago {
+  background-color: #ccc;
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Botón de volver centrado */
+.volver-boton {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Sección de pago */
+.pago-seccion {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+

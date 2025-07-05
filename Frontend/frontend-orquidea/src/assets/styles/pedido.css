@@ -1,0 +1,34 @@
+/* Estilo general de toda la página */
+.contenedor {
+  background-color: #ffffff; /* Fondo negro oscuro */
+  color: white;             /* Letras blancas */
+  padding: 20px;            /* Espacio interno alrededor del contenido */
+  font-family: sans-serif;  /* Tipo de letra simple y moderna */
+  text-align: center;      
+}
+
+
+/* Estilo general de las tablas como de los estados*/
+.tabla-estado, table {
+  margin: auto;             /* Centra la tabla en la página */
+  margin-top: 10px;         /* Espacio arriba de la tabla */
+  border-collapse: collapse; /* Quita los espacios entre los bordes de las celdas */
+}
+
+/* Estilo para las celdas de la tabla como los títulos y datos */
+.tabla-estado th, .tabla-estado td {
+  padding: 10px;     /* Espacio interno dentro de cada celda */
+  font-size: 24px;   /* Tamaño del texto (los circulitos de colores) */
+}
+
+/* Estilo del botón "Volver" */
+.boton-volver {
+  margin-top: 20px;           /* Espacio arriba del botón */
+  padding: 10px 20px;         /* Espacio interno: arriba/abajo y lados */
+  font-size: 16px;            /* Tamaño del texto del botón */
+  background-color: #ffcccb;  /* Color rosado claro de fondo */
+  border: none;               /* Sin borde alrededor */
+  border-radius: 8px;         /* Bordes redondeados */
+  cursor: pointer;            /* Cambia el cursor a una manito al pasar encima */
+}
+
