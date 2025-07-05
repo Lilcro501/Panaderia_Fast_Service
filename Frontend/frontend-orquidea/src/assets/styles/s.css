@@ -1,0 +1,83 @@
+/* Estilos generales para toda la página */
+body {
+    font-family: Arial;/* Fuente del texto */
+    background-image: url(fondos.png);/* Color de fondo claro (beige rosado) */
+    margin: 0;/* Quita el margen por defecto del navegador */
+    padding: 20px;/* Espacio interno del cuerpo */
+  }
+  
+  .contenedor {
+    background-image:url(fondo_formulario.png); /* Ruta a la imagen de fondo */
+    background-size: cover;     /* Escala para que cubra todo el formulario */
+    background-repeat: no-repeat; /* Evita que se repita */
+    background-position: center;  /* Centra la imagen */
+    
+    padding: 20px;         /* Espaciado interno */
+    max-width: 500px;      /* Ancho máximo */
+    margin: auto; 
+    border: 1px solid black;         /* Centrado horizontal */
+    border-radius: 10px;   /* Bordes redondeados */
+  }
+  
+  
+  /* Estilo del título */
+  h1 {
+    text-align: center;/* Centra el texto horizontalmente */
+    font-size: 18px;/* Tamaño del texto */
+    margin-bottom: 20px;/* Espacio hacia abajo del título */
+  }
+  
+  .bloque_1{
+    background-image: url(fondo_bloque.jpg);
+    border: 1px solid black;
+    border-radius: 20px;
+    height: 180px;
+    width: 450px;
+  }
+  
+  
+  /* Estilo de cada bloque de pregunta */
+  .bloque {
+    width:380px ;
+    height: 115px;
+    margin-bottom: 20px;/* Espacio entre bloques */
+    border: 1px solid #000; /* 1px de grosor, línea sólida, color negro */
+    border-radius: 20px;
+    padding: 15px; /* Espacio interno para que no quede pegado */
+    margin-bottom: 20px;  /* Espacio entre bloques */
+    background-color: white;
+  }
+  
+  .preguntas{
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #a77340;
+    color: whitesmoke;
+  
+  }
+  
+  .questions{
+    width: 300px;
+    background-color: #a77340;
+    border: 1px solid rgb(205, 159, 126);
+    border-radius:20px;
+  }
+  
+  
+  /* Estilo de los emojis de respuesta */
+  .emojis {
+    font-size: 24px;/* Tamaño grande para los emojis */
+    margin-top: 5px;/* Espacio arriba de los emojis */
+  }
+  
+  /* Estilo del botón de enviar */
+  button {
+    display: block;/* Hace que el botón se muestre como bloque (una sola línea) */
+    margin: 0 auto;/* Centra el botón horizontalmente */
+    padding: 8px 20px;/* Espacio interno del botón */
+    background-color: #a97458;/* Color de fondo del botón (café) */
+    color: white;/* Color del texto del botón */
+    border: none;
+    border-radius: 5px;/* Bordes redondeados del botón */
+    cursor: pointer;/* Cambia el cursor al pasar por encima */
+  }
