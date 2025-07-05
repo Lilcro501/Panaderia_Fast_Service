@@ -3,6 +3,7 @@ import React from 'react';
 import '../../assets/styles/Legalidades.css';
 
 export default function PoliticaCo() {
+
     return (
     <section className='ContenedorContenido'>
         <h1 className='Titulo'>Políticas de cookies</h1>
