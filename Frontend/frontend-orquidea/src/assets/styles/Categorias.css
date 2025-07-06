@@ -1,16 +1,25 @@
 .categorias {
-  margin-top: 40px;
-  padding-top: 20px;
-  margin-left: 455px;
-  padding-top: 20px;
-  width: 550px;
-  height: 110px;
+  margin: 50px auto;
+  padding: 10px 15px;
+  width: 90%;
+  max-width: 550px;
+  height: auto;
   background-color: #b8875b;
   display: flex;
-  border-radius: 27px;
+  align-items: center;
   justify-content: space-between;
-  text-align: center;
+  border-radius: 27px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+
 }
+
+.categorias:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
 
 .recuadro-categoria {
   padding-left: 20px;
@@ -21,17 +30,30 @@
   height: auto;
 }
 
-
-.animacion-categoria {
-  cursor: pointer;
-  border-radius: 10px;
-  transition: transform 0.3s;
+@media (max-width: 600px) {
+  .categorias {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
   }
-
-
-.animacion-categoria:hover {
-    transform: scale(1.1);
-    background-color: #e5c3a6;
 }
+
+.nom-categoria {
+  color: beige;
+  text-decoration: none; /* Quita subrayado por defecto */
+  border-bottom: 2px dashed beige; /* Agrega línea decorativa */
+  padding-bottom: 4px;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.nom-categoria:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+
 
 

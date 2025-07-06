@@ -1,30 +1,3 @@
-.recuadro-perfil {
-    margin-left: 33%;
-    width: 500px;
-    height: 500px;
-    background-color: #d9d9d96f;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column; /* Ahora es columna para que el contenido y el botón se apilen */
-    justify-content: space-between; /* Para que los datos queden arriba y el botón abajo */
-    align-items: center; /* Centrar horizontalmente */
-    padding: 20px;
-}
-
-.boton-actualizar {
-    width: 150px;  /* más ancho para que se vea mejor */
-    height: 40px;
-    margin: 0;     /* quitamos el margin innecesario */
-    border-radius: 10px;
-    cursor: pointer;
-    border: 2px solid pink;
-    color: pink;
-}
-
-.datos1 {
-    width: 100%;
-}
-
 .entrada {
     background-color: #554949;
     border-radius: 10px;
@@ -36,3 +9,58 @@
     width: 60px;
 }
 
+
+.recuadro-perfil {
+  max-width: 500px;
+  margin: 100px auto;
+  background: #000000;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.foto-perfil {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #ccc;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-perfil {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.tabla-perfil th {
+  text-align: left;
+  background-color: #f5f5f500;
+  width: 40%;
+}
+
+.tabla-perfil td,
+.tabla-perfil th {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.boton-actualizar {
+  display: block;
+  margin: 30px auto 0;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.boton-actualizar:hover {
+  background-color: #0056b3;
+}
