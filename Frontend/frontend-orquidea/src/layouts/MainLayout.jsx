@@ -5,13 +5,13 @@ import Footer from '../components/Footer';
 
 const MainLayout = ({ children }) => {
   return (
-    <>
+    <div className='Layout-fondo'>
       <Header />
       <main style={{ padding: '2rem' }}>
         {children}
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

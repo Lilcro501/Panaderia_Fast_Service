@@ -1,47 +1,71 @@
 .inicio-fondo {
-  background-color: white;   
-  min-height: 100vh;  /* para llenar toda la pantalla */
+  min-height: 60vh;
   display: flex;
-  justify-content: center; /* Centrado horizontal */
-  align-items: center; /* Centrado vertical */
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-
+/* Contenedor de las dos opciones */
 .opciones-inicio {
-  display: flex; /* Para ponerlo  uno al lado del otro */
-  gap: 60px; /* Espacio entre los dos */
+  display: flex;
+  gap: 100px;
 }
 
-
+/* Cada opción con imagen + botón */
 .opcion {
   display: flex;
-  flex-direction: column; /* La imagen arriba y el botón abajo */
+  flex-direction: column;
   align-items: center;
 }
 
-/* Imagen que está encima de los botones */
-.opcion img {
-  width: 180px;              
-  height: auto;/* Mantiene su forma original */
-  margin-bottom: 15px;/* Espacio entre imagen y botón */
+/* Marco o borde de fondo detrás de la imagen */
+.borde {
+  background-color:  #d4a373;
+  width: 210px;
+  height: 200px;
+  border-radius: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Estilo para los botones */
+/* Imagen tipo carta */
+.imagen-carta {
+  width: 190px;
+  height: 160px;
+  background-image: url("../images/Carta.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Imagen de panes */
+.imagen-panes {
+  width: 190px;
+  height: 160px;
+  background-image: url("../images/Panes.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón debajo del borde */
 .opcion button {
-  background-color: #d4a373; /* Un color marrón claro tipo panadería */
-  color: white;                
-  border: none;             
-  padding: 10px 20px; /* Espacio interno del botón */
-  font-size: 16px; /* Tamaño de letra */
-  border-radius: 10px;/* Bordes redondeados */
-  cursor: pointer;/* Cambia el cursor al pasar por encima */
-  transition: background-color 0.3s; /* Efecto para que sea suave al pasar el mouse */
+  margin-top: 19px; /* 🔹 Separación respecto al borde */
+  background-color: #d4a373;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  font-size: 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .opcion button:hover {
-  background-color: #b08968; /* Color más oscuro al pasar el mouse */
+  background-color: #b08968;
 }
-
-
-
 

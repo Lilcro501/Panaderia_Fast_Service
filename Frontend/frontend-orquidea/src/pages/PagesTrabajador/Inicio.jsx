@@ -1,20 +1,23 @@
 import React from 'react';
 import "../../assets/styles/inicio.css"
 
-
 const Inicio = () => {
   return (
     <div className="inicio-fondo">
       <div className="opciones-inicio">
-        {/* Botón de "Pedidos en espera" */}
+        {/* Opción: Pedidos en espera */}
         <div className="opcion">
-          <img src="/assets/img/Carta.png" alt="Pedidos" />
+          <div class="borde">
+          <div className="imagen-carta"></div>
+          </div>
           <button>Pedidos en espera</button>
         </div>
 
-        {/* Botón de "Historial de pedidos" */}
+        {/* Opción: Historial de pedidos */}
         <div className="opcion">
-          <img src="/assets/img/Panes.png" alt="Historial" />
+          <div class="borde">
+          <div className="imagen-panes"></div>
+          </div>
           <button>Historial de pedidos</button>
         </div>
       </div>
@@ -23,3 +26,4 @@ const Inicio = () => {
 };
 
 export default Inicio;
+

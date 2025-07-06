@@ -41,7 +41,7 @@ const EstadosPedidos = () => {
     <div className="estados-body">
       <div className="encabezado">
         <img src="/assets/img/logo-bakery.png" alt="Logo" className="logo" />
-        <img src="/assets/img/icono-usuario.png" alt="Usuario" className="usuario" />
+
       </div>
 
       <TablaBase columnas={columnas} datos={datos} />
