@@ -1,0 +1,19 @@
+/* boton.css - Botón como el de "Volver" o "Salir" en tus capturas */
+
+.boton-personalizado {
+  background-color: #cf965d; 
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 20px auto;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.boton-personalizado:hover {
+  background-color: #bf5f00; /* Más oscuro al pasar el mouse */
+}
