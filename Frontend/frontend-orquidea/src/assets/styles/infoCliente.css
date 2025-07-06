@@ -1,0 +1,61 @@
+.cliente-fondo {
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cliente-card {
+  background-color: #c2a98b;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 300px;
+}
+
+.cliente-img {
+  background-color: #444;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-image: url('/assets/img/perfil.png');
+  background-size: cover;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+}
+
+.botones-cliente {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.whatsapp-btn {
+  background-color: #25d366;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.salir-btn {
+  background-color: #fff;
+  color: red;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
