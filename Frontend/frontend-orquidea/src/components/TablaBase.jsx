@@ -1,6 +1,6 @@
 // TablaBase.jsx
 import React from "react";
-import "./tabla.css"; // Estilos generales para todas las tablas
+import "../assets/styles/tabla.css"; // Estilos generales para todas las tablas
 
 // Este componente se puede usar para muchas tablas distintas
 const TablaBase = ({ columnas, datos, children }) => {

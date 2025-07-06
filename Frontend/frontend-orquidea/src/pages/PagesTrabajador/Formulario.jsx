@@ -7,7 +7,7 @@ const Formulario = () => {
   return (
     // Contenedor general del formulario
     <div className="contenedor">
-      {/* Icono de avatar tipo emoji */}
+      {/* Icono del emoji */}
       <div className="avatar">👤</div>
 
       {/* Campo para escribir la dirección */}
