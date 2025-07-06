@@ -17,7 +17,7 @@ export default function ListaPedidos() {
   ];
 
   return (
-    <div className="contenedor-lista">
+    <div >
       {/* Título centrado */}
       <h2 className="titulo">LISTAS DE PEDIDOS</h2>
       <TablaBase columnas={columnas} datos={datos} />
