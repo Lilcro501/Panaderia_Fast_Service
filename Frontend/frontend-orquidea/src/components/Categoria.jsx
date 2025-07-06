@@ -36,7 +36,17 @@ const Categoria = ({ nombre, productos }) => {
                 >
                   Añadir
                 </button>
-                <HeartButton />
+
+                {/* ✅ Aquí pasamos el producto con los campos correctos */}
+                <HeartButton
+                  producto={{
+                    id: producto.id,
+                    nameProduct: producto.nameProduct,
+                    price: producto.price,             
+                    image: producto.image               
+                    }}
+                    />
+
               </div>
             </div>
           </div>
@@ -54,4 +64,3 @@ const Categoria = ({ nombre, productos }) => {
 };
 
 export default Categoria;
-

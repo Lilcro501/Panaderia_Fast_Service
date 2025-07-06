@@ -1,5 +1,5 @@
 .recuadro-experiencia {
-    background-color:#f2be7ea0  ;
+    background-color:#3e3c38a0  ;
     border-radius: 15px;
 }
 .contenedor-encuesta {
@@ -26,7 +26,7 @@
     border: none;
     margin-left: 50px;
     background-color: #f3eee8f7;
-    width: 400px;
+    width: 400px;   
     height: 40px;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -55,7 +55,6 @@
 }
 
 
-
 .boton-siguiente {
      background-color: #EA9B94;
      margin-left: 40%;
@@ -63,8 +62,6 @@
      width: 300px;
      height: 50px;
      border-radius: 10px;
-
-
 
 }
 
@@ -88,7 +85,6 @@
     height: 40px;               /* alto fijo, igual que el ancho para formar un círculo */
     line-height: 40px;          /* centrar verticalmente el número */
     text-align: center;         /* centrar horizontalmente */
-    border: 2px solid red;      /* borde rojo */
     border-radius: 50%;         /* lo hace redondo */
     font-weight: bold;
     font-size: 15px;          /* opcional: resaltar el número */
@@ -143,3 +139,40 @@
     align-items: center; 
     margin-left: 22%;        /* centra verticalmente */
 }
+
+.tamaño-calificacion {
+  width: 100px;
+  margin: 15px;
+  transition: transform 0.2s ease;
+}
+
+.tamaño-calificacion:hover {
+  transform: scale(1.1);
+}
+
+.seleccionado {
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  background-color: rgba(76, 175, 80, 0.2);
+}
+
+
+
+.numero {
+  font-weight: bold;
+  background-color: #eee;
+  border-radius: 20px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.numero:hover {
+  background-color: #ddd;
+  transform: scale(1.1);
+}
+
+.numero-seleccionado {
+  background-color: #4caf50;
+  color: white;
+  transform: scale(1.2);
+}
+

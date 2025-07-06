@@ -1,9 +1,7 @@
 import React from "react";
 import "../assets/styles/PerfilUsuario.css"
-import PerfilLogo from "../assets/icons/perfil-negro-2.png"
 import { Link, useNavigate } from "react-router-dom";
-
-
+import PerfilLogo from "../assets/icons/perfil-negro-2.png"; // actualiza con tu ruta
 
 export default function PerfilInformacion() {
   const navegacion = useNavigate();
@@ -58,15 +56,6 @@ export default function PerfilInformacion() {
             name="telefono"
           />
         </label>
-
-        <label>
-          <strong>Rol:</strong>
-          <input
-            className="entrada"
-            type="text"
-            name="rol"
-          />
-        </label>
       </div>
         <button className="boton-actualizar" type="submit">Actualizar Datos</button>
     </form>
@@ -74,58 +63,54 @@ export default function PerfilInformacion() {
   );
 }
 
-
 export function MostrarInformacion() {
-  // Ejemplo de datos; puedes reemplazar con datos reales o props
   const datosUsuario = {
     nombre: "Cristian",
     correo: "juan@example.com",
     direccion: "Calle 123 #45-67",
     telefono: "3001234567",
-    rol: "Uusario"
+    rol: "Usuario"
   };
 
   return (
     <div className="recuadro-perfil">
-      <h1 style={{ textAlign: "center" }}>Información de usuario</h1>
-      <br />
-      <br />
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
+        Información de Usuario
+      </h1>
+
       <div style={{ textAlign: "center" }}>
-        <img src={PerfilLogo} className="foto-perfil" alt="Foto de perfil"/>
+        <img src={PerfilLogo} className="foto-perfil" alt="Foto de perfil" />
       </div>
-      <br />
-      <table className="tabla-perfil" style={{ margin: "0 auto", borderCollapse: "collapse", width: "60%" }}>
+
+      <table className="tabla-perfil">
         <tbody>
           <tr>
-            <th style={estiloCelda}>Nombre</th>
-            <td style={estiloCelda}>{datosUsuario.nombre}</td>
+            <th>Nombre</th>
+            <td>{datosUsuario.nombre}</td>
           </tr>
           <tr>
-            <th style={estiloCelda}>Correo</th>
-            <td style={estiloCelda}>{datosUsuario.correo}</td>
+            <th>Correo</th>
+            <td>{datosUsuario.correo}</td>
           </tr>
           <tr>
-            <th style={estiloCelda}>Dirección</th>
-            <td style={estiloCelda}>{datosUsuario.direccion}</td>
+            <th>Dirección</th>
+            <td>{datosUsuario.direccion}</td>
           </tr>
           <tr>
-            <th style={estiloCelda}>Teléfono</th>
-            <td style={estiloCelda}>{datosUsuario.telefono}</td>
+            <th>Teléfono</th>
+            <td>{datosUsuario.telefono}</td>
           </tr>
           <tr>
-            <th style={estiloCelda}>Rol</th>
-            <td style={estiloCelda}>{datosUsuario.rol}</td>
+            <th>Rol</th>
+            <td>{datosUsuario.rol}</td>
           </tr>
         </tbody>
       </table>
-      <br />
-      <Link to="/Actualizar"><button className="boton-actualizar">Actualizar</button></Link>
+
+      <Link to="/Actualizar">
+        <button className="boton-actualizar">Actualizar</button>
+      </Link>
     </div>
   );
 }
 
-const estiloCelda = {
-  border: "1px solid #ddd",
-  padding: "8px",
-  textAlign: "left"
-};

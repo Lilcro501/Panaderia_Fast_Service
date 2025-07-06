@@ -11,3 +11,37 @@
   background-color: rgb(180, 104, 104);
   color: white; /* Opcional: cambia el color del corazón */
 }
+
+.heart-button:hover {
+  transform: scale(1.2);
+}
+
+.heart-button.activo {
+  color: red;
+}
+
+.popup-mini {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #333;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  z-index: 9999;
+  opacity: 0.95;
+  animation: aparecer 0.3s ease-in-out;
+}
+
+@keyframes aparecer {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 0.95;
+  }
+}
