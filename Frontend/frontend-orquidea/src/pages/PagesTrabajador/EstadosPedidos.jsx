@@ -44,7 +44,7 @@ const EstadosPedidos = () => {
 
       </div>
 
-      <TablaBase columnas={columnas} datos={datos} />
+      <TablaBase columnas={columnas} datos={datos} className=""/>
 
       <div className="boton-volver">
         <button>Volver</button>

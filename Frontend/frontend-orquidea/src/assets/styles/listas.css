@@ -1,13 +1,13 @@
-.contenedor-tabla {
-  background: none;
-  box-shadow: none;
-  padding: 0;
-  border-radius: 0;
+/* Contenedor principal */
+.pedido-container {
+  background-size: cover;
+  padding: 2rem;
+  text-align: center;
+  justify-content: center;
 }
 
-
 .titulo {
- 
+  background-color: #d49e7d;
   color: rgb(249, 252, 250);
   font-weight: bold;
   font-size: 1.5rem;
@@ -61,3 +61,4 @@ td {
 .boton-detalle:hover {
   background-color: #b57f60;
 }
+
