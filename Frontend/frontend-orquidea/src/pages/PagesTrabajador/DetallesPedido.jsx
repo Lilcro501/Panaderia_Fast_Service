@@ -1,7 +1,7 @@
-// views/DetallesPedido.jsx
 import React from "react";
 import TablaBase from "../../components/TablaBase";
-import EtiquetaPago from "../../components/EtiquetaPago"; 
+import EtiquetaPago from "../../components/EtiquetaPago";
+
 
 const DetallesPedido = () => {
   // Columnas de la tabla

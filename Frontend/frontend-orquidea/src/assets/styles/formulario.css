@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   padding: 0;
@@ -10,7 +9,7 @@ body {
 
 /* Contenedor del formulario */
 .contenedor{
-  width: 300px; /* Ancho fijo */
+  width: 300px; 
   margin: 80px auto; /* Centrado vertical y horizontal */
   padding: 20px; /* Espaciado interno */
   background: radial-gradient(circle at top left, #444, #222); /* Fondo oscuro */

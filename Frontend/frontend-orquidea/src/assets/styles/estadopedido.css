@@ -1,34 +1,77 @@
-.estado-pedido {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5rem;
-  padding: 10px 20px;
-  border-radius: 10px;
-  text-transform: capitalize;
+.estados-body {
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: white;
+  font-family: sans-serif;
   text-align: center;
-  margin: 20px auto; /* Esto lo centra horizontalmente */
-  width: fit-content;
 }
 
-/* Colores según el estado */
-.estado-pendiente {
-  background-color: #fff3cd;
-  color: #856404;
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.estado-enviado {
-  background-color: #d1ecf1;
-  color: #0c5460;
+.logo {
+  width: 70px;
+  height: 70px;
+  margin-left: 20px;
 }
 
-.estado-entregado {
-  background-color: #d4edda;
-  color: #155724;
+.usuario {
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
 }
 
-.estado-desconocido {
-  background-color: #f8d7da;
-  color: #721c24;
+.estado-circulo {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.3;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
+
+.estado-circulo.activo {
+  opacity: 1;
+  transform: scale(1.2);
+  border: 2px solid white;
+}
+
+/* Colores */
+.rojo {
+  background-color: red;
+}
+
+.amarillo {
+  background-color: orange;
+}
+
+.verde {
+  background-color: green;
+}
+
+.boton-volver {
+  margin-top: 20px;
+}
+
+.boton-volver button {
+  background-color: #d4a373;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.boton-volver button:hover {
+  background-color: #b08968;
+}
+
 

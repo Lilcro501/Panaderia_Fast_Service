@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../assets/styles/histoype.css";
+import "../../assets/styles/inicio.css"
 
 
 const Inicio = () => {

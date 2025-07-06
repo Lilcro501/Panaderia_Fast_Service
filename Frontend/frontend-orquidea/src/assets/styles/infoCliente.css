@@ -1,6 +1,4 @@
 .cliente-fondo {
-  background-color: #2b2b2b;
-  background-image: url('/assets/img/fondo.png');
   background-size: cover;
   height: 100vh;
   display: flex;

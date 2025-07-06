@@ -68,17 +68,17 @@ const AppRouter = () => {
     <Router>
       <Routes>
         {/* Cliente */}
-        <Route path="/" element={<MainLayout><Home /></MainLayout>} />
-        <Route path="categorias/CategoriaPanes" element={<MainLayout><CategoriasPanes /></MainLayout>} />
-        <Route path="categorias/CategoriasFritos" element={<MainLayout><CategoriasFritos /></MainLayout>} />
-        <Route path="categorias/CategoriasHelados" element={<MainLayout><CategoriasHelados /></MainLayout>} />
-        <Route path="categorias/CategoriasMecato" element={<MainLayout><CategoriasMecato /></MainLayout>} />
-        <Route path="categorias/CategoriasBebidas" element={<MainLayout><CategoriasBebidas /></MainLayout>} />
-        <Route path="Perfil/usuario" element={<MainLayout><PerfilUsuario /></MainLayout>} />
-        <Route path="Actualizar" element={<MainLayout><ActualizarPerfil /></MainLayout>} />
-        <Route path="CalificarExperiencia" element={<MainLayout><CalificarExperiencia /></MainLayout>} />
-        <Route path="recomendacion" element={<MainLayout><Recomendacion /></MainLayout>} />
-        <Route path="/conocenos" element={<MainLayout><Conocenos /></MainLayout>} />
+        <Route path='/' element={<MainLayout><Home /></MainLayout>} />
+        <Route path='/categorias/CategoriaPanes' element={<MainLayout><CategoriasPanes /></MainLayout>} />
+        <Route path='/categorias/CategoriasFritos' element={<MainLayout><CategoriasFritos /></MainLayout>} />
+        <Route path='/categorias/CategoriasHelados' element={<MainLayout><CategoriasHelados /></MainLayout>} />
+        <Route path='/categorias/CategoriasMecato' element={<MainLayout><CategoriasMecato /></MainLayout>} />
+        <Route path='/categorias/CategoriasBebidas' element={<MainLayout><CategoriasBebidas /></MainLayout>} />
+        <Route path='/Perfil/usuario' element={<MainLayout><PerfilUsuario /></MainLayout>} />
+        <Route path='/Actualizar' element={<MainLayout><ActualizarPerfil /></MainLayout>} />
+        <Route path='/CalificarExperiencia' element={<MainLayout><CalificarExperiencia /></MainLayout>} />
+        <Route path='/recomendacion' element={<MainLayout><Recomendacion /></MainLayout>} />
+        <Route path='/conocenos' element={<MainLayout><Conocenos /></MainLayout>} />
         <Route path='/AccedeAqui' element={<MainLayout><AccedeAqui /></MainLayout>} />
         <Route path='/Favoritos' element={<MainLayout><Favoritos /></MainLayout>} />
         <Route path='/FacturaProductos' element={<MainLayout><FacturaProductos /></MainLayout>} />
@@ -98,7 +98,7 @@ const AppRouter = () => {
         <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
 
         {/* Trabajador */}
-        <Route path='DetallesPedido' element={<MainLayout><DetallesPedido /></MainLayout>} />
+        <Route path='/DetallesPedido' element={<MainLayout><DetallesPedido /></MainLayout>} />
         <Route path='/Formulario' element={<MainLayout><Formulario /></MainLayout>} />
         <Route path='/EstadosPedidos' element={<MainLayout><EstadosPedidos /></MainLayout>} />
         <Route path='/HistorialPedidos' element={<MainLayout><HistorialPedidos /></MainLayout>} />
@@ -124,5 +124,9 @@ const AppRouter = () => {
     </Router>
   );
 };
+
+
+
+
 
 export default AppRouter;

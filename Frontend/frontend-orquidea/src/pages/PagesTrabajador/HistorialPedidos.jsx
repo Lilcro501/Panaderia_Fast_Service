@@ -1,3 +1,6 @@
+import React from "react"; 
+import TablaBase from "../../components/TablaBase";
+import Boton from "../../components/Boton";
 
 
 

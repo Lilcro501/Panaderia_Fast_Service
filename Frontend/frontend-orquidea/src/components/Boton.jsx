@@ -1,6 +1,6 @@
 // Boton.jsx
 import React from "react";
-import "./boton.css"; // Estilo general de los botones
+import "../assets/styles/boton.css"; // Estilo general de los botones
 
 const Boton = ({ texto, onClick, tipo = "normal" }) => {
   return (

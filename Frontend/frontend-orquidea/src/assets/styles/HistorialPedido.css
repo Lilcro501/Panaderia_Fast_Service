@@ -1,95 +1,77 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-/* Contenedor principal que distribuye los paneles */
-.contenedor-pedidos {
-    display: flex;
-    justify-content: space-around;
-    padding: 30px;
-    background-color: #000000af;
+/* Contenedor principal */
+.contenedor-lista {
+  max-width: 800px;
+  margin: 40px auto;
+  background-color: rgba(255, 223, 186, 0.9); /* fondo beige claro con transparencia */
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-/* Cada panel negro */
-.panel {
-    background-color: #000;
-    /*padding interno */
-    padding: 30px;
-    border-radius: 10px;
-    /*ancho mayor */
-    width: 400px;
-    
+/* Título */
+.titulo {
+  text-align: center;
+  font-size: 28px;
+  color: #3d1f00;
+  margin-bottom: 25px;
+  font-weight: bold;
+  background-color: #d39e72;
+  padding: 10px;
+  border-radius: 10px;
 }
 
-/* Título de cada panel */
-.titulo-panel {
-    color: #fff;
-    text-align:center ;
-    /*más espacio abajo */
-    margin-bottom: 25px;
-    /*  título más grande */
-    font-weight: bold;
-    font-size: 30px;
-    /*Sin tanto espacio en la parte superior */
-    margin-top: 10px;
-    
+/* Tabla general */
+.tabla-base {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-/* Mensaje cuando no hay datos */
-.mensaje-vacio {
-    color: #aaa;
-    text-align: center;
-    /*texto un poco más grande */
-    font-size: 19px;
-    margin-top: 20px;
+/* Encabezados de la tabla */
+.tabla-base thead {
+  background-color: #a3673c;
+  color: #fff;
 }
 
-/* Cada fila de pedido */
-.pedido-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #444;
-    /*más espacio entre filas */
-    margin-bottom: 15px;
-    /*más padding interno */
-    padding: 15px 20px;
-    border-radius: 6px;
+.tabla-base th {
+  padding: 15px;
+  font-size: 16px;
+  text-align: center;
 }
 
-/* Icono de usuario */
-.icono-usuario {
-    /*más separación */
-    margin-right: 12px;
-    /*icono más grande */
-    font-size: 20px;
-    color: #fff;
+/* Filas de la tabla */
+.tabla-base tbody tr {
+  background-color: #fff;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
 }
 
-/* Nombre del cliente */
-.nombre-cliente {
-    color: #fff;
-    flex-grow: 1;
-    /*texto más grande */
-    font-size: 16px;
+.tabla-base td {
+  padding: 12px;
+  font-size: 15px;
 }
 
-/* Botones de acción */
-.btn-accion {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    /* iconos más grandes */
-    font-size: 20px;
-    /* más espacio entre botones */
-    margin-left: 10px;
-    transition: transform 0.2s;
+/* Estilo para los botones */
+.boton-personalizado {
+  background-color: #a3673c;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-.btn-accion:hover {
-    transform: scale(1.1);
-    /* efecto hover más notorio */
+.boton-personalizado:hover {
+  background-color: #8b5730;
 }
-
