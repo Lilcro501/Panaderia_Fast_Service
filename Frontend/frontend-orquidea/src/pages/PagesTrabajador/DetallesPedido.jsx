@@ -20,7 +20,7 @@ const DetallesPedido = () => {
       <h2 className="titulo">Detalles del pedido</h2>
 
       {/* Tabla con la información del pedido */}
-      <TablaBase columnas={columnas} datos={datos} />
+      <TablaBase columnas={columnas} datos={datos} className="" />
 
       {/* Sección de pago al final */}
       <div className="pago-seccion">
