@@ -84,7 +84,6 @@
 .contenedor-linea {
   display: flex;
   justify-content: center;
-  margin: 50px 0;
   position: relative;
 }
 
@@ -96,7 +95,6 @@
   align-items: center;
   gap: 40px;
   position: relative;
-  padding: 20px 0;
 }
 
 /* Círculo */
@@ -126,7 +124,6 @@
   border-radius: 50%;
   z-index: 1;
   border: 2px solid rgb(255, 255, 255); /* ✅ corregido */
-
   display: flex; /* Centrar texto */
   align-items: center;
   justify-content: center;
@@ -144,7 +141,6 @@
   border-radius: 50%;
   z-index: 1;
   border: 3px solid rgb(255, 254, 254); /* ✅ corregido */
-
   display: flex; /* Centrar texto */
   align-items: center;
   justify-content: center;
@@ -162,7 +158,7 @@
   left: 30px; /* empieza un poco dentro del primer círculo */
   right: 30px; /* termina un poco dentro del último círculo */
   height: 4px;
-  background-color: black;
+  background-color: rgb(255, 255, 255);
   z-index: 0;
 }
 
@@ -186,4 +182,12 @@
 .posicicion-botones {
   display: flex;
   justify-content: space-between;
+}
+
+.formato-circulo p {
+  margin: 0;
+}
+.contenedor-linea {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
