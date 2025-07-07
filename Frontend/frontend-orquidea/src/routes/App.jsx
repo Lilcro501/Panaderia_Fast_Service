@@ -32,6 +32,8 @@ import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
 // ------------------- Páginas Cliente No Login -------------------
 import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
 import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
+import ProductoDetalle from '../components/ProductoDetalle';
+import InfoPorProducto from '../pages/PagesClienteNologin/InfoPorProducto';
 
 // ------------------- Páginas Login -------------------
 import CambioDeContraseña from "../pages/PagesLogin/CambioContraseña";
@@ -96,6 +98,8 @@ const AppRouter = () => {
         <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
         <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
         <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
+        <Route path="/producto/:id" element={<MainLayout><InfoPorProducto /></MainLayout>}/>
+        <Route path="/ProductoDetalle"element={<MainLayout><ProductoDetalle/></MainLayout>}/>
 
         {/* Trabajador */}
         <Route path='/DetallesPedido' element={<MainLayout><DetallesPedido /></MainLayout>} />

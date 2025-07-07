@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdClose } from 'react-icons/io';
@@ -13,7 +14,6 @@ export default function IngresarCodigo() {
     const navigate = useNavigate();
 
     const salir = () => window.location.href = '/';
-
     const confirmarCodigo = () => setMostrarVentana(true);
 
     return (

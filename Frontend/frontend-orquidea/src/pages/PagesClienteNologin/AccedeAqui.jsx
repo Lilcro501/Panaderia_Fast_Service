@@ -18,8 +18,8 @@ import { IoMdClose } from 'react-icons/io';
 
 /* ~~~~~~~ Componente funcional AccedeAqui ~~~~~~~ */
 export default function AccedeAqui() {
-    /* ~~~~~~~ Redirección a la página principal al presionar X ~~~~~~~ */
 
+    /* ~~~~~~~ Redirección a la página principal al presionar X ~~~~~~~ */
     const salir = () => {
     window.location.href = '/';
     };
@@ -39,7 +39,6 @@ export default function AccedeAqui() {
         <FaUser className="Icono" /> {/* Ícono de usuario */}
         <input type='email' id='correo' placeholder='Correo'/>
         </div>
-
         
         <div className="Campo">
             < FaLock className="Icono" /> {/* Ícono de candado */}

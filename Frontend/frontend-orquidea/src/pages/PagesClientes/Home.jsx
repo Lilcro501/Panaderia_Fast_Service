@@ -55,7 +55,7 @@ export default function Home() {
         <h2 className='subtitulo-productos'>Productos destacados</h2>
       <br />
       <br />
-      <Carrusel2></Carrusel2>
+      <Carrusel2/>
       <br />
       <br />
 

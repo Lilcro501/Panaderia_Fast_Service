@@ -1,5 +1,7 @@
+
 import React from "react"
-// importo los links de la biblioteca react-router-dom
+
+/* ~~~~~~ Importar links de la biblioteca react-router-dom ~~~~~~ */
 import { Link } from 'react-router-dom';
 
 import "../assets/styles/Categorias.css"
@@ -8,9 +10,6 @@ import Helados from "../assets/icons/helados.png"
 import Mecato from "../assets/icons/mecato.png"
 import Fritos from "../assets/icons/pollo.png"
 import Pan from  "../assets/icons/pan.png"
-
-
-
 
 export default function Categorias() {
   return (
@@ -55,7 +54,3 @@ export default function Categorias() {
     </section>
   );
 }
-
-
-
-

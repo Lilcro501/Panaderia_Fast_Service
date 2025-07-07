@@ -1,7 +1,7 @@
+
 /* ~~~~~~~~~~~~~~~~ Encabezado ~~~~~~~~~~~~~~~~ */
 .header {
   padding: 70px 20px;
-
   z-index: 1;
 }
 
@@ -14,7 +14,6 @@
   position: relative;
   top: -50px;
 }
-
 
 /* ~~~~~~~~~~~ Plantilla ~~~~~~~~~~~*/
 .shapedividers_com-5996 {
@@ -61,7 +60,7 @@
   }
 }
 
-/* FIn estilos de la plantilla */
+/* Fin estilos de la plantilla */
 /*~~~~~~~~~~~~~~~~ Fin encabezado ~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 
@@ -70,7 +69,6 @@
   width: 100%; /* Ocupa todo el ancho disponible */
   position: relative; /* Permite posicionar elementos hijos de forma absoluta relativa a este */
   z-index: 5; /* Asegura que esta barra se muestre por encima de otros elementos si se superponen */
-  
 }
 
 .buscador input{
@@ -107,6 +105,11 @@
   list-style: none;
 }
 
+.lista-info a{
+  color: #ffffff;
+}
+
+
 /* ~~~~~~~~~~~~~~~~ Fin de la barra de navegación del encabezado ~~~~~~~~~~~~~~~~ */
 
 /* ~~~~~~~~~~~~~~~~ Icono del carrito ~~~~~~~~~~~~~~~~ */
@@ -121,7 +124,6 @@
   height: 50px; /*alto*/
 }
 
-
 /*validar dos clases que no se encuentran*/
 /*menu-secundario*/
 /*bi bi-search*/
@@ -130,8 +132,8 @@
   border-radius: 50%; /*redondea el logo en forma de circulo*/
   width: 100px; /*ancho del logo*/
   height: 100px; /*alto del logo*/
+  box-shadow: -5px 5px 7px rgb(62, 62, 62);
 }
-
 
 .estilo-logo:hover{
   transform: rotate(360deg);
@@ -163,7 +165,6 @@
   position: absolute;
   top: -5px;
   right: -5px;
-  background-color: red;
   color: white;
   font-size: 0.75rem;
   font-weight: bold;

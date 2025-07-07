@@ -31,5 +31,3 @@ export default function VentanaCookies({ onAceptar, onRechazar }) {
     </div>
     );
 }
-
-

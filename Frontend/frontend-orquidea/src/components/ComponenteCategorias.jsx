@@ -18,7 +18,7 @@ export default function ComponenteProductos({ nombreCategoria }) {
   return (
     <>
     <div>
-      <Categorias></Categorias>
+      <Categorias/>
     </div>
     <br />
     <br />

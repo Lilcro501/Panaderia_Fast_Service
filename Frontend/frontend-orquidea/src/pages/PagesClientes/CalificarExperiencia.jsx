@@ -4,7 +4,6 @@ import "../../assets/styles/Experiencia.css"
 import RecuadroEncuesta from "../../components/CompoEncuesExperiencia";
 import CalificacionInformacion from "../../components/CalificacionInformacion";
 
-
 export default function CalificarExperiencia() {
     return (
         <>
@@ -36,9 +35,9 @@ export default function CalificarExperiencia() {
         </section>
         <div>
             <Link to="/Recomendacion">
-             <button className="boton-siguiente ">Siguiente</button>
-             </Link>
-           
+                <button className="boton-siguiente ">Siguiente</button>
+                </Link>
+            
         </div>
             </>
         
