@@ -1,16 +1,34 @@
-
 .categoria-seccion {
-    padding: 20px;
-    background-color: #b8885d9a;
-    border-radius: 30px;
+  padding: 20px 30px;
+  background-color: #b8885d4f;
+  border-radius: 30px;
+  border: 2px solid rgba(184, 136, 93, 0.3); /* Borde suave */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  backdrop-filter: blur(3px); /* Efecto vidrio (si quieres) */
+  transition: all 0.3s ease;
+}
+
+.categoria-seccion:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
 }
 
 .categoria-titulo {
-    font-size: 24px;
-    color: rgb(59, 27, 27);
-    margin-bottom: 15px;
-    padding-left: 15px;
-    text-align: center;
+  display: inline-block; /* 👈 Se ajusta al tamaño del texto */
+  font-family: 'Brush Script MT', cursive;
+  font-size: 2.2rem;
+  color: #ffffff;
+  border: 3px dashed #ffffff;
+  border-radius: 10px;
+  border-bottom: 3px dashed #ffffff;
+  padding: 10px 20px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.centrar-titulo {
+  text-align: center;
+  
 }
 
 .categoria-grid {
@@ -29,6 +47,7 @@
     text-align: center;
     padding: 10px;
     transition: transform 0.3s;
+    color: #fffdfd;
 }
 
 .producto-tarjeta:hover {
@@ -47,24 +66,26 @@
 }
 
 .producto-nombre {
-    color: rgb(0, 0, 0);
+    color: white;
     font-weight: bold;
     font-size: 16px;
     margin-bottom: 5px;
 }
 
 .producto-precio {
-    color: #000000;
+    color: #ffffff;
     margin-bottom: 10px;
 }
 
 .agregar {
-    background-color: #6f4d3c;
+    background-color: #36353450;
     color: rgb(0, 0, 0);
     border: none;
     border-radius: 8px;
     padding: 5px 10px;
     cursor: pointer;
+    border: 2px #fffdfd;
+    color: #fffdfd;
 }
 
 .agregar:hover {
@@ -120,5 +141,3 @@
     transform: translateY(20px);
   }
 }
-
-
