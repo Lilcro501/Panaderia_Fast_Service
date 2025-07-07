@@ -1,10 +1,4 @@
-/* Estilos generales para toda la página */
-body {
-    font-family: Arial;/* Fuente del texto */
-    background-image: url(fondos.png);/* Color de fondo claro (beige rosado) */
-    margin: 0;/* Quita el margen por defecto del navegador */
-    padding: 20px;/* Espacio interno del cuerpo */
-  }
+
   
   .contenedor {
     background-image:url(fondo_formulario.png); /* Ruta a la imagen de fondo */
@@ -70,14 +64,3 @@ body {
     margin-top: 5px;/* Espacio arriba de los emojis */
   }
   
-  /* Estilo del botón de enviar */
-  button {
-    display: block;/* Hace que el botón se muestre como bloque (una sola línea) */
-    margin: 0 auto;/* Centra el botón horizontalmente */
-    padding: 8px 20px;/* Espacio interno del botón */
-    background-color: #a97458;/* Color de fondo del botón (café) */
-    color: white;/* Color del texto del botón */
-    border: none;
-    border-radius: 5px;/* Bordes redondeados del botón */
-    cursor: pointer;/* Cambia el cursor al pasar por encima */
-  }

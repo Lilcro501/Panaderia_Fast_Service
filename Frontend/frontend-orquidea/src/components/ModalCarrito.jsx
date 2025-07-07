@@ -1,14 +1,14 @@
-//src/components/ModalCarrito.jsx
+// src/components/ModalCarrito.jsx
 import React from 'react';
 import { useCarrito } from '../Context/CarritoContext';
-import { useNavigate } from 'react-router-dom'; // ✅ Importar
+import { useNavigate } from 'react-router-dom';
 import '../assets/styles/ModalCarrito.css';
 import { MdOutlineDelete } from "react-icons/md";
-import CarritoLleno from "../assets/icons/carrito-lleno.png"
+import CarritoLleno from "../assets/icons/carrito-lleno.png";
 
 const ModalCarrito = ({ visible, onClose }) => {
   const { carrito, quitarProducto, vaciarCarrito } = useCarrito();
-  const navigate = useNavigate(); // ✅ Hook de navegación
+  const navigate = useNavigate();
 
   if (!visible) return null;
 
@@ -17,27 +17,26 @@ const ModalCarrito = ({ visible, onClose }) => {
   };
 
   const handleVerCarrito = () => {
-    onClose();              // 👉 Cierra el modal
-    navigate('/FacturaProductos');   // 👉 Redirige a la factura
+    onClose();
+    navigate('/FacturaProductos');
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal-carrito">
         <button className="cerrar-modal" onClick={onClose}>X</button>
-        <br />
+
+        {/* Ícono de vaciar carrito fijo */}
+        <MdOutlineDelete className="vaciar-btn" onClick={vaciarCarrito} />
+
         <div className='formato-superior'>
           <div>
             <h2>Tu pedido</h2>
           </div>
-          <div className='formato-superior'>
-            <div>
-              <img src={CarritoLleno} alt="Carrito lleno" className='imagen-carrito' />
-            </div>
+          <div>
+            <img src={CarritoLleno} alt="Carrito lleno" className='imagen-carrito' />
           </div>
         </div>
-
-        <MdOutlineDelete className="vaciar-btn" onClick={vaciarCarrito} />
 
         {carrito.length === 0 ? (
           <p>No hay productos en el carrito.</p>
@@ -60,14 +59,8 @@ const ModalCarrito = ({ visible, onClose }) => {
 
             <div className="total-carrito">
               <strong>Total:</strong> ${calcularTotal()}
-              <br />
             </div>
-
-            <div className='mover-bton'>
-              <button className='bton-ver-carrito' onClick={handleVerCarrito}>
-                Ver carrito
-              </button>
-            </div>
+            <button className='bton-ver-carrito' onClick={handleVerCarrito}>Ver carrito</button>
           </>
         )}
       </div>

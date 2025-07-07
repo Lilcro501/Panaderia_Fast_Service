@@ -28,13 +28,6 @@
   margin-bottom: 10px;
 }
 
-input {
-  width: 100%;
-  padding: 8px;
-  border: none;
-  border-radius: 8px;
-}
-
 .botones-cliente {
   display: flex;
   gap: 10px;
