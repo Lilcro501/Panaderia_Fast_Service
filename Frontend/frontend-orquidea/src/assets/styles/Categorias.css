@@ -1,18 +1,31 @@
 
 .categorias {
-  margin-top: 40px;
-  padding-top: 20px;
-  margin-left: 455px;
-  padding-top: 20px;
-  width: 550px;
-  height: 110px;
+  margin: 50px auto;
+  padding: 10px 15px;
+  width: 90%;
+  max-width: 550px;
+  height: auto;
   background-color: #b8875b;
   display: flex;
-  border-radius: 27px;
+  align-items: center;
   justify-content: space-between;
+<<<<<<< HEAD
   text-align: center;
   color: rgb(47, 31, 31);
+=======
+  border-radius: 27px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+
+>>>>>>> 730071946ba7050ddd50da3a715083e7532b7a64
 }
+
+.categorias:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
 
 .recuadro-categoria {
   padding-left: 20px;
@@ -23,18 +36,35 @@
   height: auto;
 }
 
-
-.animacion-categoria {
-  cursor: pointer;
-  border-radius: 10px;
-  transition: transform 0.3s;
+@media (max-width: 600px) {
+  .categorias {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
   }
+}
 
+.nom-categoria {
+  color: beige;
+  text-decoration: none; /* Quita subrayado por defecto */
+  border-bottom: 2px dashed beige; /* Agrega línea decorativa */
+  padding-bottom: 4px;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
 
+<<<<<<< HEAD
 .animacion-categoria:hover {
   color: rgb(75, 50, 50);
   transform: scale(1.1);
   background-color: #e5c3a6;
+=======
+.nom-categoria:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+>>>>>>> 730071946ba7050ddd50da3a715083e7532b7a64
 }
 
 .nom-categoria{
@@ -42,8 +72,13 @@
   font-size: 19px;
 }
 
+<<<<<<< HEAD
 .nom-categoria:hover{
   color: rgb(75, 50, 50);;
   cursor: pointer;
   transform: scale(1.1);
 }
+=======
+
+
+>>>>>>> 730071946ba7050ddd50da3a715083e7532b7a64

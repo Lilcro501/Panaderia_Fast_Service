@@ -1,0 +1,71 @@
+.inicio-fondo {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Contenedor de las dos opciones */
+.opciones-inicio {
+  display: flex;
+  gap: 100px;
+}
+
+/* Cada opción con imagen + botón */
+.opcion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Marco o borde de fondo detrás de la imagen */
+.borde {
+  background-color:  #d4a373;
+  width: 210px;
+  height: 200px;
+  border-radius: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Imagen tipo carta */
+.imagen-carta {
+  width: 190px;
+  height: 160px;
+  background-image: url("../images/Carta.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Imagen de panes */
+.imagen-panes {
+  width: 190px;
+  height: 160px;
+  background-image: url("../images/Panes.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón debajo del borde */
+.opcion button {
+  margin-top: 19px; /* 🔹 Separación respecto al borde */
+  background-color: #d4a373;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  font-size: 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.opcion button:hover {
+  background-color: #b08968;
+}
+

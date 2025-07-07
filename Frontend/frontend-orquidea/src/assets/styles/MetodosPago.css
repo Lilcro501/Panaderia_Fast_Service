@@ -99,3 +99,36 @@
     padding: 0.5rem 0;
   }
 }
+
+
+.boton-moderno {
+  background-color: #02ff2c;       /* Azul moderno (indigo) */
+  color: white;                    /* Texto blanco */
+  border: none;                    /* Sin borde */
+  padding: 12px 24px;              /* Espaciado interno */
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;             /* Bordes redondeados */
+  cursor: pointer;                 /* Manito al pasar el mouse */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+.boton-moderno:hover {
+  background-color: #4338CA;       /* Azul más oscuro */
+  transform: translateY(-2px);     /* Efecto de levantar el botón */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.boton-moderno:active {
+  transform: scale(0.98);          /* Ligera reducción al hacer clic */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.estilo-img {
+  width: 300px;
+  height: auto;
+  padding-left: 150px;
+
+}

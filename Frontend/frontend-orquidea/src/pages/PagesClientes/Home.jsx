@@ -1,20 +1,39 @@
 import React, { useRef, useState } from 'react';
-import '../../assets/styles/Home.css'; // ajusta según tu proyecto
+//estilos css
+
+import '../../assets/styles/Home.css'; 
+import "../../assets/styles/Global.css"
+
+// importaciones de imagenes
+
 import pan from "../../assets/icons/pan.png"
 import mostrador from "../../assets/icons/mostrador.jpg"
 import Categorias from "../../components/Categorias"
+
+//importacion de compoentnes
 import Carrusel1 from "../../components/CarruselIncremento"
-import "../../assets/styles/Global.css"
 import Carrusel2 from "../../components/CarruselCalificacion"
+
+//importacion de iconos de react
+import { PiFlowerDuotone } from "react-icons/pi";
 
 
 export default function Home() {
   return (
     <main>
-      <h1 className="bienvenida" style={{textAlign: "center"}}>Tu día empieza mejor con nuestro pan</h1>
-
-      {/* Carrusel Catálogo */}
+      <div className="contenedor-titulo">
+            <h1 className="texto-animado">
+              <PiFlowerDuotone size={32} color="#f59e0b" /> 
+              ...Tu día empieza mejor con nuestro pan...
+              <PiFlowerDuotone size={32} color="#f59e0b" />
+            </h1>
+    </div>
+      <br /> <br />
+      <h2 className='subtitulo-productos'>Categorias</h2>
       <Categorias></Categorias>
+        <br />
+        <h2 className='subtitulo-productos'>Nuestros productos</h2>
+        <br />
       <Carrusel1></Carrusel1>
       
       <br />
@@ -33,7 +52,7 @@ export default function Home() {
       <br />
       <br />
 
-      <h2 className="titulo-productos" style={{textAlign: "center"}}>Productos destacados</h2>
+        <h2 className='subtitulo-productos'>Productos destacados</h2>
       <br />
       <br />
       <Carrusel2/>
@@ -41,7 +60,7 @@ export default function Home() {
       <br />
 
       <section className="frase-logo">
-            <div className="texto-slogan">
+            <div className="texto-slogan texto-animado">
                 <h3> Más que 
                     <br/> una panadería, somos un
                         <br/> lugar donde los aromas 

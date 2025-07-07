@@ -1,0 +1,78 @@
+.estados-body {
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: white;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+td{
+  color: black;
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+  margin-left: 20px;
+}
+
+.usuario {
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+}
+
+.estado-circulo {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.3;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.estado-circulo.activo {
+  opacity: 1;
+  transform: scale(1.2);
+  border: 2px solid white;
+}
+
+/* Colores */
+.rojo {
+  background-color: red;
+}
+
+.amarillo {
+  background-color: orange;
+}
+
+.verde {
+  background-color: green;
+}
+
+.boton-volver {
+  margin-top: 20px;
+}
+
+.boton-volver button {
+  background-color: #d4a373;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.boton-volver button:hover {
+  background-color: #b08968;
+}

@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: white; 
+  font-family: Arial, sans-serif; /* la fuente legible*/
+  justify-content: center;
+}
+
+
+/* Contenedor del formulario */
+.contenedor{
+  width: 300px; 
+  margin: 80px auto; /* Centrado vertical y horizontal */
+  padding: 20px; /* Espaciado interno */
+  background: radial-gradient(circle at top left, #444, #222); /* Fondo oscuro */
+  border-radius: 25px; /* Bordes redondeados */
+  box-shadow: 0 0 25px rgba(0,0,0,0.3); /* Sombra para dar profundidad */
+  text-align: center; /* Centrar contenido */
+  color: white; /* Color de texto blanco */
+}
+
+.avatar {
+  font-size: 50px; /* Tamaño grande */
+  margin-bottom: 10px; /* Separación inferior */
+}
+
+
+/* Estilo común para los campos de texto, email y contraseña */
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+  width: 45%; /* Ocupan menos de la mitad para ir de a dos */
+  padding: 8px; /* Espacio interno */
+  margin: 5px 5px; /* Espacio entre inputs */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Color del texto de los placeholders (texto dentro del input) */
+.form-container input::placeholder {
+  color: #999;
+}
+
+/* Botón "Guardar" */
+.guardar-btn {
+  margin-top: 15px;
+  background-color: #f7c8c8; /* Color rosa claro */
+  border: none;
+  padding: 10px 30px; /* Tamaño del botón */
+  border-radius: 20px; /* Bordes redondeados */
+  color: #333; /* Texto oscuro */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+}
+
+/* Cambio de color al pasar el mouse sobre el botón */
+.guardar-btn:hover {
+  background-color: #f4b4b4; /* Rosa un poco más oscuro */
+}
+
