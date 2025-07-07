@@ -101,6 +101,90 @@
   transition: transform 0.3s;
 }
 
-.imagen-mostrador:hover {
-  transform: scale(1.2);
+.bienvenida {
+  background-color: #8b5e3c;
 }
+
+/*aca empieza la animacion del titulo*/
+.contenedor-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.texto-animado {
+  position: relative;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  padding: 1.5rem 1rem;
+  text-align: center;
+
+  opacity: 0;
+  transform: translateY(30px);
+  animation: aparecerDesdeAbajo 0.8s ease-out forwards;
+}
+
+/* Líneas decorativas arriba y abajo */
+.texto-animado::before,
+.texto-animado::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, transparent, #f59e0b, transparent);
+}
+
+.texto-animado::before {
+  top: 0;
+}
+
+.texto-animado::after {
+  bottom: 0;
+}
+
+/* Animación */
+@keyframes aparecerDesdeAbajo {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.subtitulo-productos {
+  font-family: 'Brush Script MT', cursive;
+}
+
+/*aca termina la animacion del titulo*/
+
+/*animacion del cuadro donde esta la foto del mostrador */
+.frase-logo{
+  width: 100%;
+  background-color: #8b5e3c;
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 5px;
+
+}
+
+.texto-slogan{
+  text-align: center;
+  color: rgb(228, 204, 172);
+}
+
+
+.scroll-animado {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-animado.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+

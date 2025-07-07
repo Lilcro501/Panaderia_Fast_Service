@@ -1,7 +1,7 @@
 import React from "react";
-import "../assets/styles/PerfilUsuario.css"
+import "../assets/styles/InfoCliente.css"
 import { Link, useNavigate } from "react-router-dom";
-import PerfilLogo from "../assets/icons/perfil-negro-2.png"; // actualiza con tu ruta
+import PerfilLogo from "../assets/icons/perfil-negro-2.png";
 
 export default function PerfilInformacion() {
   const navegacion = useNavigate();
@@ -65,10 +65,10 @@ export default function PerfilInformacion() {
 
 export function MostrarInformacion() {
   const datosUsuario = {
-    nombre: "Cristian",
-    correo: "juan@example.com",
-    direccion: "Calle 123 #45-67",
-    telefono: "3001234567",
+    nombre: "Camila pérez",
+    correo: "Cami@example.com",
+    direccion: "Calle 456 #47-77",
+    telefono: "301451967",
     rol: "Usuario"
   };
 
@@ -106,11 +106,7 @@ export function MostrarInformacion() {
           </tr>
         </tbody>
       </table>
-
-      <Link to="/Actualizar">
-        <button className="boton-actualizar">Actualizar</button>
-      </Link>
+        <button className="boton-salir">Salir</button>
     </div>
   );
 }
-

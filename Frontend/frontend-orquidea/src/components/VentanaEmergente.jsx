@@ -1,4 +1,3 @@
-// src/components/ModalListo.jsx
 import React from 'react';
 import '../assets/styles/VentanaEmergente.css';
 
@@ -12,8 +11,17 @@ const VentanaEmergente = ({ visible, onClose, title, content, footer }) => {
           <h3>{title}</h3>
           <button className="modal-close-btn" onClick={onClose}>✖</button>
         </div>
-        <div className="modal-body">{content}</div>
-        {footer && <div className="modal-footer">{footer}</div>}
+
+        <div className="modal-body">
+          {content}
+        </div>
+
+        {/* Envolvemos el footer con una clase para alinear botones */}
+        {footer && (
+          <div className="modal-footer contenedor-botones-modal">
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   );

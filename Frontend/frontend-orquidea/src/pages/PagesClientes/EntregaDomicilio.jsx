@@ -16,7 +16,7 @@ const EntregaDomicilio = () => {
     if (metodoEntrega === 'qr') {
       return (
         <>
-          <img src={qr} alt="Código QR" style={{ width: '200px', marginBottom: '1rem', justifyContent:"center"}}/>
+          <img src={qr} alt="Código QR"  className='estilo-img'/>
           <p>Cuenta Nequi: <strong>3001234567</strong></p>
           <form
             onSubmit={(e) => {
@@ -28,7 +28,8 @@ const EntregaDomicilio = () => {
             <label>Adjunta tu comprobante:</label>
             <input type="file" accept=".jpg,.jpeg,.png,.pdf" required />
             <br />
-            <button type="submit" style={{ marginTop: '10px' }}>Enviar</button>
+            <br />
+            <button  className="boton-moderno"   type="submit">Enviar</button>
           </form>
         </>
       );
@@ -98,6 +99,8 @@ const EntregaDomicilio = () => {
           <div className="metodos-pago">
             <h2>Métodos de pago</h2>
 
+            <br />
+
             <div>
               <label>
                 <input
@@ -110,7 +113,7 @@ const EntregaDomicilio = () => {
                 Pagar con QR
               </label>
             </div>
-
+            <br />
             <div>
               <label>
                 <input
@@ -123,10 +126,11 @@ const EntregaDomicilio = () => {
                 Pago en efectivo al recibir
               </label>
             </div>
-
+            <br />
             {/* Botón que aparece solo si se selecciona un método */}
             {metodoEntrega && (
               <button
+              className='boton-moderno'
                 onClick={() => setMostrarModal(true)}
                 style={{ marginTop: '15px' }}
               >
@@ -138,12 +142,44 @@ const EntregaDomicilio = () => {
       </section>
 
       <VentanaEmergente
-        visible={mostrarModal}
-        onClose={() => setMostrarModal(false)}
-        title="Información de pago"
-        content={renderContenidoModal()}
-        footer={<button onClick={() => setMostrarModal(false)}>Cerrar</button>}
-      />
+  visible={mostrarModal}
+  onClose={() => setMostrarModal(false)}
+  title="Información de pago"
+  content={
+    metodoEntrega === 'qr' ? (
+      <>
+        <img src={qr} alt="Código QR" className='estilo-img' />
+        <p>Cuenta Nequi: <strong>3001234567</strong></p>
+        <label>Adjunta tu comprobante:</label>
+        <input type="file" accept=".jpg,.jpeg,.png,.pdf" required />
+      </>
+    ) : (
+      <>
+        <h3>Pago en efectivo al momento de la entrega</h3>
+        <p>Ten el monto exacto preparado: <strong>${total}</strong></p>
+      </>
+    )
+  }
+  footer={
+    <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+      {metodoEntrega === 'qr' && (
+        <button
+          className="boton-moderno"
+          onClick={() => {
+            alert("Comprobante enviado correctamente");
+            setMostrarModal(false);
+          }}
+        >
+          Enviar
+        </button>
+      )}
+      <button className="boton-moderno cancelar" onClick={() => setMostrarModal(false)}>
+        Cancelar
+      </button>
+    </div>
+  }
+/>
+
     </>
   );
 };

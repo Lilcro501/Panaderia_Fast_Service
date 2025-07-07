@@ -1,0 +1,64 @@
+/* Contenedor principal */
+.pedido-container {
+  background-size: cover;
+  padding: 2rem;
+  text-align: center;
+  justify-content: center;
+}
+
+.titulo {
+  background-color: #d49e7d;
+  color: rgb(249, 252, 250);
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 1rem;
+  border-radius: 20px;
+  width: fit-content;
+  margin: 0 auto 1rem auto;
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f0e6dd;
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+/*  los encabezados */
+th {
+  background-color: #d49e7d;
+  color: rgb(248, 246, 246);
+  padding: 0.8rem;
+}
+
+/* las filas */
+td {
+  padding: 0.8rem;
+  text-align: center;
+}
+
+/* Números de pedido */
+.numero_pedido {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Botones */
+.boton-ver,
+.boton-detalle {
+  background-color: #d49e7d;
+  border: none;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.boton-ver:hover,
+.boton-detalle:hover {
+  background-color: #b57f60;
+}
+
