@@ -65,6 +65,12 @@ const productCategories = {
     { id: 'pan3', nameProduct: 'Churro', price: 1800, quantity: 0, image: Churro },
     { id: 'pan4', nameProduct: 'Galleta Chocolate', price: 2200, quantity: 0, image: GalletaChoco },
     { id: 'pan5', nameProduct: 'Galleta Mermelada', price: 2200, quantity: 0, image: GalletaMermelada },
+    { id: 'pan6', nameProduct: 'Lengua', price: 1700, quantity: 0, image: Lengua},
+    { id: 'pan7', nameProduct: 'Magdalena', price: 800, quantity: 0, image: Magdalena},
+    { id: 'pan8', nameProduct: 'PanAgridulce', price: 1200, quantity: 0, image: PanAgridulce},
+    { id: 'pan9', nameProduct: 'PanChicharron', price: 1000, quantity: 0, image: PanChicharron},
+    { id: 'pan10', nameProduct: 'Pera', price: 2300, quantity: 0, image: Pera},
+    { id: 'pan11', nameProduct: 'Rollo', price: 3000, quantity: 0, image: Rollo}
   ],
   fritos: [
     { id: 'f1', nameProduct: 'Buñuelo', price: 1000, quantity: 0, image: Buñuelo },
@@ -97,8 +103,9 @@ const productCategories = {
     { id: 'b9', nameProduct: 'Malta Mini', price: 1600, quantity: 0, image: MaltaMini },
     { id: 'b10', nameProduct: 'Malta', price: 2000, quantity: 0, image: Malta },
     { id: 'b11', nameProduct: 'Pilsen', price: 2200, quantity: 0, image: Pilsen },
-    { id: 'b12', nameProduct: 'Yogurt Bolsa', price: 2100, quantity: 0, image: YogurtBolsa },
-    { id: 'b13', nameProduct: 'Yogurt', price: 2100, quantity: 0, image: Yogurt },
+    { id: 'b12', nameProduct: 'Pool', price: 1500, quantity: 0, image: Pool },
+    { id: 'b13', nameProduct: 'Yogurt Bolsa', price: 2100, quantity: 0, image: YogurtBolsa },
+    { id: 'b14', nameProduct: 'Yogurt', price: 2100, quantity: 0, image: Yogurt },
   ],
   helados: [
     { id: 'h1', nameProduct: 'Aloha', price: 2500, quantity: 0, image: Aloha },

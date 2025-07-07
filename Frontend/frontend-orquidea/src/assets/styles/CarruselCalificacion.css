@@ -2,10 +2,9 @@
 .contenedor-carrusel-centralizado {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 20px auto;
-  max-width: 100%;
   justify-content: center;
+  gap: 10px;
+  width: 100%;
 }
 
 .catalogo-scroll {
@@ -15,8 +14,8 @@
   scroll-behavior: smooth;
   padding: 10px;
   background-color: #c99e78aa;
-  border-radius: 15px;
-  width: 80%;
+  border-radius: 0px 0px;
+  width: 100%;
 }
 
 .catalogo-scroll::-webkit-scrollbar {
@@ -58,8 +57,14 @@
   background-color: #a26e46;
 }
 
+.contenedor-con-titulo {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  border-radius: 15px;
+  overflow: hidden;
+}
 
-
-.titulo-productos{
-  padding-left: 10%;
+.P {
+  color: #1d1414;
 }

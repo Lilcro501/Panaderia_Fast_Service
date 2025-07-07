@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../assets/styles/Footer.css'; // ~~~~~~ Estilos del footer ~~~~~~
@@ -54,7 +55,7 @@ const Footer = () => {
               <Link to="/ManifiestoDelConsumidor">
               Manifiesto del consumidor
               </Link>
-             </span> 
+              </span> 
           
         </div>
       </footer>
@@ -63,5 +64,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-
