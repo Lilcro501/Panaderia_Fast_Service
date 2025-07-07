@@ -6,3 +6,4 @@ export default function PerfilUsario(){
         <MostrarInformacion></MostrarInformacion>
     )
 }
+
