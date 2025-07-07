@@ -3,27 +3,27 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "../assets/styles/CarruselIncremento.css";
-import datos from "../Data/DatosProductos"; // Productos reales
+import datos from "../Data/data"; // Asegúrate que `datos` sea igual a `productCategories`
 
 export default function CarruselCatalogo() {
   const contenedorRef = useRef(null);
 
-  const productos = [
-    datos.panes.find(p => p.id === "pan1"),
-    datos.panes.find(p => p.id === "pan2"),
-    datos.panes.find(p => p.id === "pan8"),
-    datos.panes.find(p => p.id === "pan11"),
-    datos.panes.find(p => p.id === "pan5"),
-    datos.panes.find(p => p.id === "pan4"),
-    datos.mecato.find(p => p.id === "m2"),
-    datos.mecato.find(p => p.id === "m1"),
-    datos.mecato.find(p => p.id === "m4"),
-    datos.mecato.find(p => p.id === "m6"),
-    datos.bebidas.find(p => p.id === "b3"),
-    datos.bebidas.find(p => p.id === "b4"),
+  const idsProductos = [
+    "pan1", "pan2", "pan8", "pan11", "pan5", "pan4", // panes
+    "m2", "m1", "m4", "m6",                         // mecato
+    "b3", "b4"                                      // bebidas
+  ];
 
-  ].filter(Boolean); // Por si alguno no existe
+  // Buscar el producto según ID recorriendo todas las categorías
+  const buscarProducto = (id) => {
+    for (const categoria of Object.values(datos)) {
+      const encontrado = categoria.find(p => p.id === id);
+      if (encontrado) return encontrado;
+    }
+    return null;
+  };
 
+  const productos = idsProductos.map(buscarProducto).filter(Boolean);
   const [cantidades, setCantidades] = useState(Array(productos.length).fill(0));
 
   const scroll = (offset) => {
@@ -55,10 +55,10 @@ export default function CarruselCatalogo() {
           <div className="recuadro-catalogo" key={prod.id}>
             <Link to={`/producto/${prod.id}`} className="enlace-producto">
               <img className="carrusel-catalogo" src={prod.image} alt={prod.nameProduct} />
-              <p className="P">
+              <div className="P">
                 {prod.nameProduct}
-                <br />${prod.price}
-              </p>
+                <br />${prod.price.toLocaleString()}
+              </div>
             </Link>
 
             <section className="number-input">
