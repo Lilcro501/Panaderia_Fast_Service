@@ -1,9 +1,0 @@
-.layout-fondo {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-image: url('../images/fondo-panaderia.jpg'); /* cambia al path correcto */
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
