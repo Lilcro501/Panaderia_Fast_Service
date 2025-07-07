@@ -1,74 +1,74 @@
 
 .categoria-seccion {
-    padding: 20px;
-    background-color: #b8885d9a;
-    border-radius: 30px;
+  padding: 20px;
+  background-color: #b8885d9a;
+  border-radius: 30px;
 }
 
 .categoria-titulo {
-    font-size: 24px;
-    color: rgb(59, 27, 27);
-    margin-bottom: 15px;
-    padding-left: 15px;
-    text-align: center;
+  font-size: 24px;
+  color: rgb(59, 27, 27);
+  margin-bottom: 15px;
+  padding-left: 15px;
+  text-align: center;
 }
 
 .categoria-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
-    justify-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  justify-items: center;
 }
 
 .producto-tarjeta {
-    background-color: #b8875d;
-    border-radius: 15px;
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
-    width: 150px;
-    overflow: hidden;
-    text-align: center;
-    padding: 10px;
-    transition: transform 0.3s;
+  background-color: #b8875d;
+  border-radius: 15px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+  width: 150px;
+  overflow: hidden;
+  text-align: center;
+  padding: 10px;
+  transition: transform 0.3s;
 }
 
 .producto-tarjeta:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .producto-imagen {
-    width: 100%;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .producto-info {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .producto-nombre {
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 5px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
 }
 
 .producto-precio {
-    color: #000000;
-    margin-bottom: 10px;
+  color: #000000;
+  margin-bottom: 10px;
 }
 
 .agregar {
-    background-color: #6f4d3c;
-    color: rgb(0, 0, 0);
-    border: none;
-    border-radius: 8px;
-    padding: 5px 10px;
-    cursor: pointer;
+  background-color: #6f4d3c;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 .agregar:hover {
-    background-color: rgb(67, 44, 33);
+  background-color: rgb(67, 44, 33);
 }
 
 .heart-button {

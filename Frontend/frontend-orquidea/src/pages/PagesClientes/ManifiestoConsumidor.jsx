@@ -1,6 +1,7 @@
 
 import React from 'react';
 import '../../assets/styles/Legalidades.css';
+import Book from '../../assets/images/Book.png'
 
 import { useNavigate } from 'react-router-dom';
 

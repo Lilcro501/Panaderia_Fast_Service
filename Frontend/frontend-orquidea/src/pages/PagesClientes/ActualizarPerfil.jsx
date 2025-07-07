@@ -5,8 +5,7 @@ import ActualizarDatos  from "../../components/PerfilInformacion";
 export default function ActualizarPerfil() {
     return (
         <>
-        <ActualizarDatos></ActualizarDatos>
-        
+            <ActualizarDatos/>    
         </>
     )
 

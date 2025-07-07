@@ -1,0 +1,86 @@
+
+.ContenedorProductoInfo {
+    background-color: rgba(172, 143, 111, 0.881);
+    border-radius: 40px;
+    max-width: 60%;
+    margin-left: 20%;
+    color: black;
+}
+
+.InfoSuperiorCalificacion {
+    display: flex;
+    gap: 20px;
+    margin: 50px;
+    margin-bottom: 20px;
+    padding-top: 25px;
+}
+
+.TituloProduct{
+    color: black;
+}
+
+.ImagenProducto {
+    background-color: rgba(226, 192, 148, 0.732);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 15px rgb(91, 68, 54);
+}
+
+.InfoProducto {
+    background-color: rgba(226, 192, 148, 0.732);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 15px rgb(91, 68, 54);
+    text-align: left;
+    padding-top: 15px;
+}
+
+.Heart {
+    text-align: right;
+}
+
+.BotonComprar {
+    border-radius: 20px;
+}
+
+.BotonAñadirCarrito {
+    border-radius: 20px;
+}
+
+.Calificacion {
+    margin: 5px;
+    color: black;
+}
+
+.ContenedorPanesC {
+    text-align: center;
+}
+
+.InfoInferiorCalificacion {
+    padding: 25px;
+    display: flex;
+    gap: 25px;
+}
+
+.ContenedorComentarios {
+    background-color: rgba(226, 192, 148, 0.732);
+    margin-left: 5%;
+    width: 60%;
+    border-radius: 20px;
+}
+
+.Comentarios{
+    margin: 10px;
+    color: black;
+}
+
+.MetodosPagoInfo {
+    background-color: rgba(226, 192, 148, 0.732);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.MetodosPagoInfo .ul .li {
+    text-decoration: none;
+    list-style: none;
+}

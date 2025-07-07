@@ -1,5 +1,6 @@
 
 .ContenedorInfo {
+    display: flex;
     background-color: #464242b9;
     border-radius: 50px;
     border: 1px solid #ffffff;

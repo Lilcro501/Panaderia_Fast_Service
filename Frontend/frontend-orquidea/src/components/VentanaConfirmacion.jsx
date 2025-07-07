@@ -12,7 +12,6 @@ import { IoMdClose } from 'react-icons/io';
 
 /* ~~~~~~~ Componente funcional VentanaConfirmacion ~~~~~~~ */
 export default function VentanaConfirmacion({ mensaje, onClose, onExit }) {
-
     /* ~~~~~~~ Hook para cambiar de ruta sin recargar la página ~~~~~~~ */
     const navigate = useNavigate();
     
@@ -29,7 +28,7 @@ export default function VentanaConfirmacion({ mensaje, onClose, onExit }) {
         <h2 className="titulo-confirmacion">{mensaje}</h2>
 
         {/* ~~~~~~~ Botón para salir y redirigir al inicio ~~~~~~~ */}
-        <button className="boton-salir" onClick={() => navigate('/AccedeAqui')}>Salir</button>
+        <button className="boton-salir" onClick={() => navigate('/')}>Salir</button>
         </div>
     </div>
     );

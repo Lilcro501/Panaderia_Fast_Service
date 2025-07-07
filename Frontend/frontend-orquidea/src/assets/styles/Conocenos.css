@@ -31,7 +31,6 @@
     color: black;
 }
 
-
 .ContenedorMision {
     display: flex;
     gap: 10px;
@@ -71,7 +70,6 @@ p.PVision {
     border-radius: 12px;
 }
 
-
 .info h3 {
     font-size: 35px;
     color: rgb(0, 0, 0);
@@ -99,7 +97,6 @@ span.PPagoEntrega{
     border-radius: 12px;
     margin: 10px 0 30px;
 }
-
 
 .ContenedorLocacion {
     display: flex;
