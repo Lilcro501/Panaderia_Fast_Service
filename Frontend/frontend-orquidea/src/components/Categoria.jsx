@@ -16,8 +16,11 @@ const Categoria = ({ nombre, productos }) => {
   };
 
   return (
-    <div className="categoria-seccion">
-      {nombre && <h2 className="categoria-titulo">{nombre}</h2>}
+        <>
+       <div className="categoria-seccion">
+          <div className="centrar-titulo">
+            {nombre && <h2 className="categoria-titulo">{nombre}</h2>}
+          </div>
       <div className="categoria-grid">
         {productos.map((producto, index) => (
           <div key={index} className="producto-tarjeta">
@@ -60,6 +63,9 @@ const Categoria = ({ nombre, productos }) => {
         </div>
       )}
     </div>
+        
+        
+        </>
   );
 };
 

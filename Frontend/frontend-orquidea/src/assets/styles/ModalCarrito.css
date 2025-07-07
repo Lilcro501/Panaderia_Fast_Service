@@ -1,67 +1,98 @@
-/* Contenedor del modal en esquina inferior derecha */
+/* Overlay del modal (fondo transparente) */
 .modal-overlay {
   position: fixed;
   top: 0;
-  right: 0 ;
+  right: 0;
   z-index: 1000;
-  padding: 1rem;
-  pointer-events: none; /* Permite que todo lo demás siga siendo clickeable si el modal está cerrado */
+  pointer-events: none;
 }
 
-/* Caja del carrito */
+/* Caja del modal del carrito */
 .modal-carrito {
-  background: rgba(0, 0, 0, 0.692);
+  background: rgba(0, 0, 0, 0.92);
   color: #ffffff;
-  padding: 1rem;
-  border-radius: 10px;
   width: 300px;
-  max-height: 95vh;
+  height: 100vh;
+  padding: 1rem;
   overflow-y: auto;
-  position: relative;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  pointer-events: auto; /* Activar clics dentro del modal */
-  transition: all 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out;
 }
 
-/* Botón de cerrar */
+/* Botón cerrar (X) */
 .cerrar-modal {
   position: absolute;
-  top: 8px;
+  top: 10px;
+  left: 10px;
   background: none;
   border: none;
-  font-size: 18px;
-  color: #ffffff;
+  font-size: 20px;
+  color: white;
   cursor: pointer;
+}
+
+/* Ícono de vaciar carrito */
+.vaciar-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: #ff6b6b;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.vaciar-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Encabezado superior con imagen y texto */
+.formato-superior {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.imagen-carrito {
+  width: 40px;
+  height: auto;
 }
 
 /* Lista de productos */
 .lista-carrito {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 1rem;
+  flex-grow: 1;
 }
 
 .item-carrito {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.5rem;
-  padding: 0.5rem;
-  margin-bottom: 0.75rem;
   background-color: #2d2b2b;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Imagen del producto */
 .img-carrito {
   width: 50px;
   height: 50px;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 4px;
 }
 
-/* Info del producto */
 .info-carrito {
   flex-grow: 1;
   display: flex;
@@ -69,7 +100,6 @@
   font-size: 0.85rem;
 }
 
-/* Botón para quitar */
 .quitar-btn {
   background-color: crimson;
   border: none;
@@ -84,36 +114,27 @@
   background-color: darkred;
 }
 
-/* Texto vacío */
+/* Texto cuando el carrito está vacío */
 .modal-carrito p {
   text-align: center;
   font-size: 0.95rem;
-  color: #555;
+  color: #ccc;
+  margin-top: 4rem;
 }
 
-
-.vaciar-btn{
-  width: 250px;
-  height: 50px;
-  justify-content: center;
-  cursor: pointer;
+/* Total del carrito */
+.total-carrito {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.formato-superior {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-
-}
-
-.imagen-carrito {
-  width: 40px;
-
-}
-
+/* Botón para ir a factura */
 .bton-ver-carrito {
   padding: 12px 20px;
-  background: linear-gradient(135deg, #ff6b6b, #f06595);
+  background-color: #2d2b2b74;
   color: white;
   font-weight: 600;
   font-size: 1rem;
@@ -122,7 +143,7 @@
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
-
+  margin-top: auto;
 }
 
 .bton-ver-carrito:hover {
@@ -134,10 +155,4 @@
 .bton-ver-carrito:active {
   transform: scale(0.98);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-
-.mover-bton {
-    padding-left: 27%;
-    justify-content: center;
 }

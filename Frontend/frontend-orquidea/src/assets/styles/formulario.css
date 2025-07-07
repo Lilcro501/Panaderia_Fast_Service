@@ -1,12 +1,3 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-color: white; 
-  font-family: Arial, sans-serif; /* la fuente legible*/
-  justify-content: center;
-}
-
-
 /* Contenedor del formulario */
 .contenedor{
   width: 300px; 
