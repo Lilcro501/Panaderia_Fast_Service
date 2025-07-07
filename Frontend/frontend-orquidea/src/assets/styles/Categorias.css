@@ -1,8 +1,8 @@
 .categorias {
   margin: 50px auto;
-  padding: 10px 15px;
-  width: 90%;
-  max-width: 550px;
+  padding: 5px;
+  width: 100%;
+  max-width: 650px;
   height: auto;
   background-color: #b8875b;
   display: flex;
@@ -17,7 +17,7 @@
 
 .categorias:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.25);
 }
 
 
@@ -52,6 +52,20 @@
 .nom-categoria:hover {
   color: #fff;
   border-bottom-color: #fff;
+}
+
+
+.animacion-categoria {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+/* Al pasar el cursor */
+.animacion-categoria:hover {
+  background-color: #e7b982;
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 

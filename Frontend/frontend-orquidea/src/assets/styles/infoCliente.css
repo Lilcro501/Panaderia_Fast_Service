@@ -29,17 +29,17 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.tabla-perfil {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-  font-size: 16px;
-}
 
 .tabla-perfil th {
   text-align: left;
   background-color: #f5f5f500;
   width: 40%;
+ }
+ 
+.botones-cliente {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .tabla-perfil td,

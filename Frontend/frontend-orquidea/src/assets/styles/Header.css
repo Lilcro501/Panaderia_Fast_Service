@@ -126,14 +126,10 @@
 /*menu-secundario*/
 /*bi bi-search*/
 
-.logo-container{
-  z-index: 5;
-}
-
 .estilo-logo {
   border-radius: 50%; /*redondea el logo en forma de circulo*/
-  width: 130px; /*ancho del logo*/
-  height: 130px; /*alto del logo*/
+  width: 100px; /*ancho del logo*/
+  height: 100px; /*alto del logo*/
 }
 
 
@@ -148,6 +144,7 @@
 }
 
 .estilo-logo-perfil {
+  margin-right: 25px;
   border-radius: 50%; /*redondea el logo en forma de circulo*/
   width: 130px; /*ancho del logo*/
   height: auto; /*alto del logo*/
@@ -173,7 +170,17 @@
   border-radius: 50%;
   padding: 2px 6px;
 }
+
+
 .icono-carrito {
   position: relative;
   margin-left: 10px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+}
+
+.icono-carrito:hover {
+  filter: drop-shadow(0 10px 20px rgb(255, 255, 255));
+  transform: scale(1.1); /* efecto de zoom ligero */
 }
