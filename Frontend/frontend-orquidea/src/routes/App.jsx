@@ -31,6 +31,8 @@ import EntregaLocal from '../pages/PagesClientes/PagoLocal';
 // ------------------- Páginas Cliente No Login -------------------
 import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
 import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
+import ProductoDetalle from '../components/ProductoDetalle';
+import InfoPorProducto from '../pages/PagesClienteNologin/InfoPorProducto'
 
 // ------------------- Páginas Login -------------------
 import CambioDeContraseña from "../pages/PagesLogin/CambioContraseña";
@@ -115,6 +117,24 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
                 <CategoriasBebidas />
               </MainLayout>
             } 
+          />
+          
+          <Route 
+            path="/ProductoDetalle"
+            element={
+              <MainLayout>
+                <ProductoDetalle/>
+              </MainLayout>
+            } 
+          />
+          
+          <Route 
+            path="/producto/:id"
+            element={
+              <MainLayout>
+                <InfoPorProducto />
+              </MainLayout>
+            }
           />
 
           <Route 
@@ -232,11 +252,11 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           }
           />
 
-           <Route
+            <Route
           path='/InfoLegal'
           element={
             <MainLayout>
-             <InfoLegal></InfoLegal>
+              <InfoLegal></InfoLegal>
             </MainLayout>
             
           }
@@ -246,9 +266,8 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           path='/TYC'
           element={
             <MainLayout>
-            <TYC></TYC>
+              <TYC></TYC>
             </MainLayout>
-            
           }
           />
 
@@ -266,10 +285,8 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           path='/PoliticaCookies'
           element={
             <MainLayout>
-            <PoliticaCo></PoliticaCo>
+              <PoliticaCo/>
             </MainLayout>
-
-            
           }
           />
 
@@ -277,7 +294,7 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           path='/FacturaProductos'
           element={
             <MainLayout>
-              <FacturaProductos></FacturaProductos>
+              <FacturaProductos/>
             </MainLayout>
           }
           />
@@ -286,7 +303,7 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
           path='/EntregaDomicilio'
           element={
             <MainLayout>
-              <EntregaDomicilio></EntregaDomicilio>
+              <EntregaDomicilio/>
             </MainLayout>
           }
           />
@@ -418,9 +435,6 @@ import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
             </AdminLayout>
           }
           />
-
-        
-
 
         </Routes>
       </Router>

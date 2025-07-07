@@ -1,3 +1,4 @@
+
 .categorias {
   margin-top: 40px;
   padding-top: 20px;
@@ -10,6 +11,7 @@
   border-radius: 27px;
   justify-content: space-between;
   text-align: center;
+  color: rgb(47, 31, 31);
 }
 
 .recuadro-categoria {
@@ -30,8 +32,18 @@
 
 
 .animacion-categoria:hover {
-    transform: scale(1.1);
-    background-color: #e5c3a6;
+  color: rgb(75, 50, 50);
+  transform: scale(1.1);
+  background-color: #e5c3a6;
 }
 
+.nom-categoria{
+  color: rgb(47, 31, 31);
+  font-size: 19px;
+}
 
+.nom-categoria:hover{
+  color: rgb(75, 50, 50);;
+  cursor: pointer;
+  transform: scale(1.1);
+}

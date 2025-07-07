@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+
+import React from 'react';
+
 import '../../assets/styles/HomeSinRegistrar.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
 import mostrador from "../../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del mostrador ~~~~~~ */
 import Categorias from "../../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
 import Carrusel1 from "../../components/CarruselIncremento"; /* ~~~~~~ Componente del carrusel con botones ~~~~~~ */
 import Carrusel2 from "../../components/CarruselCalificacion"; /* ~~~~~~ Componente darrusel con calificaciones ~~~~~~ */ 
-
 
 /* ~~~~~~ Función del Index sin registrar ~~~~~~ */
 export default function HomeSinRegistrar() {
@@ -16,8 +17,7 @@ export default function HomeSinRegistrar() {
       <Categorias/>
       <Carrusel1/>
       
-      <br />
-      <br />
+      <br/> <br/>
 
       <article class="recuadro-informacion">
           <div class="nosotros">
@@ -29,32 +29,29 @@ export default function HomeSinRegistrar() {
               </center>
             </div>
           </article>
-      <br />
-      <br />
-      <br />
-      <br />
+      <br/> <br/>
+      <br/> <br/>
+      <h2 className="titulo-productos" style={{textAlign: "center", color: '#2f1f1f'}}>Productos destacados</h2>
       <Carrusel2/>
-      <br />
-      <br />
+      <br/> <br/>
 
       <section class="frase-logo">
-            <div class="texto-slogan">
-                <h3> Más que 
-                    <br/> una panadería, somos un
-                        <br/> lugar donde los aromas 
-                        <br/> y sabores se unen para 
-                        <br/> crear experiencias  
-                        <br/> inolvidables. 
-                </h3>
-            </div>
+        <div class="texto-slogan">
+          <h3> 
+            Más que <br/>
+            una panadería, somos un <br/>
+            lugar donde los aromas <br/>
+            y sabores se unen para <br/>
+            crear experiencias <br/> 
+            inolvidables. 
+          </h3>
+        </div>
 
-            <div class="home-mostrador">
-                <img class="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />
-            </div>
-        </section>
+        <div class="home-mostrador">
+          <img class="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />
+        </div>
+      </section>
 
     </main>
   );
 }
-
-

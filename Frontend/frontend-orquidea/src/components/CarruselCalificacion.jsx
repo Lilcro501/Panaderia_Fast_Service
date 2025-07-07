@@ -1,89 +1,50 @@
 import React, { useRef } from "react";
-import panTrenza from "../assets/images/panes/pan trenza.jpg";
-import almojabana from "../assets/images/panes/almojabana.jpg";
-import panAgridulce from "../assets/images/panes/pan agridulce.jpg";
-import rollos from "../assets/images/panes/rollos.jpg";
-import panLleno from "../assets/icons/Pan2.png";
-import panVacio from "../assets/icons/Pan1.png";
-import "../assets/styles/CarruselCalificacion.css"
+import { Link } from "react-router-dom";
+import { Icon } from "@iconify/react";
+import breadIcon from "@iconify-icons/mdi/bread";
+import datos from "../Data/DatosProductos";
+import "../assets/styles/CarruselCalificacion.css";
 
+export default function CarruselCalificacion() {
+  const calificacionRef = useRef(null);
 
-export default function CarruselDestacados() {
-  const destacadosRef = useRef(null);
+  // Buscar la categoría "Panes"
+  const categoriaPanes = datos.categorias.find(cat => cat.nombre === "Panes");
 
-  const productos = [
-    {
-      nombre: "Pan trenza",
-      imagen: panTrenza,
-      calificacion: [panLleno, panLleno, panLleno, panLleno, panVacio],
-    },
-    {
-      nombre: "Almojabana",
-      imagen: almojabana,
-      calificacion: [panLleno, panLleno, panLleno, panLleno, panVacio],
-    },
-    {
-      nombre: "Pan agridulce",
-      imagen: panAgridulce,
-      calificacion: [panLleno, panLleno, panLleno, panLleno, panVacio],
-    },
-    {
-      nombre: "Rollos",
-      imagen: rollos,
-      calificacion: [panLleno, panLleno, panLleno, panLleno, panVacio],
-    },
-    {
-      nombre: "Pan trenza",
-      imagen: panTrenza,
-      calificacion: [panLleno, panLleno, panLleno, panVacio, panVacio],
-    },
-    {
-      nombre: "Almojabana",
-      imagen: almojabana,
-      calificacion: [panLleno, panLleno, panLleno, panVacio, panVacio],
-    },
-    {
-      nombre: "Pan agridulce",
-      imagen: panAgridulce,
-      calificacion: [panLleno, panLleno, panLleno, panLleno, panVacio],
-    },
-    {
-      nombre: "Rollos",
-      imagen: rollos,
-      calificacion: [panLleno, panLleno, panVacio, panVacio, panVacio],
-    },
-  ];
+  // IDs de productos a mostrar en el carrusel
+  const productos = ["pan1", "pan2", "pan3", "pan4", "pan5", "pan7", "pan8", "pan9","pan10", "pan11"]
+    .map(id => categoriaPanes?.productos.find(p => p.id === id))
+    .filter(Boolean); // Evita errores si no encuentra alguno
 
   const scroll = (offset) => {
-    if (destacadosRef.current) {
-      destacadosRef.current.scrollBy({ left: offset, behavior: "smooth" });
+    if (calificacionRef.current) {
+      calificacionRef.current.scrollBy({ left: offset, behavior: "smooth" });
     }
   };
 
   return (
     <section className="contenedor-carrusel-centralizado">
-      <button
-        className="btn-carrusel"
-        onClick={() => scroll(-300)}
-        aria-label="Anterior destacados"
-      >
-        &#10094;
-      </button>
+      <button className="btn-carrusel" onClick={() => scroll(-300)}>&#10094;</button>
 
-      <div className="catalogo-scroll" ref={destacadosRef}>
+      <div className="catalogo-scroll" ref={calificacionRef}>
         {productos.map((prod, index) => (
-          <div className="recuadro-destacados" key={index}>
-            <img className="destacado" src={prod.imagen} alt={prod.nombre} />
-            <p>{prod.nombre}</p>
+          <div className="recuadro-destacados" key={prod.id || index}>
+            <Link to={`/producto/${prod.id}`} className="link-producto">
+              <img className="destacado" src={prod.image} alt={prod.nameProduct} />
+            </Link>
+            <Link to={`/producto/${prod.id}`} className="link-producto">
+              <p className="P">{prod.nameProduct}</p>
+            </Link>
             <span>
-              {prod.calificacion.map((icono, i) => (
-                <img
-                  key={i}
-                  className="calificacion"
-                  src={icono}
+              {[...Array(3)].map((_, i) => (
+                <Icon key={`filled-${i}`} icon={breadIcon} width="25" style={{ marginRight: "5px" }} />
+              ))}
+              {[...Array(2)].map((_, i) => (
+                <Icon
+                  key={`empty-${i}`}
+                  icon={breadIcon}
                   width="25"
-                  height="25"
-                  alt="calificación"
+                  style={{ marginRight: "5px", color: "gray" }}
                 />
               ))}
             </span>
@@ -91,21 +52,7 @@ export default function CarruselDestacados() {
         ))}
       </div>
 
-      <button
-        className="btn-carrusel"
-        onClick={() => scroll(300)}
-        aria-label="Siguiente destacados"
-      >
-        &#10095;
-      </button>
+      <button className="btn-carrusel" onClick={() => scroll(300)}>&#10095;</button>
     </section>
   );
 }
-
-
-
-
-
-
-
-//nav use navigate
