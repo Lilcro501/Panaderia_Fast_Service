@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/Footer.css'; // ~~~~~~ Estilos del footer ~~~~~~
@@ -8,53 +9,51 @@ import VentanaCookies from '../components/VentanaCookies'; // ~~~~~~ Ventana coo
 const FooterSinLogin = () => {
 const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado para mostrar u ocultar cookies ~~~~~~
 
-  return (
+    return (
     <>
-      <footer className="footer shapedividers_com-9705">
+        <footer className="footer shapedividers_com-9705">
         {/* ~~~~~~ Banner de cookies abajo de todo ~~~~~~ */}
         {mostrarCookies && (
-          <VentanaCookies
+            <VentanaCookies
             onAceptar={() => setMostrarCookies(false)}
             onRechazar={() => setMostrarCookies(false)}
-          />
+            />
         )}
         
         <div className="Cookies">
           {/* Ícono decorativo o para volver a mostrar las cookies si se ocultan */}
-          <BiSolidCookie onClick={() => setMostrarCookies(true)} />
+            <BiSolidCookie onClick={() => setMostrarCookies(true)} />
         </div>
-        
+
         <div className="logo">
-          <Link to='/'>
+            <Link to='/Inicio'>
             <img src={logoFooter} alt="Logo Fast Service" />
-          </Link>
+            </Link>
         </div>
 
         <div className="informacion">
-          <div>
+            <div>
             <h5 style={{ textAlign: 'center' }}>Llámanos</h5>
             <li>+57 300842511</li>
-          </div>
-          <div>
+            </div>
+            <div>
             <h5>Escríbenos</h5>
             <li>fservie28.076@gmail.com</li>
-          </div>
+            </div>
         </div>
 
         <br />
-
         <div className="links-agrupar">
-          <span>
+            <span>
             <p> {/* &nbsp; para hacer un espaciado*/}
-              
-              <a href="InfoLegal">Información legal</a> &nbsp; | &nbsp; <a href="ManifiestoConsumidor">Manifiesto del consumidor</a>
+                
+                <a href="InfoLegal">Información legal</a> &nbsp; | &nbsp; <a href="ManifiestoConsumidor">Manifiesto del consumidor</a>
             </p>
-          </span>
+            </span>
         </div>
-      </footer>
+        </footer>
     </>
-  );
+    );
 };
 
 export default FooterSinLogin;
-

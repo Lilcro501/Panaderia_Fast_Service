@@ -1,14 +1,14 @@
+
 .entrada {
-    background-color: #554949;
-    border-radius: 10px;
-    width: 450px;
-    height: 30px;
+  background-color: #554949;
+  border-radius: 10px;
+  width: 450px;
+  height: 30px;
 }
 
 .foto-perfil {
-    width: 60px;
+  width: 60px;
 }
-
 
 .recuadro-perfil {
   max-width: 500px;
@@ -29,13 +29,12 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-
 .tabla-perfil th {
   text-align: left;
   background-color: #f5f5f500;
   width: 40%;
- }
- 
+  }
+
 .botones-cliente {
   display: flex;
   gap: 10px;
@@ -46,11 +45,22 @@
 .tabla-perfil th {
   padding: 12px;
   border-bottom: 1px solid #ddd;
+  color: #000000;
 }
+
 .boton-salir{
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .boton-salir:hover {
   background-color: #dfaa66;
+}
+
+.boton-volver {
+  margin-top: 20px;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
 }

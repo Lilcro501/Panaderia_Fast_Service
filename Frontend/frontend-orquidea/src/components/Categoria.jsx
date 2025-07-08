@@ -17,7 +17,7 @@ const Categoria = ({ nombre, productos }) => {
 
   return (
         <>
-       <div className="categoria-seccion">
+        <div className="categoria-seccion">
           <div className="centrar-titulo">
             {nombre && <h2 className="categoria-titulo">{nombre}</h2>}
           </div>

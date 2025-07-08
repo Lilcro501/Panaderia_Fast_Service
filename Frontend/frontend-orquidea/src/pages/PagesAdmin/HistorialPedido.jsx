@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import "../../assets/styles/HistorialPedido.css";
 
 /**
- * Página de pedidos
- * 
- * - Muestra pedidos pendientes (botones aceptar y rechazar)
- * - Muestra pedidos rechazados
- * - Con lógica básica de React (useState)
- */
+    * Página de pedidos
+    * 
+    * - Muestra pedidos pendientes (botones aceptar y rechazar)
+    * - Muestra pedidos rechazados
+    * - Con lógica básica de React (useState)
+*/
+
 export default function HistorialPedido() {
     // Estado inicial de pedidos pendientes
     const [pendientes, setPendientes] = useState([
@@ -21,10 +22,10 @@ export default function HistorialPedido() {
     const [rechazados, setRechazados] = useState([]);
 
     /**
-     * Acción para rechazar un pedido
-     * - Lo quita de pendientes
-     * - Lo agrega a rechazados
-     */
+    * Acción para rechazar un pedido
+    * - Lo quita de pendientes
+    * - Lo agrega a rechazados
+    */
     const rechazarPedido = (id) => {
         // Buscar el pedido en la lista de pendientes
         const pedido = pendientes.find(p => p.id === id);

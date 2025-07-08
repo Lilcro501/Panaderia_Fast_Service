@@ -1,0 +1,61 @@
+
+.editar-perfil-fondo {
+    min-height: 100vh;
+    padding: 20px;
+    color: white;
+}
+
+.titulo-perfil {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.contenedor-formulario {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 40px;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.foto-perfil {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.archivo-label {
+    display: block;
+    margin-bottom: 25px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.campos input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+}
+
+.boton-guardar {
+    background-color: #cf965d;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-guardar:hover {
+    background-color: #bf5f00;
+}

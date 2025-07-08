@@ -64,6 +64,8 @@ import HistorialPedidos from '../pages/PagesTrabajador/HistorialPedidos';
 import InfoCliente from '../pages/PagesTrabajador/InfoCliente';
 import Inicio from '../pages/PagesTrabajador/Inicio';
 import ListaPedidos from '../pages/PagesTrabajador/ListaPedidos';
+import LayoutTrabajador from '../layouts/LayoutTrabajador';
+import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 
 const AppRouter = () => {
   return (
@@ -101,14 +103,15 @@ const AppRouter = () => {
         <Route path="/producto/:id" element={<MainLayout><InfoPorProducto /></MainLayout>}/>
 
         {/* Trabajador */}
-        <Route path='/DetallesPedido' element={<MainLayout><DetallesPedido /></MainLayout>} />
-        <Route path='/Formulario' element={<MainLayout><Formulario /></MainLayout>} />
-        <Route path='/EstadosPedidos' element={<MainLayout><EstadosPedidos /></MainLayout>} />
-        <Route path='/HistorialPedidos' element={<MainLayout><HistorialPedidos /></MainLayout>} />
-        <Route path='/InfoCliente' element={<MainLayout><InfoCliente /></MainLayout>} />
-        <Route path='/Inicio' element={<MainLayout><Inicio /></MainLayout>} />
-        <Route path='/ListaPedidos' element={<MainLayout><ListaPedidos /></MainLayout>} />
-
+        <Route path='/Formulario' element={<LayoutTrabajador><Formulario /></LayoutTrabajador>} />
+        <Route path='/EstadosPedidos' element={<LayoutTrabajador><EstadosPedidos /></LayoutTrabajador>} />
+        <Route path='/HistorialPedidos' element={<LayoutTrabajador><HistorialPedidos /></LayoutTrabajador>} />
+        <Route path='/InfoCliente/:id' element={<LayoutTrabajador><InfoCliente /></LayoutTrabajador>} />
+        <Route path='/Inicio' element={<LayoutTrabajador><Inicio/></LayoutTrabajador>} />
+        <Route path='/ListaPedidos' element={<LayoutTrabajador><ListaPedidos /></LayoutTrabajador>} />
+        <Route path="/DetallesPedido/:id" element={<LayoutTrabajador><DetallesPedido /></LayoutTrabajador>} />
+        <Route path="/EditarPerfil" element={<LayoutTrabajador><EditarPerfil/></LayoutTrabajador>} />
+        
         {/* Admin */}
         <Route path='/AgregarTrabajador' element={<AdminLayout><AgregarTrabajador /></AdminLayout>} />
         <Route path='/EditarTrabajador' element={<AdminLayout><EditarTrabajador /></AdminLayout>} />

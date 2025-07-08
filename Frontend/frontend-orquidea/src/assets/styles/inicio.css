@@ -1,5 +1,6 @@
+
 .inicio-fondo {
-  min-height: 60vh;
+  min-height: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,25 +23,42 @@
 
 /* Marco o borde de fondo detrás de la imagen */
 .borde {
-  background-color:  #d4a373;
-  width: 210px;
+  background-color: #d4a373;
+  width: 220px;
   height: 200px;
-  border-radius: 19px;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.borde:hover {
+  transform: scale(1.05);
 }
 
 /* Imagen tipo carta */
 .imagen-carta {
   width: 190px;
   height: 160px;
+  border-radius: 20px;
   background-image: url("../images/Carta.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
+/* Imagen  estado */
+.imagen-estado{
+  width: 170px;
+  height: 170px;
+  background-image: url("../images/EstadosPedidos.png");
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
 /* Imagen de panes */
 .imagen-panes {
   width: 190px;
@@ -68,4 +86,3 @@
 .opcion button:hover {
   background-color: #b08968;
 }
-
