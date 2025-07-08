@@ -1,6 +1,4 @@
 
-
-
 h2.titulo {
   text-align: center;
   color: #f2c087;
@@ -107,6 +105,8 @@ h2.titulo {
 .volver-boton {
   text-align: center;
   margin-top: 20px;
+  justify-content: center;
+  
 }
 
 /* Sección de pago */

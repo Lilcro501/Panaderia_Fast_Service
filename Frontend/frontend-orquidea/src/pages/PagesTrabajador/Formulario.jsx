@@ -1,35 +1,26 @@
+
 import React from "react";
 import "../../assets/styles/formulario.css"; 
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-// Este es el componente principal
+import { FaUser } from 'react-icons/fa'; 
+
 const Formulario = () => {
   return (
     // Contenedor general del formulario
     <div className="contenedor">
-      {/* Icono del emoji */}
-      <div className="avatar">👤</div>
-
-      {/* Campo para escribir la dirección */}
-      <input type="text" placeholder="Dirección" />
-
-      {/* Campo para escribir el número */}
-      <input type="text" placeholder="Número" />
+      
+      <FaUser className="avatar" /> {/* Icono */}
+      <input type="text" placeholder="Dirección" /> {/* Campo para escribir la dirección */}
+      <input type="text" placeholder="Número" /> {/* Campo para escribir el número */}
 
       <br /> {/* Salto de línea para separar los campos */}
 
-      {/* Campo para escribir el correo electrónico */}
-      <input type="email" placeholder="Correo electrónico" />
+      <input type="email" placeholder="Correo electrónico" /> {/* Campo para escribir el correo electrónico */}
+      <input type="password" placeholder="Contraseña" /> {/* Campo para escribir la contraseña */}
 
-      {/* Campo para escribir la contraseña */}
-      <input type="password" placeholder="Contraseña" />
+      <br /> {/* Salto de línea */}
 
-      <br /> {/* Otro salto de línea */}
-
-      {/* Botón para guardar los datos */}
-      <button className="guardar-btn">Guardar</button>
+      <button className="guardar-btn">Guardar</button> {/* Botón para guardar los datos */}
     </div>
- 
   );
 };
 

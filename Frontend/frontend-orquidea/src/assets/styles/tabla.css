@@ -13,14 +13,14 @@
   text-align: center;
 }
 
-.tabla-estilizada th {
+.th {
   background-color: #f3a847; /* Color similar al fondo naranja claro */
   color: #2e1d12; /* Marrón oscuro para letras */
   padding: 12px;
   font-size: 16px;
 }
 
-.tabla-estilizada td {
+.td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
   font-size: 15px;
@@ -36,8 +36,9 @@
 }
 
 /* =============================
-   Estilos generales para tabla-base
-   ============================= */
+  Estilos generales para tabla-base
+  ============================= */
+  
 .tabla-base {
   width: 100%;
   border-collapse: collapse;

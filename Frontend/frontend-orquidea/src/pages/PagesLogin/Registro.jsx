@@ -1,6 +1,6 @@
 
 /* ~~~~~~~ Importar React y el useState para manejar cambios de estado en el componente  ~~~~~~~ */
-import React, { useState } from 'react';
+import React from 'react';
 
 /* ~~~~~~~ Hoja de estilos ~~~~~~~ */
 import '../../assets/styles/Acceso.css';

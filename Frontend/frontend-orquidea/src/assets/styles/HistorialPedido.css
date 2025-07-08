@@ -1,3 +1,4 @@
+
 /* Contenedor principal */
 .contenedor-lista {
   max-width: 800px;
@@ -61,6 +62,8 @@
   font-size: 14px;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  text-align: center;
+  justify-content: center;
 }
 
 .boton-personalizado:hover {

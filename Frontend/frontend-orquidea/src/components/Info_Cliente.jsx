@@ -1,75 +1,25 @@
+
 import React from "react";
-import "../assets/styles/InfoCliente.css"
-import { Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import PerfilLogo from "../assets/icons/perfil-negro-2.png";
-
-export default function PerfilInformacion() {
-  const navegacion = useNavigate();
-  const EnviarDatos = (e) => {
-    e.preventDefault()
-    navegacion("/")
-  }
-
-
-  return (
-    <div>
-        <h1 style={{textAlign: "center"}}>Informacion de usuario</h1>
-        <br />
-        <br />
-
-        <form className="recuadro-perfil" onSubmit={(e) => EnviarDatos(e) }>
-      <img src={PerfilLogo} className="foto-perfil" alt="Foto de perfil" />
-
-      <div className="datos1">
-        <label>
-          <strong>Nombre:</strong>
-          <input
-            className="entrada"
-            type="text"
-            name="nombre"
-          />
-        </label>
-
-        <label>
-          <strong>Correo:</strong>
-          <input
-            className="entrada"
-            type="email"
-            name="correo"
-          />
-        </label>
-
-        <label>
-          <strong>Dirección:</strong>
-          <input
-            className="entrada"
-            type="text"
-            name="direccion"
-          />
-        </label>
-
-        <label>
-          <strong>Teléfono:</strong>
-          <input
-            className="entrada"
-            type="text"
-            name="telefono"
-          />
-        </label>
-      </div>
-        <button className="boton-actualizar" type="submit">Actualizar Datos</button>
-    </form>
-    </div>
-  );
-}
+import "../assets/styles/InfoCliente.css";
 
 export function MostrarInformacion() {
-  const datosUsuario = {
-    nombre: "Camila pérez",
-    correo: "Cami@example.com",
-    direccion: "Calle 456 #47-77",
-    telefono: "301451967",
-    rol: "Usuario"
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const datosClientes = {
+    cliente1: { nombre: "Camila Pérez", correo: "camila@gmail.com", direccion: "Calle 123 #45-67", telefono: "3101234567" },
+    cliente2: { nombre: "Juan García", correo: "juan@gmail.com", direccion: "Cra 12 #34-56", telefono: "3209876543" },
+    cliente3: { nombre: "Laura Ríos", correo: "laura@gmail.com", direccion: "Av 9 #76-89", telefono: "3001122334" },
+    cliente4: { nombre: "Pedro Torres", correo: "pedro@gmail.com", direccion: "Calle 10 #11-12", telefono: "3112233445" },
+  };
+
+  const datosUsuario = datosClientes[id] || {
+    nombre: "Desconocido",
+    correo: "N/A",
+    direccion: "N/A",
+    telefono: "N/A",
   };
 
   return (
@@ -84,29 +34,14 @@ export function MostrarInformacion() {
 
       <table className="tabla-perfil">
         <tbody>
-          <tr>
-            <th>Nombre</th>
-            <td>{datosUsuario.nombre}</td>
-          </tr>
-          <tr>
-            <th>Correo</th>
-            <td>{datosUsuario.correo}</td>
-          </tr>
-          <tr>
-            <th>Dirección</th>
-            <td>{datosUsuario.direccion}</td>
-          </tr>
-          <tr>
-            <th>Teléfono</th>
-            <td>{datosUsuario.telefono}</td>
-          </tr>
-          <tr>
-            <th>Rol</th>
-            <td>{datosUsuario.rol}</td>
-          </tr>
+          <tr><th>Nombre</th><td>{datosUsuario.nombre}</td></tr>
+          <tr><th>Correo</th><td>{datosUsuario.correo}</td></tr>
+          <tr><th>Dirección</th><td>{datosUsuario.direccion}</td></tr>
+          <tr><th>Teléfono</th><td>{datosUsuario.telefono}</td></tr>
         </tbody>
       </table>
-        <button className="boton-salir">Salir</button>
+
+      <button className="boton-salir" onClick={() => navigate(-1)}>Volver</button>
     </div>
   );
 }

@@ -2,28 +2,23 @@ import React from "react";
 import "../assets/styles/tabla.css"; // Estilos generales para todas las tablas
 
 // Este componente se puede usar para muchas tablas distintas
-const TablaBase = ({ columnas, datos, children, className = "" }) => {
+function TablaBase({ columnas, datos }) {
   return (
-    <table className={`tabla-base ${className}`}>
+    <table>
       <thead>
-        <tr>
-          {columnas.map((col, i) => (
-            <th key={i}>{col}</th>
-          ))}
+        <tr className="tr">
+          {columnas.map((c, i) => <th key={i}>{c}</th>)}
         </tr>
       </thead>
       <tbody>
-        {datos.map((fila, index) => (
-          <tr key={index}>
-            {fila.map((valor, i) => (
-              <td key={i}>{valor}</td>
-            ))}
+        {datos.map((fila, i) => (
+          <tr className="tr" key={i}>
+            {fila.map((celda, j) => <td key={j}>{celda}</td>)}
           </tr>
         ))}
-        {children}
       </tbody>
     </table>
   );
-};
+}
 
 export default TablaBase;

@@ -1,10 +1,10 @@
-// Boton.jsx
-import React from "react";
-import "../assets/styles/boton.css"; // Estilo general de los botones
 
-const Boton = ({ texto, onClick, tipo = "normal" }) => {
+import React from "react";
+import "../assets/styles/boton.css";
+
+const Boton = ({ texto, onClick }) => {
   return (
-    <button className={`boton ${tipo}`} onClick={onClick}>
+    <button className="boton-personalizado" onClick={onClick}>
       {texto}
     </button>
   );
