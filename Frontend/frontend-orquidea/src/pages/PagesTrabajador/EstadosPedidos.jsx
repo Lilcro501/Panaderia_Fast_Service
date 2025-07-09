@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TablaBase from "../../components/TablaBase";
@@ -34,7 +35,7 @@ const EstadosPedidos = () => {
       <h2 className="titulo">Estados de pedidos</h2>
       <TablaBase columnas={columnas} datos={datos} />
 
-      <div className="boton-volver">
+      <div className="Volver">
         <button onClick={() => navigate('/Inicio')} className="boton-personalizado">
           Volver
         </button>

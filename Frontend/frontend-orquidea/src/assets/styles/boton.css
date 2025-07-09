@@ -5,7 +5,6 @@
   justify-content: center;
 }
 
-/* Estilo para botón aceptar */
 .boton-aceptar {
   background-color: #28a745;
   color: white;
@@ -20,7 +19,6 @@
   background-color: #218838;
 }
 
-/* Estilo para botón rechazar */
 .boton-rechazar {
   color: white;
   border: none;

@@ -1,5 +1,9 @@
 
-/* Contenedor principal */
+.contenido, .estados-body, .contenedor-detalles{
+  justify-items: center;
+  text-align: center;
+}
+
 .pedido-container {
   background-size: cover;
   padding: 2rem;
@@ -9,48 +13,65 @@
 
 .titulo {
   background-color: #d49e7d;
-  color: rgb(249, 252, 250);
-  font-weight: bold;
-  font-size: 1.5rem;
-  padding: 1rem;
-  border-radius: 20px;
+  color: rgb(0, 0, 0);
+  font-size: 2rem;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
   width: fit-content;
-  margin: 0 auto 1rem auto;
+  margin: 0 auto 2rem auto;
+  clip-path: polygon( /* Forma con piquitos a los extremos */
+  0% 0%, 6% 50%, 0% 100%,
+  100% 100%, 94% 50%, 100% 0%
+  );
+
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2);
+  border: 3px solid #ecdfd0;
+  transition: transform 0.3s ease;
 }
 
 table {
-  width: 100%;
+  width: 70%;
   border-collapse: collapse;
   background-color: #f0e6dd;
   border-radius: 12px;
   overflow: hidden;
   font-family: sans-serif;
-  color: #000;
+  margin: 10px;
 }
 
-/* Encabezados */
-th {
-  background-color: #d49e7d;
-  color: rgb(248, 246, 246);
-  padding: 0.8rem;
+/* Encabezado */
+.th th {
+    background-color: #d49e7d;
+    color: white;
+    padding: 0.8rem;
 }
+
 
 /* Filas */
-td {
-  padding: 0.8rem;
+.td {
+  padding: 100px;
   text-align: center;
+  color: #000000;
 }
 
-/* Números de pedido */
+.tr td {
+  padding: 10px;
+}
+
+.tr th {
+  margin: 80px;
+  size: 12px;
+}
+
 .numero_pedido {
   font-weight: bold;
-  color: #333;
+  color: #000000;
 }
 
 /* Botones */
 .boton-ver,
 .boton-detalle {
-  background-color: #d49e7d;
+  background-color: #d1a58a;
   border: none;
   color: white;
   padding: 0.4rem 0.8rem;
@@ -61,10 +82,4 @@ td {
 .boton-ver:hover,
 .boton-detalle:hover {
   background-color: #b57f60;
-}
-
-.boton-volver {
-  display: flex;
-  margin-left: 20%;
-  margin-top: 20px;
 }

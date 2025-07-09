@@ -1,3 +1,4 @@
+
 import React from "react";
 import "../assets/styles/tabla.css"; // Estilos generales para todas las tablas
 
@@ -5,12 +6,12 @@ import "../assets/styles/tabla.css"; // Estilos generales para todas las tablas
 function TablaBase({ columnas, datos }) {
   return (
     <table>
-      <thead>
+      <thead className="th">
         <tr className="tr">
           {columnas.map((c, i) => <th key={i}>{c}</th>)}
         </tr>
       </thead>
-      <tbody>
+      <tbody className="td">
         {datos.map((fila, i) => (
           <tr className="tr" key={i}>
             {fila.map((celda, j) => <td key={j}>{celda}</td>)}
