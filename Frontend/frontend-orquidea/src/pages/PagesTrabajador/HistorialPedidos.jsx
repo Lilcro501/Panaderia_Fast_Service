@@ -1,5 +1,6 @@
 
 import React from "react"; 
+
 import { useNavigate } from "react-router-dom";
 import TablaBase from "../../components/TablaBase";
 import Boton from "../../components/Boton";
@@ -18,7 +19,7 @@ export default function HistorialPedidos() {
   ];
 
   return (
-    <div>
+    <div className="contenido">
       <h2 className="titulo">Historial de pedidos</h2>
       <TablaBase columnas={columnas} datos={datos} />
 

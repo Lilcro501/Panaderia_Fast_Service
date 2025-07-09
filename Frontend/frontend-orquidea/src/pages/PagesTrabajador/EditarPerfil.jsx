@@ -29,31 +29,31 @@ const EditarPerfil = () => {
 
       <form className="contenedor-formulario" onSubmit={handleSubmit}>
         <FaUser className="Icono" /> {/* Ícono de usuario */}
-        <input type="file"/>Seleccionar archivo
+        <input className="input" type="file"/>Seleccionar archivo
 
         <div className="campos">
-          <input
+          <input className="input"
             type="text"
             name="direccion"
             placeholder="Dirección"
             value={formulario.direccion}
             onChange={handleChange}
           />
-          <input
+          <input className="input"
             type="text"
             name="numero"
             placeholder="Número"
             value={formulario.numero}
             onChange={handleChange}
           />
-          <input
+          <input className="input"
             type="email"
             name="correo"
             placeholder="Correo electrónico"
             value={formulario.correo}
             onChange={handleChange}
           />
-          <input
+          <input className="input"
             type="password"
             name="contraseña"
             placeholder="Contraseña"

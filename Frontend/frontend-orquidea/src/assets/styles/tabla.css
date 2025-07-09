@@ -1,3 +1,4 @@
+
 .tabla-contenedor {
   width: 90%;
   margin: 0 auto;
@@ -14,8 +15,8 @@
 }
 
 .th {
-  background-color: #f3a847; /* Color similar al fondo naranja claro */
-  color: #2e1d12; /* Marrón oscuro para letras */
+  background-color: #99794e;
+  color: #2e1d12;
   padding: 12px;
   font-size: 16px;
 }
@@ -32,13 +33,9 @@
 }
 
 .tabla-estilizada tr:hover {
-  background-color: #ffe0b2; /* Suave naranja claro */
+  background-color: #ffe0b2;
 }
 
-/* =============================
-  Estilos generales para tabla-base
-  ============================= */
-  
 .tabla-base {
   width: 100%;
   border-collapse: collapse;
@@ -47,7 +44,7 @@
   overflow: hidden;
 }
 
-/* Encabezados generales */
+/* Encabezados */
 .tabla-base th {
   padding: 0.8rem;
   background-color: #e0c6b3;
@@ -55,7 +52,7 @@
   text-transform: capitalize;
 }
 
-/* Celdas generales */
+/* Celdas  */
 .tabla-base td {
   padding: 0.8rem;
   text-align: center;

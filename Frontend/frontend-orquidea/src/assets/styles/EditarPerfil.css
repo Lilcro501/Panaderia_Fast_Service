@@ -1,61 +1,81 @@
 
 .editar-perfil-fondo {
-    min-height: 100vh;
-    padding: 20px;
-    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .titulo-perfil {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 30px;
+    background-color: #d49e7d;
+    color: #3c2d1d;
+    padding: 0.8rem 2rem;
+    margin-bottom: 20px;
+    clip-path: polygon(0% 0%, 6% 50%, 0% 100%, 100% 100%, 94% 50%, 100% 0%);
+    border: 3px solid #ecdfd0;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .contenedor-formulario {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 30px;
-    padding: 40px;
-    width: 90%;
-    max-width: 400px;
-    margin: 0 auto;
+    background-color: #f0e6dddd;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 450px;
     text-align: center;
+    box-shadow: 4px 7px 15px rgb(57, 37, 37);
+    color: #000000;
+    border: 3px solid #3c2d1d;
 }
 
-.foto-perfil {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-bottom: 15px;
+.Icono {
+    font-size: 60px;
+    color: #d49e7d;
+    margin-bottom: 10px;
 }
 
-.archivo-label {
-    display: block;
-    margin-bottom: 25px;
+.input[type="file"] {
+    margin-top: 10px;
+    margin-bottom: 20px;
     font-size: 14px;
-    color: #fff;
+    color: #3c2d1d;
+    background-color: #ffffff;
+    border: 2px solid #b9b9b9e7;
+    border-radius: 12px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.campos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
 }
 
 .campos input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
     border-radius: 12px;
-    border: none;
-    font-size: 14px;
+    border: 2px solid #d49e7d;
+    font-size: 16px;
+    background-color: #ffffff;
+    color: #3c2d1d;
+}
+
+.campos input::placeholder {
+    color: #a08d7e;
 }
 
 .boton-guardar {
-    background-color: #cf965d;
-    color: white;
+    background-color: #d49e7ddd;
     padding: 12px 25px;
-    border: none;
     border-radius: 20px;
     font-size: 16px;
-    margin-top: 20px;
+    margin-top: 25px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 2px solid #424242;
+    box-shadow: 4px 4px 10px rgba(60, 29, 29, 0.696);
 }
 
 .boton-guardar:hover {
-    background-color: #bf5f00;
+    background-color: #c79576;
+    transform: scale(1.05);
 }

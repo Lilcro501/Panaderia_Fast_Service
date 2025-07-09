@@ -22,11 +22,11 @@ const DetallesPedido = () => {
 
   const productosConInfo = productosSeleccionados.map((item) => {
     const producto = allProductos.find((p) => p.id === item.id);
-    const precioTotal = producto.price * item.cantidad;
+    const precioTotal = producto ? producto.price * item.cantidad : 0;
     return {
-      nombre: producto.nameProduct,
+      nombre: producto?.nameProduct || "Producto no encontrado",
       cantidad: item.cantidad,
-      precioUnitario: producto.price,
+      precioUnitario: producto?.price || 0,
       precioTotal,
     };
   });
@@ -43,16 +43,18 @@ const DetallesPedido = () => {
 
   return (
     <div className="contenedor-detalles">
-      <h2 className="titulo">Detalles del pedido #{id}</h2>
+      <h2 className="titulo-detalles">Detalles del pedido #{id}</h2>
       <TablaBase columnas={columnas} datos={datosTabla} />
       <div className="pago-seccion">
-        <label>
-          <input type="checkbox" /> Pagado
+        <label className="checkbox">
+          <input type="checkbox" className="checkbox-input" /> Pagado
         </label>
         <EtiquetaPago texto={`Total: $${totalGeneral.toLocaleString()}`} />
       </div>
 
-      <button className="boton-volver" onClick={() => navigate(-1)}>Volver</button>
+      <div className="contenedor-volver">
+        <button className="boton-volver" onClick={() => navigate(-1)}>Volver</button>
+      </div>
     </div>
   );
 };

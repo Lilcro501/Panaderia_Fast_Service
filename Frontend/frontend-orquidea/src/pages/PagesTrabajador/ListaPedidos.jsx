@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import TablaBase from "../../components/TablaBase";
@@ -18,16 +19,17 @@ const ListaPedidos = () => {
 
   const datos = pedidos.map((pedido) => [
     pedido.id,
-    <Boton texto="Ver pedido" onClick={() => navigate('/DetallesPedido/${pedido.id}')} />,
-    <Boton texto="Detalles del cliente" onClick={() => navigate('/InfoCliente/${pedido.clienteId}')} />,
+    <Boton texto="Ver pedido" onClick={() => navigate(`/DetallesPedido/${pedido.id}`)} />,
+    <Boton texto="Detalles del cliente" onClick={() => navigate(`/InfoCliente/${pedido.clienteId}`)} />,
+
     <div className="botones-acciones">
-      <Boton texto="Aceptar" onClick={() => alert(`Pedido ${pedido.id} aceptado`)} tipo="boton-aceptar" />
-      <Boton texto="Rechazar" onClick={() => alert(`Pedido ${pedido.id} rechazado`)} tipo="boton-rechazar" />
+      <Boton texto="Aceptar" onClick={() => alert('Pedido ${pedido.id} aceptado')} tipo="boton-aceptar" />
+      <Boton texto="Rechazar" onClick={() => alert('Pedido ${pedido.id} rechazado')} tipo="boton-rechazar" />
     </div>
   ]);
 
   return (
-    <div>
+    <div className="contenido">
       <h2 className="titulo">Lista de pedidos</h2>
       <TablaBase columnas={columnas} datos={datos} />
 
