@@ -28,7 +28,7 @@ const EditarPerfil = () => {
       <h2 className="titulo-perfil">Editar perfil</h2>
 
       <form className="contenedor-formulario" onSubmit={handleSubmit}>
-        <FaUser className="Icono" /> {/* Ícono de usuario */}
+        <FaUser className="icono" /> {/* Ícono de usuario */}
         <input className="input" type="file"/>Seleccionar archivo
 
         <div className="campos">
