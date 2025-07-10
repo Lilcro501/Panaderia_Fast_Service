@@ -218,6 +218,17 @@ input:-webkit-autofill:active {
     color: #333;
 }
 
+.mensaje-error {
+  color: red;
+  font-size: 0.9rem;
+  margin: -10px 0 10px 40px;
+}
+
+.invalido {
+  border: 1px solid red;
+}
+
+
 .boton-salir {
     padding: 10px 40px;
     background: linear-gradient(to right, #f5a3b8, #e36b67);
@@ -298,7 +309,9 @@ input:-webkit-autofill:active {
     color: #1f1e1e;
     border-color: #717171;
 }
-
+.TextoTerminos {
+  color: black;
+}
 .Aceptar  {
     background: #ff9999;
     color: white;
