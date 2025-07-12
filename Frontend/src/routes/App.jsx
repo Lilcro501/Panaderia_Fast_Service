@@ -3,10 +3,12 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Layouts
+// importacion de las master pages
 import MainLayout from '../layouts/MainLayout';
 import MainLayoutSinLogin from '../layouts/MainLayoutSinLogin';
 import AdminLayout from '../layouts/AdminLayout';
 
+// imporatacion de las pages segun su rol
 // ------------------- Páginas Clientes -------------------
 import Home from '../pages/PagesClientes/Home';
 import ActualizarPerfil from '../pages/PagesClientes/ActualizarPerfil';
@@ -93,6 +95,7 @@ const AppRouter = () => {
         <Route path='/TYC' element={<MainLayout><TYC /></MainLayout>} />
         <Route path='/PoliticaPrivacidad' element={<MainLayout><PoliticaPrivacidad /></MainLayout>} />
         <Route path='/Politica' element={<MainLayout><PoliticaCo /></MainLayout>} />
+        <Route path="/producto/:id" element={<MainLayout><InfoPorProducto /></MainLayout>}/>
 
         {/* Cliente No Login */}
         <Route path='/HomeSinRegistrar' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
@@ -100,7 +103,6 @@ const AppRouter = () => {
         <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
         <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
         <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
-        <Route path="/producto/:id" element={<MainLayout><InfoPorProducto /></MainLayout>}/>
 
         {/* Trabajador */}
         <Route path='/Formulario' element={<LayoutTrabajador><Formulario /></LayoutTrabajador>} />
