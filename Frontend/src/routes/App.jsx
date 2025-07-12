@@ -99,7 +99,7 @@ const AppRouter = () => {
 
         {/* Cliente No Login */}
         <Route path='/HomeSinRegistrar' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
-        <Route path='/CambioDeContraseña' element={<CambioDeContraseña />} />
+        <Route path="/CambioContraseña" element={<MainLayoutSinLogin><CambioDeContraseña /></MainLayoutSinLogin>} />
         <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
         <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
         <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />

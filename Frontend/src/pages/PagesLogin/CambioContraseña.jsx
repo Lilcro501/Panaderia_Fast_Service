@@ -1,56 +1,84 @@
 
-import React from 'react'
+/* ~~~~~~~ Importación de React y UseState para manejar estados ~~~~~~~ */
+import React, { useState } from 'react';
 
 /* ~~~~~~~ Hoja de estilos ~~~~~~~ */
 import '../../assets/styles/Acceso.css';
 
+/* ~~~~~~~ importación de ícono de salir X ~~~~~~~ */
+import { IoMdClose } from 'react-icons/io';
+
+/* ~~~~~~~ Importación de íconos de candado ~~~~~~~ */
+import { FaUnlockAlt, FaUserLock } from 'react-icons/fa';
+
+/* ~~~~~~~ Importación de UseNavigate para las redirecciones ~~~~~~~ */
 import { useNavigate } from 'react-router-dom';
 
-/* ~~~~~~~ Icon de X (Salir) ~~~~~~~ */
-import { IoMdClose } from 'react-icons/io'; 
-import { FaUserLock, FaUnlockAlt } from 'react-icons/fa'; 
-
+/* ~~~~~~~ Importación de la ventana para la confirmación del cambio ~~~~~~~ */
+import VentanaConfirmacion from '../../components/VentanaConfirmacion';
 
 export default function CambioContraseña() {
-
-    /* ~~~~~~~ Redirección a la página principal al presionar X ~~~~~~~ */
-    const salir = () => {
-    window.location.href = '/';
-    };
-
+    const [password, setPassword] = useState('');
+    const [confirmar, setConfirmar] = useState('');
+    const [enviado, setEnviado] = useState(false);
+    const [mostrarVentana, setMostrarVentana] = useState(false);
     const navigate = useNavigate();
 
-    const PaginaCodigo = () => {
-    navigate('/');};
+    const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const passwordValida = regexPassword.test(password);
+    const coincide = password === confirmar;
+
+    const salir = () => window.location.href = '/';
+
+    const guardarNueva = (e) => {
+        e.preventDefault(); /* ~~~~~~~ Evita el envío del formulario y la recarga de la página ~~~~~~~ */
+        setEnviado(true);
+        if (!passwordValida || !coincide) return;
+
+        setMostrarVentana(true);
+    };
+
     return (
-        <section className='Contenedor'>  
-    
-            {/* ~~~~~~~ Botón para cerrar el formulario ~~~~~~~ */ }
-            <button className='salirboton' onClick={salir}>
-                <IoMdClose /> {/* Ícono de X */}
-            </button>
+    <section className='Contenedor'>
+        
+        <form onSubmit={guardarNueva}>
+            <button className='Salir' onClick={salir}><IoMdClose /></button>
+            <br/><br/><br/>
 
-            <h1 className='TituloAcceso'>Cambio contraseña</h1>
+            <h1 className='TituloAcceso'>Cambiar contraseña</h1>
+            <p>Ingresa y confirma tu nueva contraseña</p>
 
-            <p>No te preocupes, ingresa tu correo electrónico y te ayudaremos a recuperarla </p>
-            {/* ~~~~~~~ Campos de entrada ~~~~~~~ */ }
-            <div className="Campo">
-                <FaUnlockAlt className="Icono" /> {/* Ícono de candado */}
-                <input type='password' id='password' placeholder='Contraseña nueva'/>
+            <div className={`Campo ${!passwordValida && enviado ? 'invalido' : ''}`}>
+                <FaUnlockAlt className="Icono" />
+
+                <input type='password'id='password' placeholder='Contraseña nueva' value={password}
+                    onChange={e => setPassword(e.target.value)} />
             </div>
 
-            <div className="Campo">
-                < FaUserLock  className="Icono" /> {/* Ícono de candado con user*/}
-                <input type='password' id='password' placeholder='Confirmar contraseña'/>
-            </div>
-            
-            <div className="Opciones">
-            <label> <input type='checkbox' id='check'/>Recordar mi contraseña </label>
+            {!passwordValida && enviado && (
+                <div className="invalid">Tu contraseña debe tener al menos 6 caracteres, además de incluir letras y números</div>
+            )}
+
+            <div className={`Campo ${!coincide && enviado ? 'invalido' : ''}`}>
+                <FaUserLock className="Icono" />
+
+                <input type='password' id='password'placeholder='Confirmar contraseña'
+                    value={confirmar} onChange={e => setConfirmar(e.target.value)} />
             </div>
 
-            {/* ~~~~~~~ Botón para continuar ~~~~~~~ */}
-            <button className='Continuar' onClick={PaginaCodigo}> Enviar código </button>
+            {!coincide && enviado && (
+                <div className="invalid">Las contraseñas no coinciden <br/><br/> </div>
+            )}
 
-        </section>
-        );
+            <button className='Continuar' onClick={guardarNueva}>Guardar contraseña</button>
+
+            {mostrarVentana && (
+                <VentanaConfirmacion 
+                mensaje="Tu contraseña se ha cambiado con éxito"
+                onClose={() => setMostrarVentana(false)}
+                onExit={() => navigate('/')} />
+            )}
+        </form>
+    </section>
+    );
 }

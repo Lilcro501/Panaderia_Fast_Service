@@ -1,50 +1,51 @@
 
-import React from 'react'
+/* ~~~~~~~ Importación de React y UseState para manejar estados ~~~~~~~ */
+import React, { useState } from 'react';
 
 /* ~~~~~~~ Hoja de estilos ~~~~~~~ */
 import '../../assets/styles/Acceso.css';
 
+/* ~~~~~~~ importación de ícono de salir X ~~~~~~~ */
+import { IoMdClose } from 'react-icons/io';
+
+/* ~~~~~~~ Importación de ícono de usuario ~~~~~~~ */
+import { FaUser } from 'react-icons/fa';
+
+/* ~~~~~~~ Importación de UseNavigate para las redirecciones ~~~~~~~ */
 import { useNavigate } from 'react-router-dom';
 
-/* ~~~~~~~ Icon de X (Salir) ~~~~~~~ */
-import { IoMdClose } from 'react-icons/io'; 
-import { FaUser } from 'react-icons/fa'; 
-
-//importar las rutas
-import { Link } from 'react-router-dom';
-
-
 export default function OlvidoContraseña() {
-
-    /* ~~~~~~~ Redirección a la página principal al presionar X ~~~~~~~ */
-    const salir = () => {
-    window.location.href = '/';
-    };
-
+    const [correo, setCorreo] = useState('');
+    const [enviado, setEnviado] = useState(false);
     const navigate = useNavigate();
 
-    const PaginaCodigo = () => {
-    navigate('/IngresarCodigo');};
-    return (
-        <section className='Contenedor'>  
-    
-            {/* ~~~~~~~ Botón para cerrar el formulario ~~~~~~~ */ }
-            <button className='Salir' onClick={salir}>
-            <IoMdClose /> {/* Ícono de X */}
-            </button>
-    
-            <h1 className='TituloAcceso'>Olvido contraseña</h1>
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const esCorreoValido = regexCorreo.test(correo);
 
-            <p>No te preocupes, ingresa tu correo electrónico y te ayudaremos a recuperarla </p>
-            {/* ~~~~~~~ Campos de entrada ~~~~~~~ */ }
-            <div className="Campo">
-                <FaUser className="Icono" /> {/* Ícono de usuario */}
-                <input type='email' id='correo' placeholder='Correo'/>
-            </div>
-            {/* ~~~~~~~ Botón para continuar ~~~~~~~ */}
-            <Link to="/IngresarCodigo">
-            <button className='Continuar'> Enviar código </button>
-            </Link>
-        </section>
-        );
+    const salir = () => window.location.href = '/';
+
+    const enviarCodigo = () => {
+    setEnviado(true);
+    if (!esCorreoValido) return;
+    navigate('/IngresarCodigo');
+    };
+
+    return (
+    <section className='Contenedor'>
+        <button className='Salir' onClick={salir}><IoMdClose /></button>
+        <h1 className='TituloAcceso'>Olvidó su contraseña</h1>
+        <p>Ingresa tu correo y te enviaremos un código de recuperación</p>
+
+        <div className={`Campo ${!esCorreoValido && enviado ? 'invalido' : ''}`}>
+            <FaUser className="Icono" />
+            <input type='email' id='correo' placeholder='Correo' value={correo} onChange={e => setCorreo(e.target.value)} />
+        </div>
+
+        {!esCorreoValido && enviado && (
+            <div className="invalid">Por favor, ingresa un correo válido <br/><br/> </div>
+        )}
+
+        <button className='Continuar' onClick={enviarCodigo}>Enviar código</button>
+    </section>
+    );
 }

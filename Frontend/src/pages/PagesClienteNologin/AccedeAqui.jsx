@@ -1,114 +1,121 @@
 
-// ~~~~~~~ Importación de React y useState para manejar estado interno ~~~~~~~
+/* ~~~~~~~ Importación de React y UseState para manejar estados ~~~~~~~ */
 import React, { useState } from 'react';
 
-// ~~~~~~~ Hoja de estilos personalizada ~~~~~~~
+/* ~~~~~~~ Importación de hoja de estilos ~~~~~~~ */
 import '../../assets/styles/Acceso.css';
 
-// ~~~~~~~ Importación para navegación entre rutas ~~~~~~~
-import { Link } from 'react-router-dom';
+/* ~~~~~~~ Importación de Link para navegación y useNavigate para redirecciones ~~~~~~~ */
+import { Link, useNavigate } from 'react-router-dom';
 
-// ~~~~~~~ Íconos desde react-icons ~~~~~~~
+/* ~~~~~~~ Importación de íconos de usuario y candado ~~~~~~~ */
 import { FaUser, FaLock } from 'react-icons/fa';
+
+/* ~~~~~~~ Ícono para botón de cerrar (X) ~~~~~~~ */
 import { IoMdClose } from 'react-icons/io';
 
 export default function AccedeAqui() {
-    // ~~~~~~~ Hook para redirigir al inicio al presionar la X ~~~~~~~
+    /* ~~~~~~~ Redirección a otras rutas ~~~~~~~ */
+    const navigate = useNavigate();
+
+    /* ~~~~~~~ Función para salir y volver a la página principal ~~~~~~~ */
     const salir = () => {
     window.location.href = '/';
     };
 
-    // ~~~~~~~ Estados para los campos del formulario ~~~~~~~
+    /* ~~~~~~~ Estados para manejar el correo y la contraseña ~~~~~~~ */
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
-    const [enviado, setenviado] = useState(false);      // Bandera para mostrar errores al tocar el formulario
-    const [validado, setValidado] = useState(false);  // Bandera para mostrar éxito
+    const [enviado, setEnviado] = useState(false); /* ~~~~~~~  ~~~~~~~ */
+    // Bandera para mostrar validaciones al hacer submit
 
-    // ~~~~~~~ Función de validación y manejo del envío del formulario ~~~~~~~
-    const handleSubmit = (e) => {
-    e.preventDefault(); // Prevenir recarga de página
-    setenviado(true);
 
-    // Expresiones regulares para validaciones
+    /* ~~~~~~~ Expresiones para validar  ~~~~~~~ */
+
+    /* ~~~~~~~ Formato de correo electrónico ~~~~~~~ */
     const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const regexPassword = /^(?=.*\d)[A-Za-z\d]{6,}$/; // Mínimo 6 caracteres, al menos una letra y un número
-    // ^ Inicio de la cadena
-    // (?=.*\d)              // Al menos un número
-    // [A-Za-z\d]{6,}        // Letras y números, mínimo 6 caracteres
-    // $                    // Fin de la cadena
 
+    // ^               Inicio de la cadena
+    // (?=.*\d)        Al menos un número
+    // [A-Za-z\d]{6,}  Letras y números, mínimo 6 caracteres
+    // $                Fin de la cadena
+
+    /* ~~~~~~~ Formato de la contraseña ~~~~~~~ */
+    /* ~~~~~~~ Mínimo 6 caracteres, con al menos una letra y un número ~~~~~~~ */
+    const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+
+    /* ~~~~~~~ Validaciones usando las expresiones anteriores ~~~~~~~ */
     const CorreoValido = regexCorreo.test(correo);
     const PasswordValida = regexPassword.test(password);
 
-    if (!CorreoValido) {
-        alert("El correo no es válido");
-        return;
-    }
+    /* ~~~~~~~ Función que se ejecuta al enviar el formulario ~~~~~~~ */
+    const handleSubmit = (e) => {
+    e.preventDefault();  /* ~~~~~~~ Evita el envío del formulario y la recarga de la página ~~~~~~~ */
+    setEnviado(true);/* ~~~~~~~  Marca el formulario como enviado para buscar y mostrar errores ~~~~~~~ */
 
-    if (!PasswordValida) {
-        alert("La contraseña debe tener al menos 6 caracteres, incluyendo letras y números");
-        return;
-    }
-
-    setValidado(true);
-    alert("Inicio de sesión exitoso");
+    /* ~~~~~~~ Si alguna de las validaciones no se cumple entonces vuelve ~~~~~~~ */
+    if (!CorreoValido || !PasswordValida) return;
+        navigate('/');
     };
 
     return (
     <section className='Contenedor'>
         <form onSubmit={handleSubmit} noValidate>
-        {/* Botón para cerrar */}
-        <button className='Salir' type="button" onClick={salir}>
-            <IoMdClose />
-        </button>
 
-        {/* Título del formulario */}
-        <h1 className='TituloAcceso'>Inicia sesión</h1>
+            {/* ~~~~~~~ Botón para cerrar y volver a la página principal ~~~~~~~ */}
+            <button className='Salir' type="button" onClick={salir}>
+                <IoMdClose />
+            </button>
 
-        {/* Campo de correo */}
-        <div className={`Campo form-control ${!correo && enviado ? 'is-invalid' : correo && validado ? 'is-valid' : ''}`}>
-            <FaUser className="Icono" />
-            <input
-            type='email'
-            id='correo'
-            placeholder='Correo'
-            value={correo}
-            onChange={(e) => setCorreo(e.target.value)}
-            required
-            />
-            {!correo && enviado && <div className="invalid-feedback">Por favor, ingresa un correo válido</div>}
-        </div>
+            <br/><br/>
+            {/* ~~~~~~~ Título del formulario ~~~~~~~ */}
+            <h1 className='TituloAcceso'>Inicia sesión</h1>
 
-        {/* Campo de contraseña */}
-        <div className={`Campo form-control ${!password && enviado ? 'is-invalid' : password && validado ? 'is-valid' : ''}`}>
-            <FaLock className="Icono" />
-            <input
-            type='password'
-            id='password'
-            placeholder='Contraseña'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            />
-            {!password && enviado && <div className="invalid-feedback">Ingresa una contraseña válida.</div>}
-        </div>
+            {/* ~~~~~~~ Correo electrónico ~~~~~~~ */}
+            <div className={`Campo form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
+                <FaUser className="Icono" />
+                <input type='email' id='correo' placeholder='Correo' value={correo}
+                onChange={(e) => setCorreo(e.target.value)} required />
+            </div>
+        
+            {/* ~~~~~~~ Mensaje de error - correo no es válido ~~~~~~~ */}
+            {!CorreoValido && enviado && (
+                <div className="invalid">Por favor, ingresa un correo válido</div>
+            )}
 
-        {/* Opciones extra */}
-        <div className="Opciones">
-            <label>
-            <input type='checkbox' id='check' name='check' />
-            Recordar mi contraseña
-            </label>
-            <Link to="/OlvidoContraseña">¿Olvidaste tu contraseña?</Link>
-        </div>
+            {/* ~~~~~~~ Contraseña ~~~~~~~ */}
+            <div className={`Campo form-control ${!PasswordValida && enviado ? 'is-invalid' : ''}`}>
+                <FaLock className="Icono" />
+                <input type='password' id='password' placeholder='Contraseña' value={password}
+                onChange={(e) => setPassword(e.target.value)} required />
+            </div>
 
-        {/* Botón para enviar el formulario */}
-        <button className='Continuar' type='submit'>Iniciar sesión</button>
+            {/* ~~~~~~~ Mensaje de error - contraseña no válida ~~~~~~~ */}
+            {!PasswordValida && enviado && (
+                <div className="invalid">
+                Contraseña incorrecta
+                </div>
+            )}
 
-        {/* Enlace para registro */}
-        <p className="Registro">
-            ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
-        </p>
+            {/* ~~~~~~~ Sección inferior con opciones adicionales ~~~~~~~ */}
+            <div className="Opciones">
+                {/* ~~~~~~~ Checkbox para recordar contraseña ~~~~~~~ */}
+                <label className='Label'>
+                    <input type='checkbox' id='check' name='check' />
+                    Recordar contraseña
+                </label>
+
+                {/* ~~~~~~~ Enlace para recuperar contraseña si la olvidó ~~~~~~~ */}
+                <Link to="/OlvidoContraseña">¿Olvidaste tu contraseña?</Link>
+            </div>
+
+            {/* ~~~~~~~ Botón para enviar el formulario ~~~~~~~ */}
+            <button className='Continuar' type='submit'>Iniciar sesión</button>
+
+            {/* ~~~~~~~ Enlace para registrarse si no tiene cuenta ~~~~~~~ */}
+            <p className="Registro">
+                ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
+            </p>
         </form>
     </section>
     );
