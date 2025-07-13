@@ -88,7 +88,6 @@ const Factura = () => {
                 />
                 Domicilio
               </label>
-              <br />
               <label>
                 <input
                   type="radio"

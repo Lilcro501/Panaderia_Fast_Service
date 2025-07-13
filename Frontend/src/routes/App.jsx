@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import MainLayoutSinLogin from '../layouts/MainLayoutSinLogin';
 import AdminLayout from '../layouts/AdminLayout';
+import LayoutTrabajador from '../layouts/LayoutTrabajador';
 
 // ------------------- Páginas Clientes -------------------
 import Home from '../pages/PagesClientes/Home';
@@ -34,13 +35,13 @@ import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
 import InfoPorProducto from '../pages/PagesClienteNologin/InfoPorProducto';
 import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
 
-
 // ------------------- Páginas Login -------------------
 import CambioDeContraseña from "../pages/PagesLogin/CambioContraseña";
 import IngresarCodigo from '../pages/PagesLogin/IngresarCodigo';
 import OlvidoContraseña from "../pages/PagesLogin/OlvidoContraseña";
 import Registro from '../pages/PagesLogin/Registro';
 import Login from '../pages/PagesLogin/Login';
+
 // ------------------- Páginas Administrador -------------------
 import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
 import AgregarInven from '../pages/PagesAdmin/AgregarInven';
@@ -64,7 +65,6 @@ import HistorialPedidos from '../pages/PagesTrabajador/HistorialPedidos';
 import InfoCliente from '../pages/PagesTrabajador/InfoCliente';
 import Inicio from '../pages/PagesTrabajador/Inicio';
 import ListaPedidos from '../pages/PagesTrabajador/ListaPedidos';
-import LayoutTrabajador from '../layouts/LayoutTrabajador';
 import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 
 const AppRouter = () => {
@@ -93,25 +93,26 @@ const AppRouter = () => {
         <Route path='/TYC' element={<MainLayout><TYC /></MainLayout>} />
         <Route path='/PoliticaPrivacidad' element={<MainLayout><PoliticaPrivacidad /></MainLayout>} />
         <Route path='/Politica' element={<MainLayout><PoliticaCo /></MainLayout>} />
+        <Route path='/producto/:id' element={<MainLayout><InfoPorProducto /></MainLayout>} />
 
         {/* Cliente No Login */}
         <Route path='/HomeSinRegistrar' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
-        <Route path='/CambioDeContraseña' element={<CambioDeContraseña />} />
+        <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña /></MainLayoutSinLogin>} />
         <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
         <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
         <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
-        <Route path="/producto/:id" element={<MainLayout><InfoPorProducto /></MainLayout>}/>
         <Route path='/Login' element={<MainLayoutSinLogin><Login /></MainLayoutSinLogin>} />
+
         {/* Trabajador */}
         <Route path='/Formulario' element={<LayoutTrabajador><Formulario /></LayoutTrabajador>} />
         <Route path='/EstadosPedidos' element={<LayoutTrabajador><EstadosPedidos /></LayoutTrabajador>} />
         <Route path='/HistorialPedidos' element={<LayoutTrabajador><HistorialPedidos /></LayoutTrabajador>} />
         <Route path='/InfoCliente/:id' element={<LayoutTrabajador><InfoCliente /></LayoutTrabajador>} />
-        <Route path='/Inicio' element={<LayoutTrabajador><Inicio/></LayoutTrabajador>} />
+        <Route path='/Inicio' element={<LayoutTrabajador><Inicio /></LayoutTrabajador>} />
         <Route path='/ListaPedidos' element={<LayoutTrabajador><ListaPedidos /></LayoutTrabajador>} />
-        <Route path="/DetallesPedido/:id" element={<LayoutTrabajador><DetallesPedido /></LayoutTrabajador>} />
-        <Route path="/EditarPerfil" element={<LayoutTrabajador><EditarPerfil/></LayoutTrabajador>} />
-        
+        <Route path='/DetallesPedido/:id' element={<LayoutTrabajador><DetallesPedido /></LayoutTrabajador>} />
+        <Route path='/EditarPerfil' element={<LayoutTrabajador><EditarPerfil /></LayoutTrabajador>} />
+
         {/* Admin */}
         <Route path='/AgregarTrabajador' element={<AdminLayout><AgregarTrabajador /></AdminLayout>} />
         <Route path='/EditarTrabajador' element={<AdminLayout><EditarTrabajador /></AdminLayout>} />
@@ -130,9 +131,5 @@ const AppRouter = () => {
     </Router>
   );
 };
-
-
-
-
 
 export default AppRouter;

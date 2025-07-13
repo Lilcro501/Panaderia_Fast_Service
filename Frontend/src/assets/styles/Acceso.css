@@ -14,13 +14,19 @@
 }
 
 form {
-    padding: 2.5rem;
     border-radius: 20px;
     max-width: 400px;
     width: 100%;
     position: relative;
     }
 
+.Label {
+    display: flex;
+}
+
+#check {
+    margin-left: 17px;
+}
 
 .Salir {
     align-self: flex-end;
@@ -127,8 +133,14 @@ form {
     align-items: center;
     background-color: rgba(154, 143, 146, 0.15);
     border-radius: 10px;
-    margin: 10px;
+    margin: 7px 70px;
     position: relative;
+    gap: 5px;
+}
+
+.CampoNumero input {
+    font-size: 30px;
+    text-align: center;
 }
 
 .Opciones {
@@ -151,7 +163,6 @@ form {
 .Opciones a:hover {
     text-decoration: underline;
 }
-
 
 /* Texto inferior de registro */
 .Registro {
@@ -219,15 +230,14 @@ input:-webkit-autofill:active {
 }
 
 .mensaje-error {
-  color: red;
-  font-size: 0.9rem;
-  margin: -10px 0 10px 40px;
+    color: red;
+    font-size: 0.9rem;
+    margin: -10px 0 10px 40px;
 }
 
 .invalido {
-  border: 1px solid red;
+    border: 1px solid red;
 }
-
 
 .boton-salir {
     padding: 10px 40px;
@@ -238,6 +248,7 @@ input:-webkit-autofill:active {
     color: white;
     cursor: pointer;
 }
+
 .boton-salir:hover {
     transform: scale(1.05);
 }
@@ -261,7 +272,6 @@ input:-webkit-autofill:active {
     margin-bottom: 20px;
     gap: 55px;
 }
-
 
 /* ~~~~~~~ Estilos para el banner de cookies ~~~~~~~ */
 .FondoCookies {
@@ -309,9 +319,11 @@ input:-webkit-autofill:active {
     color: #1f1e1e;
     border-color: #717171;
 }
+
 .TextoTerminos {
-  color: black;
+    color: black;
 }
+
 .Aceptar  {
     background: #ff9999;
     color: white;
@@ -332,18 +344,17 @@ input:-webkit-autofill:active {
     color: #343333;
 }
 
-
 /*Estilo cuando hay error */
 input:invalid {
     border-color: #dc3545;
 }
 
-.is-invalid {
+.invalido {
     border: 2px solid #d63c4b;
     background-color: #f9d8db;
 }
 
-.invalid-feedback {
+.invalid {
     color: #c6414e;
     font-size: 15px;
     text-align: center;
