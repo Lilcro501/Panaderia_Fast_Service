@@ -40,7 +40,7 @@ import CambioDeContraseña from "../pages/PagesLogin/CambioContraseña";
 import IngresarCodigo from '../pages/PagesLogin/IngresarCodigo';
 import OlvidoContraseña from "../pages/PagesLogin/OlvidoContraseña";
 import Registro from '../pages/PagesLogin/Registro';
-
+import Login from '../pages/PagesLogin/Login';
 // ------------------- Páginas Administrador -------------------
 import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
 import AgregarInven from '../pages/PagesAdmin/AgregarInven';
@@ -101,7 +101,7 @@ const AppRouter = () => {
         <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
         <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
         <Route path="/producto/:id" element={<MainLayout><InfoPorProducto /></MainLayout>}/>
-
+        <Route path='/Login' element={<MainLayoutSinLogin><Login /></MainLayoutSinLogin>} />
         {/* Trabajador */}
         <Route path='/Formulario' element={<LayoutTrabajador><Formulario /></LayoutTrabajador>} />
         <Route path='/EstadosPedidos' element={<LayoutTrabajador><EstadosPedidos /></LayoutTrabajador>} />
