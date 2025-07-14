@@ -63,9 +63,10 @@
     color: #a08d7e;
 }
 
-.boton-guardar {
+.BotonGuardar {
     background-color: #d49e7ddd;
     padding: 12px 25px;
+    margin: 10px;
     border-radius: 20px;
     font-size: 16px;
     margin-top: 25px;
@@ -75,7 +76,25 @@
     box-shadow: 4px 4px 10px rgba(60, 29, 29, 0.696);
 }
 
-.boton-guardar:hover {
+.BotonGuardar:hover {
     background-color: #c79576;
+    transform: scale(1.05);
+}
+
+.BotonCancelar {
+    background-color: #d0877ce4;
+    padding: 12px 25px;
+    margin: 10px;
+    border-radius: 20px;
+    font-size: 16px;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 2px solid #424242;
+    box-shadow: 4px 4px 10px rgba(60, 29, 29, 0.696);
+}
+
+.BotonCancelar:hover {
+    background-color: #d0877c;
     transform: scale(1.05);
 }
