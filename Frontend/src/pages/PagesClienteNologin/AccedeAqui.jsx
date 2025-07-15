@@ -1,4 +1,3 @@
-
 /* ~~~~~~~ Importación de React y UseState para manejar estados ~~~~~~~ */
 import React, { useState } from 'react';
 
@@ -14,109 +13,106 @@ import { FaUser, FaLock } from 'react-icons/fa';
 /* ~~~~~~~ Ícono para botón de cerrar (X) ~~~~~~~ */
 import { IoMdClose } from 'react-icons/io';
 
+/* ~~~~~~~ Importación de Axios o función personalizada ~~~~~~~ */
+import { iniciarSesion } from '../../api/login'; // Asegúrate de que esta ruta sea correcta
+
 export default function AccedeAqui() {
-    /* ~~~~~~~ Redirección a otras rutas ~~~~~~~ */
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    /* ~~~~~~~ Función para salir y volver a la página principal ~~~~~~~ */
-    const salir = () => {
+  const salir = () => {
     window.location.href = '/';
-    };
+  };
 
-    /* ~~~~~~~ Estados para manejar el correo y la contraseña ~~~~~~~ */
-    const [correo, setCorreo] = useState('');
-    const [password, setPassword] = useState('');
-    const [enviado, setEnviado] = useState(false); /* ~~~~~~~  ~~~~~~~ */
-    // Bandera para mostrar validaciones al hacer submit
+  const [correo, setCorreo] = useState('');
+  const [password, setPassword] = useState('');
+  const [enviado, setEnviado] = useState(false);
+  const [errorLogin, setErrorLogin] = useState('');
 
+  const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
-    /* ~~~~~~~ Expresiones para validar  ~~~~~~~ */
+  const CorreoValido = regexCorreo.test(correo);
+  const PasswordValida = regexPassword.test(password);
 
-    /* ~~~~~~~ Formato de correo electrónico ~~~~~~~ */
-    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setEnviado(true);
+  setErrorLogin('');
 
-    // ^               Inicio de la cadena
-    // (?=.*\d)        Al menos un número
-    // [A-Za-z\d]{6,}  Letras y números, mínimo 6 caracteres
-    // $                Fin de la cadena
+  if (!CorreoValido || !PasswordValida) return;
 
-    /* ~~~~~~~ Formato de la contraseña ~~~~~~~ */
-    /* ~~~~~~~ Mínimo 6 caracteres, con al menos una letra y un número ~~~~~~~ */
-    const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+  try {
+    const response = await iniciarSesion({ email: correo, password }); // ✅ corregido
 
-    /* ~~~~~~~ Validaciones usando las expresiones anteriores ~~~~~~~ */
-    const CorreoValido = regexCorreo.test(correo);
-    const PasswordValida = regexPassword.test(password);
+    if (response.status === 200) {
+      const { nombre, rol } = response.data;
+      alert(`Bienvenido ${nombre} (${rol})`);
+      navigate('/');
+    }
+  } catch (error) {
+  console.log("📛 Error:", error.response?.data || error.message); // ✅ importante
+  const mensaje = error.response?.data?.error || 'Error desconocido';
+  setErrorLogin(mensaje);
+}
+};
 
-    /* ~~~~~~~ Función que se ejecuta al enviar el formulario ~~~~~~~ */
-    const handleSubmit = (e) => {
-    e.preventDefault();  /* ~~~~~~~ Evita el envío del formulario y la recarga de la página ~~~~~~~ */
-    setEnviado(true);/* ~~~~~~~  Marca el formulario como enviado para buscar y mostrar errores ~~~~~~~ */
-
-    /* ~~~~~~~ Si alguna de las validaciones no se cumple entonces vuelve ~~~~~~~ */
-    if (!CorreoValido || !PasswordValida) return;
-        navigate('/');
-    };
-
-    return (
+  return (
     <section className='Contenedor'>
-        <form onSubmit={handleSubmit} noValidate>
+      <form onSubmit={handleSubmit} noValidate>
+        <button className='Salir' type="button" onClick={salir}>
+          <IoMdClose />
+        </button>
 
-            {/* ~~~~~~~ Botón para cerrar y volver a la página principal ~~~~~~~ */}
-            <button className='Salir' type="button" onClick={salir}>
-                <IoMdClose />
-            </button>
+        <br /><br />
+        <h1 className='TituloAcceso'>Inicia sesión</h1>
 
-            <br/><br/>
-            {/* ~~~~~~~ Título del formulario ~~~~~~~ */}
-            <h1 className='TituloAcceso'>Inicia sesión</h1>
+        <div className={`Campo form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
+          <FaUser className="Icono" />
+          <input
+            type='email'
+            id='correo'
+            placeholder='Correo'
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
+            required
+          />
+        </div>
+        {!CorreoValido && enviado && (
+          <div className="invalid">Por favor, ingresa un correo válido</div>
+        )}
 
-            {/* ~~~~~~~ Correo electrónico ~~~~~~~ */}
-            <div className={`Campo form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
-                <FaUser className="Icono" />
-                <input type='email' id='correo' placeholder='Correo' value={correo}
-                onChange={(e) => setCorreo(e.target.value)} required />
-            </div>
-        
-            {/* ~~~~~~~ Mensaje de error - correo no es válido ~~~~~~~ */}
-            {!CorreoValido && enviado && (
-                <div className="invalid">Por favor, ingresa un correo válido</div>
-            )}
+        <div className={`Campo form-control ${!PasswordValida && enviado ? 'is-invalid' : ''}`}>
+          <FaLock className="Icono" />
+          <input
+            type='password'
+            id='password'
+            placeholder='Contraseña'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        {!PasswordValida && enviado && (
+          <div className="invalid">Contraseña incorrecta</div>
+        )}
 
-            {/* ~~~~~~~ Contraseña ~~~~~~~ */}
-            <div className={`Campo form-control ${!PasswordValida && enviado ? 'is-invalid' : ''}`}>
-                <FaLock className="Icono" />
-                <input type='password' id='password' placeholder='Contraseña' value={password}
-                onChange={(e) => setPassword(e.target.value)} required />
-            </div>
+        {/* Error de login desde el servidor */}
+        {errorLogin && <div className="invalid">{errorLogin}</div>}
 
-            {/* ~~~~~~~ Mensaje de error - contraseña no válida ~~~~~~~ */}
-            {!PasswordValida && enviado && (
-                <div className="invalid">
-                Contraseña incorrecta
-                </div>
-            )}
+        <div className="Opciones">
+          <label className='Label'>
+            <input type='checkbox' id='check' name='check' />
+            Recordar contraseña
+          </label>
+          <Link to="/OlvidoContraseña">¿Olvidaste tu contraseña?</Link>
+        </div>
 
-            {/* ~~~~~~~ Sección inferior con opciones adicionales ~~~~~~~ */}
-            <div className="Opciones">
-                {/* ~~~~~~~ Checkbox para recordar contraseña ~~~~~~~ */}
-                <label className='Label'>
-                    <input type='checkbox' id='check' name='check' />
-                    Recordar contraseña
-                </label>
+        <button className='Continuar' type='submit'>Iniciar sesión</button>
 
-                {/* ~~~~~~~ Enlace para recuperar contraseña si la olvidó ~~~~~~~ */}
-                <Link to="/OlvidoContraseña">¿Olvidaste tu contraseña?</Link>
-            </div>
-
-            {/* ~~~~~~~ Botón para enviar el formulario ~~~~~~~ */}
-            <button className='Continuar' type='submit'>Iniciar sesión</button>
-
-            {/* ~~~~~~~ Enlace para registrarse si no tiene cuenta ~~~~~~~ */}
-            <p className="Registro">
-                ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
-            </p>
-        </form>
+        <p className="Registro">
+          ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
+        </p>
+      </form>
     </section>
-    );
+  );
 }

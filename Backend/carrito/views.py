@@ -55,3 +55,4 @@ def obtener_productos_por_categoria(request, categoria_nombre):
     
     except Categoria.DoesNotExist:
         return JsonResponse({'error': 'Categoría no encontrada'}, status=404)
+        

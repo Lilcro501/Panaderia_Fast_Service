@@ -10,12 +10,14 @@ import { FaUser, FaLock, FaUserLock, FaUserCheck } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 
 /* Importación del componente de rutas */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-/*  Importar el componente del botón de Google */
+/* Importar el componente del botón de Google */
 import LoginGoogle from '../../components/LoginGoogle';
 
-/* Componente funcional llamado Registro */
+/* Importar función de registro desde api/login.js */
+import { registrarUsuario } from '../../api/login';
+
 export default function Registro() {
   const [form, setForm] = useState({
     username: '',
@@ -26,6 +28,7 @@ export default function Registro() {
   });
 
   const [errores, setErrores] = useState({});
+  const navigate = useNavigate();
 
   const salir = () => {
     window.location.href = '/';
@@ -61,13 +64,32 @@ export default function Registro() {
     setForm({ ...form, [id]: type === 'checkbox' ? checked : value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const erroresValidados = validar();
     setErrores(erroresValidados);
 
     if (Object.keys(erroresValidados).length === 0) {
-      alert('Formulario enviado correctamente ✅');
+      try {
+        const response = await registrarUsuario({
+          email: form.correo,
+          password: form.password,
+          nombre_usuario: form.username,
+          nombre: '',
+          apellido: '',
+          telefono: '',
+          direccion: '',
+          rol: 'cliente'
+        });
+
+        if (response.status === 201 || response.status === 200) {
+          alert('Usuario registrado con éxito ✅');
+          navigate('/AccedeAqui'); // redirige al login
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Error al registrar usuario ❌');
+      }
     }
   };
 
@@ -150,14 +172,13 @@ export default function Registro() {
         </button>
       </form>
 
-      {/* Separador visual y botón Google */}
       <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
         <p>O regístrate con Google</p>
         <LoginGoogle />
       </div>
 
       <p className='Registro'>
-        ¿Ya estás registrado? <a href='AccedeAqui'>Accede aquí</a>
+        ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
       </p>
     </section>
   );
