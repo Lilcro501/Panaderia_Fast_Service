@@ -16,12 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
+from django.conf import settings
+from django.conf.urls.static import static
 
 
-#urlpatterns = [
-#    path('admin/', admin.site.urls),
-#]
+def home(request):
+    return JsonResponse({"mensaje": "Django funcionando correctamente 🔥"})
 
 urlpatterns = [
-    path('carrito/', include('carrito.urls')),  # ← Conecta la app "carrito"
+    path('', home),  # Ruta raíz
+    path('admin/', admin.site.urls),
+    #este modulo incluye todas las rutas de la app carrito
+    path('api/', include('carrito.urls')),  # Esto expone todo lo de carrito en /api/
 ]
+
+#esto permite que se puedan ver las imagenes en el navegador
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

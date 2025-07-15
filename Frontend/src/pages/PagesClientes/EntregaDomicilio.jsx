@@ -2,49 +2,55 @@ import React, { useState } from 'react';
 import { useCarrito } from '../../Context/CarritoContext';
 import ComponenteProcesoPago from '../../components/ComponenteProcesoPago';
 import VentanaEmergente from '../../components/VentanaEmergente';
+import { enviarFactura } from '../../api/factura';
 import '../../assets/styles/MetodosPago.css';
-import qr from "../../assets/images/qr.png"
+import qr from "../../assets/images/qr.png";
 
 const EntregaDomicilio = () => {
   const { carrito } = useCarrito();
   const [metodoEntrega, setMetodoEntrega] = useState('');
   const [mostrarModal, setMostrarModal] = useState(false);
 
+  const [formData, setFormData] = useState({
+    cedula: '',
+    sector: '',
+    direccion: '',
+    apartamento: '',
+    fecha_entrega: '',
+    hora: '',
+    informacion_adicional: ''
+  });
+
   const total = carrito.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-  const renderContenidoModal = () => {
-    if (metodoEntrega === 'qr') {
-      return (
-        <>
-          <img src={qr} alt="Código QR"  className='estilo-img'/>
-          <p>Cuenta Nequi: <strong>3001234567</strong></p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert('Comprobante enviado correctamente');
-              setMostrarModal(false);
-            }}
-          >
-            <label>Adjunta tu comprobante:</label>
-            <input type="file" accept=".jpg,.jpeg,.png,.pdf" required />
-            <br />
-            <br />
-            <button  className="boton-moderno"   type="submit">Enviar</button>
-          </form>
-        </>
-      );
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-    if (metodoEntrega === 'contraentrega') {
-      return (
-        <>
-          <h3>Pago en efectivo al momento de la entrega</h3>
-          <p>Ten el monto exacto preparado: <strong>${total}</strong></p>
-        </>
-      );
-    }
+  const handleEnviarFactura = async () => {
+    try {
+      const datosFactura = {
+        metodo_pago: metodoEntrega,
+        total: total,
+        cedula: formData.cedula,
+        municipio: formData.sector,
+        direccion: formData.direccion,
+        apartamento: formData.apartamento,
+        fecha_entrega: formData.fecha_entrega,
+        hora: formData.hora,
+        informacion_adicional: formData.informacion_adicional,
+        comprobante_archivo: "comprobante.jpg" // Simulado por ahora
+      };
 
-    return null;
+      await enviarFactura(datosFactura);
+      alert('Factura enviada correctamente ✅');
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
   };
 
   return (
@@ -55,32 +61,31 @@ const EntregaDomicilio = () => {
         <div className="formulario-columna">
           <h4>Información del cliente</h4>
 
-          <label htmlFor="nombre">Nombres</label>
-          <input className="input-moderno" type="text" id="nombre" />
+          <label>Cédula</label>
+          <input className="input-moderno" type="number" name="cedula" value={formData.cedula} onChange={handleChange} />
 
-          <label htmlFor="apellidos">Apellidos</label>
-          <input className="input-moderno" type="text" id="apellidos" />
+          <label>Sector</label>
+          <input className="input-moderno" type="text" name="sector" value={formData.sector} onChange={handleChange} />
 
-          <label htmlFor="cedula">Cédula</label>
-          <input className="input-moderno" type="number" id="cedula" />
+          <label>Dirección</label>
+          <input className="input-moderno" type="text" name="direccion" value={formData.direccion} onChange={handleChange} />
 
-          <label htmlFor="lugar">Municipio/Sector</label>
-          <input className="input-moderno" type="text" id="lugar" />
+          <label>Apartamento</label>
+          <input className="input-moderno" type="text" name="apartamento" value={formData.apartamento} onChange={handleChange} />
 
-          <label htmlFor="direccion">Dirección</label>
-          <input className="input-moderno" type="text" id="direccion" />
+          <label>Fecha de entrega</label>
+          <input className="input-moderno" type="date" name="fecha_entrega" value={formData.fecha_entrega} onChange={handleChange} />
 
-          <label htmlFor="apartamento">Apartamento</label>
-          <input className="input-moderno" type="text" id="apartamento" />
+          <label>Hora</label>
+          <input className="input-moderno" type="time" name="hora" value={formData.hora} onChange={handleChange} />
 
-          <label htmlFor="fecha_entrega">Fecha de entrega</label>
-          <input className="input-moderno" type="date" id="fecha_entrega" />
+          <label>Información adicional</label>
+          <input className="input-moderno" type="text" name="informacion_adicional" value={formData.informacion_adicional} onChange={handleChange} />
 
-          <label htmlFor="hora">Hora</label>
-          <input className="input-moderno" type="time" id="hora" />
-
-          <label htmlFor="informacion-adicional">Información adicional</label>
-          <input className="input-moderno" type="text" id="informacion-adicional" />
+          <br />
+          <button className="boton-moderno" type="button" onClick={handleEnviarFactura}>
+            Enviar Factura
+          </button>
         </div>
 
         <div className="formulario-columna">
@@ -98,9 +103,7 @@ const EntregaDomicilio = () => {
 
           <div className="metodos-pago">
             <h2>Métodos de pago</h2>
-
             <br />
-
             <div>
               <label>
                 <input
@@ -127,10 +130,9 @@ const EntregaDomicilio = () => {
               </label>
             </div>
             <br />
-            {/* Botón que aparece solo si se selecciona un método */}
             {metodoEntrega && (
               <button
-              className='boton-moderno'
+                className='boton-moderno'
                 onClick={() => setMostrarModal(true)}
                 style={{ marginTop: '15px' }}
               >
@@ -142,46 +144,48 @@ const EntregaDomicilio = () => {
       </section>
 
       <VentanaEmergente
-  visible={mostrarModal}
-  onClose={() => setMostrarModal(false)}
-  title="Información de pago"
-  content={
-    metodoEntrega === 'qr' ? (
-      <>
-        <img src={qr} alt="Código QR" className='estilo-img' />
-        <p>Cuenta Nequi: <strong>3001234567</strong></p>
-        <label>Adjunta tu comprobante:</label>
-        <input type="file" accept=".jpg,.jpeg,.png,.pdf" required />
-      </>
-    ) : (
-      <>
-        <h3>Pago en efectivo al momento de la entrega</h3>
-        <p>Ten el monto exacto preparado: <strong>${total}</strong></p>
-      </>
-    )
-  }
-  footer={
-    <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-      {metodoEntrega === 'qr' && (
-        <button
-          className="boton-moderno"
-          onClick={() => {
-            alert("Comprobante enviado correctamente");
-            setMostrarModal(false);
-          }}
-        >
-          Enviar
-        </button>
-      )}
-      <button className="boton-moderno cancelar" onClick={() => setMostrarModal(false)}>
-        Cancelar
-      </button>
-    </div>
-  }
-/>
-
+        visible={mostrarModal}
+        onClose={() => setMostrarModal(false)}
+        title="Información de pago"
+        content={
+          metodoEntrega === 'qr' ? (
+            <>
+              <img src={qr} alt="Código QR" className='estilo-img' />
+              <p>Cuenta Nequi: <strong>3001234567</strong></p>
+              <label>Adjunta tu comprobante:</label>
+              <input type="file" accept=".jpg,.jpeg,.png,.pdf" required />
+            </>
+          ) : (
+            <>
+              <h3>Pago en efectivo al momento de la entrega</h3>
+              <p>Ten el monto exacto preparado: <strong>${total}</strong></p>
+            </>
+          )
+        }
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            {metodoEntrega === 'qr' && (
+              <button
+                className="boton-moderno"
+                onClick={() => {
+                  alert("Comprobante enviado correctamente");
+                  setMostrarModal(false);
+                }}
+              >
+                Enviar
+              </button>
+            )}
+            <button className="boton-moderno cancelar" onClick={() => setMostrarModal(false)}>
+              Cancelar
+            </button>
+          </div>
+        }
+      />
     </>
   );
 };
 
 export default EntregaDomicilio;
+
+
+
