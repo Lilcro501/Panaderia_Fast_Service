@@ -29,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #este modulo incluye todas las rutas de la app carrito
     path('api/', include('carrito.urls')),  # Esto expone todo lo de carrito en /api/
+    path('api/usuarios/', include('usuarios.urls')),
 ]
 
 #esto permite que se puedan ver las imagenes en el navegador
