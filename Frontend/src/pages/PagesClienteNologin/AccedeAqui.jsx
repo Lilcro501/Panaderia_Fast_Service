@@ -1,20 +1,11 @@
-/* ~~~~~~~ Importación de React y UseState para manejar estados ~~~~~~~ */
 import React, { useState } from 'react';
-
-/* ~~~~~~~ Importación de hoja de estilos ~~~~~~~ */
 import '../../assets/styles/Acceso.css';
-
-/* ~~~~~~~ Importación de Link para navegación y useNavigate para redirecciones ~~~~~~~ */
 import { Link, useNavigate } from 'react-router-dom';
-
-/* ~~~~~~~ Importación de íconos de usuario y candado ~~~~~~~ */
 import { FaUser, FaLock } from 'react-icons/fa';
-
-/* ~~~~~~~ Ícono para botón de cerrar (X) ~~~~~~~ */
 import { IoMdClose } from 'react-icons/io';
-
-/* ~~~~~~~ Importación de Axios o función personalizada ~~~~~~~ */
-import { iniciarSesion } from '../../api/login'; // Asegúrate de que esta ruta sea correcta
+import { iniciarSesion } from '../../api/login';
+import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
@@ -34,27 +25,57 @@ export default function AccedeAqui() {
   const CorreoValido = regexCorreo.test(correo);
   const PasswordValida = regexPassword.test(password);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setEnviado(true);
-  setErrorLogin('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setEnviado(true);
+    setErrorLogin('');
 
-  if (!CorreoValido || !PasswordValida) return;
+    if (!CorreoValido || !PasswordValida) return;
 
-  try {
-    const response = await iniciarSesion({ email: correo, password }); // ✅ corregido
+    try {
+      const response = await iniciarSesion({ email: correo, password });
 
-    if (response.status === 200) {
-      const { nombre, rol } = response.data;
-      alert(`Bienvenido ${nombre} (${rol})`);
-      navigate('/');
+      if (response.status === 200) {
+        const { access, refresh, nombre, rol, id_usuario } = response.data;
+
+        // Guardar en localStorage
+        localStorage.setItem('access', access);
+        localStorage.setItem('refresh', refresh);
+        localStorage.setItem('nombre', nombre);
+        localStorage.setItem('rol', rol);
+        localStorage.setItem('id_usuario', id_usuario);
+
+        alert(`Bienvenido ${nombre} (${rol})`);
+        navigate('/');
+      }
+    } catch (error) {
+      console.log("📛 Error:", error.response?.data || error.message);
+      const mensaje = error.response?.data?.error || 'Error desconocido';
+      setErrorLogin(mensaje);
     }
-  } catch (error) {
-  console.log("📛 Error:", error.response?.data || error.message); // ✅ importante
-  const mensaje = error.response?.data?.error || 'Error desconocido';
-  setErrorLogin(mensaje);
-}
-};
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/usuarios/login/google/', {
+        token: credentialResponse.credential
+      });
+
+      const { access, refresh, nombre, rol, id_usuario } = response.data;
+
+      localStorage.setItem('access', access);
+      localStorage.setItem('refresh', refresh);
+      localStorage.setItem('nombre', nombre);
+      localStorage.setItem('rol', rol);
+      localStorage.setItem('id_usuario', id_usuario);
+
+      alert(`Bienvenido ${nombre} (${rol}) con Google`);
+      navigate('/');
+    } catch (error) {
+      console.error("❌ Error en login con Google:", error.response?.data || error.message);
+      setErrorLogin('Error con Google Login');
+    }
+  };
 
   return (
     <section className='Contenedor'>
@@ -96,7 +117,6 @@ const handleSubmit = async (e) => {
           <div className="invalid">Contraseña incorrecta</div>
         )}
 
-        {/* Error de login desde el servidor */}
         {errorLogin && <div className="invalid">{errorLogin}</div>}
 
         <div className="Opciones">
@@ -108,6 +128,17 @@ const handleSubmit = async (e) => {
         </div>
 
         <button className='Continuar' type='submit'>Iniciar sesión</button>
+
+        {/* Google Login */}
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <p style={{ marginBottom: '10px' }}>O inicia sesión con:</p>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => {
+              console.log('❌ Error en el login con Google');
+            }}
+          />
+        </div>
 
         <p className="Registro">
           ¿No estás registrado? <Link to="/Registro">Regístrate</Link>

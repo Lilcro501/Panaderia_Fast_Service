@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useCarrito } from '../../Context/CarritoContext';
 import ComponenteProcesoPago from '../../components/ComponenteProcesoPago';
 import VentanaEmergente from '../../components/VentanaEmergente';
+
 import { enviarFactura } from '../../api/factura';
+
 import '../../assets/styles/MetodosPago.css';
 import qr from "../../assets/images/qr.png";
 

@@ -8,19 +8,32 @@ export const registrarUsuario = async (datos) => {
   return await axios.post(`${API_URL}/registro/`, datos);
 };
 
-// Inicio de sesión
+// ✅ Login con JWT personalizado
 export const iniciarSesion = async ({ email, password }) => {
-  return await axios.post(`${API_URL}/login/`, { email, password });
+  const response = await axios.post(`${API_URL}/token/`, { email, password });
+
+  const { access, refresh, nombre, rol, id_usuario } = response.data;
+
+  // Guardar en localStorage (puedes moverlo a un AuthContext si prefieres)
+  localStorage.setItem('access', access);
+  localStorage.setItem('refresh', refresh);
+  localStorage.setItem('nombre', nombre);
+  localStorage.setItem('rol', rol);
+  localStorage.setItem('id_usuario', id_usuario);
+
+  return response;
 };
 
-
+// Enviar código de verificación al correo
 export const enviarCodigoAlCorreo = async (email) => {
   return await axios.post(`${API_URL}/enviar-codigo/`, { email });
-}
+};
 
-export const cambiarPassword = async ({ email, nueva_password }) => {
+// Cambiar contraseña (con código verificado previamente)
+export const cambiarPassword = async ({ email, nueva_password, codigo }) => {
   return await axios.post(`${API_URL}/cambiar-password/`, {
     email,
-    nueva_password
+    nueva_password,
+    codigo,
   });
 };
