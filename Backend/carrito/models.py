@@ -28,8 +28,6 @@ class Factura(models.Model):
         managed = False  # Importante: Django no debe modificar esta tabla
         db_table = 'facturas'
 
-
-
 #creamos el modelo del detalle de los productos para que se se almacene en el carrito de compras
 class detalle_factura(models.Model):
     id_detalle_factura = models.AutoField(primary_key=True)

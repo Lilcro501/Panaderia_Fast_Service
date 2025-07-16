@@ -16,6 +16,7 @@ class UsuarioManager(BaseUserManager):
         extra_fields.setdefault('rol', 'admin')
         return self.create_user(email, password, **extra_fields)
 
+
 class Usuario(AbstractBaseUser):
     ROLES = (
         ('cliente', 'Cliente'),
@@ -43,10 +44,16 @@ class Usuario(AbstractBaseUser):
 
     def __str__(self):
         return f"{self.email} ({self.rol})"
+    
+    @property
+    def id(self):
+        return self.id_usuario
+
 
     class Meta:
         db_table = 'usuarios'
         managed = False  # ⚠️ Para no modificar tu tabla existente
+    
 
 
 #modelo para la verficacion del correo con los 4 dgitos

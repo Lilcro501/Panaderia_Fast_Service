@@ -1,4 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, login, get_user_model
 from django.http import JsonResponse
 from django.utils.timezone import now
@@ -9,6 +10,10 @@ from django.utils import timezone
 from .models import CodigoVerificacion
 import json
 import random
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
+
+
 Usuario = get_user_model()
 
 ###############################################################################
@@ -37,13 +42,21 @@ def registrar_usuario(request):
                 fecha_registro=now()
             )
 
-            return JsonResponse({'mensaje': 'Usuario creado exitosamente'}, status=201)
+            # Emitir JWT
+            refresh = RefreshToken.for_user(usuario)
+
+            return JsonResponse({
+                'mensaje': 'Usuario creado exitosamente',
+                'refresh': str(refresh),
+                'access': str(refresh.access_token)
+            }, status=201)
 
         except Exception as e:
             print("❌ Error en registrar_usuario:", str(e))
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
 
 ################################################################################
 #vista para iniciar sesion
@@ -70,9 +83,13 @@ def login_usuario(request):
                 return JsonResponse({'error': 'Correo no registrado'}, status=404)
 
             if check_password(password, usuario.password):
-                login(request, usuario)
+                # Generar tokens JWT
+                refresh = RefreshToken.for_user(usuario)
+
                 return JsonResponse({
                     'mensaje': 'Inicio de sesión exitoso',
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
                     'nombre': usuario.nombre_usuario,
                     'rol': usuario.rol
                 }, status=200)
@@ -83,7 +100,6 @@ def login_usuario(request):
             print("❌ Error en login_usuario:", e)
             return JsonResponse({'error': str(e)}, status=500)
 
-    return JsonResponse({'error': 'Método no permitido'}, status=405)
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
 ##############################################################################
@@ -193,5 +209,59 @@ def cambiar_password(request):
         except Exception as e:
             print("❌ Error al cambiar contraseña:", e)
             return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+###################################################################################
+#
+###################################################################################
+
+@csrf_exempt
+def login_google(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            token = data.get('token')
+
+            if not token:
+                return JsonResponse({'error': 'Token no proporcionado'}, status=400)
+
+            # Verificar y decodificar el token
+            idinfo = id_token.verify_oauth2_token(token, google_requests.Request())
+
+            email = idinfo['email']
+            nombre = idinfo.get('given_name', '')
+            apellido = idinfo.get('family_name', '')
+
+            # Buscar o crear usuario
+            usuario, creado = Usuario.objects.get_or_create(
+                email=email,
+                defaults={
+                    'nombre_usuario': email.split('@')[0],
+                    'nombre': nombre,
+                    'apellido': apellido,
+                    'telefono': '',
+                    'direccion': '',
+                    'rol': 'cliente',
+                    'fecha_registro': now(),
+                    'is_active': True
+                }
+            )
+
+            # Crear token JWT
+            refresh = RefreshToken.for_user(usuario)
+
+            return JsonResponse({
+                'access': str(refresh.access_token),
+                'refresh': str(refresh),
+                'nombre': usuario.nombre,
+                'rol': usuario.rol,
+                'id_usuario': usuario.id_usuario
+            }, status=200)
+
+        except Exception as e:
+            print("❌ Error al verificar token de Google:", e)
+            return JsonResponse({'error': 'Token inválido o error interno'}, status=400)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
