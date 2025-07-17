@@ -25,6 +25,21 @@ export default function AccedeAqui() {
   const CorreoValido = regexCorreo.test(correo);
   const PasswordValida = regexPassword.test(password);
 
+  const redirigirPorRol = (rol) => {
+    switch (rol) {
+      case 'admin':
+        navigate('/admin/dashboard');
+        break;
+      case 'trabajador':
+        navigate('/trabajador/pedidos');
+        break;
+      case 'cliente':
+      default:
+        navigate('/');
+        break;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setEnviado(true);
@@ -37,16 +52,16 @@ export default function AccedeAqui() {
 
       if (response.status === 200) {
         const { access, refresh, nombre, rol, id_usuario } = response.data;
+        const rolLower = rol.toLowerCase();
 
-        // Guardar en localStorage
         localStorage.setItem('access', access);
         localStorage.setItem('refresh', refresh);
         localStorage.setItem('nombre', nombre);
-        localStorage.setItem('rol', rol);
+        localStorage.setItem('rol', rolLower);
         localStorage.setItem('id_usuario', id_usuario);
 
-        alert(`Bienvenido ${nombre} (${rol})`);
-        navigate('/');
+        alert(`Bienvenido ${nombre} (${rolLower})`);
+        redirigirPorRol(rolLower);
       }
     } catch (error) {
       console.log("📛 Error:", error.response?.data || error.message);
@@ -62,15 +77,16 @@ export default function AccedeAqui() {
       });
 
       const { access, refresh, nombre, rol, id_usuario } = response.data;
+      const rolLower = rol.toLowerCase();
 
       localStorage.setItem('access', access);
       localStorage.setItem('refresh', refresh);
       localStorage.setItem('nombre', nombre);
-      localStorage.setItem('rol', rol);
+      localStorage.setItem('rol', rolLower);
       localStorage.setItem('id_usuario', id_usuario);
 
-      alert(`Bienvenido ${nombre} (${rol}) con Google`);
-      navigate('/');
+      alert(`Bienvenido ${nombre} (${rolLower}) con Google`);
+      redirigirPorRol(rolLower);
     } catch (error) {
       console.error("❌ Error en login con Google:", error.response?.data || error.message);
       setErrorLogin('Error con Google Login');
@@ -147,3 +163,4 @@ export default function AccedeAqui() {
     </section>
   );
 }
+

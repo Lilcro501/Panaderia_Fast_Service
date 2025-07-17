@@ -37,7 +37,6 @@ def registrar_usuario(request):
                 nombre=data.get('nombre', ''),
                 apellido=data.get('apellido', ''),
                 telefono=data.get('telefono', ''),
-                direccion=data.get('direccion', ''),
                 rol=data.get('rol', 'cliente'),
                 fecha_registro=now()
             )
@@ -242,7 +241,6 @@ def login_google(request):
                     'nombre': nombre,
                     'apellido': apellido,
                     'telefono': '',
-                    'direccion': '',
                     'rol': 'cliente',
                     'fecha_registro': now(),
                     'is_active': True

@@ -49,10 +49,10 @@ def obtener_productos_por_categoria(request, categoria_nombre):
                 'descripcion': producto.descripcion,
                 'imagen': f'/media/{producto.imagen}',
                 'fecha_vencimiento': str(producto.fecha_vencimiento),
+                'stock': producto.stock,  # ✅ cambio aquí
             })
 
         return JsonResponse(data, safe=False)
     
     except Categoria.DoesNotExist:
         return JsonResponse({'error': 'Categoría no encontrada'}, status=404)
-        

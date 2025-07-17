@@ -19,6 +19,16 @@ export const CarritoProvider = ({ children }) => {
     });
   };
 
+  const quitarProducto = (id) => {
+    setCarrito((prev) =>
+      prev
+        .map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
   const eliminarProducto = (id) => {
     setCarrito((prev) => prev.filter((item) => item.id !== id));
   };
@@ -27,7 +37,13 @@ export const CarritoProvider = ({ children }) => {
 
   return (
     <CarritoContext.Provider
-      value={{ carrito, agregarProducto, eliminarProducto, vaciarCarrito }}
+      value={{
+        carrito,
+        agregarProducto,
+        quitarProducto,      
+        eliminarProducto,
+        vaciarCarrito
+      }}
     >
       {children}
     </CarritoContext.Provider>
@@ -35,4 +51,3 @@ export const CarritoProvider = ({ children }) => {
 };
 
 export const useCarrito = () => useContext(CarritoContext);
-
