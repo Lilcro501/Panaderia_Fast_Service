@@ -59,11 +59,12 @@ class Producto(models.Model):
     descripcion = models.TextField()
     imagen = models.ImageField(upload_to='productos/')
     fecha_vencimiento = models.DateField()
+    stock = models.IntegerField()
     id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='id_categoria')
 
     class Meta:
-        managed = False  # ❗ Django no intentará crear ni modificar esta tabla
-        db_table = 'productos'  # ❗ Esta es la tabla real en tu base de datos
+        managed = False  # Django no intentará crear ni modificar esta tabla
+        db_table = 'productos'  # Esta es la tabla real en tu base de datos
 
     def __str__(self):
         return self.nombre

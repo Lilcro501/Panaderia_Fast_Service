@@ -30,7 +30,6 @@ class Usuario(AbstractBaseUser):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     telefono = models.CharField(max_length=20)
-    direccion = models.CharField(max_length=255)
     rol = models.CharField(max_length=20, choices=ROLES)
     fecha_registro = models.DateTimeField()
 
@@ -71,3 +70,4 @@ class CodigoVerificacion(models.Model):
 
     def __str__(self):
         return f'{self.email} - {self.codigo} - {"Usado" if self.usado else "Activo"}'
+
