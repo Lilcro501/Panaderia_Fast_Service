@@ -71,3 +71,4 @@ class CodigoVerificacion(models.Model):
 
     def __str__(self):
         return f'{self.email} - {self.codigo} - {"Usado" if self.usado else "Activo"}'
+
