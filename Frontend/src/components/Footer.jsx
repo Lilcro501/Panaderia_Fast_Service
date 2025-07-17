@@ -1,13 +1,12 @@
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../assets/styles/Footer.css'; // ~~~~~~ Estilos del footer ~~~~~~
 import logoFooter from '../assets/icons/logo-Fast_Service.png'; // ~~~~~~ Logo de FastService ~~~~~~
 import { BiSolidCookie } from "react-icons/bi";
 import VentanaCookies from '../components/VentanaCookies'; // ~~~~~~ Ventana cookies ~~~~~~
 
 const Footer = () => {
-  const navigate = useNavigate();
   const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado para mostrar u ocultar cookies ~~~~~~
 
   return (
@@ -27,7 +26,7 @@ const Footer = () => {
         </div>
     
         <div className="logo">
-          <Link to='/'>
+          <Link to='/Home'>
             <img src={logoFooter} alt="Logo Fast Service" />
           </Link>
         </div>

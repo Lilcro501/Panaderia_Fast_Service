@@ -1,3 +1,4 @@
+
 import { useParams } from 'react-router-dom'; 
 import ProductoDetalle from '../../components/ProductoDetalle';
 import datos from "../../Data/data"

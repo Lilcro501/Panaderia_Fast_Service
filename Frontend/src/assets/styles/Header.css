@@ -71,19 +71,6 @@
   z-index: 5; /* Asegura que esta barra se muestre por encima de otros elementos si se superponen */
 }
 
-.buscador input{
-  padding: 5px; /* Espacio interno dentro del input*/
-  font-size: 2; /* Tamaño del texto en el input */
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  color: #000;
-}
-
-.buscador .lupa{
-  background-color: transparent;
-  border: none;
-}
-
 /* ~~~~~~~~~~~~~~~~ Menú encabezado ~~~~~~~~~~~~~~~~*/
 
 .lista-info {
@@ -109,6 +96,9 @@
   color: #ffffff;
 }
 
+.lista-info li:hover {
+  transform: scale(1.12);
+}
 
 /* ~~~~~~~~~~~~~~~~ Fin de la barra de navegación del encabezado ~~~~~~~~~~~~~~~~ */
 
@@ -156,7 +146,6 @@
   transform: scale(0.5s);
 }
 
-
 .sin-subrayado {
   text-decoration: none;
 }
@@ -171,7 +160,6 @@
   border-radius: 50%;
   padding: 2px 6px;
 }
-
 
 .icono-carrito {
   position: relative;

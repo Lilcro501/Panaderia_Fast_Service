@@ -74,3 +74,25 @@
 .catalogo-scroll::-webkit-scrollbar {
   display: none;
 }
+
+.lista-info a {
+  text-decoration: none;
+}
+
+.lista-info a:hover {
+  color: #997b6c;
+}
+
+.lista-info li:hover {
+  transform: scale(1.12);
+}
+
+.titulo-productos {
+  text-align: center;
+  color: #ffffff;
+}
+
+.sobre {
+  text-decoration: none;
+  font-weight: bold;
+}
