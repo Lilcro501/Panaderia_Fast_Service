@@ -16,20 +16,14 @@ const Header = () => {
     <header className="header shapedividers_com-5996">
       <div className="contenido-header">
         <div className="logo-container">
-          <Link to="/"><img src={logo} alt="logo-panaderia" className="estilo-logo" /></Link>
+          <Link to="/Home"><img src={logo} alt="logo-panaderia" className="estilo-logo" /></Link>
         </div>
 
         <div className="barra-navegacion">
-          <form className="buscador">
-            <input type="text" id="buscar" placeholder="buscar" />
-            <button type="submit" className="lupa">
-              <i className="bi bi-search"></i>
-            </button>
-          </form>
           
           <nav className="menu-secundario">
             <ul className="lista-info">
-              <Link to="/conocenos" className='sin-subrayado'><li>Conócenos</li></Link>
+              <Link to="/Conocenos" className='sin-subrayado'><li>Conócenos</li></Link>
               <Link to="/CalificarExperiencia" className='sin-subrayado'><li>Calificar Experiencia</li></Link>
               <Link to="/Favoritos" className="sin-subrayado"><li>Favoritos</li></Link>
             </ul>

@@ -6,12 +6,22 @@ import mostrador from "../../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del m
 import Categorias from "../../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
 import Carrusel1 from "../../components/CarruselIncremento"; /* ~~~~~~ Componente del carrusel con botones ~~~~~~ */
 import Carrusel2 from "../../components/CarruselCalificacion"; /* ~~~~~~ Componente darrusel con calificaciones ~~~~~~ */ 
+import { Link } from "react-router-dom";
+
+//importacion de iconos de react
+import { AiFillSun } from "react-icons/ai";
 
 /* ~~~~~~ Función del Index sin registrar ~~~~~~ */
 export default function HomeSinRegistrar() {
   return (
     <main>
-      <h1 className="bienvenida" style={{textAlign: "center"}}>Tu día empieza mejor con nuestro pan</h1>
+      <h1 className="texto-animado">
+        <AiFillSun size={35} color="rgba(253, 196, 81, 1)" />
+          &nbsp;
+          Tu día empieza mejor con nuestro pan
+          &nbsp;
+        <AiFillSun size={35} color="rgba(253, 196, 81, 1)" />
+      </h1>
       
       {/* Carrusel Catálogo */}
       <Categorias/>
@@ -19,24 +29,24 @@ export default function HomeSinRegistrar() {
       
       <br/> <br/>
 
-      <article class="recuadro-informacion">
-          <div class="nosotros">
-              <center> <h2 class="sobre"> Sobre nosostros</h2>
-                <p class="objetivo"> Queremos ser tu panadería favorita, por lo que cada día nuestro equipo de panaderos trabajan con pasión, 
+      <article className ="recuadro-informacion">
+          <div className ="nosotros">
+              <center> <h2 className ="sobre"> Sobre nosostros</h2>
+                <p className ="objetivo"> Queremos ser tu panadería favorita, por lo que cada día nuestro equipo de panaderos trabajan con pasión, 
                   cariño y dedicación para ofrecerte productos que te deleiten y te hagan sentir como en casa. 
-                  Conoce más sobre nosotros haciendo <a class="sobre" href=""> click aquí </a>.
+                  Conoce más sobre nosotros haciendo <Link className="sobre" to="/conocenos">click aquí</Link>
                 </p>
               </center>
             </div>
           </article>
       <br/> <br/>
       <br/> <br/>
-      <h2 className="titulo-productos" style={{textAlign: "center", color: '#2f1f1f'}}>Productos destacados</h2>
+      <h2 className="titulo-productos" >Productos destacados</h2>
       <Carrusel2/>
       <br/> <br/>
 
-      <section class="frase-logo">
-        <div class="texto-slogan">
+      <section className ="frase-logo">
+        <div className ="texto-slogan">
           <h3> 
             Más que <br/>
             una panadería, somos un <br/>
@@ -47,8 +57,8 @@ export default function HomeSinRegistrar() {
           </h3>
         </div>
 
-        <div class="home-mostrador">
-          <img class="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />
+        <div className ="home-mostrador">
+          <img className ="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />
         </div>
       </section>
 

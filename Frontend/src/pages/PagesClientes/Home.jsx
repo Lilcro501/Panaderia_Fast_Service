@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+
+import React from 'react';
 //estilos css
 
 import '../../assets/styles/Home.css'; 
@@ -6,7 +7,6 @@ import "../../assets/styles/Global.css"
 
 // importaciones de imagenes
 
-import pan from "../../assets/icons/pan.png"
 import mostrador from "../../assets/icons/mostrador.jpg"
 import Categorias from "../../components/Categorias"
 
@@ -15,17 +15,20 @@ import Carrusel1 from "../../components/CarruselIncremento"
 import Carrusel2 from "../../components/CarruselCalificacion"
 
 //importacion de iconos de react
-import { PiFlowerDuotone } from "react-icons/pi";
+import { AiFillSun } from "react-icons/ai";
 
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
     <main>
       <div className="contenedor-titulo">
             <h1 className="texto-animado">
-              <PiFlowerDuotone size={32} color="#f59e0b" /> 
-              ...Tu día empieza mejor con nuestro pan...
-              <PiFlowerDuotone size={32} color="#f59e0b" />
+              <AiFillSun size={35} color="rgba(253, 196, 81, 1)" />
+                &nbsp;
+                Tu día empieza mejor con nuestro pan
+                &nbsp;
+              <AiFillSun size={35} color="rgba(253, 196, 81, 1)" />
             </h1>
     </div>
       <br /> <br />
@@ -44,7 +47,7 @@ export default function Home() {
               <center> <h2 className="sobre"> Sobre nosostros</h2>
                 <p className="objetivo"> Queremos ser tu panadería favorita, por lo que cada día nuestro equipo de panaderos trabajan con pasión, 
                   cariño y dedicación para ofrecerte productos que te deleiten y te hagan sentir como en casa. 
-                  Conoce más sobre nosotros haciendo <a className="sobre" href=""> click aquí </a>.
+                  Conoce más sobre nosotros haciendo <Link className="sobre" to="/Conocenos">click aquí</Link>.
                 </p>
               </center>
             </div>
@@ -60,20 +63,19 @@ export default function Home() {
       <br />
 
       <section className="frase-logo">
-            <div className="texto-slogan texto-animado">
-                <h3> Más que 
-                    <br/> una panadería, somos un
-                        <br/> lugar donde los aromas 
-                        <br/> y sabores se unen para 
-                        <br/> crear experiencias  
-                        <br/> inolvidables. 
-                </h3>
-            </div>
-
-            <div className="home-mostrador">
-                <img className="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />
-            </div>
-        </section>
+          <div className="texto-slogan texto-animado">
+              <h3> Más que 
+                  <br/> una panadería, somos un
+                      <br/> lugar donde los aromas 
+                      <br/> y sabores se unen para 
+                      <br/> crear experiencias  
+                      <br/> inolvidables. 
+              </h3>
+          </div>
+          <div className="home-mostrador">
+            <img className="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="440px" />
+          </div>
+      </section>
 
     </main>
   );
