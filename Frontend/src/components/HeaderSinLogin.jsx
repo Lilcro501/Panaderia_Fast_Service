@@ -21,12 +21,6 @@ const HeaderSinLogin = () => {
 
         {/* ~~~~~~~~~~~~~~~~ Barra de buscador ~~~~~~~~~~~~~~~~ */}
         <div className="barra-navegacion">
-          <form className="buscador">
-            <input type="text" id="buscar" placeholder="buscar" />
-            <button type="submit" className="lupa">
-              <i className="bi bi-search"></i>
-            </button>
-          </form>
 
           {/* ~~~~~~~~~~~~~~~~ Lista de navegación superior ~~~~~~~~~~~~~~~~ */}
           <nav className="menu-secundario">
