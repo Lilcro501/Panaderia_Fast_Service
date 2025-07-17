@@ -31,15 +31,19 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+#Esto indicara que aplicaciones se van a utilizar en el proyecto
+# tener en cuenta que cada app que se cree en django se debe agregar en este apartado
+
 
 INSTALLED_APPS = [
     # Django por defecto
-    'django.contrib.admin',
+    'django.contrib.contenttypes',    # Para django_content_type
+    'django.contrib.sessions',        # Para django_session  
+    'django.contrib.messages',        # Para mensajes flash
+    'django.contrib.staticfiles',     # Para archivos estáticos
     'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.admin',
+
 
     # CORS
     'corsheaders',
