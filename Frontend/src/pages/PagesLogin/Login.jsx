@@ -6,7 +6,7 @@ const Login = () => {
 
     useEffect(() => {
     // Asignar el rol automáticamente como 'Cliente'
-    localStorage.setItem("rol", "Cliente");
+    localStorage.setItem("rol", "cliente");
 
     // Redirigir a la ruta /Home
     navigate("/Home");
