@@ -21,8 +21,6 @@ export default function Registro() {
   const [form, setForm] = useState({
     username: '',
     correo: '',
-    password: '',
-    confirmar: '',
     terminos: false,
   });
 
@@ -45,12 +43,7 @@ export default function Registro() {
     } else if (!emailRegex.test(form.correo)) {
       nuevosErrores.correo = 'Correo no válido';
     }
-    if (form.password.length < 6) {
-      nuevosErrores.password = 'La contraseña debe tener al menos 6 caracteres';
-    }
-    if (form.confirmar !== form.password) {
-      nuevosErrores.confirmar = 'Las contraseñas no coinciden ';
-    }
+    
     if (!form.terminos) {
       nuevosErrores.terminos = 'Debes aceptar los Términos y Condiciones';
     }
@@ -72,7 +65,6 @@ export default function Registro() {
       try {
         const response = await registrarUsuario({
           email: form.correo,
-          password: form.password,
           nombre_usuario: form.username,
           nombre: '',
           apellido: '',
@@ -127,30 +119,6 @@ export default function Registro() {
         </div>
         {errores.correo && <p className='mensaje-error'>{errores.correo}</p>}
 
-        <div className='Campo'>
-          <FaLock className='Icono' />
-          <input
-            type='password'
-            id='password'
-            placeholder='Contraseña'
-            value={form.password}
-            onChange={handleChange}
-            className={errores.password ? 'invalido' : ''}
-          />
-        </div>
-        {errores.password && <p className='mensaje-error'>{errores.password}</p>}
-
-        <div className='Campo'>
-          <FaUserLock className='Icono' />
-          <input
-            type='password'
-            id='confirmar'
-            placeholder='Confirmar contraseña'
-            value={form.confirmar}
-            onChange={handleChange}
-            className={errores.confirmar ? 'invalido' : ''}
-          />
-        </div>
         {errores.confirmar && <p className='mensaje-error'>{errores.confirmar}</p>}
 
         <div className='EstiloAceptartyc'>
