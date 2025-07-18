@@ -6,34 +6,48 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
 import json
-from .models import Factura, Producto, Categoria
+from .models import Factura, Producto, Categoria, Pedido
+from usuarios.models import Usuario
+
+
 
 
 @csrf_exempt  # Temporal para desarrollo; mejor usar autenticación en producción
 @require_http_methods(["POST"])
-
+@csrf_exempt
 def crear_factura(request):
-    try:
-        #eesta funcion toma el cuerpo del json y lo convierte en un objeto
-        data = json.loads(request.body)
-        #aca se crea un nuevo objeto en la base de datos usando el modelo de factura
-        factura = Factura.objects.create(
-            metodo_pago=data.get('metodo_pago'),  # Debes enviarlo desde React
-            total=data.get('total'),              # También debes enviarlo
-            cedula=data.get('cedula'),
-            municipio=data.get('municipio'),      # Puedes usar "sector" en React y renombrarlo acá
-            direccion_entrega=data.get('direccion'),
-            apartamento=data.get('apartamento'),
-            fecha_entrega=parse_date(data.get('fecha_entrega')),
-            hora_entrega=parse_time(data.get('hora')),
-            notas=data.get('informacion_adicional'),
-            comprobante_archivo=data.get('comprobante_archivo')  # Este debe ser una cadena (por ahora)
-        )
-        #aca se devuelve una respuesta JSON con un mensaje de validacion de que se creo de manera correcta la factura
-        return JsonResponse({'message': 'Factura creada correctamente', 'factura_id': factura.id_factura}, status=201)
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
 
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
+            usuario_id = data.get('id_usuario')
+            usuario = Usuario.objects.get(id=usuario_id)
+
+            factura = Factura.objects.create(
+                id_usuario=usuario,
+                fecha=datetime.now(),  # Puedes cambiar si quieres que el frontend la envíe
+                metodo_pago=data.get('metodo_pago'),
+                total=data.get('total'),
+                cedula=data.get('cedula'),
+                direccion_entrega=data.get('direccion_entrega'),
+                fecha_entrega=parse_date(data.get('fecha_entrega')),
+                notas=data.get('notas', ''),
+                comprobante_archivo=data.get('comprobante_archivo', '')
+            )
+
+            return JsonResponse({
+                'message': 'Factura creada correctamente',
+                'factura_id': factura.id_factura
+            }, status=201)
+
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+###########################################################################
 
 def obtener_productos_por_categoria(request, categoria_nombre):
     try:
@@ -49,10 +63,53 @@ def obtener_productos_por_categoria(request, categoria_nombre):
                 'descripcion': producto.descripcion,
                 'imagen': f'/media/{producto.imagen}',
                 'fecha_vencimiento': str(producto.fecha_vencimiento),
-                'stock': producto.stock,  # ✅ cambio aquí
+                'stock': producto.stock,
             })
 
         return JsonResponse(data, safe=False)
     
     except Categoria.DoesNotExist:
         return JsonResponse({'error': 'Categoría no encontrada'}, status=404)
+
+
+#registra el pedido en la base de datos
+@csrf_exempt
+def registrar_pedido(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            pedidos = data.get('pedidos', [])  # Lista de pedidos
+            factura_id = data.get('factura_id')
+
+            for item in pedidos:
+                id_producto = item.get('id_producto')
+                cantidad = item.get('cantidad')
+
+                # Verificar existencia del producto
+                producto = Producto.objects.get(id_producto=id_producto)
+
+                if producto.stock < cantidad:
+                    return JsonResponse({'error': f'Stock insuficiente para el producto ID {id_producto}'}, status=400)
+
+                # Registrar pedido
+                Pedido.objects.create(
+                    id_producto=id_producto,
+                    cantidad=cantidad,
+                    facturas_id_factura=factura_id
+                )
+
+                # Actualizar el stock del producto
+                producto.stock -= cantidad
+                producto.save()
+
+            return JsonResponse({'message': 'Pedidos registrados correctamente'}, status=201)
+
+        except Producto.DoesNotExist:
+            return JsonResponse({'error': 'Producto no encontrado'}, status=404)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+

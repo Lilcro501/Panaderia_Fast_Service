@@ -1,10 +1,14 @@
+// src/api/factura.js
 import axios from 'axios';
 
-export const enviarFactura = async (formData) => {
+export const enviarFactura = async (factura, productos) => {
   try {
     const response = await axios.post(
-      'http://localhost:8000/carritos/api/crear-factura/',
-      formData,
+      'http://localhost:8000/api/crear-factura/',
+      {
+        ...factura,
+        productos, // carrito completo
+      },
       {
         headers: {
           'Content-Type': 'application/json',
@@ -12,9 +16,8 @@ export const enviarFactura = async (formData) => {
       }
     );
 
-    return response.data; // Devuelve la respuesta del backend
+    return response;
   } catch (error) {
-    // Si el backend responde con un error, lo mostramos
     throw new Error(error.response?.data?.error || 'Error al enviar la factura');
   }
 };

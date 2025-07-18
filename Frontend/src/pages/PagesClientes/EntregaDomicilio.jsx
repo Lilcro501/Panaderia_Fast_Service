@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useCarrito } from '../../Context/CarritoContext';
 import ComponenteProcesoPago from '../../components/ComponenteProcesoPago';
 import VentanaEmergente from '../../components/VentanaEmergente';
-
 import { enviarFactura } from '../../api/factura';
 
 import '../../assets/styles/MetodosPago.css';
@@ -12,6 +11,7 @@ const EntregaDomicilio = () => {
   const { carrito } = useCarrito();
   const [metodoEntrega, setMetodoEntrega] = useState('');
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [comprobante, setComprobante] = useState(null); // Nuevo
 
   const [formData, setFormData] = useState({
     cedula: '',
@@ -34,24 +34,48 @@ const EntregaDomicilio = () => {
   };
 
   const handleEnviarFactura = async () => {
+    if (!metodoEntrega) {
+      return alert('Selecciona un método de pago');
+    }
+
+    if (!formData.cedula || !formData.direccion || !formData.fecha_entrega || !formData.hora) {
+      return alert('Por favor completa los campos obligatorios');
+    }
+
     try {
-      const datosFactura = {
-        metodo_pago: metodoEntrega,
-        total: total,
-        cedula: formData.cedula,
-        municipio: formData.sector,
-        direccion: formData.direccion,
-        apartamento: formData.apartamento,
-        fecha_entrega: formData.fecha_entrega,
-        hora: formData.hora,
-        informacion_adicional: formData.informacion_adicional,
-        comprobante_archivo: "comprobante.jpg" // Simulado por ahora
-      };
+      const datosFactura = new FormData();
+      datosFactura.append('metodo_pago', metodoEntrega);
+      datosFactura.append('total', total);
+      datosFactura.append('cedula', formData.cedula);
+      datosFactura.append('municipio', formData.sector);
+      datosFactura.append('direccion', formData.direccion);
+      datosFactura.append('apartamento', formData.apartamento);
+      datosFactura.append('fecha_entrega', formData.fecha_entrega);
+      datosFactura.append('hora', formData.hora);
+      datosFactura.append('informacion_adicional', formData.informacion_adicional);
+
+      if (metodoEntrega === 'qr' && comprobante) {
+        datosFactura.append('comprobante_archivo', comprobante);
+      } else {
+        datosFactura.append('comprobante_archivo', 'no_aplica');
+      }
 
       await enviarFactura(datosFactura);
-      alert('Factura enviada correctamente ✅');
+      alert('✅ Factura enviada correctamente');
+      setFormData({
+        cedula: '',
+        sector: '',
+        direccion: '',
+        apartamento: '',
+        fecha_entrega: '',
+        hora: '',
+        informacion_adicional: ''
+      });
+      setComprobante(null);
+      setMetodoEntrega('');
+      setMostrarModal(false);
     } catch (error) {
-      alert(`Error: ${error.message}`);
+      alert(`❌ Error al enviar la factura: ${error.message}`);
     }
   };
 
@@ -155,7 +179,12 @@ const EntregaDomicilio = () => {
               <img src={qr} alt="Código QR" className='estilo-img' />
               <p>Cuenta Nequi: <strong>3001234567</strong></p>
               <label>Adjunta tu comprobante:</label>
-              <input type="file" accept=".jpg,.jpeg,.png,.pdf" required />
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.pdf"
+                onChange={(e) => setComprobante(e.target.files[0])}
+                required
+              />
             </>
           ) : (
             <>
@@ -169,10 +198,7 @@ const EntregaDomicilio = () => {
             {metodoEntrega === 'qr' && (
               <button
                 className="boton-moderno"
-                onClick={() => {
-                  alert("Comprobante enviado correctamente");
-                  setMostrarModal(false);
-                }}
+                onClick={handleEnviarFactura}
               >
                 Enviar
               </button>
@@ -188,6 +214,4 @@ const EntregaDomicilio = () => {
 };
 
 export default EntregaDomicilio;
-
-
 
