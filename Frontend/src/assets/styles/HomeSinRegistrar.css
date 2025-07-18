@@ -1,5 +1,5 @@
-/*estilo para el carrusel del home*/
 
+/*estilo para el carrusel del home*/
 .carrusel-centralizado{
   display: flex;
   gap: 10px;
@@ -7,6 +7,7 @@
   max-width: 100%;
   justify-content: center;
 }
+
 .boton-carrusel{
   background-color: #8b5e3c;
   color: white;
@@ -75,13 +76,6 @@
   display: none;
 }
 
-.lista-info a {
-  text-decoration: none;
-}
-
-.lista-info a:hover {
-  color: #997b6c;
-}
 
 .lista-info li:hover {
   transform: scale(1.12);
@@ -92,7 +86,3 @@
   color: #ffffff;
 }
 
-.sobre {
-  text-decoration: none;
-  font-weight: bold;
-}

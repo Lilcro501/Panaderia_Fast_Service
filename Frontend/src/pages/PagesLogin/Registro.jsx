@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 
 /* Hoja de estilos */
 import '../../assets/styles/Acceso.css';
-import Login from "../PagesLogin/Login";
 
 /* Importación de íconos desde react-icons */
 import { FaUser, FaLock, FaUserLock, FaUserCheck } from 'react-icons/fa';

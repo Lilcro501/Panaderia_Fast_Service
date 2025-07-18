@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import '../../assets/styles/HomeSinRegistrar.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
+import '../../assets/styles/Home.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
 import mostrador from "../../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del mostrador ~~~~~~ */
 import Categorias from "../../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
 import Carrusel1 from "../../components/CarruselIncremento"; /* ~~~~~~ Componente del carrusel con botones ~~~~~~ */
@@ -34,7 +34,7 @@ export default function HomeSinRegistrar() {
               <center> <h2 className ="sobre"> Sobre nosostros</h2>
                 <p className ="objetivo"> Queremos ser tu panadería favorita, por lo que cada día nuestro equipo de panaderos trabajan con pasión, 
                   cariño y dedicación para ofrecerte productos que te deleiten y te hagan sentir como en casa. 
-                  Conoce más sobre nosotros haciendo <Link className="sobre" to="/conocenos">click aquí</Link>
+                  Conoce más sobre nosotros haciendo <Link className="sobre" to="/conocenos">Click aquí</Link>.
                 </p>
               </center>
             </div>
@@ -46,7 +46,7 @@ export default function HomeSinRegistrar() {
       <br/> <br/>
 
       <section className ="frase-logo">
-        <div className ="texto-slogan">
+        <div className="texto-slogan texto-animado">
           <h3> 
             Más que <br/>
             una panadería, somos un <br/>

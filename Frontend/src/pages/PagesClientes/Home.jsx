@@ -63,15 +63,15 @@ export default function Home() {
       <br />
 
       <section className="frase-logo">
-          <div className="texto-slogan texto-animado">
-              <h3> Más que 
-                  <br/> una panadería, somos un
-                      <br/> lugar donde los aromas 
-                      <br/> y sabores se unen para 
-                      <br/> crear experiencias  
-                      <br/> inolvidables. 
-              </h3>
-          </div>
+        <div className="texto-slogan texto-animado">
+          <h3> Más que 
+            <br/> una panadería, somos un
+            <br/> lugar donde los aromas 
+            <br/> y sabores se unen para 
+            <br/> crear experiencias  
+            <br/> inolvidables. 
+          </h3>
+        </div>
           <div className="home-mostrador">
             <img className="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="440px" />
           </div>

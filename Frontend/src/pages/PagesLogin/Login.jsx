@@ -1,14 +1,18 @@
-// src/pages/Login.jsx
-import React from 'react';
-import LoginGoogle from "../../components/LoginGoogle" ;
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
-  return (
-    <div>
-      <h1>Bienvenido al sistema</h1>
-      <LoginGoogle />
-    </div>
-  );
-}
+const Login = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+    // Asignar el rol automáticamente como 'Cliente'
+    localStorage.setItem("rol", "Cliente");
+
+    // Redirigir a la ruta /Home
+    navigate("/Home");
+    }, [navigate]);
+
+    return null; // No se muestra nada en pantalla
+};
 
 export default Login;
