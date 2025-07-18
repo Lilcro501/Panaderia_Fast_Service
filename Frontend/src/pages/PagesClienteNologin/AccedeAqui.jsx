@@ -1,6 +1,14 @@
+// ~~~~~~~ Importación de React y useState para manejar estados ~~~~~~~
 import React, { useState } from 'react';
+
+// Importar el componente del botón de Google
+import LoginGoogle from '../../components/LoginGoogle';
+
+// ~~~~~~~ Importación de hoja de estilos ~~~~~~~
 import '../../assets/styles/Acceso.css';
+
 import { Link, useNavigate } from 'react-router-dom';
+
 import { FaUser, FaLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { iniciarSesion } from '../../api/login';
@@ -143,9 +151,10 @@ export default function AccedeAqui() {
           <Link to="/OlvidoContraseña">¿Olvidaste tu contraseña?</Link>
         </div>
 
+        {/* Botón para iniciar sesión */}
         <button className='Continuar' type='submit'>Iniciar sesión</button>
 
-        {/* Google Login */}
+        {/* Google Login (OAuth directo) */}
         <div style={{ marginTop: '20px', textAlign: 'center' }}>
           <p style={{ marginBottom: '10px' }}>O inicia sesión con:</p>
           <GoogleLogin
@@ -156,6 +165,13 @@ export default function AccedeAqui() {
           />
         </div>
 
+        {/* Botón personalizado de Login con Google (si lo quieres mostrar también) */}
+        <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
+          <p>O regístrate con Google</p>
+          <LoginGoogle />
+        </div>
+
+        {/* Enlace para registrarse */}
         <p className="Registro">
           ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
         </p>
