@@ -4,40 +4,87 @@ from django.utils.dateparse import parse_date, parse_time
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-
+from .models import Factura, Pedido, Producto, Categoria
+from django.contrib.auth import get_user_model
 import json
-from .models import Factura, Producto, Categoria, Pedido
 from usuarios.models import Usuario
+from django.utils import timezone  # ¡Importación requerida!
+from decimal import Decimal
+from datetime import datetime
+from django.conf import settings
+from .utils import enviar_factura_por_correo  # Asegúrate de tener utils.py con la función
 
 
+User = get_user_model()
 
-
-@csrf_exempt  # Temporal para desarrollo; mejor usar autenticación en producción
 @require_http_methods(["POST"])
+
 @csrf_exempt
 def crear_factura(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            # Procesar datos del formulario
+            if 'multipart/form-data' in request.content_type:
+                usuario_id = request.POST.get('id_usuario')
+                metodo_pago = request.POST.get('metodo_pago')
+                total = request.POST.get('total')
+                direccion_entrega = request.POST.get('direccion_entrega')
+                fecha_entrega = request.POST.get('fecha_entrega')
+                notas = request.POST.get('informacion_adicional', '')
 
-            usuario_id = data.get('id_usuario')
-            usuario = Usuario.objects.get(id=usuario_id)
+                # Leer productos de FormData
+                productos = []
+                i = 0
+                while f'productos[{i}][id_producto]' in request.POST:
+                    productos.append({
+                        'id_producto': request.POST[f'productos[{i}][id_producto]'],
+                        'cantidad': request.POST[f'productos[{i}][cantidad]'],
+                    })
+                    i += 1
 
+                comprobante = request.FILES.get('comprobante')
+            else:
+                # Para pruebas JSON
+                data = json.loads(request.body)
+                usuario_id = data.get('id_usuario')
+                metodo_pago = data.get('metodo_pago')
+                total = data.get('total')
+                direccion_entrega = data.get('direccion_entrega')
+                fecha_entrega = data.get('fecha_entrega')
+                notas = data.get('informacion_adicional', '')
+                productos = data.get('productos', [])
+                comprobante = None
+
+            # Validación
+            if not usuario_id:
+                return JsonResponse({'error': 'ID de usuario no recibido'}, status=400)
+
+            usuario = Usuario.objects.get(id_usuario=usuario_id)
+
+            # Crear factura
             factura = Factura.objects.create(
-                id_usuario=usuario,
-                fecha=datetime.now(),  # Puedes cambiar si quieres que el frontend la envíe
-                metodo_pago=data.get('metodo_pago'),
-                total=data.get('total'),
-                cedula=data.get('cedula'),
-                direccion_entrega=data.get('direccion_entrega'),
-                fecha_entrega=parse_date(data.get('fecha_entrega')),
-                notas=data.get('notas', ''),
-                comprobante_archivo=data.get('comprobante_archivo', '')
+                usuario=usuario,
+                fecha=timezone.now(),
+                metodo_pago=metodo_pago,
+                total=Decimal(total),
+                direccion_entrega=direccion_entrega,
+                fecha_entrega=datetime.strptime(fecha_entrega, "%Y-%m-%d").date(),
+                notas=notas,
+                comprobante=comprobante
             )
 
+            # Crear registros en pedido (uno por producto)
+            for producto in productos:
+                Pedido.objects.create(
+                    id_producto=int(producto['id_producto']),
+                    cantidad=int(producto['cantidad']),
+                    facturas_id_factura=factura.id
+                )
+
             return JsonResponse({
-                'message': 'Factura creada correctamente',
-                'factura_id': factura.id_factura
+                'success': True,
+                'factura_id': factura.id,
+                'message': 'Factura y pedidos registrados correctamente'
             }, status=201)
 
         except Usuario.DoesNotExist:
@@ -46,6 +93,7 @@ def crear_factura(request):
             return JsonResponse({'error': str(e)}, status=400)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
 
 ###########################################################################
 
