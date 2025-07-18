@@ -11,8 +11,6 @@ import { IoMdClose } from 'react-icons/io';
 /* Importación del componente de rutas */
 import { Link, useNavigate } from 'react-router-dom';
 
-/* Importar el componente del botón de Google */
-import LoginGoogle from '../../components/LoginGoogle';
 
 /* Importar función de registro desde api/login.js */
 import { registrarUsuario } from '../../api/login';
@@ -139,10 +137,6 @@ export default function Registro() {
         </button>
       </form>
 
-      <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
-        <p>O regístrate con Google</p>
-        <LoginGoogle />
-      </div>
 
       <p className='Registro'>
         ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
