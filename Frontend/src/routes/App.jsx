@@ -38,13 +38,14 @@ import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
 import InfoPorProducto from '../pages/PagesClienteNologin/InfoPorProducto';
 import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
 import Conocenos from '../components/Conocenos';
+import Login from '../pages/PagesLogin/Login';
+
 
 // ------------------- Páginas Login -------------------
 import CambioDeContraseña from "../pages/PagesLogin/CambioContraseña";
 import IngresarCodigo from '../pages/PagesLogin/IngresarCodigo';
 import OlvidoContraseña from "../pages/PagesLogin/OlvidoContraseña";
 import Registro from '../pages/PagesLogin/Registro';
-import Login from '../pages/PagesLogin/Login';
 
 // ------------------- Páginas Administrador -------------------
 import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
@@ -105,8 +106,9 @@ const AppRouter = () => {
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
       <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
-      <Route path='/Login' element={<MainLayoutSinLogin><Login /></MainLayoutSinLogin>} />
       <Route path='/AccedeAqui' element={<MainLayoutSinLogin><AccedeAqui /></MainLayoutSinLogin>} />
+      <Route path="/Login" element={<Login />} />
+
 
       {/* Trabajador */}
       <Route path='/Formulario' element={<PrivateRoute role="Trabajador"><LayoutTrabajador><Formulario /></LayoutTrabajador></PrivateRoute>} />

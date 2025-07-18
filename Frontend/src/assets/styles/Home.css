@@ -135,7 +135,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(to right, transparent, rgb(255, 171, 119), transparent);
+  background: linear-gradient(to right, transparent, rgb(235, 143, 86), transparent);
 }
 
 .texto-animado::before {
@@ -174,7 +174,7 @@
 
 .texto-slogan{
   text-align: center;
-  color: rgb(228, 204, 172);
+  color: rgb(255, 229, 202);
 }
 
 .scroll-animado {
@@ -186,4 +186,19 @@
 .scroll-animado.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+
+
+.lista-info a {
+  text-decoration: none;
+}
+
+.lista-info a:hover {
+  color: #997b6c;
+}
+
+.sobre {
+  text-decoration: none;
+  font-weight: bold;
 }

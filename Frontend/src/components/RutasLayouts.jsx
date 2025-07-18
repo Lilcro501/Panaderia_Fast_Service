@@ -7,7 +7,7 @@ import LayoutTrabajador from '../layouts/LayoutTrabajador';
 
 const RutaConLayout = ({ children }) => {
     const rol = localStorage.getItem('rol');
-    
+
     switch (rol) {
     case 'Cliente':
         return <MainLayout>{children}</MainLayout>;
