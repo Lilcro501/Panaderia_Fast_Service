@@ -1,9 +1,6 @@
 // ~~~~~~~ Importación de React y useState para manejar estados ~~~~~~~
 import React, { useState } from 'react';
 
-// Importar el componente del botón de Google
-import LoginGoogle from '../../components/LoginGoogle';
-
 // ~~~~~~~ Importación de hoja de estilos ~~~~~~~
 import '../../assets/styles/Acceso.css';
 
@@ -176,10 +173,6 @@ export default function AccedeAqui() {
             }}
           />
         </div>
-
-        {/* Botón personalizado de Login con Google (si lo quieres mostrar también) */}
-
-
         {/* Enlace para registrarse */}
         <p className="Registro">
           ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
