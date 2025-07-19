@@ -178,10 +178,7 @@ export default function AccedeAqui() {
         </div>
 
         {/* Botón personalizado de Login con Google (si lo quieres mostrar también) */}
-        <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
-          <p>O regístrate con Google</p>
-          <LoginGoogle />
-        </div>
+
 
         {/* Enlace para registrarse */}
         <p className="Registro">
