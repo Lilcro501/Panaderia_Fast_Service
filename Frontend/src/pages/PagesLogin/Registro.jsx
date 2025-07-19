@@ -108,6 +108,7 @@ export default function Registro() {
             ¿Ya tienes una cuenta?{" "}
             <Link to="/AccedeAqui" className="registro-link">Inicia sesión</Link>
           </p>
+
         </form>
       </div>
     </div>
