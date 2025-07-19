@@ -1,9 +1,6 @@
 // ~~~~~~~ Importación de React y useState para manejar estados ~~~~~~~
 import React, { useState } from 'react';
 
-// Importar el componente del botón de Google
-import LoginGoogle from '../../components/LoginGoogle';
-
 // ~~~~~~~ Importación de hoja de estilos ~~~~~~~
 import '../../assets/styles/Acceso.css';
 
@@ -175,12 +172,6 @@ export default function AccedeAqui() {
               setErrorLogin('Error al iniciar sesión con Google');
             }}
           />
-        </div>
-
-        {/* Botón personalizado de Login con Google (si lo quieres mostrar también) */}
-        <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
-          <p>O regístrate con Google</p>
-          <LoginGoogle />
         </div>
 
         {/* Enlace para registrarse */}
