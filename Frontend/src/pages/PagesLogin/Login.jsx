@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,31 +5,14 @@ const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-    // Simulación automática de inicio como Cliente
-    localStorage.setItem("rol", "Cliente");
+    // Asignar el rol automáticamente como 'Cliente'
+    localStorage.setItem("rol", "cliente");
 
-    // Redirigir automáticamente según el rol
-    const rol = localStorage.getItem("rol");
+    // Redirigir a la ruta /Home
+    navigate("/Home");
+    }, [navigate]);
 
-    switch (rol) {
-        case "Admin":
-        navigate("/AdministrarInven");
-        break;
-        case "Trabajador":
-        navigate("/Inicio");
-        break;
-        case "Cliente":
-        navigate("/Home");
-        break;
-        case "SinRegistrar":
-        navigate("/");
-        break;
-        default:
-        navigate("/Login");
-    }
-}, [navigate]);
-
-    return null;
+    return null; // No se muestra nada en pantalla
 };
 
 export default Login;
