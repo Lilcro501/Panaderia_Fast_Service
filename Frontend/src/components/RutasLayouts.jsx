@@ -9,13 +9,13 @@ const RutaConLayout = ({ children }) => {
     const rol = localStorage.getItem('rol');
 
     switch (rol) {
-    case 'Cliente':
+    case 'cliente':
         return <MainLayout>{children}</MainLayout>;
-    case 'Admin':
+    case 'administrador':
         return <AdminLayout>{children}</AdminLayout>;
-    case 'Trabajador':
+    case 'trabajador':
         return <LayoutTrabajador>{children}</LayoutTrabajador>;
-    case 'SinRegistrar':
+    case 'sinsegistrar':
     default:
         return <MainLayoutSinLogin>{children}</MainLayoutSinLogin>;
     }

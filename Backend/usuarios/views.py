@@ -12,7 +12,19 @@ import json
 import random
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
 
+
+
+
+##################################################################################
+# importamos el serializador
+##################################################################################
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+###############################################################################
 
 Usuario = get_user_model()
 

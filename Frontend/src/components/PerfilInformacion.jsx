@@ -57,7 +57,10 @@ export default function PerfilInformacion() {
           />
         </label>
       </div>
-        <button className="boton-actualizar" type="submit">Actualizar Datos</button>
+      <Link to="/Home">
+       <button className="boton-actualizar" type="submit">Actualizar Datos</button>
+      </Link>
+       
     </form>
     </div>
   );
@@ -113,4 +116,3 @@ export function MostrarInformacion() {
     </div>
   );
 }
-
