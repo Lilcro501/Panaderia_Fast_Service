@@ -1,7 +1,7 @@
 
 .categorias {
   margin: 50px auto;
-  padding: 5px;
+  padding: 9px;
   width: 100%;
   max-width: 650px;
   height: auto;
@@ -12,15 +12,12 @@
   border-radius: 27px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-
 }
 
 .categorias:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 18px rgba(45, 28, 13, 0.779);
 }
-
 
 .recuadro-categoria {
   padding-left: 20px;
@@ -61,19 +58,16 @@
   font-size: 19px;
 }
 
-
 .animacion-categoria {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 5px;
+  padding-left: 10px;
   border-radius: 10px;
 }
 
 /* Al pasar el cursor */
 .animacion-categoria:hover {
-  background-color: #e7b982;
+  background-color: #d1a671;
   transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
-
-
-

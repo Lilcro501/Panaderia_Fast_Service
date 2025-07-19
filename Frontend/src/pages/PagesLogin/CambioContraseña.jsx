@@ -1,56 +1,94 @@
-
-import React from 'react'
-
-/* ~~~~~~~ Hoja de estilos ~~~~~~~ */
+import React, { useState } from 'react';
 import '../../assets/styles/Acceso.css';
-
+import { IoMdClose } from 'react-icons/io';
+import { FaUnlockAlt, FaUserLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-
-/* ~~~~~~~ Icon de X (Salir) ~~~~~~~ */
-import { IoMdClose } from 'react-icons/io'; 
-import { FaUserLock, FaUnlockAlt } from 'react-icons/fa'; 
-
+import VentanaConfirmacion from '../../components/VentanaConfirmacion';
+import { cambiarPassword } from '../../api/login';
 
 export default function CambioContraseña() {
-
-    /* ~~~~~~~ Redirección a la página principal al presionar X ~~~~~~~ */
-    const salir = () => {
-    window.location.href = '/';
-    };
-
+    const [password, setPassword] = useState('');
+    const [confirmar, setConfirmar] = useState('');
+    const [enviado, setEnviado] = useState(false);
+    const [mostrarVentana, setMostrarVentana] = useState(false);
     const navigate = useNavigate();
 
-    const PaginaCodigo = () => {
-    navigate('/');};
+    const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const passwordValida = regexPassword.test(password);
+    const coincide = password === confirmar;
+
+    const salir = () => navigate('/AccedeAqui');
+
+    const guardarNueva = async (e) => {
+        e.preventDefault();
+        setEnviado(true);
+        if (!passwordValida || !coincide) return;
+
+        const email = localStorage.getItem('correoRecuperacion');
+        if (!email) {
+            alert('❌ No se encontró el correo. Por favor vuelve a solicitar el código.');
+            navigate('/OlvidoContraseña');
+            return;
+        }
+
+        try {
+            await cambiarPassword({ email, nueva_password: password });
+            setMostrarVentana(true);
+        } catch (error) {
+            console.error('❌ Error al cambiar la contraseña:', error);
+            alert('❌ No se pudo cambiar la contraseña. Inténtalo de nuevo.');
+        }
+    };
+
     return (
-        <section className='Contenedor'>  
-    
-            {/* ~~~~~~~ Botón para cerrar el formulario ~~~~~~~ */ }
-            <button className='salirboton' onClick={salir}>
-                <IoMdClose /> {/* Ícono de X */}
-            </button>
+        <section className='Contenedor'>
+            <form onSubmit={guardarNueva}>
+                <button className='Salir' onClick={salir}><IoMdClose /></button>
+                <br /><br /><br />
 
-            <h1 className='TituloAcceso'>Cambio contraseña</h1>
+                <h1 className='TituloAcceso'>Cambiar contraseña</h1>
+                <p>Ingresa y confirma tu nueva contraseña</p>
 
-            <p>No te preocupes, ingresa tu correo electrónico y te ayudaremos a recuperarla </p>
-            {/* ~~~~~~~ Campos de entrada ~~~~~~~ */ }
-            <div className="Campo">
-                <FaUnlockAlt className="Icono" /> {/* Ícono de candado */}
-                <input type='password' id='password' placeholder='Contraseña nueva'/>
-            </div>
+                <div className={`Campo ${!passwordValida && enviado ? 'invalido' : ''}`}>
+                    <FaUnlockAlt className="Icono" />
+                    <input
+                        type='password'
+                        id='password'
+                        placeholder='Contraseña nueva'
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                </div>
 
-            <div className="Campo">
-                < FaUserLock  className="Icono" /> {/* Ícono de candado con user*/}
-                <input type='password' id='password' placeholder='Confirmar contraseña'/>
-            </div>
-            
-            <div className="Opciones">
-            <label> <input type='checkbox' id='check'/>Recordar mi contraseña </label>
-            </div>
+                {!passwordValida && enviado && (
+                    <div className="invalid">Tu contraseña debe tener al menos 6 caracteres, incluyendo letras y números.</div>
+                )}
 
-            {/* ~~~~~~~ Botón para continuar ~~~~~~~ */}
-            <button className='Continuar' onClick={PaginaCodigo}> Enviar código </button>
+                <div className={`Campo ${!coincide && enviado ? 'invalido' : ''}`}>
+                    <FaUserLock className="Icono" />
+                    <input
+                        type='password'
+                        id='confirmar'
+                        placeholder='Confirmar contraseña'
+                        value={confirmar}
+                        onChange={e => setConfirmar(e.target.value)}
+                    />
+                </div>
 
+                {!coincide && enviado && (
+                    <div className="invalid">Las contraseñas no coinciden</div>
+                )}
+
+                <button className='Continuar' type='submit'>Guardar contraseña</button>
+
+                {mostrarVentana && (
+                    <VentanaConfirmacion
+                        mensaje="Tu contraseña se ha cambiado con éxito"
+                        onClose={() => setMostrarVentana(false)}
+                        onExit={() => navigate('/AccedeAqui')}
+                    />
+                )}
+            </form>
         </section>
-        );
+    );
 }

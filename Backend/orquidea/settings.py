@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,22 +31,46 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+#Esto indicara que aplicaciones se van a utilizar en el proyecto
+# tener en cuenta que cada app que se cree en django se debe agregar en este apartado
+
 
 INSTALLED_APPS = [
-    #las'django.contrib.admin',
-    #'django.contrib.auth',
-    #'django.contrib.contenttypes',
-    #'django.contrib.sessions',
-    #'django.contrib.messages',
-    #'django.contrib.staticfiles',
-    
-    #mis apps
+    # Django por defecto
+    'django.contrib.contenttypes',    # Para django_content_type
+    'django.contrib.sessions',        # Para django_session  
+    'django.contrib.messages',        # Para mensajes flash
+    'django.contrib.staticfiles',     # Para archivos estáticos
+    'django.contrib.auth',
+    'django.contrib.admin',
+
+
+    # CORS
+    'corsheaders',
+
+    # Terceros necesarios para auth
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
+    # mis apps
     'carrito',
+    'inventario',
+    'usuarios',
 ]
 
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -52,7 +78,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'orrquidea.urls'
+ROOT_URLCONF = 'orquidea.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +95,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'orrquidea.wsgi.application'
+WSGI_APPLICATION = 'orquidea.wsgi.application'
 
 
 # Database
@@ -129,3 +155,57 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#este acepta las peticiones de cualquier origen
+
+#este acepta las peticiones de cualquier origen
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTH_USER_MODEL = 'usuarios.Usuario'
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+#configuracion de correo para el registro de usuarios
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'crisandresortiz3228@gmail.com'
+EMAIL_HOST_PASSWORD = 'fyuc rias vqws orkq'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+#autenticacion con google
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+#Especifica los métodos de autenticación que Django usará para identificar a los usuarios cuando acceden a una API protegida.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Tiempo de vida del access token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Tiempo de vida del refresh token
+    'ROTATE_REFRESH_TOKENS': True,                   # Opcional: renovar refresh token
+    'BLACKLIST_AFTER_ROTATION': True,                # Requiere configurar blacklist
+}

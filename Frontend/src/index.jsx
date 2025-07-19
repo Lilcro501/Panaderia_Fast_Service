@@ -4,15 +4,21 @@ import AppRouter from './routes/App';
 import './assets/styles/Global.css';
 
 import { CarritoProvider } from './Context/CarritoContext';
-import { FavoritosProvider } from './Context/FavoritosContext'; // 👈 IMPORTAR FAVORITOS
+import { FavoritosProvider } from './Context/FavoritosContext';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { BrowserRouter } from 'react-router-dom'; // ✅ Importante
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <CarritoProvider>
-      <FavoritosProvider>
-        <AppRouter />
-      </FavoritosProvider>
-    </CarritoProvider>
+    <GoogleOAuthProvider clientId="119440441788-nilibr4jvgeu1gkvbu81v32c5i53cu12.apps.googleusercontent.com">
+      <BrowserRouter> {/* ✅ Aquí */}
+        <CarritoProvider>
+          <FavoritosProvider>
+            <AppRouter />
+          </FavoritosProvider>
+        </CarritoProvider>
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );

@@ -46,8 +46,9 @@ const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado pa
         <div className="links-agrupar">
           <span>
             <p> {/* &nbsp; para hacer un espaciado*/}
-              
-              <a href="InfoLegal">Información legal</a> &nbsp; | &nbsp; <a href="ManifiestoConsumidor">Manifiesto del consumidor</a>
+              <a href="InfoLegal">Información legal</a> 
+              &nbsp; | &nbsp; 
+              <a href="ManifiestoConsumidor">Manifiesto del consumidor</a>
             </p>
           </span>
         </div>
