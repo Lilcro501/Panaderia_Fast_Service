@@ -32,10 +32,10 @@ import TYC from "../pages/PagesClientes/TYC";
 import EntregaDomicilio from '../pages/PagesClientes/EntregaDomicilio';
 import EntregaLocal from '../pages/PagesClientes/PagoLocal';
 import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
+import ProductoDetalle from '../components/ProductoDetalle';
 
 // ------------------- Páginas Cliente No Login -------------------
 import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
-import InfoPorProducto from '../pages/PagesClienteNologin/InfoPorProducto';
 import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
 import Conocenos from '../components/Conocenos';
 import Login from '../pages/PagesLogin/Login';
@@ -87,6 +87,7 @@ const AppRouter = () => {
       <Route path='/EntregaDomicilio' element={<PrivateRoute role="cliente"><MainLayout><EntregaDomicilio /></MainLayout></PrivateRoute>} />
       <Route path='/EntregaLocal' element={<PrivateRoute role="cliente"><MainLayout><EntregaLocal /></MainLayout></PrivateRoute>} />
 
+
       {/* Layout dinámico - Rutas compartidas */}
       <Route path="/conocenos" element={<RutasLayout><Conocenos /></RutasLayout>} />
       <Route path="/InfoLegal" element={<RutasLayout><InfoLegal /></RutasLayout>} />
@@ -99,10 +100,11 @@ const AppRouter = () => {
       <Route path='/categorias/CategoriasHelados' element={<RutasLayout><CategoriasHelados /></RutasLayout>} />
       <Route path='/categorias/CategoriasMecato' element={<RutasLayout><CategoriasMecato /></RutasLayout>} />
       <Route path='/categorias/CategoriasBebidas' element={<RutasLayout><CategoriasBebidas /></RutasLayout>} />
-      <Route path='/producto/:id' element={<RutasLayout><InfoPorProducto /></RutasLayout>} />
+      <Route path='/producto/:id' element={<RutasLayout><ProductoDetalle></ProductoDetalle></RutasLayout>} />
+
 
       {/* Cliente No Login */}
-      <Route path='/HomeSinRegistro' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
+      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
       <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña /></MainLayoutSinLogin>} />
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />

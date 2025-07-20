@@ -1,55 +1,95 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import '../assets/styles/InfoPorProducto.css';
 import { AiFillHeart } from "react-icons/ai";
+import axios from 'axios';
+import { useCarrito } from '../Context/CarritoContext';
 
 export default function ProductoDetalle() {
   const { id } = useParams(); // Captura el ID de la URL
   const [producto, setProducto] = useState(null);
+  const [error, setError] = useState(null);
+  const [popup, setPopup] = useState(null);
+
+  const { agregarProducto, carrito } = useCarrito();
 
   useEffect(() => {
-  const obtenerProducto = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/producto/${id}/`);
-      setProducto(response.data);
-    } catch (error) {
-      console.error("Error al obtener el producto:", error);
-      setProducto({ error: 'Producto no encontrado' }); // 🔥 Esto lo muestra luego
+    const obtenerProducto = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/producto/${id}/`);
+        setProducto({
+          id: response.data.id_producto ?? response.data.id,
+          nameProduct: response.data.nombre,
+          price: response.data.precio,
+          image: `http://localhost:8000${response.data.imagen}`,
+          description: response.data.descripcion,
+          stock: response.data.stock,
+        });
+      } catch (err) {
+        console.error('❌ Error al obtener producto:', err);
+        setError('Producto no encontrado');
+      }
+    };
+
+    if (id) {
+      obtenerProducto();
+    }
+  }, [id]);
+
+  const manejarAgregar = (producto) => {
+    const productoEnCarrito = carrito.find((item) => item.id === producto.id);
+    const cantidadActual = productoEnCarrito ? productoEnCarrito.quantity : 0;
+
+    if (cantidadActual < producto.stock) {
+      agregarProducto(producto);
+      setPopup(producto.nameProduct);
+      setTimeout(() => setPopup(null), 2000);
+    } else {
+      alert(
+        `⚠️ No puedes agregar más de ${producto.stock} unidades de ${producto.nameProduct}`
+      );
     }
   };
 
-  obtenerProducto();
-    }, [id]);
+  if (error) {
+    return <h2 className="error">{error}</h2>;
+  }
 
-    if (!producto) {
-    return <p>Cargando producto...</p>;
-    }
-
-    if (producto?.error) {
-    return <p>{producto.error}</p>;  // 🔥 Mensaje de error visible
-    }
-
+  if (!producto) {
+    return <h2 className="loading">Cargando producto...</h2>;
+  }
 
   return (
     <section className='ContenedorProductoInfo'>
       <div className='InfoSuperiorCalificacion'>
         <div className='ImagenProducto'>
-          <img className='ImagenDetalleProducto' src={producto.imagen} alt={`Imagen de ${producto.nombre}`} />
+          <img
+            className='ImagenDetalleProducto'
+            src={producto.image}
+            alt={`Imagen de ${producto.nameProduct}`}
+          />
         </div>
-
         <div className='InfoProducto'>
           <div className='Heart'>
             <AiFillHeart color="red" size={24} />
           </div>
 
-          <h2 className='TituloProduct'>{producto.nombre}</h2>
-          <p className='DescripcionProducto'>{producto.descripcion}</p>
-          <h1 className='Precio'>${producto.precio.toLocaleString()}</h1>
+          <h2 className='TituloProduct'>{producto.nameProduct}</h2>
+          <p className='DescripcionProducto'>{producto.description}</p>
+          <h1 className='Precio'>${producto.price.toLocaleString()}</h1>
 
-          <button className='BotonComprar'>Comprar ahora</button>
           <br />
-          <button className='BotonAñadirCarrito'>Añadir al carrito</button>
+          <button
+            className="agregar"
+            onClick={() => manejarAgregar(producto)}
+            disabled={producto.stock === 0}
+          >
+            {producto.stock === 0 ? "Agotado" : "Añadir"}
+          </button>
+
+          {popup && (
+            <div className="popup-mini">✅ {popup} añadido al carrito</div>
+          )}
         </div>
       </div>
 
@@ -85,3 +125,4 @@ export default function ProductoDetalle() {
     </section>
   );
 }
+
