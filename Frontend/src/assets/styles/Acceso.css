@@ -1,22 +1,24 @@
-
+/*
 .Contenedor {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: stretch;
-    width: 100%;
-    max-width: 78%;
-    margin: 20px auto;
-    border-radius: 40px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    background: #d9d9d9d0;
+    max-width: 500px;
+    border-radius: 70px;
+    border: 2px solid rgb(255, 255, 255);
+    margin: auto;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-.Form {
-    width: 100%;
+form {
+    border-radius: 20px;
     max-width: 400px;
+    width: 100%;
     position: relative;
-}
+    }
 
 .Label {
     display: flex;
@@ -27,24 +29,24 @@
 }
 
 .Salir {
+    align-self: flex-end;
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: linear-gradient(to right, rgb(219, 124, 162), rgb(216, 131, 121));
-    color: white;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(to right, rgb(219, 124, 162), rgb(216, 131, 121)) ;
+    color: #333;
     font-size: 20px;
     cursor: pointer;
-    padding: 6px 10px;
-    border-radius: 50%;
-    border: none;
+    padding: 4px 10px;
+    border-radius: 0px 15px 1px 10px;
 }
 
-.TituloAccesoI {
-    color: #fc98a4;
+.TituloAcceso {
+    color: #8c7868;
     text-align: center;
     margin-bottom: 20px;
-    font-size: 35px;
-    -webkit-text-stroke: 1px #000000;
+    font-size: 40px;
+    -webkit-text-stroke: 2px #000000;
 }
 
 #correo,
@@ -57,31 +59,37 @@
     border-radius: 12px;
     background-color: #f4f2ef;
     transition: border-color 0.3s ease;
-}
+    }
 
 /* Botón para continuar */
+/*
 .Continuar {
     background: linear-gradient(to right, rgb(219, 124, 162), rgb(216, 131, 121));
-    width: 100%;
+    width: 80%;
     color: white;
-    font-size: 18px;
-    padding: 12px;
-    border-radius: 12px;
+    font-size: 20px;
+    padding: 12px 60px;
+    border-radius: 15px;
+    transition: transform 0.3s;
     cursor: pointer;
     border: 1px solid black;
-    box-shadow: 2px 2px 6px #888;
-    transition: transform 0.3s ease;
+    box-shadow: 2px 2px 7px #8a8787;
+    margin: 0 auto;
+    display: block;
 }
 
 .Continuar:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
 }
 
 .Icono {
-    margin-right: 10px;
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
     color: #ba896b;
-    font-size: 20px;
-}
+    font-size: 21px;
+    }
 
 .IconoMostrar {
     position: absolute;
@@ -101,12 +109,14 @@
 }
 
 /* Campos de entrada */
+/*
 .Campo {
     display: flex;
     align-items: center;
     background-color: rgba(154, 143, 146, 0.15);
     border-radius: 10px;
     padding: 2px 10px;
+    margin: 10px 0 20px;
     margin-bottom: 20px;
     width: 100%;
     position: relative;
@@ -116,10 +126,8 @@
     background: transparent;
     border: none;
     outline: none;
-    color: #000;
-    font-size: 18px;
-    flex: 1;
-    padding: 15px;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
 }
 
 .CampoNumero {
@@ -138,17 +146,20 @@
 }
 
 .Opciones {
+    width: 100%;
+    font-size: 17px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 15px;
     color: #5d5c5c;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .Opciones a {
     color: #d27c7c;
     text-decoration: none;
+    font-size: 17px;
 }
 
 .Opciones a:hover {
@@ -156,11 +167,12 @@
 }
 
 /* Texto inferior de registro */
+/*
 .Registro {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 16px;
+    margin-top: 15px;
     color: #444;
+    font-size: 16px;
+    text-align: center;
 }
 
 .Registro a {
@@ -174,6 +186,7 @@
 }
 
 /* Cambiar el fondo para que no se vuelva blanco al escribir*/
+/*
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
@@ -265,6 +278,7 @@ input:-webkit-autofill:active {
 }
 
 /* ~~~~~~~ Estilos para el banner de cookies ~~~~~~~ */
+/*
 .FondoCookies {
     position: relative;
     left: 200px;
@@ -336,6 +350,7 @@ input:-webkit-autofill:active {
 }
 
 /*Estilo cuando hay error */
+/*
 input:invalid {
     border-color: #dc3545;
 }
@@ -347,55 +362,6 @@ input:invalid {
 
 .invalid {
     color: #c6414e;
-    font-size: 14px;
-    margin-top: -10px;
-    margin-bottom: 10px;
+    font-size: 15px;
     text-align: center;
-}
-
-
-.ContenedorIzquierdo {
-    flex: 1;
-    background: #e7dad3;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #444;
-    text-align: center;
-}
-
-.ImagenOrquidea {
-    width: 100%;
-    height: 300px;
-    margin-top: 20px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-style: italic;
-}
-
-.ContenedorDerecho {
-    flex: 1;
-    padding: 40px 30px;
-    background-color: #ffffff;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-/* Google login */
-.google-login {
-    margin-top: 20px;
-    text-align: center;
-}
-
-
-.ImagenOrquidea img {
-    height: 400px;
-    width: 400px;
 }

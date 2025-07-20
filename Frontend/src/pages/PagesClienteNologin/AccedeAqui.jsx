@@ -16,6 +16,8 @@ import { iniciarSesion } from '../../api/login';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
+import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
+
 export default function AccedeAqui() {
   const navigate = useNavigate();
 
@@ -119,20 +121,21 @@ export default function AccedeAqui() {
   return (
     <section className='Contenedor'> 
       <div className='ContenedorIzquierdo'> 
-        <h1>Texto con logotipo (Buscar ilustración de una orquídea)</h1>
+        <h1>Tú día inicia mejor con nuestro pan</h1>
 
         <div className='ImagenOrquidea'> 
-          Posterior adición de ilustración
+          <img src={ImagenOrquidea} alt="Orquidea" />
         </div>
       </div>
 
       <div className='ContenedorDerecho'>
-      <form className='Form' onSubmit={handleSubmit} noValidate>
         <button className='Salir' type="button" onClick={salir}>
           <IoMdClose />
         </button>
+      <form className='Form' onSubmit={handleSubmit} noValidate>
+        
 
-        <h1 className='TituloAcceso'>Inicia sesión</h1>
+        <h1 className='TituloAccesoI'>Inicia sesión</h1>
 
         <div className={`Campo form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
           <FaUser className="Icono" />
