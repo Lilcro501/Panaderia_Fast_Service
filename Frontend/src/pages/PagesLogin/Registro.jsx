@@ -1,115 +1,171 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import "../../assets/styles/Registro.css";
-import orquidea from "../../assets/images/orquidea.jpg";
+/* Importaciones necesarias de React y librerías */
+import React, { useState } from 'react';
+
+/* Hoja de estilos */
+import '../../assets/styles/Acceso.css';
+import Login from "../PagesLogin/Login";
+
+/* Importación de íconos desde react-icons */
+import { FaUser, FaLock, FaUserLock } from 'react-icons/fa';
+import { IoMdClose } from 'react-icons/io';
+
+/* Importación del componente de rutas */
+import { Link, useNavigate } from 'react-router-dom';
+
+/* Importar el componente del botón de Google */
+import LoginGoogle from '../../components/LoginGoogle';
+
+/* Importar función de registro desde api/login.js */
+import { registrarUsuario } from '../../api/login';
 
 export default function Registro() {
-  const [formulario, setFormulario] = useState({
-    nombre: "",
-    correo: "",
-    password: "",
-    confirmarPassword: "",
-    aceptarTerminos: false,
+  const [form, setForm] = useState({
+    correo: '',
+    password: '',
+    confirmar: '',
+    terminos: false,
   });
 
-  // Maneja los cambios en los campos del formulario
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormulario({
-      ...formulario,
-      [name]: type === "checkbox" ? checked : value,
-    });
+  const [errores, setErrores] = useState({});
+  const navigate = useNavigate();
+
+  const salir = () => {
+    window.location.href = '/';
   };
 
-  // Maneja el envío del formulario
-  const handleSubmit = (e) => {
+  const validar = () => {
+    const nuevosErrores = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!form.correo.trim()) {
+      nuevosErrores.correo = 'Por favor ingresa tu correo ';
+    } else if (!emailRegex.test(form.correo)) {
+      nuevosErrores.correo = 'Correo no válido';
+    }
+
+    if (form.password.length < 6) {
+      nuevosErrores.password = 'La contraseña debe tener al menos 6 caracteres';
+    }
+
+    if (form.confirmar !== form.password) {
+      nuevosErrores.confirmar = 'Las contraseñas no coinciden ';
+    }
+
+    if (!form.terminos) {
+      nuevosErrores.terminos = 'Debes aceptar los Términos y Condiciones';
+    }
+
+    return nuevosErrores;
+  };
+
+  const handleChange = (e) => {
+    const { id, value, type, checked } = e.target;
+    setForm({ ...form, [id]: type === 'checkbox' ? checked : value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const erroresValidados = validar();
+    setErrores(erroresValidados);
 
-    if (!formulario.aceptarTerminos) {
-      alert("Debes aceptar los términos y condiciones.");
-      return;
+    if (Object.keys(erroresValidados).length === 0) {
+      try {
+        const response = await registrarUsuario({
+          email: form.correo,
+          password: form.password,
+          nombre: '',
+          apellido: '',
+          telefono: '',
+          direccion: '',
+          rol: 'cliente'
+        });
+
+        if (response.status === 201 || response.status === 200) {
+          alert('Usuario registrado con éxito ✅');
+          navigate('/AccedeAqui'); // redirige al login
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Error al registrar usuario ❌');
+      }
     }
-
-    if (formulario.password !== formulario.confirmarPassword) {
-      alert("Las contraseñas no coinciden.");
-      return;
-    }
-
-    console.log("Formulario enviado:", formulario);
-    // Aquí iría la lógica de envío al backend (API)
   };
 
   return (
-    <div className="registro-container">
-      <div className="registro-contenido">
-        {/* Lado izquierdo con imagen y mensaje */}
-        <div className="registro-imagen">
-          <h2>Bienvinid@ a la sección de Registro</h2>
-          <img src={orquidea} alt="Orquídea" />
+    <section className='Contenedor'>
+      <button className='Salir' onClick={salir}>
+        <IoMdClose />
+      </button>
+
+      <h1 className='TituloAcceso'>Regístrate</h1>
+
+      <form onSubmit={handleSubmit} noValidate>
+
+        <div className='Campo'>
+          <FaUser className='Icono' />
+          <input
+            type='email'
+            id='correo'
+            placeholder='Correo'
+            value={form.correo}
+            onChange={handleChange}
+            className={errores.correo ? 'invalido' : ''}
+          />
         </div>
+        {errores.correo && <p className='mensaje-error'>{errores.correo}</p>}
 
-        {/* Lado derecho con el formulario */}
-        <form className="registro-formulario" onSubmit={handleSubmit}>
-          <h2 className="registro-titulo">Registrarse</h2>
-
+        <div className='Campo'>
+          <FaLock className='Icono' />
           <input
-            type="text"
-            name="nombre"
-            placeholder="Nombre completo"
-            value={formulario.nombre}
+            type='password'
+            id='password'
+            placeholder='Contraseña'
+            value={form.password}
             onChange={handleChange}
-            required
+            className={errores.password ? 'invalido' : ''}
           />
+        </div>
+        {errores.password && <p className='mensaje-error'>{errores.password}</p>}
 
+        <div className='Campo'>
+          <FaUserLock className='Icono' />
           <input
-            type="email"
-            name="correo"
-            placeholder="Correo electrónico"
-            value={formulario.correo}
+            type='password'
+            id='confirmar'
+            placeholder='Confirmar contraseña'
+            value={form.confirmar}
             onChange={handleChange}
-            required
+            className={errores.confirmar ? 'invalido' : ''}
           />
+        </div>
+        {errores.confirmar && <p className='mensaje-error'>{errores.confirmar}</p>}
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            value={formulario.password}
-            onChange={handleChange}
-            required
-          />
-
-          <input
-            type="password"
-            name="confirmarPassword"
-            placeholder="Confirmar contraseña"
-            value={formulario.confirmarPassword}
-            onChange={handleChange}
-            required
-          />
-
-          <div className="registro-checkbox-container">
+        <div className='EstiloAceptartyc'>
+          <label className='TextoTerminos'>
             <input
-              type="checkbox"
-              name="aceptarTerminos"
-              checked={formulario.aceptarTerminos}
+              type='checkbox'
+              id='terminos'
+              checked={form.terminos}
               onChange={handleChange}
-              id="terminos"
-              required
             />
-            <label htmlFor="terminos">
-              Acepto los <a href="/terminos">términos y condiciones</a>
-            </label>
-          </div>
+            Acepto los <strong>Términos y Condiciones</strong>
+          </label>
+        </div>
+        {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
 
-          <button type="submit" className="registro-boton">Registrarse</button>
+        <button className='Continuar' type='submit'>
+          Registrarse
+        </button>
+      </form>
 
-          <p className="registro-login-texto">
-            ¿Ya tienes una cuenta?{" "}
-            <Link to="/AccedeAqui" className="registro-link">Inicia sesión</Link>
-          </p>
-        </form>
+      <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
+        <p>O regístrate con Google</p>
+        <LoginGoogle />
       </div>
-    </div>
+
+      <p className='Registro'>
+        ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
+      </p>
+    </section>
   );
 }

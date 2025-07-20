@@ -1,15 +1,14 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from .models import Usuario
+from .models import Usuario  # Asegúrate de que este sea el modelo de usuario personalizado
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
 
-        # Agregar campos personalizados al token si lo deseas
+        # Agregar campos personalizados al token
         token['rol'] = user.rol
-        token['nombre'] = user.nombre_usuario
         token['id_usuario'] = user.id_usuario
 
         return token
@@ -17,8 +16,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
 
+        # Incluir también los campos en la respuesta al cliente
         data['rol'] = self.user.rol
-        data['nombre'] = self.user.nombre_usuario
         data['id_usuario'] = self.user.id_usuario
 
         return data
