@@ -4,6 +4,8 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import User  # o tu modelo de usuarios
 from django.conf import settings
+from django.db import models
+from django.conf import settings
 
 
 # Create your models here.
@@ -87,4 +89,17 @@ class Pedido(models.Model):
     class Meta:
         db_table = 'pedido'
         managed = False
+
+
+# modelo de favoritos para que react los renderice segun el usuario que se elija en el front
+
+
+
+class Favorito(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    fecha_agregado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'favoritos'  # opcional, puedes quitarlo si quieres que Django use el nombre "app_favorito"
 

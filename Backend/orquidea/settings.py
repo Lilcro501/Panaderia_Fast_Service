@@ -29,11 +29,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 #Esto indicara que aplicaciones se van a utilizar en el proyecto
 # tener en cuenta que cada app que se cree en django se debe agregar en este apartado
-
 
 INSTALLED_APPS = [
     # Django por defecto
@@ -43,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',     # Para archivos estáticos
     'django.contrib.auth',
     'django.contrib.admin',
-
 
     # CORS
     'corsheaders',
@@ -63,7 +60,6 @@ INSTALLED_APPS = [
     'inventario',
     'usuarios',
 ]
-
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -97,7 +93,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'orquidea.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 #conexion con la base de datos
@@ -112,8 +107,6 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -132,7 +125,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -201,7 +193,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
 }
-
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Tiempo de vida del access token

@@ -1,18 +1,31 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date, parse_time
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-from .models import Factura, Pedido, Producto, Categoria
+from django.utils import timezone
+from django.shortcuts import get_object_or_404
+from django.conf import settings
 from django.contrib.auth import get_user_model
-import json
-from usuarios.models import Usuario
-from django.utils import timezone  # ¡Importación requerida!
+
+
 from decimal import Decimal
 from datetime import datetime
-from django.conf import settings
-from .utils import enviar_factura_por_correo  # Asegúrate de tener utils.py con la función
+import json
+
+# Django REST Framework
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+
+# Modelos
+from .models import Factura, Pedido, Producto, Categoria, Favorito
+from usuarios.models import Usuario
+
+# Serializadores
+from .serializers import FavoritoSerializer
+
+# Utilidades
+from .utils import enviar_factura_por_correo
 
 
 User = get_user_model()
@@ -120,7 +133,7 @@ def obtener_productos_por_categoria(request, categoria_nombre):
         return JsonResponse({'error': 'Categoría no encontrada'}, status=404)
 
 
-#registra el pedido en la base de datos
+#registra el pedido en la base de datos, que se realiza en el carrito de compras, y actualiza el stock del producto, y envia la factura por correo electronico
 @csrf_exempt
 def registrar_pedido(request):
     if request.method == 'POST':
@@ -161,3 +174,46 @@ def registrar_pedido(request):
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
 
+# Obtenermos el producto por id para poder tener los detalles del producto en el carrito de compras, a difencia de la funcion anterior, que obtiene todos los productos de una categoria en especifico
+@csrf_exempt
+def obtener_producto_por_id(request, id):
+    try:
+        # Busca explícitamente por id_producto (primary key)
+        producto = Producto.objects.get(id_producto=id)
+        
+        producto_data = {
+            'id_producto': producto.id_producto,  # Mantén la nomenclatura consistente
+            'nombre': producto.nombre,
+            'precio': float(producto.precio),
+            'descripcion': producto.descripcion,
+            'imagen': producto.imagen.url if producto.imagen else None,
+            'fecha_vencimiento': producto.fecha_vencimiento.isoformat() if producto.fecha_vencimiento else None,
+            'stock': producto.stock,
+            'categoria': producto.id_categoria.nombre  # Incluye datos relacionados
+        }
+        return JsonResponse(producto_data)
+    
+    except Producto.DoesNotExist:
+        return JsonResponse({'error': 'Producto no encontrado'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+# Vista para listar y crear favoritos
+
+class ListaCrearFavoritos(generics.ListCreateAPIView):
+    serializer_class = FavoritoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Favorito.objects.filter(usuario=self.request.user, activo=True)
+
+    def perform_create(self, serializer):
+        serializer.save(usuario=self.request.user)
+
+class EliminarFavorito(generics.DestroyAPIView):
+    queryset = Favorito.objects.all()
+    serializer_class = FavoritoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Favorito.objects.filter(usuario=self.request.user)

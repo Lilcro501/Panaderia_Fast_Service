@@ -187,7 +187,6 @@ export default function AccedeAqui() {
             }}
           />
         </div>
-
         {/* Enlace para registrarse */}
         <p className="Registro">
           ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
