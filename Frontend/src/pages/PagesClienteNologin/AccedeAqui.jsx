@@ -1,13 +1,14 @@
+
 // ~~~~~~~ Importación de React y useState para manejar estados ~~~~~~~
 import React, { useState } from 'react';
 
-// Importar el componente del botón de Google
-import LoginGoogle from '../../components/LoginGoogle';
-
 // ~~~~~~~ Importación de hoja de estilos ~~~~~~~
-import '../../assets/styles/Acceso.css';
+import '../../assets/styles/AccedeAqui.css';
 
 import { Link, useNavigate } from 'react-router-dom';
+
+// Importar el componente del botón de Google
+import LoginGoogle from '../../components/LoginGoogle';
 
 import { FaUser, FaLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
@@ -116,8 +117,17 @@ export default function AccedeAqui() {
   };
 
   return (
-    <section className='Contenedor'>
-      <form onSubmit={handleSubmit} noValidate>
+    <section className='Contenedor'> 
+      <div className='ContenedorIzquierdo'> 
+        <h1>Texto con logotipo (Buscar ilustración de una orquídea)</h1>
+
+        <div className='ImagenOrquidea'> 
+          Posterior adición de ilustración
+        </div>
+      </div>
+
+      <div className='ContenedorDerecho'>
+      <form className='Form' onSubmit={handleSubmit} noValidate>
         <button className='Salir' type="button" onClick={salir}>
           <IoMdClose />
         </button>
@@ -134,6 +144,7 @@ export default function AccedeAqui() {
             required
           />
         </div>
+
         {!CorreoValido && enviado && (
           <div className="invalid">Por favor, ingresa un correo válido</div>
         )}
@@ -177,18 +188,12 @@ export default function AccedeAqui() {
           />
         </div>
 
-        {/* Botón personalizado de Login con Google (si lo quieres mostrar también) */}
-        <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
-          <p>O regístrate con Google</p>
-          <LoginGoogle />
-        </div>
-
         {/* Enlace para registrarse */}
         <p className="Registro">
           ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
         </p>
       </form>
-      
+      </div>
     </section>
   );
 }
