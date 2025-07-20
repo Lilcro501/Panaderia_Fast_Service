@@ -6,13 +6,15 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from .models import Factura, Pedido, Producto, Categoria
 from django.contrib.auth import get_user_model
-import json
 from usuarios.models import Usuario
-from django.utils import timezone  # ¡Importación requerida!
+from django.utils import timezone 
 from decimal import Decimal
 from datetime import datetime
 from django.conf import settings
-from .utils import enviar_factura_por_correo  # Asegúrate de tener utils.py con la función
+from .utils import enviar_factura_por_correo 
+from .models import Producto
+import json
+from django.shortcuts import get_object_or_404
 
 
 User = get_user_model()
@@ -120,7 +122,7 @@ def obtener_productos_por_categoria(request, categoria_nombre):
         return JsonResponse({'error': 'Categoría no encontrada'}, status=404)
 
 
-#registra el pedido en la base de datos
+#registra el pedido en la base de datos, que se realiza en el carrito de compras, y actualiza el stock del producto, y envia la factura por correo electronico
 @csrf_exempt
 def registrar_pedido(request):
     if request.method == 'POST':
@@ -160,4 +162,22 @@ def registrar_pedido(request):
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
+
+# Obtenermos el producto por id para poder tener los detalles del producto en el carrito de compras, a difencia de la funcion anterior, que obtiene todos los productos de una categoria en especifico
+@csrf_exempt
+def obtener_producto_por_id(request, id):
+    producto = get_object_or_404(Producto, id_producto=id)
+
+    # Convertimos manualmente el producto a un diccionario
+    producto_data = {
+        'id_producto': producto.id_producto,
+        'nombre': producto.nombre,
+        'precio': float(producto.precio),  # Asegura que Decimal se convierta bien
+        'descripcion': producto.descripcion,
+        'imagen': producto.imagen.url if producto.imagen else None,  # Convertimos a URL
+        'fecha_vencimiento': producto.fecha_vencimiento.isoformat() if producto.fecha_vencimiento else None,
+        'stock': producto.stock,
+    }
+
+    return JsonResponse(producto_data)
 

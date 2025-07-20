@@ -45,7 +45,6 @@ def registrar_usuario(request):
             usuario = Usuario.objects.create_user(
                 email=data['email'],
                 password=data['password'],
-                nombre_usuario=data.get('nombre_usuario', ''),
                 nombre=data.get('nombre', ''),
                 apellido=data.get('apellido', ''),
                 telefono=data.get('telefono', ''),

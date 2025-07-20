@@ -25,7 +25,6 @@ class Usuario(AbstractBaseUser):
     )
 
     id_usuario = models.AutoField(primary_key=True)  # debe coincidir con tu base de datos
-    nombre_usuario = models.CharField(max_length=100, unique=True, blank=True, null=True)
     email = models.EmailField(unique=True, max_length=150)
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
