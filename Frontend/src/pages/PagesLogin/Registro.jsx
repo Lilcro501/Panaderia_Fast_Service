@@ -3,22 +3,26 @@ import React, { useState } from 'react';
 
 /* Hoja de estilos */
 import '../../assets/styles/Acceso.css';
+import Login from "../PagesLogin/Login";
 
 /* Importación de íconos desde react-icons */
-import { FaUser, FaLock, FaUserLock, FaUserCheck } from 'react-icons/fa';
+import { FaUser, FaLock, FaUserLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 
 /* Importación del componente de rutas */
 import { Link, useNavigate } from 'react-router-dom';
 
+/* Importar el componente del botón de Google */
+import LoginGoogle from '../../components/LoginGoogle';
 
 /* Importar función de registro desde api/login.js */
 import { registrarUsuario } from '../../api/login';
 
 export default function Registro() {
   const [form, setForm] = useState({
-    username: '',
     correo: '',
+    password: '',
+    confirmar: '',
     terminos: false,
   });
 
@@ -33,15 +37,20 @@ export default function Registro() {
     const nuevosErrores = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!form.username.trim()) {
-      nuevosErrores.username = 'Por favor ingresa tu nombre de usuario ';
-    }
     if (!form.correo.trim()) {
       nuevosErrores.correo = 'Por favor ingresa tu correo ';
     } else if (!emailRegex.test(form.correo)) {
       nuevosErrores.correo = 'Correo no válido';
     }
-    
+
+    if (form.password.length < 6) {
+      nuevosErrores.password = 'La contraseña debe tener al menos 6 caracteres';
+    }
+
+    if (form.confirmar !== form.password) {
+      nuevosErrores.confirmar = 'Las contraseñas no coinciden ';
+    }
+
     if (!form.terminos) {
       nuevosErrores.terminos = 'Debes aceptar los Términos y Condiciones';
     }
@@ -63,7 +72,7 @@ export default function Registro() {
       try {
         const response = await registrarUsuario({
           email: form.correo,
-          nombre_usuario: form.username,
+          password: form.password,
           nombre: '',
           apellido: '',
           telefono: '',
@@ -91,18 +100,6 @@ export default function Registro() {
       <h1 className='TituloAcceso'>Regístrate</h1>
 
       <form onSubmit={handleSubmit} noValidate>
-        <div className='Campo'>
-          <FaUserCheck className='Icono' />
-          <input
-            type='text'
-            id='username'
-            placeholder='Nombre de usuario'
-            value={form.username}
-            onChange={handleChange}
-            className={errores.username ? 'invalido' : ''}
-          />
-        </div>
-        {errores.username && <p className='mensaje-error'>{errores.username}</p>}
 
         <div className='Campo'>
           <FaUser className='Icono' />
@@ -117,6 +114,30 @@ export default function Registro() {
         </div>
         {errores.correo && <p className='mensaje-error'>{errores.correo}</p>}
 
+        <div className='Campo'>
+          <FaLock className='Icono' />
+          <input
+            type='password'
+            id='password'
+            placeholder='Contraseña'
+            value={form.password}
+            onChange={handleChange}
+            className={errores.password ? 'invalido' : ''}
+          />
+        </div>
+        {errores.password && <p className='mensaje-error'>{errores.password}</p>}
+
+        <div className='Campo'>
+          <FaUserLock className='Icono' />
+          <input
+            type='password'
+            id='confirmar'
+            placeholder='Confirmar contraseña'
+            value={form.confirmar}
+            onChange={handleChange}
+            className={errores.confirmar ? 'invalido' : ''}
+          />
+        </div>
         {errores.confirmar && <p className='mensaje-error'>{errores.confirmar}</p>}
 
         <div className='EstiloAceptartyc'>
@@ -137,6 +158,10 @@ export default function Registro() {
         </button>
       </form>
 
+      <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
+        <p>O regístrate con Google</p>
+        <LoginGoogle />
+      </div>
 
       <p className='Registro'>
         ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>

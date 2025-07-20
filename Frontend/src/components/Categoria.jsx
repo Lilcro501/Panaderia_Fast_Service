@@ -8,7 +8,25 @@ import { Link } from "react-router-dom";
 const Categoria = ({ nombre }) => {
   const { agregarProducto, carrito } = useCarrito();
   const [productos, setProductos] = useState([]);
+  const [favoritos, setFavoritos] = useState([]); // 🧡 lista de IDs favoritos
   const [popup, setPopup] = useState(null);
+
+  // Cargar favoritos del usuario
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/favoritos/", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        const idsFavoritos = res.data.map((f) => f.producto.id);
+        setFavoritos(idsFavoritos);
+      })
+      .catch((error) => {
+        console.error("❌ Error al cargar favoritos:", error);
+      });
+  }, []);
 
   useEffect(() => {
     const nombreFormateado = nombre.toLowerCase();
@@ -16,24 +34,24 @@ const Categoria = ({ nombre }) => {
       .get(`http://localhost:8000/api/productos/${nombreFormateado}/`)
       .then((res) => {
         const productosFormateados = res.data.map((producto) => ({
-          id: producto.id,
+          id: producto.id_producto ?? producto.id,
           nameProduct: producto.nombre,
           price: producto.precio,
           image: `http://localhost:8000${producto.imagen}`,
           description: producto.descripcion,
-          stock: producto.stock, // ✅ Importante para control
+          stock: producto.stock,
         }));
 
         setProductos(productosFormateados);
       })
       .catch((error) => {
-        console.error("Error al cargar productos:", error);
+        console.error("❌ Error al cargar productos:", error);
       });
   }, [nombre]);
 
   const manejarAgregar = (producto) => {
     const productoEnCarrito = carrito.find((item) => item.id === producto.id);
-    const cantidadActual = productoEnCarrito ? productoEnCarrito.quantity : 0; // ✅ corregido
+    const cantidadActual = productoEnCarrito ? productoEnCarrito.quantity : 0;
 
     if (cantidadActual < producto.stock) {
       agregarProducto(producto);
@@ -46,6 +64,15 @@ const Categoria = ({ nombre }) => {
     }
   };
 
+  // Actualizar favoritos desde hijo (HeartButton)
+  const actualizarFavoritos = (id, agregar) => {
+    if (agregar) {
+      setFavoritos((prev) => [...prev, id]);
+    } else {
+      setFavoritos((prev) => prev.filter((fid) => fid !== id));
+    }
+  };
+
   return (
     <div className="categoria-seccion">
       <div className="centrar-titulo">
@@ -55,13 +82,14 @@ const Categoria = ({ nombre }) => {
       <div className="categoria-grid">
         {productos.map((producto, index) => (
           <div key={index} className="producto-tarjeta">
-            <Link to={`/producto/${producto.id}`} className="link-producto">
+            <Link to={`/producto/${producto.id}`}>
               <img
                 src={producto.image}
                 alt={producto.nameProduct}
                 className="producto-imagen"
               />
             </Link>
+
             <div className="producto-info">
               <Link to={`/producto/${producto.id}`} className="link-producto">
                 <p className="producto-nombre">{producto.nameProduct}</p>
@@ -80,12 +108,9 @@ const Categoria = ({ nombre }) => {
                 </button>
 
                 <HeartButton
-                  producto={{
-                    id: producto.id,
-                    nameProduct: producto.nameProduct,
-                    price: producto.price,
-                    image: producto.image,
-                  }}
+                  productoId={producto.id}
+                  esFavorito={favoritos.includes(producto.id)}
+                  actualizarFavoritos={actualizarFavoritos}
                 />
               </div>
             </div>
@@ -100,4 +125,4 @@ const Categoria = ({ nombre }) => {
   );
 };
 
-export default Categoria;
+export default Categoria; 
