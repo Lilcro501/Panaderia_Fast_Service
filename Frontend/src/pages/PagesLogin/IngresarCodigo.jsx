@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+
 import '../../assets/styles/Acceso.css';
 import { useNavigate } from 'react-router-dom';
 import { IoMdClose } from 'react-icons/io';
@@ -66,7 +67,7 @@ export default function IngresarCodigo() {
   };
 
   return (
-    <section className='Contenedor'>
+    <section className='ContenedorC'>
       <button className='Salir' onClick={salir}><IoMdClose /></button>
       <h1 className='TituloAcceso'>Ingresa el código</h1>
       <p>Ingresa el código enviado a tu correo electrónico</p>

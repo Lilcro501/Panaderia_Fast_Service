@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 /* ~~~~~~~ Hoja de estilos ~~~~~~~ */
-import '../../assets/styles/Acceso.css';
+import '../../assets/styles/OlvidoContraseña.css';
 
 /* ~~~~~~~ importación de ícono de salir X ~~~~~~~ */
 import { IoMdClose } from 'react-icons/io';
@@ -47,7 +47,7 @@ export default function OlvidoContraseña() {
   };
 
   return (
-    <section className='Contenedor'>
+    <section className='ContenedorC'>
       <button className='Salir' onClick={salir}><IoMdClose /></button>
       <h1 className='TituloAcceso'>Olvidó su contraseña</h1>
       <p>Ingresa tu correo y te enviaremos un código de recuperación</p>

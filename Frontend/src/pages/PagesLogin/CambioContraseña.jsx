@@ -41,7 +41,7 @@ export default function CambioContraseña() {
     };
 
     return (
-        <section className='Contenedor'>
+        <section className='ContenedorC'>
             <form onSubmit={guardarNueva}>
                 <button className='Salir' onClick={salir}><IoMdClose /></button>
                 <br /><br /><br />
