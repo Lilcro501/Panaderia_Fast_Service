@@ -22,3 +22,5 @@ const RutaConLayout = ({ children }) => {
 };
 
 export default RutaConLayout;
+
+

@@ -32,7 +32,17 @@ class Factura(models.Model):
         upload_to='comprobantes/',
         blank=True,
         null=True,
-        db_column='comprobante_archivo'  # 👈 esto también
+        db_column='comprobante_archivo' 
+    )
+    METODOS_ENTREGA = [
+        ('local', 'En tienda'),
+        ('domicilio', 'Domicilio'),
+    ]
+
+    metodo_entrega = models.CharField(
+        max_length=10,
+        choices=METODOS_ENTREGA,
+        default='local'
     )
 
     def __str__(self):
@@ -78,17 +88,24 @@ class Producto(models.Model):
 #logica del carrito de compras 
 #.......
 
-# inventario/models.py
 class Pedido(models.Model):
     id_carrito = models.AutoField(primary_key=True)
-    id_producto = models.IntegerField()
-    cantidad = models.IntegerField()
+    producto = models.ForeignKey(
+        Producto,
+        on_delete=models.CASCADE,
+        db_column='id_producto'
+    )
+    cantidad = models.PositiveIntegerField()
     fecha_agregado = models.DateTimeField(auto_now_add=True)
-    facturas_id_factura = models.IntegerField(null=True, blank=True)  # Factura aún no generada
+    factura = models.ForeignKey( Factura,on_delete=models.CASCADE,related_name='pedidos', db_column='facturas_id_factura')
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         db_table = 'pedido'
-        managed = False
+        managed = False  # Porque ya tienes la tabla creada
+
+
+
 
 
 # modelo de favoritos para que react los renderice segun el usuario que se elija en el front
@@ -102,4 +119,6 @@ class Favorito(models.Model):
 
     class Meta:
         db_table = 'favoritos'  # opcional, puedes quitarlo si quieres que Django use el nombre "app_favorito"
+        # Asegura que un usuario no pueda agregar un producto a favoritos más de una vez
+        unique_together = ('usuario', 'producto')
 

@@ -1,32 +1,16 @@
 import "../assets/styles/Categoria.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import HeartButton from "./Corazon";
+import Corazon from "./Corazon";
 import { useCarrito } from "../Context/CarritoContext";
+import { useFavoritos } from "../Context/FavoritosContext";
 import { Link } from "react-router-dom";
 
 const Categoria = ({ nombre }) => {
   const { agregarProducto, carrito } = useCarrito();
+  const { esFavorito, agregarFavorito, eliminarFavorito } = useFavoritos();
   const [productos, setProductos] = useState([]);
-  const [favoritos, setFavoritos] = useState([]); // 🧡 lista de IDs favoritos
   const [popup, setPopup] = useState(null);
-
-  // Cargar favoritos del usuario
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/favoritos/", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        const idsFavoritos = res.data.map((f) => f.producto.id);
-        setFavoritos(idsFavoritos);
-      })
-      .catch((error) => {
-        console.error("❌ Error al cargar favoritos:", error);
-      });
-  }, []);
 
   useEffect(() => {
     const nombreFormateado = nombre.toLowerCase();
@@ -34,7 +18,7 @@ const Categoria = ({ nombre }) => {
       .get(`http://localhost:8000/api/productos/${nombreFormateado}/`)
       .then((res) => {
         const productosFormateados = res.data.map((producto) => ({
-          id: producto.id_producto ?? producto.id,
+          id: Number(producto.id_producto ?? producto.id), // Forzar número
           nameProduct: producto.nombre,
           price: producto.precio,
           image: `http://localhost:8000${producto.imagen}`,
@@ -64,15 +48,6 @@ const Categoria = ({ nombre }) => {
     }
   };
 
-  // Actualizar favoritos desde hijo (HeartButton)
-  const actualizarFavoritos = (id, agregar) => {
-    if (agregar) {
-      setFavoritos((prev) => [...prev, id]);
-    } else {
-      setFavoritos((prev) => prev.filter((fid) => fid !== id));
-    }
-  };
-
   return (
     <div className="categoria-seccion">
       <div className="centrar-titulo">
@@ -80,49 +55,45 @@ const Categoria = ({ nombre }) => {
       </div>
 
       <div className="categoria-grid">
-        {productos.map((producto, index) => (
-          <div key={index} className="producto-tarjeta">
-            <Link to={`/producto/${producto.id}`}>
-              <img
-                src={producto.image}
-                alt={producto.nameProduct}
-                className="producto-imagen"
-              />
-            </Link>
+        {productos.map((producto, index) => {
+          console.log("producto.id:", producto.id, typeof producto.id); // console log aquí
 
-            <div className="producto-info">
-              <Link to={`/producto/${producto.id}`} className="link-producto">
-                <p className="producto-nombre">{producto.nameProduct}</p>
-              </Link>
-              <p className="producto-precio">${producto.price}</p>
-              <p className="producto-stock">
-                Disponibles: {producto.stock}
-              </p>
-              <div className="acomodar-corazon-agregar">
-                <button
-                  className="agregar"
-                  onClick={() => manejarAgregar(producto)}
-                  disabled={producto.stock === 0}
-                >
-                  {producto.stock === 0 ? "Agotado" : "Añadir"}
-                </button>
-
-                <HeartButton
-                  productoId={producto.id}
-                  esFavorito={favoritos.includes(producto.id)}
-                  actualizarFavoritos={actualizarFavoritos}
+          return (
+            <div key={index} className="producto-tarjeta">
+              <Link to={`/producto/${producto.id}`}>
+                <img
+                  src={producto.image}
+                  alt={producto.nameProduct}
+                  className="producto-imagen"
                 />
+              </Link>
+
+              <div className="producto-info">
+                <Link to={`/producto/${producto.id}`} className="link-producto">
+                  <p className="producto-nombre">{producto.nameProduct}</p>
+                </Link>
+                <p className="producto-precio">${producto.price}</p>
+                <p className="producto-stock">Disponibles: {producto.stock}</p>
+                <div className="acomodar-corazon-agregar">
+                  <button
+                    className="agregar"
+                    onClick={() => manejarAgregar(producto)}
+                    disabled={producto.stock === 0}
+                  >
+                    {producto.stock === 0 ? "Agotado" : "Añadir"}
+                  </button>
+
+                  <Corazon productoId={producto.id} />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {popup && (
-        <div className="popup-mini">✅ {popup} añadido al carrito</div>
-      )}
+      {popup && <div className="popup-mini">✅ {popup} añadido al carrito</div>}
     </div>
   );
 };
 
-export default Categoria; 
+export default Categoria;

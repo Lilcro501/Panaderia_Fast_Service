@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
 from pathlib import Path
 import os
 from datetime import timedelta
@@ -195,8 +194,32 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Tiempo de vida del access token
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Tiempo de vida del refresh token
-    'ROTATE_REFRESH_TOKENS': True,                   # Opcional: renovar refresh token
-    'BLACKLIST_AFTER_ROTATION': True,                # Requiere configurar blacklist
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    
+    'USER_ID_FIELD': 'id_usuario',  # 👈 ESTA LÍNEA ES CRUCIAL
 }
+
+
+# Configuración para HTTPS
+#Redirige automaticamente todas las peticiones HTTP a HTTPS
+#SECURE_SSL_REDIRECT = True
+# Configuración para cookies seguras
+# hace que las cookies sean seguras y solo se envíen a través de conexiones HTTPS
+#SESSION_COOKIE_SECURE = True
+# Configuración para cookies seguras
+# Configuración para CSRF
+#CSRF_COOKIE_SECURE = True
+# Configuración para HSTS
+# Configuración para cookies HTTPOnly
+#SESSION_COOKIE_HTTPONLY = True
+# Configuración para CSRF
+# Configuración para cookies HTTPOnly
+#CSRF_COOKIE_HTTPONLY = True
+# Configuración para HSTS
+# Configuración para XSS Protection
+#X_FRAME_OPTIONS = 'DENY'
+# Configuración para HSTS
+#SECURE_HSTS_SECONDS = 3600 

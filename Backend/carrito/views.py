@@ -7,6 +7,8 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from rest_framework import permissions
+
 
 
 from decimal import Decimal
@@ -28,15 +30,17 @@ from .serializers import FavoritoSerializer
 from .utils import enviar_factura_por_correo
 
 
+
 User = get_user_model()
 
 @require_http_methods(["POST"])
 
+# Crea una factura
+#en el proceso de la factira se ingresan los productos y se restan de los productos para tener estos al tanto de que se ingresen en la base de datos
 @csrf_exempt
 def crear_factura(request):
     if request.method == 'POST':
         try:
-            # Procesar datos del formulario
             if 'multipart/form-data' in request.content_type:
                 usuario_id = request.POST.get('id_usuario')
                 metodo_pago = request.POST.get('metodo_pago')
@@ -44,8 +48,8 @@ def crear_factura(request):
                 direccion_entrega = request.POST.get('direccion_entrega')
                 fecha_entrega = request.POST.get('fecha_entrega')
                 notas = request.POST.get('informacion_adicional', '')
+                metodo_entrega = request.POST.get('metodo_entrega', 'local')
 
-                # Leer productos de FormData
                 productos = []
                 i = 0
                 while f'productos[{i}][id_producto]' in request.POST:
@@ -56,8 +60,8 @@ def crear_factura(request):
                     i += 1
 
                 comprobante = request.FILES.get('comprobante')
+
             else:
-                # Para pruebas JSON
                 data = json.loads(request.body)
                 usuario_id = data.get('id_usuario')
                 metodo_pago = data.get('metodo_pago')
@@ -65,16 +69,15 @@ def crear_factura(request):
                 direccion_entrega = data.get('direccion_entrega')
                 fecha_entrega = data.get('fecha_entrega')
                 notas = data.get('informacion_adicional', '')
+                metodo_entrega = data.get('metodo_entrega', 'local')
                 productos = data.get('productos', [])
                 comprobante = None
 
-            # Validación
             if not usuario_id:
                 return JsonResponse({'error': 'ID de usuario no recibido'}, status=400)
 
             usuario = Usuario.objects.get(id_usuario=usuario_id)
 
-            # Crear factura
             factura = Factura.objects.create(
                 usuario=usuario,
                 fecha=timezone.now(),
@@ -83,16 +86,35 @@ def crear_factura(request):
                 direccion_entrega=direccion_entrega,
                 fecha_entrega=datetime.strptime(fecha_entrega, "%Y-%m-%d").date(),
                 notas=notas,
-                comprobante=comprobante
+                comprobante=comprobante,
+                metodo_entrega=metodo_entrega
             )
 
-            # Crear registros en pedido (uno por producto)
             for producto in productos:
+                id_producto = int(producto['id_producto'])
+                cantidad_comprada = int(producto['cantidad'])
+
+                producto_db = Producto.objects.get(id_producto=id_producto)
+
+                if producto_db.stock < cantidad_comprada:
+                    return JsonResponse({
+                        'error': f'Stock insuficiente para el producto \"{producto_db.nombre}\"'
+                    }, status=400)
+
+                producto_db.stock -= cantidad_comprada
+                producto_db.save()
+
+                subtotal = producto_db.precio * cantidad_comprada
+
                 Pedido.objects.create(
-                    id_producto=int(producto['id_producto']),
-                    cantidad=int(producto['cantidad']),
-                    facturas_id_factura=factura.id
+                    producto=producto_db,
+                    cantidad=cantidad_comprada,
+                    subtotal=subtotal,
+                    factura=factura
                 )
+
+            # Envía el correo después de crear los pedidos
+            enviar_factura_por_correo(factura)
 
             return JsonResponse({
                 'success': True,
@@ -102,13 +124,17 @@ def crear_factura(request):
 
         except Usuario.DoesNotExist:
             return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+        except Producto.DoesNotExist:
+            return JsonResponse({'error': 'Producto no encontrado'}, status=404)
         except Exception as e:
+            print("⚠️ Error al crear factura:", e)
             return JsonResponse({'error': str(e)}, status=400)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
 
 ###########################################################################
+#obtenemos los productos segun el parametro del id que se pase de la categoria
 
 def obtener_productos_por_categoria(request, categoria_nombre):
     try:
@@ -200,20 +226,23 @@ def obtener_producto_por_id(request, id):
 
 # Vista para listar y crear favoritos
 
+
 class ListaCrearFavoritos(generics.ListCreateAPIView):
     serializer_class = FavoritoSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Favorito.objects.filter(usuario=self.request.user, activo=True)
+        return Favorito.objects.filter(usuario=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(usuario=self.request.user)
 
+
 class EliminarFavorito(generics.DestroyAPIView):
-    queryset = Favorito.objects.all()
     serializer_class = FavoritoSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Favorito.objects.filter(usuario=self.request.user)
+        return Favorito.objects.filter(usuario=self.request.user)  # ✅ Filtra solo los favoritos del usuario
+
+
