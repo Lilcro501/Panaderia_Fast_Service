@@ -14,6 +14,10 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import CustomTokenObtainPairSerializer
+from django.core.mail import EmailMultiAlternatives
+import os
+from django.conf import settings
+from email.mime.image import MIMEImage
 
 
 
@@ -115,6 +119,7 @@ def login_usuario(request):
 ##############################################################################
 #vista para enviar el codigo de verificacion
 ##################################################################################
+
 @csrf_exempt
 def enviar_codigo_verificacion(request):
     if request.method == 'POST':
@@ -125,27 +130,55 @@ def enviar_codigo_verificacion(request):
             if not email:
                 return JsonResponse({'error': 'El correo es obligatorio'}, status=400)
 
-            # Generar código
+            # Generar código aleatorio de 4 dígitos
             codigo = ''.join([str(random.randint(0, 9)) for _ in range(4)])
 
             # Guardar en base de datos
             CodigoVerificacion.objects.create(email=email, codigo=codigo)
 
-            # Preparar correo (evitar tildes y ñ para asegurar compatibilidad ASCII)
-            asunto = 'Codigo de verificacion'
-            cuerpo = f'Tu codigo es: {codigo}'
+            # Cuerpo HTML del mensaje
+            html_content = f"""
+            <html>
+              <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+                <div style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <h2 style="color: #333;">Verificación de Cuenta</h2>
+                  <p>Hola, de parte de la panadería Fast Service:</p>
+                  <p>Tu código de verificación es:</p>
+                  <h1 style="color: #007bff; letter-spacing: 4px;">{codigo}</h1>
+                  <p>Por favor, usa este código para completar tu proceso de verificación.</p>
+                  <p style="color: #888; font-size: 0.9em;">Este código es válido por un tiempo limitado.</p>
+                  <br>
+                  <p>Gracias por usar nuestro servicio.</p>
+                  <p>— Equipo de Panadería Fast Service</p>
 
-            correo = EmailMessage(
-                subject=asunto,
-                body=cuerpo,
-                from_email='tu_correo@gmail.com',  # Ajusta este correo en settings.py
+                  <!-- Imagen centrada al final -->
+                  <div style="text-align: center; margin-top: 30px;">
+                    <img src="cid:logo_fast_service" alt="Panadería Logo" style="width: 120px;" />
+                  </div>
+                </div>
+              </body>
+            </html>
+            """
+
+            # Crear el correo con HTML embebido
+            correo = EmailMultiAlternatives(
+                subject='Código de Verificación',
+                body='Tu código de verificación está en el mensaje HTML.',
+                from_email='tu_correo@gmail.com',  # Cambia por el tuyo o usa DEFAULT_FROM_EMAIL
                 to=[email],
             )
-            correo.content_subtype = 'plain'
-            correo.encoding = 'utf-8'
-            correo.send()
+            correo.attach_alternative(html_content, "text/html")
 
-            return JsonResponse({'mensaje': 'Codigo enviado'}, status=200)
+            # Adjuntar la imagen desde media/logo_header.png
+            ruta_imagen = os.path.join(settings.MEDIA_ROOT, 'logo_header.png')
+            with open(ruta_imagen, 'rb') as img:
+                imagen = MIMEImage(img.read())
+                imagen.add_header('Content-ID', '<logo_fast_service>')  # Usado en el src: cid:...
+                imagen.add_header("Content-Disposition", "inline", filename="logo_header.png")
+                correo.attach(imagen)
+
+            correo.send()
+            return JsonResponse({'mensaje': 'Código enviado'}, status=200)
 
         except Exception as e:
             print("❌ Error al enviar código:", e)

@@ -1,42 +1,25 @@
-from io import BytesIO
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
 from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
-def generar_factura_pdf(factura, pedidos):
-    buffer = BytesIO()
-    pdf = canvas.Canvas(buffer, pagesize=letter)
-    pdf.setTitle(f"Factura_{factura.id}")  # Cambiado
+def enviar_factura_por_correo(factura):
+    usuario = factura.usuario
+    pedidos = factura.pedidos.all()
 
-    # Encabezado
-    pdf.drawString(50, 750, f"Factura No. {factura.id}")  # Cambiado
-    pdf.drawString(50, 735, f"Cliente: {factura.usuario.nombre} {factura.usuario.apellido}")
-    pdf.drawString(50, 720, f"Correo: {factura.usuario.email}")
-    pdf.drawString(50, 705, f"Fecha: {factura.fecha.strftime('%Y-%m-%d %H:%M')}")
+    subject = f"Factura #{factura.id} - Panadería Fast Service"
+    to_email = usuario.email
 
-    # Detalles de productos
-    y = 670
-    for pedido in pedidos:
-        pdf.drawString(50, y, f"Producto ID: {pedido.id_producto} | Cantidad: {pedido.cantidad}")
-        y -= 20
+    # Renderizar plantilla HTML para el correo
+    message = render_to_string('email/factura.html', {
+        'usuario': usuario,
+        'factura': factura,
+        'pedidos': pedidos,
+    })
 
-    pdf.drawString(50, y - 20, f"Total: ${factura.total}")
-    pdf.save()
+    email = EmailMessage(subject, message, to=[to_email])
+    email.content_subtype = "html"  # Muy importante para enviar HTML
 
-    buffer.seek(0)
-    return buffer
+    # Opcional: Adjuntar archivo de comprobante si existe
+    if factura.comprobante:
+        email.attach_file(factura.comprobante.path)
 
-
-
-def enviar_factura_por_correo(factura, pedidos):
-    pdf_buffer = generar_factura_pdf(factura, pedidos)
-
-    email = EmailMessage(
-        subject='Tu factura de Panadería Fast Service',
-        body='Gracias por tu compra. Adjuntamos tu factura en PDF.',
-        from_email='tupanaderia@example.com',  # Cambia esto por un correo real
-        to=[factura.usuario.email],
-    )
-
-    email.attach(f'Factura_{factura.id_factura}.pdf', pdf_buffer.read(), 'application/pdf')
     email.send()

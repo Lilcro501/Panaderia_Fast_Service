@@ -1,68 +1,92 @@
-import "../assets/styles/Corazon.css";
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-export default function HeartButton({ productoId, esFavorito, actualizarFavoritos }) {
-  const [activo, setActivo] = useState(esFavorito);
-  const [popup, setPopup] = useState(null);
-  const [favoritoId, setFavoritoId] = useState(null); // Guardar el ID del favorito creado
+const Corazon = ({ productoId, onFavoritoChange }) => {
+  const [favorito, setFavorito] = useState(false);
+  const [idFavorito, setIdFavorito] = useState(null);
+  const [cargando, setCargando] = useState(false);
 
-  const toggleHeart = async () => {
-    const token = localStorage.getItem("token");
+  // Verificar estado inicial del favorito
+  useEffect(() => {
+    const verificarFavorito = async () => {
+      const token = localStorage.getItem("access");
+      if (!token) return;
 
-    if (!token) {
-      alert("Debes iniciar sesión para agregar favoritos.");
-      return;
-    }
-
-    try {
-      if (activo) {
-        // Eliminar favorito
-        await axios.delete(`http://localhost:8000/api/${favoritoId}/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      try {
+        const res = await axios.get("http://localhost:8000/api/favoritos/", {
+          headers: { Authorization: `Bearer ${token}` }
         });
-        setPopup("❌ Eliminado de favoritos");
-        actualizarFavoritos(productoId, false);
-        setFavoritoId(null);
+        
+        const item = res.data.find(f => f.producto === productoId);
+        setFavorito(!!item);
+        if (item) setIdFavorito(item.id);
+      } catch (err) {
+        console.error("Error al verificar favorito", err);
+      }
+    };
+
+    verificarFavorito();
+  }, [productoId]);
+
+  const toggleFavorito = async () => {
+    const token = localStorage.getItem("access");
+    if (!token || cargando) return;
+
+    console.log("📤 Enviando a favoritos:", { producto: productoId });
+
+    setCargando(true);
+    try {
+      if (favorito) {
+        await axios.delete(`http://localhost:8000/api/favoritos/${idFavorito}/`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setFavorito(false);
+        setIdFavorito(null);
       } else {
-        // Agregar favorito
-        const response = await axios.post(
-          "http://localhost:8000/api/",
+        const res = await axios.post(
+          `http://localhost:8000/api/favoritos/`,
           { producto: productoId },
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
+              "Content-Type": "application/json"
+            }
           }
         );
-        setPopup("❤️ Añadido a favoritos");
-        actualizarFavoritos(productoId, true);
-        setFavoritoId(response.data.id); // Guardar el ID del favorito creado
+        setFavorito(true);
+        setIdFavorito(res.data.id);
       }
-
-      setActivo(!activo);
-      setTimeout(() => setPopup(null), 2000);
+      
+      // Notificar cambios
+      if (typeof onFavoritoChange === 'function') {
+        onFavoritoChange();
+      }
+      window.dispatchEvent(new CustomEvent('favoritos-actualizados'));
     } catch (error) {
-      console.error("❌ Error al actualizar favoritos:", error);
-      alert("Error al actualizar favoritos.");
+      console.error("Error al actualizar favorito", error);
+      if (error.response) {
+        console.error("Detalle del error del backend:", JSON.stringify(error.response.data, null, 2));
+      }
+    } finally {
+      setCargando(false);
     }
   };
 
   return (
-    <>
-      <button
-        className={`heart-button ${activo ? "activo" : ""}`}
-        onClick={toggleHeart}
-        aria-label="Agregar o quitar de favoritos"
-      >
-        ❤️
-      </button>
-
-      {popup && <div className="popup-mini">{popup}</div>}
-    </>
+    <button 
+      onClick={toggleFavorito} 
+      style={{ 
+        background: "none", 
+        border: "none", 
+        cursor: cargando ? "wait" : "pointer",
+        fontSize: "1.5rem"
+      }}
+      disabled={cargando}
+      aria-label={favorito ? "Quitar de favoritos" : "Agregar a favoritos"}
+    >
+      {favorito ? "❤️" : "🤍"}
+    </button>
   );
-}
+};
 
+export default Corazon;

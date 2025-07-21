@@ -30,7 +30,7 @@ import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad";
 import Recomendacion from '../pages/PagesClientes/Recomendacion';
 import TYC from "../pages/PagesClientes/TYC";
 import EntregaDomicilio from '../pages/PagesClientes/EntregaDomicilio';
-import EntregaLocal from '../pages/PagesClientes/PagoLocal';
+import EntregaLocal from '../pages/PagesClientes/EntregaLocal';
 import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
 import ProductoDetalle from '../components/ProductoDetalle';
 
