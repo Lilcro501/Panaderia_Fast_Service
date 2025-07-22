@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../assets/styles/Registro.css";
 import orquidea from "../../assets/images/orquidea.jpg";
+import Alerta from "../../components/Alerta";
 
 export default function Registro() {
+  const navigate = useNavigate();
+
   const [formulario, setFormulario] = useState({
     nombre: "",
     correo: "",
@@ -11,6 +14,8 @@ export default function Registro() {
     confirmarPassword: "",
     aceptarTerminos: false,
   });
+
+  const [mostrarAlerta, setMostrarAlerta] = useState(false);
 
   // Maneja los cambios en los campos del formulario
   const handleChange = (e) => {
@@ -21,22 +26,21 @@ export default function Registro() {
     });
   };
 
-  // Maneja el envío del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // Verifica campos y redirige si están completos
+  const manejarSiguiente = () => {
+    const todasRespondidas =
+      formulario.nombre &&
+      formulario.correo &&
+      formulario.password &&
+      formulario.confirmarPassword &&
+      formulario.aceptarTerminos;
 
-    if (!formulario.aceptarTerminos) {
-      alert("Debes aceptar los términos y condiciones.");
-      return;
+    if (!todasRespondidas || formulario.password !== formulario.confirmarPassword) {
+      setMostrarAlerta(true);
+    } else {
+      console.log("Formulario enviado:", formulario);
+      navigate("/Recomendacion"); // Redirige si todo está bien
     }
-
-    if (formulario.password !== formulario.confirmarPassword) {
-      alert("Las contraseñas no coinciden.");
-      return;
-    }
-
-    console.log("Formulario enviado:", formulario);
-    // Aquí iría la lógica de envío al backend (API)
   };
 
   return (
@@ -44,12 +48,12 @@ export default function Registro() {
       <div className="registro-contenido">
         {/* Lado izquierdo con imagen y mensaje */}
         <div className="registro-imagen">
-          <h2>Bienvinid@ a la sección de Registro</h2>
+          <h2>Bienvenid@ a la sección de Registro</h2>
           <img src={orquidea} alt="Orquídea" />
         </div>
 
         {/* Lado derecho con el formulario */}
-        <form className="registro-formulario" onSubmit={handleSubmit}>
+        <form className="registro-formulario" onSubmit={(e) => e.preventDefault()}>
           <h2 className="registro-titulo">Registrarse</h2>
 
           <input
@@ -102,15 +106,30 @@ export default function Registro() {
             </label>
           </div>
 
-          <button type="submit" className="registro-boton">Registrarse</button>
+          <button
+            type="button"
+            className="registro-boton"
+            onClick={manejarSiguiente}
+          >
+            Registrarse
+          </button>
 
           <p className="registro-login-texto">
             ¿Ya tienes una cuenta?{" "}
-            <Link to="/AccedeAqui" className="registro-link">Inicia sesión</Link>
+            <Link to="/AccedeAqui" className="registro-link">
+              Inicia sesión
+            </Link>
           </p>
 
+          {mostrarAlerta && (
+            <Alerta
+              mensaje="Por favor completa todos los campos correctamente."
+              onClose={() => setMostrarAlerta(false)}
+            />
+          )}
         </form>
       </div>
     </div>
   );
 }
+
