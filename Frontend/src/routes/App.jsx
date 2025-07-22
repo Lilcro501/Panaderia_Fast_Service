@@ -76,6 +76,8 @@ import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 const AppRouter = () => {
   return (
     <Routes>
+
+      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
       {/* Cliente */}
 
       <Route path='/home' element={<PrivateRoute role="cliente"><Home /></PrivateRoute>} />
