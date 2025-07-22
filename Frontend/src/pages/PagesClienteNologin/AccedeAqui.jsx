@@ -1,16 +1,22 @@
+
 // ~~~~~~~ Importación de React y useState para manejar estados ~~~~~~~
 import React, { useState } from 'react';
 
 // ~~~~~~~ Importación de hoja de estilos ~~~~~~~
-import '../../assets/styles/Acceso.css';
+import '../../assets/styles/AccedeAqui.css';
 
 import { Link, useNavigate } from 'react-router-dom';
+
+// Importar el componente del botón de Google
+import LoginGoogle from '../../components/LoginGoogle';
 
 import { FaUser, FaLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { iniciarSesion } from '../../api/login';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+
+import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
@@ -113,13 +119,23 @@ export default function AccedeAqui() {
   };
 
   return (
-    <section className='Contenedor'>
-      <form onSubmit={handleSubmit} noValidate>
+    <section className='Contenedor'> 
+      <div className='ContenedorIzquierdo'> 
+        <h1>Tú día inicia mejor con nuestro pan</h1>
+
+        <div className='ImagenOrquidea'> 
+          <img src={ImagenOrquidea} alt="Orquidea" />
+        </div>
+      </div>
+
+      <div className='ContenedorDerecho'>
         <button className='Salir' type="button" onClick={salir}>
           <IoMdClose />
         </button>
+      <form className='Form' onSubmit={handleSubmit} noValidate>
+        
 
-        <h1 className='TituloAcceso'>Inicia sesión</h1>
+        <h1 className='TituloAccesoI'>Inicia sesión</h1>
 
         <div className={`Campo form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
           <FaUser className="Icono" />
@@ -131,6 +147,7 @@ export default function AccedeAqui() {
             required
           />
         </div>
+
         {!CorreoValido && enviado && (
           <div className="invalid">Por favor, ingresa un correo válido</div>
         )}
@@ -173,13 +190,12 @@ export default function AccedeAqui() {
             }}
           />
         </div>
-
         {/* Enlace para registrarse */}
         <p className="Registro">
           ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
         </p>
       </form>
-      
+      </div>
     </section>
   );
 }

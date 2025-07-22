@@ -11,7 +11,7 @@ const PrivateRoute = ({ children, role }) => {
     return <Navigate to="/Login" />;
   }
 
-  // Comparar en minúsculas para evitar errores por mayúsculas
+  // Comparando en minúsculas para evitar errores por mayúsculas
   if (role && userRol.toLowerCase() !== role.toLowerCase()) {
     console.warn('⛔ Acceso denegado. Redirigiendo a /');
     return <Navigate to="/" />;
@@ -21,4 +21,18 @@ const PrivateRoute = ({ children, role }) => {
   return children;
 };
 
-export default PrivateRoute; // 👈 ¡ESTA LÍNEA ES CRUCIAL!
+export default PrivateRoute;
+
+
+
+/* 
+import { Navigate } from 'react-router-dom';
+
+const PrivateRoute = ({ children, role }) => {
+  const userRol = localStorage.getItem('rol')?.toLowerCase();
+  if (!userRol) return <Navigate to="/login" />;
+  if (role && userRol !== role.toLowerCase()) return <Navigate to="/" />;
+  return children;
+};
+export default PrivateRoute; 
+*/ 

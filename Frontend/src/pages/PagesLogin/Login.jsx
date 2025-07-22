@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRol } from "../../Context/RolContext";
 
 const Login = () => {
     const navigate = useNavigate();
+    const { cambiarRol } = useRol();
 
     useEffect(() => {
-    // Asignar el rol automáticamente como 'Cliente'
-    localStorage.setItem("rol", "cliente");
+    cambiarRol("cliente"); // Cambia el contexto y localStorage
+    navigate("/home"); // Redirige al home del cliente
+    }, [navigate, cambiarRol]);
 
-    // Redirigir a la ruta /Home
-    navigate("/Home");
-    }, [navigate]);
-
-    return null; // No se muestra nada en pantalla
+    return null;
 };
 
 export default Login;

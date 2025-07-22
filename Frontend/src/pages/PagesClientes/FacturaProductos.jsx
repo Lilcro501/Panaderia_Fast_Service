@@ -1,5 +1,5 @@
 // src/pages/PagesClientes/Factura.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCarrito } from '../../Context/CarritoContext';
 import '../../assets/styles/Factura.css';
@@ -9,7 +9,6 @@ import "../../assets/styles/MetodosPago.css";
 
 const Factura = () => {
   const { carrito, agregarProducto, quitarProducto, vaciarCarrito } = useCarrito();
-  const [metodoEntrega, setMetodoEntrega] = useState('domicilio');
   const navigate = useNavigate();
 
   const total = carrito.reduce(
@@ -18,11 +17,7 @@ const Factura = () => {
   );
 
   const handleContinuar = () => {
-    if (metodoEntrega === 'domicilio') {
-      navigate('/EntregaDomicilio');
-    } else {
-      navigate('/EntregaLocal');
-    }
+    navigate('/FormularioEntrega'); // 
   };
 
   const formatoCOP = (valor) =>
@@ -74,30 +69,6 @@ const Factura = () => {
 
             <div className="factura-total">
               <strong>Total a pagar: {formatoCOP(total)}</strong>
-            </div>
-            {/* Selector de método de entrega */}
-            <div className="metodo-entrega">
-              <h4>Método de entrega</h4>
-              <label>
-                <input
-                  type="radio"
-                  name="entrega"
-                  value="domicilio"
-                  checked={metodoEntrega === 'domicilio'}
-                  onChange={(e) => setMetodoEntrega(e.target.value)}
-                />
-                Domicilio
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="entrega"
-                  value="recoger"
-                  checked={metodoEntrega === 'recoger'}
-                  onChange={(e) => setMetodoEntrega(e.target.value)}
-                />
-                Recoger en el local
-              </label>
             </div>
 
             <div className='posicicion-botones'>
