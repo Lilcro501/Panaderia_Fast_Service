@@ -1,135 +1,194 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "../../assets/styles/Registro.css";
-import orquidea from "../../assets/images/orquidea.jpg";
-import Alerta from "../../components/Alerta";
+import React, { useState } from 'react';
+import Login from "../PagesLogin/Login";
+import { FaUser, FaLock, FaUserLock } from 'react-icons/fa';
+import { IoMdClose } from 'react-icons/io';
+import { Link, useNavigate } from 'react-router-dom';
+import LoginGoogle from '../../components/LoginGoogle';
+import { registrarUsuario } from '../../api/login';
 
 export default function Registro() {
-  const navigate = useNavigate();
-
-  const [formulario, setFormulario] = useState({
-    nombre: "",
-    correo: "",
-    password: "",
-    confirmarPassword: "",
-    aceptarTerminos: false,
+  const [form, setForm] = useState({
+    nombres: '',
+    apellidos: '',
+    correo: '',
+    password: '',
+    confirmar: '',
+    terminos: false,
   });
 
-  const [mostrarAlerta, setMostrarAlerta] = useState(false);
+  const [errores, setErrores] = useState({});
+  const navigate = useNavigate();
 
-  // Maneja los cambios en los campos del formulario
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormulario({
-      ...formulario,
-      [name]: type === "checkbox" ? checked : value,
-    });
+  const salir = () => {
+    window.location.href = '/';
   };
 
-  // Verifica campos y redirige si están completos
-  const manejarSiguiente = () => {
-    const todasRespondidas =
-      formulario.nombre &&
-      formulario.correo &&
-      formulario.password &&
-      formulario.confirmarPassword &&
-      formulario.aceptarTerminos;
+  const validar = () => {
+    const nuevosErrores = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!todasRespondidas || formulario.password !== formulario.confirmarPassword) {
-      setMostrarAlerta(true);
-    } else {
-      console.log("Formulario enviado:", formulario);
-      navigate("/Recomendacion"); // Redirige si todo está bien
+    if (!form.nombres.trim()) {
+      nuevosErrores.nombres = 'Por favor ingresa tus nombres';
+    }
+
+    if (!form.apellidos.trim()) {
+      nuevosErrores.apellidos = 'Por favor ingresa tus apellidos';
+    }
+
+    if (!form.correo.trim()) {
+      nuevosErrores.correo = 'Por favor ingresa tu correo';
+    } else if (!emailRegex.test(form.correo)) {
+      nuevosErrores.correo = 'Correo no válido';
+    }
+
+    if (form.password.length < 6) {
+      nuevosErrores.password = 'La contraseña debe tener al menos 6 caracteres';
+    }
+
+    if (form.confirmar !== form.password) {
+      nuevosErrores.confirmar = 'Las contraseñas no coinciden';
+    }
+
+    if (!form.terminos) {
+      nuevosErrores.terminos = 'Debes aceptar los Términos y Condiciones';
+    }
+
+    return nuevosErrores;
+  };
+
+  const handleChange = (e) => {
+    const { id, value, type, checked } = e.target;
+    setForm({ ...form, [id]: type === 'checkbox' ? checked : value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const erroresValidados = validar();
+    setErrores(erroresValidados);
+
+    if (Object.keys(erroresValidados).length === 0) {
+      try {
+        const response = await registrarUsuario({
+          email: form.correo,
+          password: form.password,
+          nombre: form.nombres,
+          apellido: form.apellidos,
+          telefono: '',
+          direccion: '',
+          rol: 'cliente'
+        });
+
+        if (response.status === 201 || response.status === 200) {
+          alert('Usuario registrado con éxito ✅');
+          navigate('/AccedeAqui');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Error al registrar usuario ❌');
+      }
     }
   };
 
   return (
-    <div className="registro-container">
-      <div className="registro-contenido">
-        {/* Lado izquierdo con imagen y mensaje */}
-        <div className="registro-imagen">
-          <h2>Bienvenid@ a la sección de Registro</h2>
-          <img src={orquidea} alt="Orquídea" />
+    <section className='Contenedor'>
+      <button className='Salir' onClick={salir}>
+        <IoMdClose />
+      </button>
+
+      <h1 className='TituloAcceso'>Regístrate</h1>
+
+      <form onSubmit={handleSubmit} noValidate>
+        <div className='Campo'>
+          <FaUser className='Icono' />
+          <input
+            type='text'
+            id='nombres'
+            placeholder='Nombres'
+            value={form.nombres}
+            onChange={handleChange}
+            className={errores.nombres ? 'invalido' : ''}
+          />
         </div>
+        {errores.nombres && <p className='mensaje-error'>{errores.nombres}</p>}
 
-        {/* Lado derecho con el formulario */}
-        <form className="registro-formulario" onSubmit={(e) => e.preventDefault()}>
-          <h2 className="registro-titulo">Registrarse</h2>
-
+        <div className='Campo'>
+          <FaUser className='Icono' />
           <input
-            type="text"
-            name="nombre"
-            placeholder="Nombre completo"
-            value={formulario.nombre}
+            type='text'
+            id='apellidos'
+            placeholder='Apellidos'
+            value={form.apellidos}
             onChange={handleChange}
-            required
+            className={errores.apellidos ? 'invalido' : ''}
           />
+        </div>
+        {errores.apellidos && <p className='mensaje-error'>{errores.apellidos}</p>}
 
+        <div className='Campo'>
+          <FaUser className='Icono' />
           <input
-            type="email"
-            name="correo"
-            placeholder="Correo electrónico"
-            value={formulario.correo}
+            type='email'
+            id='correo'
+            placeholder='Correo'
+            value={form.correo}
             onChange={handleChange}
-            required
+            className={errores.correo ? 'invalido' : ''}
           />
+        </div>
+        {errores.correo && <p className='mensaje-error'>{errores.correo}</p>}
 
+        <div className='Campo'>
+          <FaLock className='Icono' />
           <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            value={formulario.password}
+            type='password'
+            id='password'
+            placeholder='Contraseña'
+            value={form.password}
             onChange={handleChange}
-            required
+            className={errores.password ? 'invalido' : ''}
           />
+        </div>
+        {errores.password && <p className='mensaje-error'>{errores.password}</p>}
 
+        <div className='Campo'>
+          <FaUserLock className='Icono' />
           <input
-            type="password"
-            name="confirmarPassword"
-            placeholder="Confirmar contraseña"
-            value={formulario.confirmarPassword}
+            type='password'
+            id='confirmar'
+            placeholder='Confirmar contraseña'
+            value={form.confirmar}
             onChange={handleChange}
-            required
+            className={errores.confirmar ? 'invalido' : ''}
           />
+        </div>
+        {errores.confirmar && <p className='mensaje-error'>{errores.confirmar}</p>}
 
-          <div className="registro-checkbox-container">
+        <div className='EstiloAceptartyc'>
+          <label className='TextoTerminos'>
             <input
-              type="checkbox"
-              name="aceptarTerminos"
-              checked={formulario.aceptarTerminos}
+              type='checkbox'
+              id='terminos'
+              checked={form.terminos}
               onChange={handleChange}
-              id="terminos"
-              required
             />
-            <label htmlFor="terminos">
-              Acepto los <a href="/terminos">términos y condiciones</a>
-            </label>
-          </div>
+            Acepto los <strong>Términos y Condiciones</strong>
+          </label>
+        </div>
+        {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
 
-          <button
-            type="button"
-            className="registro-boton"
-            onClick={manejarSiguiente}
-          >
-            Registrarse
-          </button>
+        <button className='Continuar' type='submit'>
+          Registrarse
+        </button>
+      </form>
 
-          <p className="registro-login-texto">
-            ¿Ya tienes una cuenta?{" "}
-            <Link to="/AccedeAqui" className="registro-link">
-              Inicia sesión
-            </Link>
-          </p>
-
-          {mostrarAlerta && (
-            <Alerta
-              mensaje="Por favor completa todos los campos correctamente."
-              onClose={() => setMostrarAlerta(false)}
-            />
-          )}
-        </form>
+      <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
+        <p>O regístrate con Google</p>
+        <LoginGoogle />
       </div>
-    </div>
+
+      <p className='Registro'>
+        ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
+      </p>
+    </section>
   );
 }
-

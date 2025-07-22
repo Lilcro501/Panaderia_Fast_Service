@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 //~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
 import '../../assets/styles/AgregarInven.css'; 
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
@@ -95,7 +95,7 @@ export default function AgregarInven() {
             <br />
 
             <div className="contenedor_formulario_inventario">
-                <h2>Registrar nuevo producto</h2>
+                <h2 className='H2'>Registrar nuevo producto</h2>
                 <br />
 
                 {/* Aquí insertamos el formulario reutilizable */}

@@ -6,13 +6,14 @@ import { enviarFactura } from '../../api/factura';
 import '../../assets/styles/MetodosPago.css';
 import qr from "../../assets/images/qr.png";
 
-const EntregaDomicilio = () => {
+const EntregaLocal = () => {
   const { carrito, vaciarCarrito } = useCarrito();
   const [metodoEntrega, setMetodoEntrega] = useState('');
   const [mostrarModal, setMostrarModal] = useState(false);
   const [comprobante, setComprobante] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [modalError, setModalError] = useState(null);
 
   const [formData, setFormData] = useState({
     direccion_entrega: '',
@@ -49,13 +50,12 @@ const EntregaDomicilio = () => {
   const validarCampos = () => {
     const camposRequeridos = [
       { value: metodoEntrega, message: 'Selecciona un método de pago' },
-      { value: formData.direccion_entrega, message: 'La dirección de entrega es requerida' },
       { value: formData.fecha_entrega, message: 'La fecha de entrega es requerida' },
       { value: userData.nombre, message: 'El nombre es requerido' },
       { value: userData.telefono, message: 'El teléfono es requerido' },
-      { 
+      {
         condition: metodoEntrega === 'qr' && !comprobante,
-        message: 'Debes adjuntar el comprobante de pago QR' 
+        message: 'Debes adjuntar el comprobante de pago QR'
       }
     ];
 
@@ -65,51 +65,70 @@ const EntregaDomicilio = () => {
         return false;
       }
     }
-    
+
     setError(null);
     return true;
   };
 
   const handleEnviarFactura = async () => {
-  try {
-    const datosFactura = new FormData();
-    
-    // Datos básicos
-    datosFactura.append('id_usuario', userData.id_usuario);
-    datosFactura.append('metodo_pago', metodoEntrega);
-    datosFactura.append('total', total.toFixed(2));
-    datosFactura.append('direccion_entrega', formData.direccion_entrega);
-    datosFactura.append('fecha_entrega', formData.fecha_entrega);
-    datosFactura.append('informacion_adicional', formData.informacion_adicional || '');
+    if (!validarCampos()) return;
 
-    // Productos
-    carrito.forEach((item, index) => {
-      datosFactura.append(`productos[${index}][id_producto]`, item.id);
-      datosFactura.append(`productos[${index}][cantidad]`, item.quantity);
-      datosFactura.append(`productos[${index}][precio_unitario]`, item.price);
-    });
+    try {
+      setLoading(true);
+      const datosFactura = new FormData();
 
-    // Comprobante
-    if (metodoEntrega === 'qr' && comprobante) {
-      datosFactura.append('comprobante', comprobante);
+      datosFactura.append('metodo_entrega', 'Local');
+      datosFactura.append('id_usuario', userData.id_usuario);
+      datosFactura.append('metodo_pago', metodoEntrega);
+      datosFactura.append('total', total.toFixed(2));
+      datosFactura.append('fecha_entrega', formData.fecha_entrega);
+      datosFactura.append('direccion_entrega', 'N/A');
+      datosFactura.append('informacion_adicional', formData.informacion_adicional || '');
+
+      carrito.forEach((item, index) => {
+        datosFactura.append(`productos[${index}][id_producto]`, item.id);
+        datosFactura.append(`productos[${index}][cantidad]`, item.quantity);
+        datosFactura.append(`productos[${index}][precio_unitario]`, item.price);
+      });
+
+      if (metodoEntrega === 'qr' && comprobante) {
+        datosFactura.append('comprobante', comprobante);
+        //organizar la logia de aca 
+      } else {
+        datosFactura.append("comprobante", "No aplica")
+      }
+
+
+      const response = await enviarFactura(datosFactura);
+
+      if (response.success) {
+        alert('Factura creada exitosamente');
+        vaciarCarrito();
+        setFormData({
+          direccion_entrega: '',
+          fecha_entrega: '',
+          informacion_adicional: ''
+        });
+        setMetodoEntrega('');
+        setComprobante(null);
+        setMostrarModal(false);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert(`Error al crear factura: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // Verificación en consola
-    for (let [key, value] of datosFactura.entries()) {
-      console.log(key, value);
+  const cerrarModal = () => {
+    if (metodoEntrega === 'qr' && !comprobante) {
+      setModalError('Debes adjuntar el comprobante antes de cerrar.');
+    } else {
+      setModalError(null);
+      setMostrarModal(false);
     }
-
-    const response = await enviarFactura(datosFactura);
-    
-    if (response.success) {
-      alert('Factura creada exitosamente');
-      // Resetear estado...
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    alert(`Error al crear factura: ${error.message}`);
-  }
-};
+  };
 
   return (
     <>
@@ -120,30 +139,26 @@ const EntregaDomicilio = () => {
       <section className="contenedor-informacion">
         <div className="formulario-columna">
           <h4>Información del cliente</h4>
-          
+
           <label>Nombre*</label>
-          <input className="input-moderno" type="text" name="nombre" 
+          <input className="input-moderno" type="text" name="nombre"
             value={userData.nombre} onChange={handleUserChange} required />
 
           <label>Apellidos</label>
-          <input className="input-moderno" type="text" name="apellido" 
+          <input className="input-moderno" type="text" name="apellido"
             value={userData.apellido} onChange={handleUserChange} />
 
           <label>Teléfono*</label>
-          <input className="input-moderno" type="tel" name="telefono" 
+          <input className="input-moderno" type="tel" name="telefono"
             value={userData.telefono} onChange={handleUserChange} required />
 
-          <label>Dirección de entrega*</label>
-          <input className="input-moderno" type="text" name="direccion_entrega" 
-            value={formData.direccion_entrega} onChange={handleChange} required />
-
           <label>Fecha de entrega*</label>
-          <input className="input-moderno" type="date" name="fecha_entrega" 
-            value={formData.fecha_entrega} onChange={handleChange} 
+          <input className="input-moderno" type="date" name="fecha_entrega"
+            value={formData.fecha_entrega} onChange={handleChange}
             min={new Date().toISOString().split('T')[0]} required />
 
           <label>Información adicional</label>
-          <textarea className="input-moderno" name="informacion_adicional" 
+          <textarea className="input-moderno" name="informacion_adicional"
             value={formData.informacion_adicional} onChange={handleChange} rows="3" />
 
           <button className="boton-moderno" onClick={handleEnviarFactura} disabled={loading}>
@@ -167,16 +182,17 @@ const EntregaDomicilio = () => {
           <div className="metodos-pago">
             <h2>Métodos de pago</h2>
             <label className="radio-option">
-              <input type="radio" name="entrega" value="qr" 
+              <input type="radio" name="entrega" value="qr"
                 checked={metodoEntrega === 'qr'} onChange={(e) => setMetodoEntrega(e.target.value)} />
               Pagar con QR
             </label>
             <label className="radio-option">
-              <input type="radio" name="entrega" value="contraentrega" 
-                checked={metodoEntrega === 'contraentrega'} onChange={(e) => setMetodoEntrega(e.target.value)} />
-              Pago contra entrega
+              <input type="radio" name="entrega" value="En el local"
+                checked={metodoEntrega === 'En el local'} onChange={(e) => setMetodoEntrega(e.target.value)} />
+              En el local
             </label>
-            
+            <br /><br />
+
             {metodoEntrega && (
               <button className="boton-moderno" onClick={() => setMostrarModal(true)}>
                 Ver detalles de pago
@@ -188,8 +204,8 @@ const EntregaDomicilio = () => {
 
       <VentanaEmergente
         visible={mostrarModal}
-        onClose={() => setMostrarModal(false)}
-        title={`Detalles de pago (${metodoEntrega === 'qr' ? 'QR' : 'Contra entrega'})`}
+        onClose={cerrarModal}
+        title={`Detalles de pago ${metodoEntrega === 'qr' ? 'QR' : 'En el local'}`}
         content={
           metodoEntrega === 'qr' ? (
             <>
@@ -201,14 +217,27 @@ const EntregaDomicilio = () => {
               </p>
               <label style={{ display: 'block', marginTop: '15px' }}>
                 Adjunta tu comprobante*:
-                <input type="file" accept="image/*,.pdf" 
-                  onChange={(e) => setComprobante(e.target.files[0])} 
-                  style={{ marginTop: '5px' }} required />
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={(e) => {
+                    setComprobante(e.target.files[0]);
+                    setModalError(null);
+                  }}
+                  style={{ marginTop: '5px' }}
+                  required
+                />
               </label>
+              {modalError && (
+                <p style={{ color: 'red', marginTop: '10px' }}>{modalError}</p>
+              )}
+              <button className="boton-moderno" style={{ marginTop: '20px' }} onClick={cerrarModal}>
+                Aceptar
+              </button>
             </>
           ) : (
             <>
-              <h3 style={{ color: '#4CAF50' }}>Pago al recibir tu pedido</h3>
+              <h4 style={{ color: '#4CAF50' }}>Gracias por la compra! Se te enviará un correo con los detalles de la compra para que la recojas en nuestro local.</h4>
               <p>El mensajero recibirá:</p>
               <p style={{ fontSize: '1.2em', fontWeight: 'bold', textAlign: 'center', margin: '15px 0' }}>
                 ${total.toFixed(2)} en efectivo
@@ -216,6 +245,9 @@ const EntregaDomicilio = () => {
               <p style={{ fontStyle: 'italic' }}>
                 Por favor ten el dinero exacto o cercano para facilitar el proceso.
               </p>
+              <button className="boton-moderno" style={{ marginTop: '20px' }} onClick={cerrarModal}>
+                Aceptar
+              </button>
             </>
           )
         }
@@ -224,4 +256,4 @@ const EntregaDomicilio = () => {
   );
 };
 
-export default EntregaDomicilio;
+export default EntregaLocal;

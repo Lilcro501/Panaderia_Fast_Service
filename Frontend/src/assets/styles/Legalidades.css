@@ -1,4 +1,5 @@
 .ContenedorInfo {
+
     display: flex;
     flex-direction: column;
     background-color: #2e2e2e; /* Fondo oscuro elegante */
@@ -9,6 +10,7 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     color: #f0f0f0;
     font-family: 'Segoe UI', sans-serif;
+
 }
 
 .Titulo {

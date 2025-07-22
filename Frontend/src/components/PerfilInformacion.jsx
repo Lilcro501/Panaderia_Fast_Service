@@ -1,7 +1,10 @@
-import React from "react";
+
 import "../assets/styles/PerfilUsuario.css"
 import { Link, useNavigate } from "react-router-dom";
 import PerfilLogo from "../assets/icons/perfil-negro-2.png"; // actualiza con tu ruta
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 
 export default function PerfilInformacion() {
   const navegacion = useNavigate();
@@ -66,22 +69,38 @@ export default function PerfilInformacion() {
   );
 }
 
+
 export function MostrarInformacion() {
-  const datosUsuario = {
-    nombre: "Cristian",
-    correo: "juan@example.com",
-    direccion: "Calle 123 #45-67",
-    telefono: "3001234567",
-    rol: "Usuario"
-  };
+  const [usuario, setUsuario] = useState({
+    nombre: '',
+    apellidos: '',
+    correo: ''
+  });
+
+  useEffect(() => {
+    const obtenerUsuario = async () => {
+      try {
+        const response = await axios.get('/api/usuario/', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        setUsuario(response.data);
+      } catch (error) {
+        console.error('Error al obtener los datos del usuario:', error);
+      }
+    };
+
+    obtenerUsuario();
+  }, []);
 
   return (
     <div className="recuadro-perfil">
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>
         Información de Usuario
       </h1>
 
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: 'center' }}>
         <img src={PerfilLogo} className="foto-perfil" alt="Foto de perfil" />
       </div>
 
@@ -89,23 +108,11 @@ export function MostrarInformacion() {
         <tbody>
           <tr>
             <th>Nombre</th>
-            <td>{datosUsuario.nombre}</td>
+            <td>{usuario.nombre} {usuario.apellidos}</td>
           </tr>
           <tr>
             <th>Correo</th>
-            <td>{datosUsuario.correo}</td>
-          </tr>
-          <tr>
-            <th>Dirección</th>
-            <td>{datosUsuario.direccion}</td>
-          </tr>
-          <tr>
-            <th>Teléfono</th>
-            <td>{datosUsuario.telefono}</td>
-          </tr>
-          <tr>
-            <th>Rol</th>
-            <td>{datosUsuario.rol}</td>
+            <td>{usuario.correo}</td>
           </tr>
         </tbody>
       </table>
@@ -116,4 +123,3 @@ export function MostrarInformacion() {
     </div>
   );
 }
-
