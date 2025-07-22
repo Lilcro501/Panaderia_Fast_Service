@@ -1,25 +1,15 @@
-/* Importaciones necesarias de React y librerías */
 import React, { useState } from 'react';
-
-/* Hoja de estilos */
-import '../../assets/styles/Acceso.css';
 import Login from "../PagesLogin/Login";
-
-/* Importación de íconos desde react-icons */
 import { FaUser, FaLock, FaUserLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
-
-/* Importación del componente de rutas */
 import { Link, useNavigate } from 'react-router-dom';
-
-/* Importar el componente del botón de Google */
 import LoginGoogle from '../../components/LoginGoogle';
-
-/* Importar función de registro desde api/login.js */
 import { registrarUsuario } from '../../api/login';
 
 export default function Registro() {
   const [form, setForm] = useState({
+    nombres: '',
+    apellidos: '',
     correo: '',
     password: '',
     confirmar: '',
@@ -37,8 +27,16 @@ export default function Registro() {
     const nuevosErrores = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    if (!form.nombres.trim()) {
+      nuevosErrores.nombres = 'Por favor ingresa tus nombres';
+    }
+
+    if (!form.apellidos.trim()) {
+      nuevosErrores.apellidos = 'Por favor ingresa tus apellidos';
+    }
+
     if (!form.correo.trim()) {
-      nuevosErrores.correo = 'Por favor ingresa tu correo ';
+      nuevosErrores.correo = 'Por favor ingresa tu correo';
     } else if (!emailRegex.test(form.correo)) {
       nuevosErrores.correo = 'Correo no válido';
     }
@@ -48,7 +46,7 @@ export default function Registro() {
     }
 
     if (form.confirmar !== form.password) {
-      nuevosErrores.confirmar = 'Las contraseñas no coinciden ';
+      nuevosErrores.confirmar = 'Las contraseñas no coinciden';
     }
 
     if (!form.terminos) {
@@ -73,8 +71,8 @@ export default function Registro() {
         const response = await registrarUsuario({
           email: form.correo,
           password: form.password,
-          nombre: '',
-          apellido: '',
+          nombre: form.nombres,
+          apellido: form.apellidos,
           telefono: '',
           direccion: '',
           rol: 'cliente'
@@ -82,7 +80,7 @@ export default function Registro() {
 
         if (response.status === 201 || response.status === 200) {
           alert('Usuario registrado con éxito ✅');
-          navigate('/AccedeAqui'); // redirige al login
+          navigate('/AccedeAqui');
         }
       } catch (error) {
         console.error(error);
@@ -100,6 +98,31 @@ export default function Registro() {
       <h1 className='TituloAcceso'>Regístrate</h1>
 
       <form onSubmit={handleSubmit} noValidate>
+        <div className='Campo'>
+          <FaUser className='Icono' />
+          <input
+            type='text'
+            id='nombres'
+            placeholder='Nombres'
+            value={form.nombres}
+            onChange={handleChange}
+            className={errores.nombres ? 'invalido' : ''}
+          />
+        </div>
+        {errores.nombres && <p className='mensaje-error'>{errores.nombres}</p>}
+
+        <div className='Campo'>
+          <FaUser className='Icono' />
+          <input
+            type='text'
+            id='apellidos'
+            placeholder='Apellidos'
+            value={form.apellidos}
+            onChange={handleChange}
+            className={errores.apellidos ? 'invalido' : ''}
+          />
+        </div>
+        {errores.apellidos && <p className='mensaje-error'>{errores.apellidos}</p>}
 
         <div className='Campo'>
           <FaUser className='Icono' />

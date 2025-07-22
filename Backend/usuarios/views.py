@@ -266,12 +266,14 @@ def login_google(request):
         try:
             data = json.loads(request.body)
             token = data.get('token')
-
+                
             if not token:
                 return JsonResponse({'error': 'Token no proporcionado'}, status=400)
 
             # Verificar y decodificar el token
             idinfo = id_token.verify_oauth2_token(token, google_requests.Request())
+            print("🔎 idinfo:", idinfo)
+
 
             email = idinfo['email']
             nombre = idinfo.get('given_name', '')

@@ -1,17 +1,35 @@
+#--------------Imporaciones de modulos----------
+#importamos models para obtener las clases y funciones necesarias para definir modelos de la base de datos
+
 from django.db import models
+#AbstractBaseUser: esta clase se utilza como base para crear un modelo de usuario personalizado, este proporciona funcionalidad basica de autenticacion, como el manejo de contraseñas
+
+# BaseUser Manager: Esta clase se utiliza para crear un administrador de usuarios personalizados, facilita la creacion de usuarios y la gestion de ligica realcionada con la creacion de usuarios
+
+#PermissionsMixin: esta clase se utilza para agregar funcionalidades de permisos a un modelo de usuarioo, permite gestionar grupos y permisos de manera mas sencilla
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+
+# se importa el modulo de django que proporciona funcuones para trabajr con fechas y horas en relacion a las fechas horarias
 from django.utils import timezone
 
+#en esta clase heredamos BaseUsreManager para poder utilzar funcionalidades basicas de gestion de usuarios que proporciona django
 class UsuarioManager(BaseUserManager):
+    #definimos el metodo create_user para crear un nuevo usuario 
     def create_user(self, email, password=None, **extra_fields):
+        #validamos de que se haya ingresado un correo 
         if not email:
+            #en tal caso de que no se ingrese lanzara el siguiente error
             raise ValueError('El correo es obligatorio')
+        #normalize_email, lo utilzamos para pasar el correo a un formato estandar (minusculas)
         email = self.normalize_email(email)
+        #en creamos un  nuevo modelo de usuario, que se asocia al adminstrador,, utilzando el correo electronico y los otros campos adicionales
         user = self.model(email=email, **extra_fields)
+        ##establecemos la contraseña, primero hasheamos la contraeña para que se mande encriptada a la base de datos ¿
         user.set_password(password)
+        # se guarda la instancia de la base de datos utilzando en metetodo 
         user.save(using=self._db)
         return user
-
+    #definimos el metodo crear_superuser, que contendra todos lo permisos
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('rol', 'admin')
         return self.create_user(email, password, **extra_fields)
