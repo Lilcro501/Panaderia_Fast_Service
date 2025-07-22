@@ -9,23 +9,36 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+
+#<-------------------------Configuracion de la aplicacion-------------------------->
+#Importamos el path para poder acceder a las carpetas de la aplicacion
 from pathlib import Path
+#Importamos el os para poder acceder a las variables de entorno
 import os
+#Importamos el timedelta para poder configurar el tiempo de vida de la sesion de usuario
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+#este es el directorio base de la aplicacion
+#esto es para que django pueda acceder a las carpetas de la aplicacion
+#ayuda a que django puieda accede de manera mas facil a las carpetas de la aplicacion
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+#esto es para que django pueda generar una llave secreta para la aplicacion
+#esta llave secreta se genera de manera aleatoria y se utiliza para encriptar la sesion de usuario y
+# generar contraseñas encirptadas
 SECRET_KEY = 'django-insecure-s&#_n*c5nws!x)ykp58zrnend1l2ko=%be@ka=bmog_vp-7qto'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+#este ayuda a despurar los errores de la aplicacion permitiendo ver los errores de la  apliacacion web en pantalla
 DEBUG = True
 
+#configuracion de los dominios que se van a utilizar en la aplicacion
+# esto es una medida de segirdad para que no se pueda acceder a la aplicacion desde otro dominio
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -34,75 +47,126 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # Django por defecto
+    #Tablas que necesita django por defecto para la autenticacion de usuarios
     'django.contrib.contenttypes',    # Para django_content_type
     'django.contrib.sessions',        # Para django_session  
     'django.contrib.messages',        # Para mensajes flash
     'django.contrib.staticfiles',     # Para archivos estáticos
-    'django.contrib.auth',
-    'django.contrib.admin',
+    'django.contrib.auth',            # Para autenticación
+    'django.contrib.admin',           # Para el panel de administración
 
+    
     # CORS
+    #permite que la aplicacion se comunique con otras aplicaciones
+    #permite la comunicacion entre diferentes dominios en aplicaciones web
+    #permite un configuracion mas correcta para la seguidad de la aplicacion 
     'corsheaders',
 
     # Terceros necesarios para auth
+    #para construir apis web, nos ayuda con la autenticacion, serializar datos y validar permisos
     'rest_framework',
+    #sistema de autenticacion basada en tokkens
     'rest_framework.authtoken',
+    # Proporciona los endpoints necesarios para el registro y autenticación de usuarios
     'dj_rest_auth',
+    # Este modulo se encarga de manejar el registro de nuevos usuarios y la activación de los usuarios
     'dj_rest_auth.registration',
+    # proporciona un sistema completo de autenticacion, como registro, inicio de sesión, recuperación de contraseñas, etc.
     'allauth',
+    #facilita la implementaciond de la gestoion de cuentas de usuarios en la aplicacion de django sin necesidad de escribir codigo adicional
     'allauth.account',
+    #proporciona una forma de autenticar a los usuarios a traves de redes sociales
     'allauth.socialaccount',
+    # proporciona la funcionalidad necesaria para manejar la autenticacion de usuarios a travez de google
     'allauth.socialaccount.providers.google',
 
     # mis apps
+    # este es el apartado de apps, cada app creada se debe agregar en este apartado 
+    #para que django pueda acceder a las carpetas de la aplicacion
     'carrito',
     'inventario',
     'usuarios',
 ]
 
+#Este es el intermediario que permite que las aplicaciones se comuniquen entre si  
+# este ayuda a modificar o procesar solicitudes y respuestas htpp, entre otras cosas 
 MIDDLEWARE = [
+    # se utiliza para manejar las solicitudes y respuestas CORS
+    # agrega en los encabezados CORS necesarios a la respuesta htpp
+    #permitiendo que los navegadores realicen solicitudes a dominios diferentes
     'corsheaders.middleware.CorsMiddleware',
+    #este middleware proporciona diferentes configuraciones de seguridad para proteger la aplicacion de django
     'django.middleware.security.SecurityMiddleware',
+    # este middleware permite el uso de sesiones en django que son utilizadas para alamacenar informacion sobre el estado del usuario entre diferentes solicitudes
     'django.contrib.sessions.middleware.SessionMiddleware',
+    #este se encarga de gestionar la autenticacion y el estadi de la cuenta del usuario
     'allauth.account.middleware.AccountMiddleware',
-    
+    #este proporciona funcionalidades comunes como la validacion de formularios y la gestion de cookies
     'django.middleware.common.CommonMiddleware',
+    #este middleware se encarga de proteger la aplicacion de ataques CSRF (Cross-Site Request Forgery)
     'django.middleware.csrf.CsrfViewMiddleware',
+    #este middelware se encarga de gestionar la autenticacion de usuarios de django, asocia la informacion del usuario autenticaddo con cada solicitud permitiendo que las vistas accedan a la informacion del usuario autenticado
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # proporciona un sistema de mensajes flash que permite mostrar mensajes temporales en la interfaz de usuario
     'django.contrib.messages.middleware.MessageMiddleware',
+    #este middleware se encarga de proteger la aplicacion de ataques de clickjacking    
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# esta es una variable que le indica a djago donde encontrar las configuraciones de URL de la aplicacion, especificamente le dice a django que busqUe las rutas de URL eb el modulo dentro del oaqyeta o aplicacion llamada urls.py, ROOT_URLCONF es una configuracion de django que le indica a django donde encontrar las configuraciones de URL de la aplicacion
 ROOT_URLCONF = 'orquidea.urls'
 
+#configuracion de las plantillas de la aplicaciones
 TEMPLATES = [
     {
+        #este campo especifica al backend que plantillas se van a utilizar en la aplicacion
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        #este camnpo es un alista de directorios donde django va a buscar las plantillas
         'DIRS': [],
+        #este campo especifica y le dice a django que debe buscar los directorios de las aplicaciones instaladas
         'APP_DIRS': True,
+        # eeste campo especifica las ocnfiguracion adicional de la plantilla 
         'OPTIONS': {
+            # estas son funcciones que se ejecutan antes de renderzar las plantillas y añpade variables de contexto que estaran disponibles en la plantilla
             'context_processors': [
+                #agrega el objeto al contexto permitiendo acceder a informacion sobre la solicitud actual en la plantilla "request"
                 'django.template.context_processors.request',
+                #agrega informacion sobre la autenticacion del usuario, coomo el usuario actual,
+                #y a los grupos que pertenece
                 'django.contrib.auth.context_processors.auth',
+                #agrega mensajes temporales al contexto, que se pueden utilizar para mostar notificaciones al usuario por ejemplo, mensajes de error o exito
                 'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
 
+# esta es una variable que le dice a django cual es el punto de entrada para la aplicacion WSGI
+#este punto de entrada es utilzado por los servidores web compatibles con WSGI para interactur con la aplicacion
+#orquidea es  el nombre del paquete o apicacion que contiene el archivo wsgi.py
+#WSGI es el nombre del modulo que contiene la aplicacion WSGI
+#aplicaction este es el nombre de la variable dentro del modulo que respresnta la aplicacion WSGI "wsgi.py"
 WSGI_APPLICATION = 'orquidea.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-#conexion con la base de datos
 
+#conexion y configuracion con la base de datos
+#aca realizamos la conexion con la base de datos para defiinir el motor y la base de datos en la cual se estaran almacenando los datos de entrada de la aplicacion 
 DATABASES = {
+    #este es el nombre del conjunto de configuraciones de bases de datos que permite definir la base de datos
     'default': {
+        #este campo le inidca al backend que motor se va a utilzar para conectarse en la base de datos, en este caso es mysql
         'ENGINE': 'django.db.backends.mysql',
+        #este campo especifica el nombre de la base de datos 
         'NAME': "panaderia_fast_service",
+        #este campo especifica el nombre del usuario que se utilzara para autenticar la conexion con la base de datos
         'USER': "root",
+        #este campo especifica la constraseña asociada con el usuario
         'PASSWORD': 'admin',
+        #este campo especifica la direccion del servidor de la base de datos
         'HOST': 'localhost',
+        #este campo especifica el puerto en el que se encuentra el servidor de la base de datos
         'PORT': '3306',
     }
 }
@@ -110,96 +174,131 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
+#esta configuracion define validaciones que compruenba la fortaleza de las contraseñas de los usauarios durante el resgristro o cambio de contraseñas, este sistema ayuda a garantizar 
+#contraseñas seguras por defecto "AUTH_PASSWORD_VALIDATORS"
 AUTH_PASSWORD_VALIDATORS = [
+    #verifica que la constraseña no sea muy simliar a los atributos del usuario
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
+    #este exige una longitud minima para la contraseña
+    #este validador comprueba que la contraseña tenga una longitud minima de 8 caracteres
+    #este validador comprueba que la contraseña contenga letras mayusculas, minusculas, digitos y simbolos
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
+    #verifica que la contraseña cno sea completamente numerica
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
+#este configura la localiacion y la gestion de zonas horarias de la aplicacion de django
+
+#define el campo del idioma que se utilzara en la aplicacion
 LANGUAGE_CODE = 'en-us'
-
+#esta campo define la zona horaria predeterminada que se utilzara en la aplcacion
 TIME_ZONE = 'UTC'
-
+#este campo habilita la internacionalizacion de la aplicacion
 USE_I18N = True
-
+#este campo habilita el soporte para zonas horarias en la aplicacion
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+#esta configuracion se refiere a la gestion de archivos estaticos
+#STATIC_URL define la url base a la que accederan los archivos estaticos
+#valor: "static/" este indica que los archivos estaticos estaran disponibles en la url "/static/"
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
+#define el tipo de campo que se utilzara automaticamente para las claves primraios en los modelos de django que no especifique explicitamente un campo de llave primaria
+#valor: "django.db.models.BigAutoField" este indica que se utilizara el tipo de campo "BigAutoField" para las claves primarias de los modelos de django
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#este acepta las peticiones de cualquier origen
-
-#este acepta las peticiones de cualquier origen
-
-
+#esta configuracion permite que cualquier dominio realice solicitudes a la API o a los recuros de la aplicacion de django, esta hace parte de la configuracion de CORS
+#Valor: significa que se permitiran todas las solicitudes de origen a la API
 CORS_ALLOW_ALL_ORIGINS = True
 
-
+#este campo define la URL base para accede a loa archivos multimedia en la aplicacion de dango
+#cuando se suben los archivos, se pueden acceder mediane esta URL
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#este campo define el directorio en el sistema de archivos donde se almacenaan los archivos de multimedia subidos
+#este crea una ruta absoluta al directorio dentro del iderectorio base de la aplicacion, esto permite que los archivos subidos se guarden en una ubicacion organizada y accesible
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#este campo permite especificar un modelo de usuario personalizado en lugar del mdelo de ysarui predeterminado de django
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
+#esta confuguracion permite que las credenciales como cookies, encabezados de autenticacuion o certificados del cloente se envie junti con las solicitudes cors
 CORS_ALLOW_CREDENTIALS = True
+
+#Este campo define una lista de origenes permitidos que pueden realizar solicitudes a la Api de la aplicacion
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
 
+#este campo define una lista de origenes de confianza para las solicitudes que incluyen un token CSRF, al especificar ,ss permite que las solicitudes desde este origen se consideren seguras para la proteccion contra CSRF
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
 ]
 
 #configuracion de correo para el registro de usuarios
+#define el motor de envuo de correos
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#servidor SMPT  a utilizar
 EMAIL_HOST = 'smtp.gmail.com'
+#puerto de conexion SMPT
 EMAIL_PORT = 587
+#Habilita el cifrado TLS, fundaemental para progreger las credenciales y contendido
 EMAIL_USE_TLS = True
+#############################################################
+#terminar de confugurar esta apartado para que sea mas seguro
+#############################################################
 EMAIL_HOST_USER = 'crisandresortiz3228@gmail.com'
 EMAIL_HOST_PASSWORD = 'fyuc rias vqws orkq'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 #autenticacion con google
+#este define los backends de la autenticacion que se utilzara en la aplicacion, a continuacio, se desgloza cada componente 
 AUTHENTICATION_BACKENDS = [
+    #backend de autenticacion predeterminado de django
     'django.contrib.auth.backends.ModelBackend',
+    #esta backednd es proporcionado por la biblioteca, es ques una solucion completa para la autenticacion de usaurios, registros, y festion de cuentas
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 #Especifica los métodos de autenticación que Django usará para identificar a los usuarios cuando acceden a una API protegida.
 REST_FRAMEWORK = {
+    #especifica las calses de autenticacon de DFR utilzara para verificar las credencuales de los usauroos en las solicitudes API 
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        #Permite la autenticacion mediante JSON web tokens tokens (JWT)
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        #Esta clase permite la autenticaion basda en sesiones, que es el metodo de autenticacion predeterminado de django
         'rest_framework.authentication.SessionAuthentication',
     ],
 }
 
+
+
 SIMPLE_JWT = {
+    #define la duracion de vida del token de acceso
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    #define la duraciin de vida del token de actualizacion (refresh token)
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    #indica si se deben rotar los tokens de actualizacion, 
     'ROTATE_REFRESH_TOKENS': True,
+    #indica si los tokenks de actualizacion deben ser anidados a una lista negra despues de ser rotados
     'BLACKLIST_AFTER_ROTATION': True,
-    
-    'USER_ID_FIELD': 'id_usuario',  # 👈 ESTA LÍNEA ES CRUCIAL
+    #especfica el campo que se utilzara para identifcar el usuario en el token
+    'USER_ID_FIELD': 'id_usuario',  
 }
 
 

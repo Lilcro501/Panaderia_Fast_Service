@@ -29,10 +29,10 @@ import PoliticaCo from "../pages/PagesClientes/PoliticaCo";
 import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad";
 import Recomendacion from '../pages/PagesClientes/Recomendacion';
 import TYC from "../pages/PagesClientes/TYC";
-import EntregaDomicilio from '../pages/PagesClientes/EntregaDomicilio';
-import EntregaLocal from '../pages/PagesClientes/EntregaLocal';
 import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
 import ProductoDetalle from '../components/ProductoDetalle';
+import FormularioEntrega from '../pages/PagesClientes/FormularioEntrega';
+
 
 // ------------------- Páginas Cliente No Login -------------------
 import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
@@ -84,8 +84,8 @@ const AppRouter = () => {
       <Route path='/recomendacion' element={<PrivateRoute role="cliente"><MainLayout><Recomendacion /></MainLayout></PrivateRoute>} />
       <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos /></MainLayout></PrivateRoute>} />
       <Route path='/FacturaProductos' element={<PrivateRoute role="cliente"><MainLayout><FacturaProductos /></MainLayout></PrivateRoute>} />
-      <Route path='/EntregaDomicilio' element={<PrivateRoute role="cliente"><MainLayout><EntregaDomicilio /></MainLayout></PrivateRoute>} />
-      <Route path='/EntregaLocal' element={<PrivateRoute role="cliente"><MainLayout><EntregaLocal /></MainLayout></PrivateRoute>} />
+      <Route path='/FormularioEntrega' element={<PrivateRoute role="cliente"><MainLayout><FormularioEntrega></FormularioEntrega></MainLayout></PrivateRoute>} />
+      
 
 
       {/* Layout dinámico - Rutas compartidas */}
