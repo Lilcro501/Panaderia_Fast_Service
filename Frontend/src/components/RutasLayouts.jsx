@@ -25,6 +25,6 @@ const RutasLayouts = ({ children }) => {
   }
 };
 
-export default RutaConLayout;
+export default RutasLayouts;
 
 

@@ -22,9 +22,11 @@ from rest_framework.permissions import IsAuthenticated
 # Modelos
 from .models import Factura, Pedido, Producto, Categoria, Favorito
 from usuarios.models import Usuario
+from . models import Valoracion
 
 # Serializadores
 from .serializers import FavoritoSerializer
+from .serializers import ValoracionSerializer
 
 # Utilidades
 from .utils import enviar_factura_por_correo
@@ -246,3 +248,21 @@ class EliminarFavorito(generics.DestroyAPIView):
         return Favorito.objects.filter(usuario=self.request.user)  # ✅ Filtra solo los favoritos del usuario
 
 
+#vistas para los comentarios 
+
+
+# Obtener comentarios de un producto específico
+class ComentariosPorProductoView(generics.ListAPIView):
+    serializer_class = ValoracionSerializer
+
+    def get_queryset(self):
+        producto_id = self.kwargs['producto_id']
+        return Valoracion.objects.filter(id_producto_id=producto_id).order_by('-fecha_valoracion')
+
+# Crear un nuevo comentario (requiere autenticación)
+class CrearComentarioView(generics.CreateAPIView):
+    serializer_class = ValoracionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(id_usuario=self.request.user)

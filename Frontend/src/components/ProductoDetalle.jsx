@@ -6,10 +6,14 @@ import axios from 'axios';
 import { useCarrito } from '../Context/CarritoContext';
 
 export default function ProductoDetalle() {
-  const { id } = useParams(); // Captura el ID de la URL
+  const { id } = useParams();
   const [producto, setProducto] = useState(null);
   const [error, setError] = useState(null);
   const [popup, setPopup] = useState(null);
+
+  const [comentarios, setComentarios] = useState([]);
+  const [nuevoComentario, setNuevoComentario] = useState('');
+  const [puntuacion, setPuntuacion] = useState(5);
 
   const { agregarProducto, carrito } = useCarrito();
 
@@ -31,8 +35,18 @@ export default function ProductoDetalle() {
       }
     };
 
+    const obtenerComentarios = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/producto/${id}/comentarios/`);
+        setComentarios(response.data);
+      } catch (error) {
+        console.error("❌ Error al obtener comentarios:", error);
+      }
+    };
+
     if (id) {
       obtenerProducto();
+      obtenerComentarios();
     }
   }, [id]);
 
@@ -45,19 +59,45 @@ export default function ProductoDetalle() {
       setPopup(producto.nameProduct);
       setTimeout(() => setPopup(null), 2000);
     } else {
-      alert(
-        `⚠️ No puedes agregar más de ${producto.stock} unidades de ${producto.nameProduct}`
-      );
+      alert(`⚠️ No puedes agregar más de ${producto.stock} unidades de ${producto.nameProduct}`);
     }
   };
 
-  if (error) {
-    return <h2 className="error">{error}</h2>;
-  }
+  const enviarComentario = async () => {
+    if (nuevoComentario.trim() === '') return;
 
-  if (!producto) {
-    return <h2 className="loading">Cargando producto...</h2>;
-  }
+    try {
+      const token = localStorage.getItem("access");
+      if (!token) {
+        alert("Debes iniciar sesión para comentar.");
+        return;
+      }
+
+      const response = await axios.post(
+        'http://localhost:8000/api/comentarios/',
+        {
+          id_producto: parseInt(id),
+          comentario: nuevoComentario,
+          puntuacion: puntuacion
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      setComentarios(prev => [response.data, ...prev]);
+      setNuevoComentario('');
+      setPuntuacion(5);
+    } catch (error) {
+      console.error("❌ Error al enviar comentario:", error);
+      alert("Debes iniciar sesión para comentar.");
+    }
+  };
+
+  if (error) return <h2 className="error">{error}</h2>;
+  if (!producto) return <h2 className="loading">Cargando producto...</h2>;
 
   return (
     <section className='ContenedorProductoInfo'>
@@ -87,9 +127,7 @@ export default function ProductoDetalle() {
             {producto.stock === 0 ? "Agotado" : "Añadir"}
           </button>
 
-          {popup && (
-            <div className="popup-mini">✅ {popup} añadido al carrito</div>
-          )}
+          {popup && <div className="popup-mini">✅ {popup} añadido al carrito</div>}
         </div>
       </div>
 
@@ -110,7 +148,37 @@ export default function ProductoDetalle() {
       <div className='InfoInferiorCalificacion'>
         <div className='ContenedorComentarios'>
           <h1 className='Comentarios'>Comentarios</h1>
-          {/* Aquí puedes agregar lógica para mostrar lista de comentarios */}
+
+          <div className='ListaComentarios'>
+            {comentarios.length === 0 ? (
+              <p>No hay comentarios aún.</p>
+            ) : (
+              comentarios.map((comentario) => (
+                <div key={comentario.id_valoracion} className='ComentarioItem'>
+                  <strong>
+                    {comentario.usuario?.nombre} {comentario.usuario?.apellido}
+                  </strong>
+                  <p>{comentario.comentario}</p>
+                  <span>Puntuación: {comentario.puntuacion}/5</span><br />
+                  <small>{new Date(comentario.fecha_valoracion).toLocaleDateString()}</small>
+                </div>
+              ))
+            )}
+          </div>
+
+          <div className='FormularioComentario'>
+            <textarea
+              placeholder='Escribe tu comentario...'
+              value={nuevoComentario}
+              onChange={(e) => setNuevoComentario(e.target.value)}
+            />
+            <select value={puntuacion} onChange={(e) => setPuntuacion(parseInt(e.target.value))}>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </select>
+            <button onClick={enviarComentario}>Enviar</button>
+          </div>
         </div>
 
         <div className='MetodosPagoInfo'>
@@ -125,4 +193,3 @@ export default function ProductoDetalle() {
     </section>
   );
 }
-
