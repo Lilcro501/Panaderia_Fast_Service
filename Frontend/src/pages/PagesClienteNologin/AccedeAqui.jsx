@@ -42,7 +42,7 @@ export default function AccedeAqui() {
         navigate('/admin/dashboard');
         break;
       case 'trabajador':
-        navigate('/trabajador/pedidos');
+        navigate('/Inicio');
         break;
       case 'cliente':
       default:
