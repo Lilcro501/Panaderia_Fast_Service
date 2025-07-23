@@ -1,88 +1,130 @@
 
-/*estilo para el carrusel del home*/
-.carrusel-centralizado{
-  display: flex;
-  gap: 10px;
-  margin: 20px auto;
-  max-width: 100%;
-  justify-content: center;
+/* Contenedor principal */
+.Contenedor {
+  background-color: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  position: relative;
 }
 
-.boton-carrusel{
-  background-color: #8b5e3c;
-  color: white;
+/* Título */
+.TituloAcceso {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* Botón de cerrar */
+.Salir {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
   border: none;
-  border-radius: 50%;
-  padding: 10px;
-  font-size: 24px;
+  font-size: 1.3rem;
+  color: #888;
   cursor: pointer;
 }
 
-.boton-carrusel:hover {
-  background-color: #a26e46;
-}
-
-.catalogo-deslizar{
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 10px;
-  background-color: #c29b79a6;
-  border-radius: 15px;
-  width: 80%;
-}
-
-.catalogo-deslizar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Carrusel destacados */
-.contenedor-carrusel-centralizado {
+/* Estilo de campos */
+.Campo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 20px auto;
-  max-width: 100%;
-  justify-content: center;
+  margin-bottom: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 0.5rem;
 }
 
-.btn-carrusel {
-  background-color: #8b5e3c;
-  color: white;
+.Campo input {
   border: none;
-  border-radius: 50%;
-  padding: 10px;
-  font-size: 24px;
-  cursor: pointer;
+  background: transparent;
+  outline: none;
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #333;
 }
 
-.btn-carrusel:hover {
-  background-color: #a26e46;
+.Campo .Icono {
+  margin-right: 10px;
+  color: #777;
+  font-size: 1.2rem;
 }
 
-.catalogo-scroll {
+/* Errores */
+.mensaje-error {
+  color: red;
+  font-size: 0.85rem;
+  margin: -8px 0 0.8rem 0.2rem;
+}
+
+/* Checkbox de términos */
+.EstiloAceptartyc {
+  margin: 1rem 0;
   display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 10px;
-  background-color: #c99e78aa;
-  border-radius: 15px;
-  width: 80%;
+  align-items: center;
+  font-size: 0.95rem;
 }
 
-.catalogo-scroll::-webkit-scrollbar {
-  display: none;
+.TextoTerminos {
+  color: #444;
 }
 
-
-.lista-info li:hover {
-  transform: scale(1.12);
+.TextoTerminos strong {
+  color: #0056b3;
 }
 
-.titulo-productos {
+/* Botón principal */
+.Continuar {
+  width: 100%;
+  padding: 0.7rem;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Continuar:hover {
+  background-color: #3e8e41;
+}
+
+/* Google login */
+.google-login-container {
+  margin-top: 1.5rem;
+}
+
+.google-login-container p {
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+/* Link de acceso */
+.Registro {
   text-align: center;
-  color: #ffffff;
+  margin-top: 1.5rem;
+  color: #555;
+}
+
+.Registro a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.Registro a:hover {
+  text-decoration: underline;
+}
+
+/* Campo inválido */
+.invalido {
+  border-bottom: 2px solid red;
 }
 

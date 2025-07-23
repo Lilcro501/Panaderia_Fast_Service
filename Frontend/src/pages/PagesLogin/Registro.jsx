@@ -5,6 +5,8 @@ import { IoMdClose } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import LoginGoogle from '../../components/LoginGoogle';
 import { registrarUsuario } from '../../api/login';
+import '../../assets/styles/Registro.css';
+import orquidea from "../../assets/images/orquidea.jpg"; 
 
 export default function Registro() {
   const [form, setForm] = useState({
@@ -91,6 +93,13 @@ export default function Registro() {
 
   return (
     <section className='Contenedor'>
+    <div className='PanelIzquierdo'>
+      <h2>Bienvenid@ a la sección de registro</h2>
+      <p>Por favor, completa el formulario para crear tu cuenta.</p>
+      <img src={orquidea} alt='Registro' className='ImagenRegistro' />
+    </div> 
+    <div className='PanelDerecho'>
+
       <button className='Salir' onClick={salir}>
         <IoMdClose />
       </button>
@@ -189,6 +198,7 @@ export default function Registro() {
       <p className='Registro'>
         ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
       </p>
+      </div>
     </section>
   );
 }

@@ -14,50 +14,50 @@ export default function ManifiestoConsumidor() {
             <br/>
 
             <div className='ContenedorInput'>
-                <label for='Nombres'>Nombres y apellidos</label>
+                <label htmlFor='Nombres'>Nombres y apellidos</label>
                 <input type='text' id='Nombres'/>
 
-                <label for='Telefono'>Teléfono</label>
+                <label htmlFor='Telefono'>Teléfono</label>
                 <input type='number' id='Telefono'/>
             </div>
             <br/>
             
             <div className='ContenedorInput'>
-                <label for='documento'>Tipo de documento</label>
+                <label htmlFor='documento'>Tipo de documento</label>
                 <select> 
                     <option value='vacio'> </option>
                     <option value='CC'>Cédula de ciudadanía</option>
                     <option value='TI'>Tarjeta de identidad</option>
                 </select>
 
-                <label for='ndocumento'>N.documento:</label>
+                <label htmlFor='ndocumento'>N.documento:</label>
                 <input type='number' id='ndocumento'/>
             </div>
             <br/>
 
             <div className='ContenedorInput'>
-                <label for='email'>Correo:</label>
+                <label htmlFor='email'>Correo:</label>
                 <input type='email' id='email'/>
 
-                <label for='direccion'>Dirección:</label>
+                <label htmlFor='direccion'>Dirección:</label>
                 <input type='text' id='direccion'/>
             </div>
             <br/><br/>
 
             <div className='ContenedorInputt'>
-                <label for='descripcion'>Descripción del problema:</label>
+                <label htmlFor='descripcion'>Descripción del problema:</label>
                 <textarea name='descripcion' id='descripcion'/>
             </div>
             <br/>
 
             <div className='ContenedorInputt'>
-                <label for='solucion'>Solución esperada:</label>
+                <label htmlFor='solucion'>Solución esperada:</label>
                 <textarea name='solucion' id='solucion'/>
             </div>
             <br/>
 
             <div className='ContenedorInput'>
-                <label for='comprobante'>Comprobante de pago:</label>
+                <label htmlFor='comprobante'>Comprobante de pago:</label>
                 <input type='file' id='comprobante'/>
             </div>
             <br/>
