@@ -72,6 +72,7 @@ export default function AccedeAqui() {
         const rolLower = rol.toLowerCase();
 
         localStorage.setItem('access', access);
+        localStorage.setItem('token', access); // Esto mantiene compatibilidad con tu lógica actual
         localStorage.setItem('refresh', refresh);
         localStorage.setItem('nombre', nombre);
         localStorage.setItem('rol', rolLower);
