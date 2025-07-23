@@ -1,21 +1,21 @@
 .ContenedorInfo {
-
     display: flex;
     flex-direction: column;
     background-color: #2e2e2e; /* Fondo oscuro elegante */
     border-radius: 25px;
-    border: 1px solid #888;
+    border: 1px solid #d4af37;
     padding: 40px;
     margin: 20px 60px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     color: #f0f0f0;
     font-family: 'Segoe UI', sans-serif;
-
+    border: 4px solid #d4af37;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.6); /* Sombra dorada suave */
 }
 
 .Titulo {
     margin-bottom: 30px;
-    color:  #d4af37;
+    color:#d4af37;
     font-size: 42px;
     font-weight: bold;
     text-align: center;
@@ -24,7 +24,7 @@
 }
 
 .Subtitulo {
-    color:  #d4af37;
+    color:#d4af37;
     font-size: 28px;
     font-weight: 600;
     margin-top: 20px;
@@ -111,21 +111,7 @@
     margin-top: 20px;
 }
 
-.Enviar {
-    background-color: #4caf50;
-    color: #fff;
-    padding: 10px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out, background-color 0.3s;
-}
 
-.Enviar:hover {
-    transform: scale(1.05);
-    background-color: #45a049;
-}
 
 .comprobante {
     max-width: 200px;
