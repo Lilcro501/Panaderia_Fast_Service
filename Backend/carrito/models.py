@@ -122,3 +122,32 @@ class Favorito(models.Model):
         # Asegura que un usuario no pueda agregar un producto a favoritos más de una vez
         unique_together = ('usuario', 'producto')
 
+
+
+#Definimos el modelo de invebntario para realizar la conexion con la base de datos
+
+class Valoracion(models.Model):
+    id_valoracion = models.AutoField(primary_key=True)
+    
+    id_usuario = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        db_column='id_usuario',  # ¡IMPORTANTE!
+        on_delete=models.CASCADE
+    )
+    
+    id_producto = models.ForeignKey(
+        Producto,
+        db_column='id_producto',  # ¡CLAVE PARA TU CASO!
+        on_delete=models.CASCADE
+    )
+    
+    puntuacion = models.IntegerField()
+    comentario = models.TextField()
+    fecha_valoracion = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'valoraciones'
+        managed = False  # Porque es una tabla ya existente
+
+    def __str__(self):
+        return f'{self.id_usuario.username} → {self.id_producto.nombre} ({self.puntuacion})'
