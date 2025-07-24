@@ -1,80 +1,90 @@
-import React, { useRef, useState } from 'react';
+//~~~~~~~~~~~~~~ Librerías ~~~~~~~~~~~~~~
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
 import FormularioAdmin from '../../components/FormularioAdmin';
-//~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
-import "../../assets/styles/Global.css"
 
+//~~~~~~~~~~~~~~ Estilo Global ~~~~~~~~~~~~~~
+import "../../assets/styles/Global.css";
 
 export default function EditarTrabajador() {
-    // Definimos los campos del formulario
-    const camposProducto = [
-        {
-            nombre: 'stock',
-            etiqueta: 'Cédula',
-            tipo: 'number',
-            requerido: true
-        },
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [datosIniciales, setDatosIniciales] = useState(null);
+    const [cargando, setCargando] = useState(true);
 
-        {
-            nombre: 'nombre',
-            etiqueta: 'Nombre Completo',
-            tipo: 'text',
-            requerido: true
-        },
-        {
-            nombre: 'descripcion',
-            etiqueta: 'Cargo',
-            tipo: 'text',
-            requerido: true
-        },
-
+    const camposTrabajador = [
+        { nombre: 'email', etiqueta: 'Correo Electrónico', tipo: 'email', requerido: true },
+        { nombre: 'nombre', etiqueta: 'Nombre', tipo: 'text', requerido: true },
+        { nombre: 'apellido', etiqueta: 'Apellido', tipo: 'text', requerido: true },
+        { nombre: 'telefono', etiqueta: 'Teléfono', tipo: 'text', requerido: false }
     ];
 
-    // Función para manejar el envío de datos del formulario
-    const manejarEnvio = (datos) => {
-        console.log("Datos recibidos del formulario:", datos);
-
-        // Enviar datos como FormData
-        const formData = new FormData();
-        for (const clave in datos) {
-            formData.append(clave, datos[clave]);
+    // Verificación inicial del ID
+    useEffect(() => {
+        if (!id) {
+            alert("ID no válido.");
+            navigate("/AdministrarTrabajadores");
+            return;
         }
 
-        // Aquí podrías hacer una petición POST al backend
-        // fetch('/api/productos', { method: 'POST', body: formData })
+        axios.get(`http://localhost:8000/api/usuarios/${id}/`)
+            .then(res => {
+                setDatosIniciales(res.data);
+            })
+            .catch(err => {
+                console.error("Error al cargar trabajador:", err);
+                alert("No se pudo cargar el trabajador.");
+                navigate("/AdministrarTrabajadores");
+            })
+            .finally(() => {
+                setCargando(false);
+            });
+    }, [id, navigate]);
+
+    const manejarEnvio = async (datos) => {
+        try {
+            const response = await axios.put(`http://localhost:8000/api/usuarios/${id}/`, datos);
+            console.log("Trabajador actualizado:", response.data);
+            alert("Trabajador actualizado con éxito.");
+            navigate("/AdministrarTrabajadores");
+        } catch (error) {
+            console.error("Error al actualizar trabajador:", error.response?.data || error);
+            alert("Error al actualizar el trabajador.");
+        }
     };
 
-        const botones = [
-            {
-                texto: 'Aceptar',      // Texto que se verá en el botón
-                tipo: 'submit',        // Tipo submit: envía el formulario
-                clase: 'guardar',      // Clase CSS para estilo personalizado
-                onClick: null          // Usa el onSubmit del formulario
-            },
-            {
-                texto: 'Cancelar',
-                tipo: 'button',
-                clase: 'salir',
-                onClick: () => {
-                    // Aquí defines qué hacer cuando se cancela
-                    console.log("Formulario cancelado");
-                    // Podrías redirigir, cerrar modal, limpiar campos, etc.
-            }
-            }
+    const botones = [
+        {
+            texto: 'Actualizar',
+            tipo: 'submit',
+            clase: 'guardar',
+            onClick: null
+        },
+        {
+            texto: 'Cancelar',
+            tipo: 'button',
+            clase: 'salir',
+            onClick: () => navigate("/AdministrarTrabajadores")
+        }
     ];
 
-
     return (
-        <>
-            <div className="contenedor_formulario_inventario">
-                {/* Aquí insertamos el formulario reutilizable */}
-                <FormularioAdmin 
-                campos={camposProducto} 
-                onSubmit={manejarEnvio} 
-                botonesPersonalizados={botones}/>
-            </div>
-        </>
+        <div className="contenedor_formulario_inventario">
+            {cargando ? (
+                <p>Cargando datos del trabajador...</p>
+            ) : datosIniciales ? (
+                <FormularioAdmin
+                    campos={camposTrabajador}
+                    valoresIniciales={datosIniciales}
+                    onSubmit={manejarEnvio}
+                    botonesPersonalizados={botones}
+                />
+            ) : (
+                <p>Error al cargar los datos.</p>
+            )}
+        </div>
     );
 }
-
-

@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     # mis apps
+    'administrador',
     'carrito',
     'inventario',
     'usuarios',
@@ -103,7 +104,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "panaderia_fast_service",
         'USER': "root",
-        'PASSWORD': 'admin',
+        'PASSWORD': '090906',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -135,7 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
