@@ -1,20 +1,25 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { useRol } from '../Context/RolContext';
 
 const PrivateRoute = ({ children, role }) => {
-  const userRol = localStorage.getItem('rol');
-  console.log('🎯 Rol guardado:', userRol);
-  console.log('🔒 Rol requerido:', role);
+  const { rol, cargando } = useRol();
 
-  if (!userRol) {
-    console.warn('🔁 Redirigiendo a /Login (no hay rol)');
-    return <Navigate to="/Login" />;
+  if (cargando) {
+    return null; 
   }
 
-  // Comparando en minúsculas para evitar errores por mayúsculas
-  if (role && userRol.toLowerCase() !== role.toLowerCase()) {
+  console.log('🎯 Rol actual:', rol);
+  console.log('🔒 Rol requerido:', role);
+
+  if (!rol) {
+    console.warn('🔁 Redirigiendo a /Login (no hay rol)');
+    return <Navigate to="/Login" replace />;
+  }
+
+  if (role && rol.toLowerCase() !== role.toLowerCase()) {
     console.warn('⛔ Acceso denegado. Redirigiendo a /');
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
 
   console.log('✅ Acceso permitido');
@@ -22,8 +27,6 @@ const PrivateRoute = ({ children, role }) => {
 };
 
 export default PrivateRoute;
-
-
 
 /* 
 import { Navigate } from 'react-router-dom';

@@ -77,37 +77,26 @@ const AppRouter = () => {
   return (
     <Routes>
 
-      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
+      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin>}></Route>
       {/* Cliente */}
+      <Route path='/home' element={<PrivateRoute role="cliente"><RutasLayouts><Home></Home></RutasLayouts></PrivateRoute>} />
+      <Route path="/conocenos" element={<PrivateRoute role="cliente"><MainLayout><Conocenos /></MainLayout></PrivateRoute>} />
+      <Route path="/InfoLegal" element={<PrivateRoute role="cliente"><MainLayout><InfoLegal /></MainLayout></PrivateRoute>} />
+      <Route path="/ManifiestoConsumidor" element={<PrivateRoute role="cliente"><MainLayout><ManifiestoConsumidor /></MainLayout></PrivateRoute>} />
+      <Route path='/TYC' element={<PrivateRoute role="cliente"><MainLayout><TYC /></MainLayout></PrivateRoute>} />
+      <Route path='/PoliticaPrivacidad' element={<PrivateRoute role="cliente"><MainLayout><PoliticaPrivacidad /></MainLayout></PrivateRoute>} />
+      <Route path='/PoliticaCo' element={<PrivateRoute role="cliente"><MainLayout><PoliticaCo /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriaPanes' element={<PrivateRoute role="cliente"><MainLayout><CategoriasPanes /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriasFritos' element={<PrivateRoute role="cliente"><MainLayout><CategoriasFritos /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriasHelados' element={<PrivateRoute role="cliente"><MainLayout><CategoriasHelados /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriasMecato' element={<PrivateRoute role="cliente"><MainLayout><CategoriasMecato /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriasBebidas' element={<PrivateRoute role="cliente"><MainLayout><CategoriasBebidas /></MainLayout></PrivateRoute>} />
+      <Route path='/producto/:id' element={<PrivateRoute role="cliente"><MainLayout><ProductoDetalle /></MainLayout></PrivateRoute>} />
 
-      <Route path='/home' element={<PrivateRoute role="cliente"><Home /></PrivateRoute>} />
-      <Route path='/Perfil/usuario' element={<PrivateRoute role="cliente"><MainLayout><PerfilUsuario /></MainLayout></PrivateRoute>} />
-      <Route path='/Actualizar' element={<PrivateRoute role="cliente"><MainLayout><ActualizarPerfil /></MainLayout></PrivateRoute>} />
-      <Route path='/CalificarExperiencia' element={<PrivateRoute role="cliente"><MainLayout><CalificarExperiencia /></MainLayout></PrivateRoute>} />
-      <Route path='/recomendacion' element={<PrivateRoute role="cliente"><MainLayout><Recomendacion /></MainLayout></PrivateRoute>} />
-      <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos /></MainLayout></PrivateRoute>} />
-      <Route path='/FacturaProductos' element={<PrivateRoute role="cliente"><MainLayout><FacturaProductos /></MainLayout></PrivateRoute>} />
-      <Route path='/FormularioEntrega' element={<PrivateRoute role="cliente"><MainLayout><FormularioEntrega></FormularioEntrega></MainLayout></PrivateRoute>} />
-      
-
-
-      {/* Layout dinámico - Rutas compartidas */}
-      <Route path="/conocenos" element={<RutasLayouts><Conocenos /></RutasLayouts>} />
-      <Route path="/InfoLegal" element={<RutasLayouts><InfoLegal /></RutasLayouts>} />
-      <Route path="/ManifiestoConsumidor" element={<RutasLayouts><ManifiestoConsumidor /></RutasLayouts>} />
-      <Route path='/TYC' element={<RutasLayouts><TYC /></RutasLayouts>} />
-      <Route path='/PoliticaPrivacidad' element={<RutasLayouts><PoliticaPrivacidad /></RutasLayouts>} />
-      <Route path='/PoliticaCo' element={<RutasLayouts><PoliticaCo /></RutasLayouts>} />
-      <Route path='/categorias/CategoriaPanes' element={<RutasLayouts><CategoriasPanes /></RutasLayouts>} />
-      <Route path='/categorias/CategoriasFritos' element={<RutasLayouts><CategoriasFritos /></RutasLayouts>} />
-      <Route path='/categorias/CategoriasHelados' element={<RutasLayouts><CategoriasHelados /></RutasLayouts>} />
-      <Route path='/categorias/CategoriasMecato' element={<RutasLayouts><CategoriasMecato /></RutasLayouts>} />
-      <Route path='/categorias/CategoriasBebidas' element={<RutasLayouts><CategoriasBebidas /></RutasLayouts>} />
-      <Route path='/producto/:id' element={<RutasLayouts><ProductoDetalle></ProductoDetalle></RutasLayouts>} />
 
       {/* Cliente No Login */}
-      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
-      <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña /></MainLayoutSinLogin>} />
+      <Route path='/' element={<PrivateRoute role="sin-registrar"><HomeSinRegistrar /></PrivateRoute>}></Route>
+      <Route path='/CambioContraseña' element={<PrivateRoute role="sin-registrar" ><CambioDeContraseña /></PrivateRoute> } />
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
       <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
@@ -144,3 +133,8 @@ const AppRouter = () => {
 };
 
 export default AppRouter;
+
+
+
+
+
