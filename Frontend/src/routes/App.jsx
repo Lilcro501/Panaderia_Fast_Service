@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
 
 // Layouts
 import MainLayout from '../layouts/MainLayout';
@@ -62,6 +64,7 @@ import Cronograma from '../pages/PagesAdmin/Cronograma';
 import AgregarCrono from '../pages/PagesAdmin/AgregarCrono';
 import EditarCrono from '../pages/PagesAdmin/EditarCrono';
 import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
+import PrincipalAdmin from '../pages/PagesAdmin/PrincipalAdmin';
 
 // ------------------- Páginas Trabajador -------------------
 import DetallesPedido from '../pages/PagesTrabajador/DetallesPedido';
@@ -75,39 +78,34 @@ import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 
 const AppRouter = () => {
   return (
-    <Routes>
+    
+      <Routes>
 
-      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
+      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin>}></Route>
       {/* Cliente */}
-
-      <Route path='/home' element={<PrivateRoute role="cliente"><Home /></PrivateRoute>} />
-      <Route path='/Perfil/usuario' element={<PrivateRoute role="cliente"><MainLayout><PerfilUsuario /></MainLayout></PrivateRoute>} />
-      <Route path='/Actualizar' element={<PrivateRoute role="cliente"><MainLayout><ActualizarPerfil /></MainLayout></PrivateRoute>} />
+      <Route path='/home' element={<PrivateRoute role="cliente"><RutasLayouts><Home></Home></RutasLayouts></PrivateRoute>} />
+      <Route path="/conocenos" element={<PrivateRoute role="cliente"><MainLayout><Conocenos /></MainLayout></PrivateRoute>} />
+      <Route path="/InfoLegal" element={<PrivateRoute role="cliente"><MainLayout><InfoLegal /></MainLayout></PrivateRoute>} />
+      <Route path="/ManifiestoConsumidor" element={<PrivateRoute role="cliente"><MainLayout><ManifiestoConsumidor /></MainLayout></PrivateRoute>} />
+      <Route path='/TYC' element={<PrivateRoute role="cliente"><MainLayout><TYC /></MainLayout></PrivateRoute>} />
+      <Route path='/PoliticaPrivacidad' element={<PrivateRoute role="cliente"><MainLayout><PoliticaPrivacidad /></MainLayout></PrivateRoute>} />
+      <Route path='/PoliticaCo' element={<PrivateRoute role="cliente"><MainLayout><PoliticaCo /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriaPanes' element={<PrivateRoute role="cliente"><MainLayout><CategoriasPanes /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriasFritos' element={<PrivateRoute role="cliente"><MainLayout><CategoriasFritos /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriasHelados' element={<PrivateRoute role="cliente"><MainLayout><CategoriasHelados /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriasMecato' element={<PrivateRoute role="cliente"><MainLayout><CategoriasMecato /></MainLayout></PrivateRoute>} />
+      <Route path='/categorias/CategoriasBebidas' element={<PrivateRoute role="cliente"><MainLayout><CategoriasBebidas /></MainLayout></PrivateRoute>} />
+      <Route path='/producto/:id' element={<PrivateRoute role="cliente"><MainLayout><ProductoDetalle /></MainLayout></PrivateRoute>} />
       <Route path='/CalificarExperiencia' element={<PrivateRoute role="cliente"><MainLayout><CalificarExperiencia /></MainLayout></PrivateRoute>} />
-      <Route path='/recomendacion' element={<PrivateRoute role="cliente"><MainLayout><Recomendacion /></MainLayout></PrivateRoute>} />
+      <Route path='/Recomendacion' element={<PrivateRoute role="cliente"><MainLayout><Recomendacion /></MainLayout></PrivateRoute>} />
       <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos /></MainLayout></PrivateRoute>} />
-      <Route path='/FacturaProductos' element={<PrivateRoute role="cliente"><MainLayout><FacturaProductos /></MainLayout></PrivateRoute>} />
-      <Route path='/FormularioEntrega' element={<PrivateRoute role="cliente"><MainLayout><FormularioEntrega></FormularioEntrega></MainLayout></PrivateRoute>} />
-      
+      <Route path='/PerfilUsuario' element={<PrivateRoute role="cliente"><MainLayout><PerfilUsuario /></MainLayout></PrivateRoute>} />
 
 
-      {/* Layout dinámico - Rutas compartidas */}
-      <Route path="/conocenos" element={<RutasLayouts><Conocenos /></RutasLayouts>} />
-      <Route path="/InfoLegal" element={<RutasLayouts><InfoLegal /></RutasLayouts>} />
-      <Route path="/ManifiestoConsumidor" element={<RutasLayouts><ManifiestoConsumidor /></RutasLayouts>} />
-      <Route path='/TYC' element={<RutasLayouts><TYC /></RutasLayouts>} />
-      <Route path='/PoliticaPrivacidad' element={<RutasLayouts><PoliticaPrivacidad /></RutasLayouts>} />
-      <Route path='/PoliticaCo' element={<RutasLayouts><PoliticaCo /></RutasLayouts>} />
-      <Route path='/categorias/CategoriaPanes' element={<RutasLayouts><CategoriasPanes /></RutasLayouts>} />
-      <Route path='/categorias/CategoriasFritos' element={<RutasLayouts><CategoriasFritos /></RutasLayouts>} />
-      <Route path='/categorias/CategoriasHelados' element={<RutasLayouts><CategoriasHelados /></RutasLayouts>} />
-      <Route path='/categorias/CategoriasMecato' element={<RutasLayouts><CategoriasMecato /></RutasLayouts>} />
-      <Route path='/categorias/CategoriasBebidas' element={<RutasLayouts><CategoriasBebidas /></RutasLayouts>} />
-      <Route path='/producto/:id' element={<RutasLayouts><ProductoDetalle></ProductoDetalle></RutasLayouts>} />
 
       {/* Cliente No Login */}
-      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>} />
-      <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña /></MainLayoutSinLogin>} />
+      <Route path='/' element={<PrivateRoute role="sin-registrar"><HomeSinRegistrar /></PrivateRoute>}></Route>
+      <Route path='/CambioContraseña' element={<PrivateRoute role="sin-registrar" ><CambioDeContraseña /></PrivateRoute> } />
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
       <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
@@ -115,32 +113,39 @@ const AppRouter = () => {
       <Route path="/Login" element={<Login />} />
 
 
-      {/* Trabajador */}
-      <Route path='/Formulario' element={<PrivateRoute role="Trabajador"><LayoutTrabajador><Formulario /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/EstadosPedidos' element={<PrivateRoute role="Trabajador"><LayoutTrabajador><EstadosPedidos /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/HistorialPedidos' element={<PrivateRoute role="Trabajador"><LayoutTrabajador><HistorialPedidos /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/InfoCliente/:id' element={<PrivateRoute role="Trabajador"><LayoutTrabajador><InfoCliente /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/Inicio' element={<PrivateRoute role="Trabajador"><LayoutTrabajador><Inicio /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/ListaPedidos' element={<PrivateRoute role="Trabajador"><LayoutTrabajador><ListaPedidos /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/DetallesPedido/:id' element={<PrivateRoute role="Trabajador"><LayoutTrabajador><DetallesPedido /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/EditarPerfil' element={<PrivateRoute role="Trabajador"><LayoutTrabajador><EditarPerfil /></LayoutTrabajador></PrivateRoute>} />
+        {/* Trabajador */}
+        <Route path='/Formulario' element={<PrivateRoute role="trabajador"><LayoutTrabajador><Formulario /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/EstadosPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EstadosPedidos /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/HistorialPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><HistorialPedidos /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/InfoCliente/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><InfoCliente /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/Inicio' element={<PrivateRoute role="trabajador"><LayoutTrabajador><Inicio /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/ListaPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><ListaPedidos /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/DetallesPedido/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><DetallesPedido /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/EditarPerfil' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EditarPerfil /></LayoutTrabajador></PrivateRoute>} />
 
-      {/* Admin */}
-      <Route path='/AgregarTrabajador' element={<PrivateRoute role="Admin"><AdminLayout><AgregarTrabajador /></AdminLayout></PrivateRoute>} />
-      <Route path='/EditarTrabajador' element={<PrivateRoute role="Admin"><AdminLayout><EditarTrabajador /></AdminLayout></PrivateRoute>} />
-      <Route path='/EliminarTrabajador' element={<PrivateRoute role="Admin"><AdminLayout><EliminarTrabajador /></AdminLayout></PrivateRoute>} />
-      <Route path='/Cronograma' element={<PrivateRoute role="Admin"><AdminLayout><Cronograma /></AdminLayout></PrivateRoute>} />
-      <Route path='/AgregarCrono' element={<PrivateRoute role="Admin"><AdminLayout><AgregarCrono /></AdminLayout></PrivateRoute>} />
-      <Route path='/EditarCrono' element={<PrivateRoute role="Admin"><AdminLayout><EditarCrono /></AdminLayout></PrivateRoute>} />
-      <Route path='/HistorialPedido' element={<PrivateRoute role="Admin"><AdminLayout><HistorialPedido /></AdminLayout></PrivateRoute>} />
-      <Route path='/CatalogoAdmin' element={<PrivateRoute role="Admin"><AdminLayout><Catalogo_Admin /></AdminLayout></PrivateRoute>} />
-      <Route path='/AdministrarInven' element={<PrivateRoute role="Admin"><AdminLayout><AdministrarInven /></AdminLayout></PrivateRoute>} />
-      <Route path='/AgregarInven' element={<PrivateRoute role="Admin"><AdminLayout><AgregarInven /></AdminLayout></PrivateRoute>} />
-      <Route path='/EditarInven' element={<PrivateRoute role="Admin"><AdminLayout><EditarInven /></AdminLayout></PrivateRoute>} />
-      <Route path='/EliminarInven' element={<PrivateRoute role="Admin"><AdminLayout><EliminarInven /></AdminLayout></PrivateRoute>} />
-      <Route path='/AdministrarTrabajadores' element={<PrivateRoute role="Admin"><AdminLayout><AdministrarTrabajadores /></AdminLayout></PrivateRoute>} />
-    </Routes>
+        {/* Admin */}
+        <Route path='/AgregarTrabajador' element={<AdminLayout><AgregarTrabajador /></AdminLayout>} />
+        <Route path='/EditarTrabajador/:id' element={<AdminLayout><EditarTrabajador /></AdminLayout>} />
+        <Route path='/EliminarTrabajador' element={<AdminLayout><EliminarTrabajador /></AdminLayout>} />
+        <Route path='/Cronograma' element={<AdminLayout><Cronograma /></AdminLayout>} />
+        <Route path='/AgregarCrono' element={<AdminLayout><AgregarCrono /></AdminLayout>} />
+        <Route path='/EditarCrono/:id' element={<AdminLayout><EditarCrono /></AdminLayout>} />
+        <Route path='/HistorialPedido' element={<AdminLayout><HistorialPedido /></AdminLayout>} />
+        <Route path='/CatalogoAdmin' element={<AdminLayout><Catalogo_Admin /></AdminLayout>} />
+        <Route path='/AdministrarInven' element={<AdminLayout><AdministrarInven /></AdminLayout>} />
+        <Route path='/AgregarInven' element={<AdminLayout><AgregarInven /></AdminLayout>} />
+        <Route path='/EditarInven/:id' element={<AdminLayout><EditarInven /></AdminLayout>} />
+        <Route path='/EliminarInven' element={<AdminLayout><EliminarInven /></AdminLayout>} />
+        <Route path='/AdministrarTrabajadores' element={<AdminLayout><AdministrarTrabajadores /></AdminLayout>} />
+        <Route path='/PrincipalAdmin' element={<AdminLayout><PrincipalAdmin /></AdminLayout>} />
+
+      </Routes>
   );
 };
 
 export default AppRouter;
+
+
+
+
+

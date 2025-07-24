@@ -60,13 +60,7 @@ const ProductCard = ({
           <span className="slider round"></span>
         </label>
 
-        {/* Botón de editar contenido del producto */}
-        <button
-          onClick={() => onEditProduct(id)}
-          className="edit-btn-bottom"
-        >
-          <i className="fa fa-pencil"></i>
-        </button>
+
       </div>
     </div>
   );

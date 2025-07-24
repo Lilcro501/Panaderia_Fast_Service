@@ -26,7 +26,7 @@
 
 .PanelIzquierdo h2 {
   font-size: 50px;
-  color: #d9b56b;
+  color: #906a47;
   margin-bottom: 20px;
 
 }
@@ -51,7 +51,7 @@
   padding: 50px 40px;
   background-color: #000000;
   position: relative;
-  border-left: 4px solid #d4a461;
+  border-left: 4px solid #9a7d54;
 }
 
 .Salir {
@@ -61,7 +61,7 @@
   background: transparent;
   border: none;
   font-size: 24px;
-  color: #cb9672;
+  color: #c58b71;
   cursor: pointer;
 }
 
@@ -75,7 +75,7 @@
 .Campo {
   display: flex;
   align-items: center;
-  background-color: #d9b56b;
+  background-color: #cd9465;
   border-radius: 10px;
   padding: 12px 15px;
   margin-bottom: 18px;
@@ -83,7 +83,7 @@
 }
 
 .Campo:hover {
-  background-color: #ad7a33;
+  background-color: #a16534;
 }
 
 .Icono {
@@ -164,11 +164,11 @@ input::placeholder {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
-  color: #ccc;
+  color: #848383;
 }
 
 .Registro a {
-  color: #dcb075;
+  color: #6f472e;
   font-weight: bold;
   text-decoration: none;
 }
@@ -176,6 +176,7 @@ input::placeholder {
 .Registro a:hover {
   text-decoration: underline;
 }
+
 .ImagenRegistro {
   width: 100%;
   max-width: 300px; 
@@ -183,5 +184,4 @@ input::placeholder {
   display: block;
   border-radius: 10px;
   object-fit: contain;
-  
 }

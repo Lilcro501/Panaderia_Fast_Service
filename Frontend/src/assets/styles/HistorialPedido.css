@@ -1,69 +1,47 @@
-
-.contenedor-lista {
+.contenedor-pedidos {
+  padding: 20px;
   max-width: 800px;
-  margin: 40px auto;
-  background-color: rgba(255, 223, 186, 0.9);
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  margin: auto;
 }
 
-.titulo {
-  text-align: center;
-  font-size: 28px;
-  color: #3d1f00;
-  margin-bottom: 25px;
+.panel {
+  background-color: #3f2c09;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.titulo-panel {
+  font-size: 24px;
+  margin: 15px;
+  color: #ffffff;
   font-weight: bold;
-  background-color: #d39e72;
-  padding: 10px;
-  border-radius: 10px;
 }
 
-/* Tabla */
-.tabla-base {
-  width: 100%;
-  border-collapse: collapse;
+.pedido-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
 }
 
-/* Encabezados */
-.tabla-base thead {
-  background-color: #a3673c;
-  color: #fff;
+.icono-usuario {
+  font-size: 18px;
 }
 
-.tabla-base th {
-  padding: 15px;
-  font-size: 16px;
-  text-align: center;
+.nombre-cliente {
+  font-weight: 500;
+  font-size: 17px;
 }
 
-/* Filas */
-.tabla-base tbody tr {
-  background-color: #fff;
-  text-align: center;
-  border-bottom: 1px solid #ccc;
-}
-
-.tabla-base td {
-  padding: 12px;
+.fecha-pedido,
+.total-pedido {
   font-size: 15px;
+  color: #ffffff;
 }
 
-/* Botones */
-.boton-personalizado {
-  background-color: #a3673c;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  text-align: center;
-  justify-content: center;
-}
-
-.boton-personalizado:hover {
-  background-color: #8b5730;
+.mensaje-vacio {
+  color: #ffffff;
+  font-style: italic;
 }

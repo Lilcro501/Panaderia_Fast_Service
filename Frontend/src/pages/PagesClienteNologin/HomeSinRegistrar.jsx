@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import '../../assets/styles/Home.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
+import '../../assets/styles/HomeSinRegistrar.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
 import mostrador from "../../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del mostrador ~~~~~~ */
 import Categorias from "../../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
 import Carrusel1 from "../../components/CarruselIncremento"; /* ~~~~~~ Componente del carrusel con botones ~~~~~~ */
@@ -25,6 +25,7 @@ export default function HomeSinRegistrar() {
       
       {/* Carrusel Catálogo */}
       <Categorias/>
+      <h2 className="titulo-productos" >Nuestros productos</h2>
       <Carrusel1/>
       
       <br/> <br/>

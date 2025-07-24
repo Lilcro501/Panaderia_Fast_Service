@@ -4,18 +4,18 @@ import logoFastService from "../assets/icons/logo-Fast_Service.png";
 
 const Notificacion = ({ mensaje, onClose }) => {
   return (
-    <div className="notificacion-fondo">
-      <div className="notificacion-contenido">
-        <div className="notificacion-header">
+    <div className="noti-fondo">
+      <div className="noti-contenido">
+        <div className="noti-header">
           <img src={logoFastService} alt="Fast Service" />
         </div>
-        <div className="notificacion-body">
-          <p className="notificacion-icono">🎉🎊🎉</p>
-          <h2 className="notificacion-titulo">¡Gracias!</h2>
-          <p className="notificacion-mensaje">{mensaje}</p>
+        <div className="noti-body">
+          <p className="noti-icono">🎉🎉🎉</p>
+          <h2 className="noti-titulo">¡Gracias!</h2>
+          <p className="noti-mensaje">{mensaje}</p>
         </div>
-        <div className="notificacion-footer">
-          <button className="notificacion-boton" onClick={onClose}>
+        <div className="noti-footer">
+          <button className="noti-boton" onClick={onClose}>
             Cerrar
           </button>
         </div>

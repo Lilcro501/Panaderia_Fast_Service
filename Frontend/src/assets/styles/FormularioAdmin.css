@@ -99,3 +99,19 @@
 .btn-formulario:hover {
   background-color: #5e382c;
 }
+
+.input-estilo[multiple] {
+  height: auto;
+  min-height: 120px;
+  padding: 8px;
+  color: #ffffff;
+  font-size: 18px;
+  background-color: #1c1c1c; /* Fondo oscuro pero visible */
+  border: 1px solid #555;
+  overflow-y: auto;
+  appearance: listbox;
+}
+select option {
+  background-color: #1c1c1c;
+  color: white;
+}
