@@ -7,8 +7,6 @@ For more information on this file, see
 https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
 """
 
-
-
 #------------------------importaciones-------------------
 #importamos el modulo os para interacturar con el sistema operativo
 import os

@@ -1,3 +1,5 @@
+#----------------Importaciones ----------------------
+
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date, parse_time
@@ -7,9 +9,6 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from rest_framework import permissions
-
-
 
 from decimal import Decimal
 from datetime import datetime
@@ -18,6 +17,7 @@ import json
 # Django REST Framework
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions
 
 # Modelos
 from .models import Factura, Pedido, Producto, Categoria, Favorito
@@ -32,18 +32,24 @@ from .serializers import ValoracionSerializer
 from .utils import enviar_factura_por_correo
 
 
-
+#obtenemos el modelo de usuario que estamos utilzando con django
 User = get_user_model()
 
+#decorador para verificar que el usuario este autenticado
+#metodo de seguridad
 @require_http_methods(["POST"])
 
 # Crea una factura
-#en el proceso de la factira se ingresan los productos y se restan de los productos para tener estos al tanto de que se ingresen en la base de datos
+#en el proceso de la factura se ingresan los productos y se restan de los productos para tener estos al tanto de que se ingresen en la base de datos
+#decorador para deshabilitar la proteccion contra ataques CSRF
 @csrf_exempt
 def crear_factura(request):
+    #metodo de respuesta en este cao es post
     if request.method == 'POST':
         try:
+            #verificamos el tipo de contenido de la solicitud, si es multipart/form-data es porque viene del formulario de la pagina web, validamos si se esta enviando un comprobante junto a los datos del formulario
             if 'multipart/form-data' in request.content_type:
+                # Obténemos los datos de la solicitud que hace el formulario 
                 usuario_id = request.POST.get('id_usuario')
                 metodo_pago = request.POST.get('metodo_pago')
                 total = request.POST.get('total')
@@ -52,6 +58,7 @@ def crear_factura(request):
                 notas = request.POST.get('informacion_adicional', '')
                 metodo_entrega = request.POST.get('metodo_entrega', 'local')
 
+                # Creamos una lista vacia para que se almacenen los productos quue llegan en la soliciud, estos se guardan como diccionarios en la lista productos
                 productos = []
                 i = 0
                 while f'productos[{i}][id_producto]' in request.POST:
@@ -60,11 +67,13 @@ def crear_factura(request):
                         'cantidad': request.POST[f'productos[{i}][cantidad]'],
                     })
                     i += 1
-
+                #obtenemos el comprobante de pago si lo hay
                 comprobante = request.FILES.get('comprobante')
-
+            # en tal caso de qie no venga el comprobante de pago, se obtienen los datos de la solicitud que viene en formato json
             else:
+                # Parseamos los datos JSON de la solicitud
                 data = json.loads(request.body)
+                #obtenemos los valores de la solicitud que esta realizando el frontend
                 usuario_id = data.get('id_usuario')
                 metodo_pago = data.get('metodo_pago')
                 total = data.get('total')
@@ -72,14 +81,18 @@ def crear_factura(request):
                 fecha_entrega = data.get('fecha_entrega')
                 notas = data.get('informacion_adicional', '')
                 metodo_entrega = data.get('metodo_entrega', 'local')
+                #obtenemos los productos que se van a comprar
                 productos = data.get('productos', [])
+                #el comprobante de pago no viene en la solicitud
                 comprobante = None
 
+            # validamos que si se haya recibido el id del usuario, en tal caso de que no lo haya encintrado lanzara un eror  400(Bad request)  
             if not usuario_id:
                 return JsonResponse({'error': 'ID de usuario no recibido'}, status=400)
-
+            #obtenemos el usuario correspondiente al id que se le paso en la solicitud
             usuario = Usuario.objects.get(id_usuario=usuario_id)
-
+            #creamos la factura 
+            #llamando el modelo y alamcenadolo como un objeto
             factura = Factura.objects.create(
                 usuario=usuario,
                 fecha=timezone.now(),
@@ -91,23 +104,28 @@ def crear_factura(request):
                 comprobante=comprobante,
                 metodo_entrega=metodo_entrega
             )
-
+            #procesamos los productos que se van a comprar
             for producto in productos:
+                #obtenemos el id del producto
                 id_producto = int(producto['id_producto'])
+                #obtenemos la cantidad de productos que se van a comprar
                 cantidad_comprada = int(producto['cantidad'])
-
+                #obtenemos el id del producto correspondiete el al que se envio en la solicitud
                 producto_db = Producto.objects.get(id_producto=id_producto)
-
+                # Verificar si hay suficiente stock
                 if producto_db.stock < cantidad_comprada:
                     return JsonResponse({
+                        #lanzamos un mensaje de erorr en tal caso de que la cantidad sea mayor al stock que hay en la base de datos
                         'error': f'Stock insuficiente para el producto \"{producto_db.nombre}\"'
                     }, status=400)
-
+                #restamos la cantidad comprada en el stock por la cantidad comprada
                 producto_db.stock -= cantidad_comprada
+                #guardamos los cambios en la base de datos
                 producto_db.save()
-
+                #obtenemos el subttoal del producto
                 subtotal = producto_db.precio * cantidad_comprada
 
+                #creamos el pedido
                 Pedido.objects.create(
                     producto=producto_db,
                     cantidad=cantidad_comprada,
@@ -115,7 +133,7 @@ def crear_factura(request):
                     factura=factura
                 )
 
-            # Envía el correo después de crear los pedidos
+            # Envíamos el correo despues de crear la factura
             enviar_factura_por_correo(factura)
 
             return JsonResponse({
@@ -123,7 +141,7 @@ def crear_factura(request):
                 'factura_id': factura.id,
                 'message': 'Factura y pedidos registrados correctamente'
             }, status=201)
-
+        #manejo de errores
         except Usuario.DoesNotExist:
             return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
         except Producto.DoesNotExist:
@@ -135,16 +153,24 @@ def crear_factura(request):
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
 
-###########################################################################
+#-----------------------------------------------------------------------------------------------------------------
+#vista para obtener los productos por categoria
 #obtenemos los productos segun el parametro del id que se pase de la categoria
 
-def obtener_productos_por_categoria(request, categoria_nombre):
-    try:
-        categoria = Categoria.objects.get(nombre__iexact=categoria_nombre)
-        productos = Producto.objects.filter(id_categoria=categoria)
 
+def obtener_productos_por_categoria(request, categoria_nombre):
+    #manjo de errores con try 
+    try:
+        #obtenemos el objeto de categoria
+        #nombre__iexact: Este campo de búsqueda es sensible a mayúsculas y minúsculas.
+        categoria = Categoria.objects.get(nombre__iexact=categoria_nombre)
+        #obtenemos todos los productos de la categoria
+        productos = Producto.objects.filter(id_categoria=categoria)
+        #inicializamos la lista de datos vacia para almacenar los productos
         data = []
+        #interamos sobre los productos
         for producto in productos:
+            #agregamos los datos del producto a la lista de datos
             data.append({
                 'id': producto.id_producto,
                 'nombre': producto.nombre,
@@ -154,61 +180,26 @@ def obtener_productos_por_categoria(request, categoria_nombre):
                 'fecha_vencimiento': str(producto.fecha_vencimiento),
                 'stock': producto.stock,
             })
-
+        #devolvemos una respuesta en formato json con los datos de los productos
         return JsonResponse(data, safe=False)
-    
+    #si no se encuentra la categoria, se devuelve un mensaje de error
     except Categoria.DoesNotExist:
         return JsonResponse({'error': 'Categoría no encontrada'}, status=404)
 
 
-#registra el pedido en la base de datos, que se realiza en el carrito de compras, y actualiza el stock del producto, y envia la factura por correo electronico
-@csrf_exempt
-def registrar_pedido(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            pedidos = data.get('pedidos', [])  # Lista de pedidos
-            factura_id = data.get('factura_id')
 
-            for item in pedidos:
-                id_producto = item.get('id_producto')
-                cantidad = item.get('cantidad')
-
-                # Verificar existencia del producto
-                producto = Producto.objects.get(id_producto=id_producto)
-
-                if producto.stock < cantidad:
-                    return JsonResponse({'error': f'Stock insuficiente para el producto ID {id_producto}'}, status=400)
-
-                # Registrar pedido
-                Pedido.objects.create(
-                    id_producto=id_producto,
-                    cantidad=cantidad,
-                    facturas_id_factura=factura_id
-                )
-
-                # Actualizar el stock del producto
-                producto.stock -= cantidad
-                producto.save()
-
-            return JsonResponse({'message': 'Pedidos registrados correctamente'}, status=201)
-
-        except Producto.DoesNotExist:
-            return JsonResponse({'error': 'Producto no encontrado'}, status=404)
-
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-
-    return JsonResponse({'error': 'Método no permitido'}, status=405)
-
-
+#------------------------------------------------------------------------------------------------
+#obtenemos lod productos por id
 # Obtenermos el producto por id para poder tener los detalles del producto en el carrito de compras, a difencia de la funcion anterior, que obtiene todos los productos de una categoria en especifico
+#decorador para deshabilitar la proteccion contra ataques CSRF
 @csrf_exempt
+#
 def obtener_producto_por_id(request, id):
+    #manejo de exepciones
     try:
         # Busca explícitamente por id_producto (primary key)
         producto = Producto.objects.get(id_producto=id)
-        
+        #obtenemos los valores de ese producto en especifico segun el id
         producto_data = {
             'id_producto': producto.id_producto,  # Mantén la nomenclatura consistente
             'nombre': producto.nombre,
@@ -219,16 +210,16 @@ def obtener_producto_por_id(request, id):
             'stock': producto.stock,
             'categoria': producto.id_categoria.nombre  # Incluye datos relacionados
         }
+        #devolvemos una respuesta json con el producto
         return JsonResponse(producto_data)
-    
+    #manejp de expeciones
     except Producto.DoesNotExist:
         return JsonResponse({'error': 'Producto no encontrado'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+#---------------------------------------------------
 # Vista para listar y crear favoritos
-
-
 class ListaCrearFavoritos(generics.ListCreateAPIView):
     serializer_class = FavoritoSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -239,30 +230,37 @@ class ListaCrearFavoritos(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(usuario=self.request.user)
 
-
 class EliminarFavorito(generics.DestroyAPIView):
     serializer_class = FavoritoSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Favorito.objects.filter(usuario=self.request.user)  # ✅ Filtra solo los favoritos del usuario
-
+        return Favorito.objects.filter(usuario=self.request.user)  
 
 #vistas para los comentarios 
-
-
 # Obtener comentarios de un producto específico
-class ComentariosPorProductoView(generics.ListAPIView):
-    serializer_class = ValoracionSerializer
+#Definimos la clase, que hereda generics.ListAPIView, que es una vista genérica que proporciona una lista de objetos.
+# se especializa paara manejar solicitudes GET.
+#proporcionar paginacion automatica, implementar filtro basicos
 
+class ComentariosPorProductoView(generics.ListAPIView):
+    #especificamos el serializador que se va a utilizar para serializar los objetos
+    serializer_class = ValoracionSerializer
+    #extraemos el parametro de id_producto realizando una filtracion en las valoraciones
     def get_queryset(self):
         producto_id = self.kwargs['producto_id']
+        #ordenamos por fecha de valoracion 
         return Valoracion.objects.filter(id_producto_id=producto_id).order_by('-fecha_valoracion')
 
-# Crear un nuevo comentario (requiere autenticación)
+# Crear un nuevo comentario
+#creamos una api para qeu se manejen solicitudes tipo POST
 class CrearComentarioView(generics.CreateAPIView):
+    #llamamos al serializador que se va a utilzar
     serializer_class = ValoracionSerializer
+    #validamos si esta autenticado el usuario
     permission_classes = [permissions.IsAuthenticated]
-
+    #customizacion del guardado, para  que se llene el id_usario con la valoracion (serializer) sin necesidad de soliictarlo desde el font
     def perform_create(self, serializer):
         serializer.save(id_usuario=self.request.user)
+
+#----------------------------------------------------------------------------------------------------------

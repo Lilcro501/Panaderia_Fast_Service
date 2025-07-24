@@ -9,9 +9,6 @@ urlpatterns = [
     # Productos por categoría
     path('productos/<str:categoria_nombre>/', views.obtener_productos_por_categoria),
 
-    # Registrar pedido
-    path('registrar-pedido/', views.registrar_pedido, name='registrar_pedido'),
-
     # Obtener producto por ID
     path('producto/<int:id>/', views.obtener_producto_por_id, name='obtener_producto_por_id'),
 
