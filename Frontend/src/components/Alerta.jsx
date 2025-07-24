@@ -3,15 +3,15 @@ import "../assets/styles/Alerta.css";
 
 const Alerta = ({ mensaje, onClose }) => {
   return (
-    <div className="modal-fondo">
-      <div className="modal-contenido">
-        <div className="modal-body">
-          <p className="modal-icono">⚠️</p>
-          <h2 className="modal-titulo">¡Disculpa!</h2>
-          <p className="modal-mensaje">{mensaje}</p>
+    <div className="mod-fondo">
+      <div className="mod-contenido">
+        <div className="mod-body">
+          <p className="mod-icono">⚠️</p>
+          <h2 className="mod-titulo">¡Disculpa!</h2>
+          <p className="mod-mensaje">{mensaje}</p>
         </div>
-        <div className="modal-footer">
-          <button className="modal-boton" onClick={onClose}>
+        <div className="mod-footer">
+          <button className="mod-boton" onClick={onClose}>
             Aceptar
           </button>
         </div>

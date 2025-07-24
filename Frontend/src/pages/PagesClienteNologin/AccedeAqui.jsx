@@ -120,9 +120,9 @@ export default function AccedeAqui() {
   };
 
   return (
-    <section className='Contenedor'> 
+    <section className='Cont'> 
       <div className='ContenedorIzquierdo'> 
-        <h1>Tú día inicia mejor con nuestro pan</h1>
+        <h1 className='Bienvenida'>Tú día inicia mejor con nuestro pan</h1>
 
         <div className='ImagenOrquidea'> 
           <img src={ImagenOrquidea} alt="Orquidea" />
@@ -138,7 +138,7 @@ export default function AccedeAqui() {
 
         <h1 className='TituloAccesoI'>Inicia sesión</h1>
 
-        <div className={`Campo form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
+        <div className={`Camp form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
           <FaUser className="Icono" />
           <input
             type='email'
@@ -153,7 +153,7 @@ export default function AccedeAqui() {
           <div className="invalid">Por favor, ingresa un correo válido</div>
         )}
 
-        <div className={`Campo form-control ${!PasswordValida && enviado ? 'is-invalid' : ''}`}>
+        <div className={`Camp form-control ${!PasswordValida && enviado ? 'is-invalid' : ''}`}>
           <FaLock className="Icono" />
           <input
             type='password'
@@ -178,7 +178,7 @@ export default function AccedeAqui() {
         </div>
 
         {/* Botón para iniciar sesión */}
-        <button className='Continuar' type='submit'>Iniciar sesión</button>
+        <button className='Continua' type='submit'>Iniciar sesión</button>
 
         {/* Google Login (OAuth directo) */}
         <div style={{ marginTop: '20px', textAlign: 'center' }}>
