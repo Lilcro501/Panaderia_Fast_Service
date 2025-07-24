@@ -1,0 +1,23 @@
+.acciones_tabla {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.icono_tabla {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.icono_tabla:hover {
+    transform: scale(1.1);
+}
+
+.boton_eliminar_tabla {
+    background: none;
+    border: none;
+    padding: 0;
+}

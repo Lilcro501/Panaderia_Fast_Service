@@ -1,15 +1,31 @@
-import React, { useRef, useState } from 'react';
-//~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
-import '../../assets/styles/AgregarInven.css'; 
-//~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
-import CategoriasAdmin from "../../components/CategoriasAdmin"
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+// Estilos
+import '../../assets/styles/AgregarInven.css';
+import '../../assets/styles/Global.css';
+// Componentes
 import FormularioAdmin from '../../components/FormularioAdmin';
-//~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
-import "../../assets/styles/Global.css"
-
 
 export default function AgregarInven() {
-    // Definimos los campos del formulario
+    const navigate = useNavigate();
+    const [categorias, setCategorias] = useState([]);
+
+    // Obtener las categorías desde el backend
+    useEffect(() => {
+        axios.get("http://localhost:8000/api/categorias/")
+            .then(response => {
+                setCategorias(response.data);
+            })
+            .catch(error => {
+                console.error("Error al cargar categorías:", error);
+                alert("No se pudieron cargar las categorías.");
+            });
+    }, []);
+
+    // Evita renderizar si aún no cargan
+    if (categorias.length === 0) return <p>Cargando categorías...</p>;
+
     const camposProducto = [
         {
             nombre: 'imagen',
@@ -44,68 +60,73 @@ export default function AgregarInven() {
             tipo: 'number',
             placeholder: 'Ej: 30',
             requerido: true
+        },
+        {
+            nombre: 'id_categoria',
+            etiqueta: 'Categoría',
+            tipo: 'select',
+            opciones: categorias.map(cat => ({
+                valor: cat.id_categoria,
+                etiqueta: cat.nombre
+            })),
+            requerido: true
         }
     ];
 
-    // Función para manejar el envío de datos del formulario
-    const manejarEnvio = (datos) => {
-        console.log("Datos recibidos del formulario:", datos);
+    // Manejar envío al backend
+    const manejarEnvio = async (datos) => {
+        try {
+            const formData = new FormData();
+            for (const clave in datos) {
+                formData.append(clave, datos[clave]);
+            }
 
-        // Enviar datos como FormData
-        const formData = new FormData();
-        for (const clave in datos) {
-            formData.append(clave, datos[clave]);
+            await axios.post('http://localhost:8000/api/productos/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            alert("Producto agregado exitosamente.");
+            navigate("/AdministrarInven");
+        } catch (error) {
+            console.error("Error al agregar producto:", error);
+            alert("No se pudo agregar el producto.");
         }
-
-        // Aquí podrías hacer una petición POST al backend
-        // fetch('/api/productos', { method: 'POST', body: formData })
     };
 
-        const botones = [
-            {
-                texto: 'Guardar',      // Texto que se verá en el botón
-                tipo: 'submit',        // Tipo submit: envía el formulario
-                clase: 'guardar',      // Clase CSS para estilo personalizado
-                onClick: null          // Usa el onSubmit del formulario
-            },
-            {
-                texto: 'Limpiar',     
-                tipo: 'reset',       //limpia los campos
-                clase: 'Limpiar',     
-                onClick: null         
-            },
-            {
-                texto: 'Salir',
-                tipo: 'button',
-                clase: 'salir',
-                onClick: () => {
-                    // Aquí defines qué hacer cuando se cancela
-                    console.log("Formulario cancelado");
-                    // Podrías redirigir, cerrar modal, limpiar campos, etc.
-            }
-            }
+    const botones = [
+        {
+            texto: 'Guardar',
+            tipo: 'submit',
+            clase: 'guardar',
+            onClick: null
+        },
+        {
+            texto: 'Limpiar',
+            tipo: 'reset',
+            clase: 'limpiar',
+            onClick: null
+        },
+        {
+            texto: 'Salir',
+            tipo: 'button',
+            clase: 'salir',
+            onClick: () => navigate('/AdministrarInven')
+        }
     ];
-
 
     return (
         <>
-            {/* Categorias */}
-            <CategoriasAdmin></CategoriasAdmin>
-            <br />
-            <br />
 
             <div className="contenedor_formulario_inventario">
                 <h2>Registrar nuevo producto</h2>
-                <br />
-
-                {/* Aquí insertamos el formulario reutilizable */}
-                <FormularioAdmin 
-                campos={camposProducto} 
-                onSubmit={manejarEnvio} 
-                botonesPersonalizados={botones}/>
+                <FormularioAdmin
+                    campos={camposProducto}
+                    onSubmit={manejarEnvio}
+                    botonesPersonalizados={botones}
+                />
             </div>
         </>
     );
 }
-
-

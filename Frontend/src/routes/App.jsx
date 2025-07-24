@@ -1,6 +1,8 @@
 
 import React from 'react'; 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
 
 // Layouts
 import MainLayout from '../layouts/MainLayout';
@@ -56,6 +58,7 @@ import Cronograma from '../pages/PagesAdmin/Cronograma';
 import AgregarCrono from '../pages/PagesAdmin/AgregarCrono';
 import EditarCrono from '../pages/PagesAdmin/EditarCrono';
 import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
+import PrincipalAdmin from '../pages/PagesAdmin/PrincipalAdmin';
 
 // ------------------- Páginas Trabajador -------------------
 import DetallesPedido from '../pages/PagesTrabajador/DetallesPedido';
@@ -125,18 +128,20 @@ const AppRouter = () => {
 
         {/* Admin */}
         <Route path='/AgregarTrabajador' element={<AdminLayout><AgregarTrabajador /></AdminLayout>} />
-        <Route path='/EditarTrabajador' element={<AdminLayout><EditarTrabajador /></AdminLayout>} />
+        <Route path='/EditarTrabajador/:id' element={<AdminLayout><EditarTrabajador /></AdminLayout>} />
         <Route path='/EliminarTrabajador' element={<AdminLayout><EliminarTrabajador /></AdminLayout>} />
         <Route path='/Cronograma' element={<AdminLayout><Cronograma /></AdminLayout>} />
         <Route path='/AgregarCrono' element={<AdminLayout><AgregarCrono /></AdminLayout>} />
-        <Route path='/EditarCrono' element={<AdminLayout><EditarCrono /></AdminLayout>} />
+        <Route path='/EditarCrono/:id' element={<AdminLayout><EditarCrono /></AdminLayout>} />
         <Route path='/HistorialPedido' element={<AdminLayout><HistorialPedido /></AdminLayout>} />
         <Route path='/CatalogoAdmin' element={<AdminLayout><Catalogo_Admin /></AdminLayout>} />
         <Route path='/AdministrarInven' element={<AdminLayout><AdministrarInven /></AdminLayout>} />
         <Route path='/AgregarInven' element={<AdminLayout><AgregarInven /></AdminLayout>} />
-        <Route path='/EditarInven' element={<AdminLayout><EditarInven /></AdminLayout>} />
+        <Route path='/EditarInven/:id' element={<AdminLayout><EditarInven /></AdminLayout>} />
         <Route path='/EliminarInven' element={<AdminLayout><EliminarInven /></AdminLayout>} />
         <Route path='/AdministrarTrabajadores' element={<AdminLayout><AdministrarTrabajadores /></AdminLayout>} />
+        <Route path='/PrincipalAdmin' element={<AdminLayout><PrincipalAdmin/></AdminLayout>} />
+
       </Routes>
     </Router>
   );
