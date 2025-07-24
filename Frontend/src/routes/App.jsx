@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
 
 // Layouts
 import MainLayout from '../layouts/MainLayout';
@@ -62,6 +64,7 @@ import Cronograma from '../pages/PagesAdmin/Cronograma';
 import AgregarCrono from '../pages/PagesAdmin/AgregarCrono';
 import EditarCrono from '../pages/PagesAdmin/EditarCrono';
 import HistorialPedido from '../pages/PagesAdmin/HistorialPedido';
+import PrincipalAdmin from '../pages/PagesAdmin/PrincipalAdmin';
 
 // ------------------- Páginas Trabajador -------------------
 import DetallesPedido from '../pages/PagesTrabajador/DetallesPedido';
@@ -75,7 +78,8 @@ import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 
 const AppRouter = () => {
   return (
-    <Routes>
+    
+      <Routes>
 
       <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin>}></Route>
       {/* Cliente */}
@@ -104,31 +108,33 @@ const AppRouter = () => {
       <Route path="/Login" element={<Login />} />
 
 
-      {/* Trabajador */}
-      <Route path='/Formulario' element={<PrivateRoute role="trabajador"><LayoutTrabajador><Formulario /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/EstadosPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EstadosPedidos /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/HistorialPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><HistorialPedidos /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/InfoCliente/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><InfoCliente /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/Inicio' element={<PrivateRoute role="trabajador"><LayoutTrabajador><Inicio /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/ListaPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><ListaPedidos /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/DetallesPedido/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><DetallesPedido /></LayoutTrabajador></PrivateRoute>} />
-      <Route path='/EditarPerfil' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EditarPerfil /></LayoutTrabajador></PrivateRoute>} />
+        {/* Trabajador */}
+        <Route path='/Formulario' element={<PrivateRoute role="trabajador"><LayoutTrabajador><Formulario /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/EstadosPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EstadosPedidos /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/HistorialPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><HistorialPedidos /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/InfoCliente/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><InfoCliente /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/Inicio' element={<PrivateRoute role="trabajador"><LayoutTrabajador><Inicio /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/ListaPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><ListaPedidos /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/DetallesPedido/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><DetallesPedido /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/EditarPerfil' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EditarPerfil /></LayoutTrabajador></PrivateRoute>} />
 
-      {/* Admin */}
-      <Route path='/AgregarTrabajador' element={<PrivateRoute role="Admin"><AdminLayout><AgregarTrabajador /></AdminLayout></PrivateRoute>} />
-      <Route path='/EditarTrabajador' element={<PrivateRoute role="Admin"><AdminLayout><EditarTrabajador /></AdminLayout></PrivateRoute>} />
-      <Route path='/EliminarTrabajador' element={<PrivateRoute role="Admin"><AdminLayout><EliminarTrabajador /></AdminLayout></PrivateRoute>} />
-      <Route path='/Cronograma' element={<PrivateRoute role="Admin"><AdminLayout><Cronograma /></AdminLayout></PrivateRoute>} />
-      <Route path='/AgregarCrono' element={<PrivateRoute role="Admin"><AdminLayout><AgregarCrono /></AdminLayout></PrivateRoute>} />
-      <Route path='/EditarCrono' element={<PrivateRoute role="Admin"><AdminLayout><EditarCrono /></AdminLayout></PrivateRoute>} />
-      <Route path='/HistorialPedido' element={<PrivateRoute role="Admin"><AdminLayout><HistorialPedido /></AdminLayout></PrivateRoute>} />
-      <Route path='/CatalogoAdmin' element={<PrivateRoute role="Admin"><AdminLayout><Catalogo_Admin /></AdminLayout></PrivateRoute>} />
-      <Route path='/AdministrarInven' element={<PrivateRoute role="Admin"><AdminLayout><AdministrarInven /></AdminLayout></PrivateRoute>} />
-      <Route path='/AgregarInven' element={<PrivateRoute role="Admin"><AdminLayout><AgregarInven /></AdminLayout></PrivateRoute>} />
-      <Route path='/EditarInven' element={<PrivateRoute role="Admin"><AdminLayout><EditarInven /></AdminLayout></PrivateRoute>} />
-      <Route path='/EliminarInven' element={<PrivateRoute role="Admin"><AdminLayout><EliminarInven /></AdminLayout></PrivateRoute>} />
-      <Route path='/AdministrarTrabajadores' element={<PrivateRoute role="Admin"><AdminLayout><AdministrarTrabajadores /></AdminLayout></PrivateRoute>} />
-    </Routes>
+        {/* Admin */}
+        <Route path='/AgregarTrabajador' element={<AdminLayout><AgregarTrabajador /></AdminLayout>} />
+        <Route path='/EditarTrabajador/:id' element={<AdminLayout><EditarTrabajador /></AdminLayout>} />
+        <Route path='/EliminarTrabajador' element={<AdminLayout><EliminarTrabajador /></AdminLayout>} />
+        <Route path='/Cronograma' element={<AdminLayout><Cronograma /></AdminLayout>} />
+        <Route path='/AgregarCrono' element={<AdminLayout><AgregarCrono /></AdminLayout>} />
+        <Route path='/EditarCrono/:id' element={<AdminLayout><EditarCrono /></AdminLayout>} />
+        <Route path='/HistorialPedido' element={<AdminLayout><HistorialPedido /></AdminLayout>} />
+        <Route path='/CatalogoAdmin' element={<AdminLayout><Catalogo_Admin /></AdminLayout>} />
+        <Route path='/AdministrarInven' element={<AdminLayout><AdministrarInven /></AdminLayout>} />
+        <Route path='/AgregarInven' element={<AdminLayout><AgregarInven /></AdminLayout>} />
+        <Route path='/EditarInven/:id' element={<AdminLayout><EditarInven /></AdminLayout>} />
+        <Route path='/EliminarInven' element={<AdminLayout><EliminarInven /></AdminLayout>} />
+        <Route path='/AdministrarTrabajadores' element={<AdminLayout><AdministrarTrabajadores /></AdminLayout>} />
+        <Route path='/PrincipalAdmin' element={<AdminLayout><PrincipalAdmin /></AdminLayout>} />
+
+      </Routes>
   );
 };
 
