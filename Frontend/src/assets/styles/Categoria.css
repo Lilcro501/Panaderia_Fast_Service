@@ -15,7 +15,6 @@
 
 .categoria-titulo {
   display: inline-block; /* 👈 Se ajusta al tamaño del texto */
-  font-family: 'Brush Script MT', cursive;
   font-size: 2.2rem;
   color: #ffffff;
   border: 3px dashed #ffffff;

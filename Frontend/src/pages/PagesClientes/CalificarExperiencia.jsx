@@ -58,6 +58,7 @@ export default function CalificarExperiencia() {
 
     return (
         <>
+            <h2 className="CalificaTitulo"> Califica tu experiencia</h2>
             <section className="recuadro-experiencia">
                 {renderPreguntas.map((pregunta, index) => (
                     <div className="recuadro-pregunta" key={index}>

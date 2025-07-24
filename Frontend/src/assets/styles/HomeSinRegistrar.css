@@ -128,3 +128,7 @@
   border-bottom: 2px solid red;
 }
 
+.titulo-productos {
+  text-align: center;
+  font-size: 30px;
+}

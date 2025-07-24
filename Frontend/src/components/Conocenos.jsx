@@ -25,7 +25,7 @@ export default function Conocenos() {
             </div>
 
             <br/><br/>
-                
+            
             <div className='ContenedorVision'>
                 <img className='Mostrador' src={Mostrador} alt="Mostrador" />
                 <p className='PVision'>
@@ -39,21 +39,17 @@ export default function Conocenos() {
             <br/><br/>
             <div className='ContenedorPagoEntrega'>
 
-            <span className='PPagoEntrega'>
-                <h2 className='PagoEntrega'>Formas de entrega</h2>
-                <h3>Métodos de pago</h3>
-                <li className='PPagoEntrega'> Manejamos pagos en efectivo o por QR.</li>
-
+            <div className='PPagoEntrega'>
+                <h2 className='PagoEntrega'>Métodos de pago</h2>
+                <p className='PagoEntrega'> Manejamos pagos en efectivo o por QR.</p>
                 <br/>
-
-                <h3>Formas de entrega</h3>
-                <li className='PPagoEntrega'>Puedes realizar tus pedidos y recogerlos en la panadería o que lleguen directamente
-                    a la puerta de tu casa. </li> 
-            </span>
+                <h2 className='PagoEntrega'>Formas de entrega</h2>
+                <p className='PagoEntrega'>Puedes realizar tus pedidos y recogerlos en la panadería o que lleguen directamente a la puerta de tu casa. </p> 
+            </div>
             <img className="VitrinaGalletas" src={VitrinaGalletas} alt="Galletas en vitrina" />
             </div>
 
-            
+            <br/><br/>
             <div className='ContenedorLocacion'>
             <img className="Location" src={Location} alt="Ubicación" />
             <p className='PLocation'>
