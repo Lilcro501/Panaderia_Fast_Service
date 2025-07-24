@@ -3,130 +3,185 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 30px;
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 40px;
   border-radius: 20px;
-  font-family: 'Segoe UI', sans-serif;
-  backdrop-filter: blur(5px);
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro translúcido */
 }
 
 /* FORMULARIO */
 .formulario-columna {
-  flex: 1 1 460px;
-  background-color: #121212;
-  padding: 30px;
+  flex: 1 1 480px;
+  background-color: #c29978;
+  padding: 30px 20px;
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(200, 162, 119, 0.919); /* Dorado suave */
-  color: #fffefd; /* Texto dorado */
+  box-shadow: 0 0 10px rgb(255, 215, 135);
+  border: 1px solid #d4b787;
+  color: #f3e6c3;
+  font-size: 17px; /* Tamaño de texto más grande */
 }
 
+.formulario-columna label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+h1{
+  color: rgb(209, 176, 133);
+  font-size: 40px;
+}
+h4{
+  color: #0e0e0e;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+.info{
+  color: black;
+  font-size: 20px;
+}
 /* INPUTS */
 .input-moderno {
-  width: 100%;
-  padding: 14px 18px;
+  width: 100%; /* Ahora ocupa todo el ancho disponible */
+  padding: 12px 16px;
   margin-bottom: 20px;
   font-size: 16px;
-  border: 2px solid #9b6c2a;
+  border: 2px solid #151515;
   border-radius: 10px;
-  background-color: #1c1c1c;
-  color: #fff;
+  background-color: #886a4c;
+  color: #0a0a0a;
   transition: all 0.3s ease;
 }
 
 .input-moderno::placeholder {
-  color: #aaa;
+  color: #070707;
 }
 
 .input-moderno:focus {
-  border-color: #a7622a;
-  background-color: #2a2a2a;
-  box-shadow: 0 0 10px rgba(109, 65, 12, 0.4);
+  border-color: #0c0c0c;
+  background-color: #3d2b1f;
+  box-shadow: 0 0 10px rgba(248, 222, 156, 0.5);
   outline: none;
 }
 
 /* BOTÓN */
 .boton-moderno {
   width: 100%;
-  background: linear-gradient(90deg, #b99965, #ffb030);
-  color: #000;
+  background: linear-gradient(90deg, #272626, #000000);
+  color: #d8a673;
   border: none;
   padding: 14px;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 17px;
+  font-weight: 600;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 14px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 6px 14px rgba(212, 175, 55, 0.4);
 }
 
 .boton-moderno:hover {
-  background: linear-gradient(90deg, #bc9257, #fda307);
+  background: linear-gradient(90deg, #777571, #2f2b1e);
   transform: translateY(-2px);
+  color:black
 }
 
-.boton-moderno:active {
-  transform: scale(0.97);
+/* FORMULARIO: FILA DE DOS CAMPOS */
+.fila-doble {
+  display: flex;
+  gap: 20px;
 }
 
-/* TARJETAS DE ORDEN Y PAGO */
+.fila-doble .input-moderno {
+  width: 100%;
+  flex: 1;
+}
+
+/* PANEL DERECHO */
+.panel-derecho {
+  flex: 1 1 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.detalle-orden {
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 0 10px rgb(255, 215, 135);
+  border: 1px solid #d4b787;
+  color: #070707;
+}
+
+/* RESUMEN DE ORDEN Y MÉTODOS DE PAGO */
 .detalle-orden,
 .metodos-pago {
-  flex: 1 1 300px;
-  background-color: #1b1b1b;
-  border-radius: 16px;
+  background-color:#c29978;
+  border-radius: 14px;
   padding: 25px;
-  box-shadow: 0 6px 18px rgba(154, 101, 55, 0.872);
-  color: #ff842c;
+  box-shadow: 0 0 10px rgb(255, 215, 135);
+  border: 1px solid #d4b787;
+  color: #070707;
+  margin-top: 20px;
 }
 
-.detalle-orden .titulo-orden,
-.metodos-pago .titulo-pago {
-  font-size: 18px;
-  margin-bottom: 16px;
-  color: #9f7352;
-  border-bottom: 1px solid #6c5a3a;
-  padding-bottom: 10px;
+.metodos-pago button {
+  display: block;
+  margin-top: 15px;
 }
 
-.detalle-orden .lista-orden {
-  list-style: none;
-  padding-left: 0;
+
+.titulo-orden,
+.titulo-pago {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #070707;
+  padding-bottom: 8px;
+  color: #141414;
 }
 
-.detalle-orden .item-orden {
-  margin-bottom: 10px;
-  font-size: 16px;
-  display: flex;
-  justify-content: space-between;
-  color: #fff;
-}
-
-/* MÉTODOS DE PAGO */
-.metodos-pago .opcion-pago {
+.opcion-pago {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 15px;
   margin-bottom: 12px;
+  font-size: 15px;
+  color: #f0d8aa;
+}
+
+.radio-pago {
+  margin-right: 10px;
+  accent-color: #b89b61;
+}
+
+/* BOTÓN DETALLES DE PAGO */
+.boton-detalles {
+  margin-top: 15px;
+  background: linear-gradient(to right, #000000, #0b0b0b);
+  color: #1c1208;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  border-radius: 10px;
+  font-weight: bold;
   cursor: pointer;
-  color: #fff;
+  transition: background 0.3s ease;
 }
 
-.metodos-pago .radio-pago {
-  accent-color: #ae7d33cd;
+.boton-detalles:hover {
+  background: linear-gradient(to right, #080808, #000000);
 }
 
-/* RESPONSIVE */
+/* Responsive */
 @media (max-width: 768px) {
   .contenedor-informacion {
     flex-direction: column;
   }
 
   .formulario-columna,
-  .detalle-orden,
-  .metodos-pago {
+  .panel-derecho {
     width: 100%;
+  }
+
+  .fila-doble {
+    flex-direction: column;
   }
 }

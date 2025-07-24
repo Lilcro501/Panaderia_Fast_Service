@@ -127,7 +127,7 @@ const FormularioEntrega = () => {
         <div className="formulario-columna">
           <h4>Información del cliente</h4>
 
-          <label>Teléfono*</label>
+          <label className='info'>Teléfono*</label>
           <input
             className="input-moderno"
             type="tel"
@@ -139,7 +139,7 @@ const FormularioEntrega = () => {
 
           {metodoEnvio === 'domicilio' && (
             <>
-              <label>Dirección de entrega*</label>
+              <label className='info'>Dirección de entrega*</label>
               <input
                 className="input-moderno"
                 type="text"
@@ -151,7 +151,7 @@ const FormularioEntrega = () => {
             </>
           )}
 
-          <label>Fecha de entrega*</label>
+          <label className='info'>Fecha de entrega*</label>
           <input
             className="input-moderno"
             type="date"
@@ -162,7 +162,7 @@ const FormularioEntrega = () => {
             required
           />
 
-          <label>Método de entrega*</label>
+          <label className='info'>Método de entrega*</label>
           <select
             className="input-moderno"
             value={metodoEnvio}
@@ -173,7 +173,7 @@ const FormularioEntrega = () => {
             <option value="local">Recoger en el local</option>
           </select>
 
-          <label>Información adicional</label>
+          <label className='info'>Información adicional</label>
           <textarea
             className="input-moderno"
             name="informacion_adicional"
@@ -191,7 +191,7 @@ const FormularioEntrega = () => {
           </button>
         </div>
 
-        <div className="formulario-columna">
+        <div className="formulario">
           <div className="detalle-orden">
             <h2>Resumen de tu orden</h2>
             <ul>
