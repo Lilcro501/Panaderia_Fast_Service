@@ -1,49 +1,95 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-//~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
-//~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
+import axios from 'axios';
+
+// Componentes
 import TablaAdmin from '../../components/TablaAdmin';
-//~~~~~~~~~~~~~~ Imagenes ~~~~~~~~~~~~~~
-import agregar_documento  from '../../assets/images/agregar_documento.png'
-import editar_documento from '../../assets/images/editar_documento.png'
-import eliminar_documento from '../../assets/images/eliminar_documento.png'
-//~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
-import "../../assets/styles/Global.css"
+
+// Imágenes
+import agregar_documento from '../../assets/images/agregar_documento.png';
+import editar_documento from '../../assets/images/editar_documento.png';
+import eliminar_documento from '../../assets/images/eliminar_documento.png';
+
+// Estilos
+import "../../assets/styles/AdministrarTrabajador.css";
+import "../../assets/styles/Global.css";
 
 export default function AdministrarTrabajadores() {
-    const encabezados = ['Cédula', 'Nombre completo', 'Cargo'];
-    
-    const filas = Array.from({ length: 5 }, (_, i) => [
-        `${i + 123456789}`,
-        `Daniela Sanchez`,
-        `Panader@,Pincero,A-Cliente`,
-    ]);
+    const [filas, setFilas] = useState([]);
+
+    const encabezados = ['Correo', 'Nombre', 'Apellido', 'Teléfono', 'Acciones'];
+
+    const obtenerTrabajadores = () => {
+        axios.get('http://localhost:8000/api/usuarios/trabajadores/')
+            .then(response => {
+                const trabajadores = response.data;
+                console.log("Trabajadores recibidos:", trabajadores); 
+                console.log("Ejemplo trabajador:", trabajadores[0]);
+
+                const filasConvertidas = trabajadores.map(trabajador => ([
+                    trabajador.email,
+                    trabajador.nombre,
+                    trabajador.apellido,
+                    trabajador.telefono || '—',
+                    <div key={`acciones-${trabajador.id_usuario}`} className="acciones_tabla">
+                        <Link to={`/EditarTrabajador/${trabajador.id_usuario}`}>
+                            <img
+                                src={editar_documento}
+                                alt="Editar"
+                                title="Editar trabajador"
+                                className="icono_tabla"
+                            />
+                        </Link>
+                        <button
+                            onClick={() => manejarEliminar(trabajador.id_usuario)}
+                            className="boton_eliminar_tabla"
+                            title="Eliminar trabajador"
+                        >
+                            <img
+                                src={eliminar_documento}
+                                alt="Eliminar"
+                                className="icono_tabla"
+                            />
+                        </button>
+                    </div>
+                ]));
+
+                setFilas(filasConvertidas);
+            })
+            .catch(error => {
+                console.error('Error al obtener trabajadores:', error);
+                alert("Error al cargar los trabajadores.");
+            });
+    };
+
+    useEffect(() => {
+        obtenerTrabajadores();
+    }, []);
+
+    const manejarEliminar = async (id) => {
+        const confirmacion = window.confirm("¿Estás seguro de eliminar este trabajador?");
+        if (!confirmacion) return;
+
+        try {
+            await axios.delete(`http://localhost:8000/api/usuarios/${id}/`);
+            alert("Trabajador eliminado correctamente.");
+            obtenerTrabajadores(); // Refrescar lista
+        } catch (error) {
+            console.error("Error al eliminar trabajador:", error);
+            alert("No se pudo eliminar el trabajador.");
+        }
+    };
 
     return (
-        <>
-            {/* Tabla de inventario */}
-            <div>
-                <TablaAdmin encabezados={encabezados} filas={filas} />
-                <br />
+        <div className="contenedor_principal">
+            <h2 className="titulo_seccion">Administrar Trabajadores</h2>
+            <TablaAdmin encabezados={encabezados} filas={filas} />
+
+            <div className="iconos_acciones">
+                <Link to='/AgregarTrabajador' title="Agregar nuevo trabajador">
+                    <img src={agregar_documento} alt="Agregar" />
+                </Link>
             </div>
-
-            {/* Iconos parte baja */}
-                <div className='iconos_acciones'>
-
-                    <Link to='/AgregarTrabajador'>
-                        <img src={agregar_documento} alt="Agregar" />
-                    </Link>
-
-                    <Link to='/EditarTrabajador'>
-                        <img src={editar_documento} alt="Editar" />
-                    </Link>
-
-                    <Link to='/EliminarTrabajador'>
-                        <img src={eliminar_documento} alt="Eliminar" />
-                    </Link>
-                </div>
-        </>
+        </div>
     );
 }
-
-

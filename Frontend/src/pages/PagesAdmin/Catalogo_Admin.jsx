@@ -1,120 +1,95 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
-import "../../assets/styles/CatalogoAdmin.css"; 
-
-
+import "../../assets/styles/CatalogoAdmin.css";
 import ProductCard from "../../components/ProductCard";
-import EditProductModal from "../../components/EditProductModal";
 import EditCommentsModal from "../../components/EditCommentsModal";
+import CategoriasAdmin from "../../components/CategoriasAdmin";
 
-import churro from '../../assets/images/panes/churro.jpg'
-import rollos from '../../assets/images/panes/rollos.jpg'
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
 
 function CatalogoPage() {
-    const [products, setProducts] = useState([
-        {
-            id: 1,
-            name: "Pan trenza",
-            description: "Deliciosa pieza de pan esponjoso",
-            image: churro,
-            comments: ["Muy rico", "Esponjoso", "Buen precio"],
-            active: true,
-        },
-        {
-            id: 2,
-            name: "Churro",
-            description: "Deliciosa pieza de pan esponjoso",
-            image:rollos,
-            comments: ["Me encantó", "Perfecto con café"],
-            active: false,
-        },
-
-        {
-            id: 3,
-            name: " Churro",
-            description: "Deliciosa pieza de pan esponjoso",
-            image:rollos,
-            comments: ["Me encantó", "Perfecto con café"],
-            active: false,
-        },
-        
-    ]);
-
-    // Estado que controla qué producto se está editando (contenido)
-    const [editingProduct, setEditingProduct] = useState(null);
-    // Estado que controla qué producto se está editando (comentarios)
+    const [products, setProducts] = useState([]);
     const [editingComments, setEditingComments] = useState(null);
 
-    // Cambia el estado de activado/desactivado
-    const handleStatusChange = (id, newStatus) => {
-        const updated = products.map((p) =>
-            p.id === id ? { ...p, active: newStatus } : p
-        );
-        setProducts(updated);
+    const query = useQuery();
+    const categoriaSeleccionada = query.get("categoria");
+
+    const obtenerProductos = () => {
+        const url = categoriaSeleccionada
+            ? `http://localhost:8000/api/productos/?categoria=${categoriaSeleccionada}`
+            : `http://localhost:8000/api/productos/`;
+
+        axios.get(url)
+            .then(response => setProducts(response.data))
+            .catch(error => console.error("Error al obtener productos:", error));
     };
 
-    //Abre modal de edición de contenido del producto
-    const handleEditProduct = (id) => {
-        const product = products.find((p) => p.id === id);
-        setEditingProduct(product);
+    useEffect(() => {
+        obtenerProductos();
+    }, [categoriaSeleccionada]);
+
+    const handleStatusChange = (id_producto, newStatus) => {
+        axios.patch(`http://localhost:8000/api/productos/${id_producto}/`, { activo: newStatus })
+            .then(() => {
+                const updated = products.map(p =>
+                    p.id_producto === id_producto ? { ...p, activo: newStatus } : p
+                );
+                setProducts(updated);
+            })
+            .catch(error => console.error("Error al actualizar estado:", error));
     };
 
-    // Abre modal de edición de comentarios
-    const handleEditComments = (id) => {
-        const product = products.find((p) => p.id === id);
+    const handleEditComments = (id_producto) => {
+        const product = products.find(p => p.id_producto === id_producto);
         setEditingComments(product);
     };
 
-    // Guarda cambios del contenido del producto
-    const handleSaveProduct = (updatedProduct) => {
-        const updated = products.map((p) =>
-            p.id === updatedProduct.id ? updatedProduct : p
-        );
-        setProducts(updated);
-        setEditingProduct(null);
-    };
-
-    // Guarda cambios de los comentarios del producto
     const handleSaveComments = (updatedProduct) => {
-        const updated = products.map((p) =>
-            p.id === updatedProduct.id ? updatedProduct : p
-        );
-        setProducts(updated);
+        axios.patch(`http://localhost:8000/api/productos/${updatedProduct.id_producto}/`, {
+            comments: updatedProduct.comments
+        })
+            .then(() => {
+                const updated = products.map(p =>
+                    p.id_producto === updatedProduct.id_producto ? updatedProduct : p
+                );
+                setProducts(updated);
+            })
+            .catch(err => console.error("Error guardando comentarios:", err));
+
         setEditingComments(null);
     };
 
     return (
-        <div className="catalogo-container">
-            {products.map((product) => (
-                <ProductCard
-                    key={product.id}
-                    {...product}
-                    // nombres de las props
-                    // Ahora: onToggleActive, onEditProduct, onEditComments
-                    onEditProduct={handleEditProduct}
-                    onEditComments={handleEditComments}
-                    onToggleActive={handleStatusChange}
-                />
-            ))}
+        <>
+            <CategoriasAdmin />
+            <div className="catalogo-container">
+                {products.map(product => (
+                    <ProductCard
+                        key={product.id_producto}
+                        id={product.id_producto}
+                        image={product.imagen}
+                        name={product.nombre}
+                        description={product.descripcion}
+                        active={product.activo}
+                        onEditComments={handleEditComments}
+                        onToggleActive={handleStatusChange}
+                        ocultarEditarProducto={true}
+                    />
+                ))}
+            </div>
 
-            {/* Modal para editar el producto */}
-            <EditProductModal
-                isOpen={!!editingProduct}
-                onClose={() => setEditingProduct(null)}
-                onSave={handleSaveProduct}
-                productData={editingProduct}
-            />
-
-            {/* Modal para editar comentarios */}
             <EditCommentsModal
                 isOpen={!!editingComments}
                 onClose={() => setEditingComments(null)}
                 onSave={handleSaveComments}
                 productData={editingComments}
             />
-        </div>
+        </>
     );
 }
-
 
 export default CatalogoPage;

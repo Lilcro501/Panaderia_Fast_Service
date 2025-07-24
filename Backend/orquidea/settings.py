@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     # mis apps
     # este es el apartado de apps, cada app creada se debe agregar en este apartado 
     #para que django pueda acceder a las carpetas de la aplicacion
+    'administrador',
     'carrito',
     'usuarios',
 ]
@@ -162,7 +163,7 @@ DATABASES = {
         #este campo especifica el nombre del usuario que se utilzara para autenticar la conexion con la base de datos
         'USER': "root",
         #este campo especifica la constraseña asociada con el usuario
-        'PASSWORD': 'admin',
+        'PASSWORD': '090906',
         #este campo especifica la direccion del servidor de la base de datos
         'HOST': 'localhost',
         #este campo especifica el puerto en el que se encuentra el servidor de la base de datos
@@ -200,7 +201,7 @@ AUTH_PASSWORD_VALIDATORS = [
 #define el campo del idioma que se utilzara en la aplicacion
 LANGUAGE_CODE = 'en-us'
 #esta campo define la zona horaria predeterminada que se utilzara en la aplcacion
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 #este campo habilita la internacionalizacion de la aplicacion
 USE_I18N = True
 #este campo habilita el soporte para zonas horarias en la aplicacion

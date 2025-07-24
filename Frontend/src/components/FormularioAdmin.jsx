@@ -1,50 +1,66 @@
-import React, { useState } from 'react';
-import '../assets/styles/FormularioAdmin.css'; 
+import React, { useState, useEffect } from 'react';
+import '../assets/styles/FormularioAdmin.css';
 
-/* 
- * Componente reutilizable de formulario
- * @param {Array} campos - Campos a renderizar
- * @param {Function} onSubmit - Función que se ejecuta al enviar el formulario
- * @param {Array} botonesPersonalizados - Botones opcionales (texto, tipo, clase, onClick)
-*/
-const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [] }) => {
+const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valoresIniciales = {} }) => {
   const [valores, setValores] = useState({});
   const [previewImagen, setPreviewImagen] = useState({});
 
-  // Manejar cambios en los inputs del formulario
+  // Cargar valores iniciales al montar o cambiar valoresIniciales
+  useEffect(() => {
+    if (Object.keys(valoresIniciales).length === 0) return;
+
+    const valoresFormateados = {};
+    for (const campo of campos) {
+      const valor = valoresIniciales[campo.nombre];
+      if (campo.tipo === 'datetime-local' && valor) {
+        const fecha = new Date(valor);
+        const offset = fecha.getTimezoneOffset();
+        fecha.setMinutes(fecha.getMinutes() - offset);
+        valoresFormateados[campo.nombre] = fecha.toISOString().slice(0, 16);
+      } else if (campo.tipo === 'select' && campo.multiple && Array.isArray(valor)) {
+        valoresFormateados[campo.nombre] = valor.map(v => String(v));
+      } else {
+        valoresFormateados[campo.nombre] = valor ?? (campo.multiple ? [] : '');
+      }
+    }
+    setValores(valoresFormateados);
+  }, [JSON.stringify(valoresIniciales)]);
+
   const manejarCambio = (e) => {
-    const { name, type, value, checked, files } = e.target;
+    const { name, type, value, checked, files, multiple, options } = e.target;
 
     if (type === 'file') {
       const archivo = files[0];
       setValores({ ...valores, [name]: archivo });
 
-      // Genera vista previa si es una imagen
       if (archivo && archivo.type.startsWith('image/')) {
         const urlTemp = URL.createObjectURL(archivo);
         setPreviewImagen({ ...previewImagen, [name]: urlTemp });
       }
+    } else if (e.target.tagName === 'SELECT' && multiple) {
+      const seleccionados = Array.from(options)
+        .filter(option => option.selected)
+        .map(option => option.value);
+      setValores({ ...valores, [name]: seleccionados });
     } else if (type === 'checkbox') {
       setValores({ ...valores, [name]: checked });
     } else {
-      setValores({ ...valores, [name]: value });
+      const valorProcesado = (name === 'id_usuario' || name.startsWith('id_')) ? parseInt(value) : value;
+      setValores({ ...valores, [name]: valorProcesado });
     }
   };
 
-  // Maneja el envío del formulario
   const manejarSubmit = (e) => {
     e.preventDefault();
     onSubmit(valores);
   };
 
-  // Separa los campos tipo imagen del resto
   const campoImagen = campos.find(c => c.tipo === 'file');
   const camposRestantes = campos.filter(c => c.tipo !== 'file');
 
   return (
     <form className="formulario-grid" onSubmit={manejarSubmit}>
-      
-      {/*  campo imagen */}
+      {/* Columna izquierda: imagen */}
       {campoImagen && (
         <div className="columna izquierda">
           <div className="grupo-campo">
@@ -76,6 +92,7 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [] }) => {
           <div className="grupo-campo" key={index}>
             <label className="etiqueta-campo">{campo.etiqueta}:</label>
 
+            {/* Área de texto */}
             {campo.tipo === 'textarea' && (
               <textarea
                 className="input-estilo"
@@ -83,53 +100,71 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [] }) => {
                 rows="4"
                 placeholder={campo.placeholder}
                 required={campo.requerido}
+                value={valores[campo.nombre] || ''}
                 onChange={manejarCambio}
               />
             )}
 
+            {/* Campo SELECT modificado aquí 👇 */}
             {campo.tipo === 'select' && (
               <select
                 className="input-estilo"
                 name={campo.nombre}
                 required={campo.requerido}
+                value={campo.multiple ? valores[campo.nombre] || [] : valores[campo.nombre] || ''}
                 onChange={manejarCambio}
+                multiple={campo.multiple}
               >
-                <option value="">-- Seleccione --</option>
-                {campo.opciones.map((opcion, i) => (
-                  <option key={i} value={opcion.valor}>{opcion.label}</option>
+                {!campo.multiple && (
+                  <option value="">
+                    -- Seleccione --
+                  </option>
+                )}
+
+                {/* ✅ CAMBIO IMPORTANTE: se usa 'opcion.etiqueta' en vez de 'label' */}
+                {campo.opciones?.map((opcion, i) => (
+                  <option key={i} value={opcion.valor}>
+                    {opcion.etiqueta}
+                  </option>
                 ))}
               </select>
             )}
 
+            {/* Radio */}
             {campo.tipo === 'radio' && campo.opciones.map((opcion, i) => (
               <label key={i} className="opcion-radio">
                 <input
                   type="radio"
                   name={campo.nombre}
                   value={opcion.valor}
+                  checked={valores[campo.nombre] === opcion.valor}
                   required={campo.requerido}
                   onChange={manejarCambio}
                 />
-                {opcion.label}
+                {opcion.etiqueta}
               </label>
             ))}
 
+            {/* Checkbox */}
             {campo.tipo === 'checkbox' && (
               <input
                 className="input-checkbox"
                 type="checkbox"
                 name={campo.nombre}
+                checked={valores[campo.nombre] || false}
                 onChange={manejarCambio}
               />
             )}
 
-            {['text', 'number', 'email', 'date'].includes(campo.tipo) && (
+            {/* Inputs comunes */}
+            {['text', 'number', 'email', 'date', 'datetime-local'].includes(campo.tipo) && (
               <input
                 className="input-estilo"
                 type={campo.tipo}
                 name={campo.nombre}
                 placeholder={campo.placeholder}
                 required={campo.requerido}
+                value={valores[campo.nombre] || ''}
                 onChange={manejarCambio}
               />
             )}
@@ -137,11 +172,11 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [] }) => {
         ))}
       </div>
 
-      {/* Botones personalizados desde el padre */}
+      {/* Botones personalizados */}
       {botonesPersonalizados.length > 0 && (
         <div className="formulario-botones">
           {botonesPersonalizados.map((btn, i) => (
-            <button 
+            <button
               key={i}
               type={btn.tipo || 'button'}
               className={`btn-formulario ${btn.clase || ''}`}

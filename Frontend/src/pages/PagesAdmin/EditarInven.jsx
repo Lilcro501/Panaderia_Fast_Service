@@ -1,15 +1,54 @@
-import React, { useRef, useState } from 'react';
-//~~~~~~~~~~~~~~ Estilo ~~~~~~~~~~~~~~
-import '../../assets/styles/EditarInven.css'
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+//~~~~~~~~~~~~~~ Estilos ~~~~~~~~~~~~~~
+import '../../assets/styles/EditarInven.css';
+import "../../assets/styles/Global.css";
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
-import CategoriasAdmin from "../../components/CategoriasAdmin"
+import CategoriasAdmin from "../../components/CategoriasAdmin";
 import FormularioAdmin from '../../components/FormularioAdmin';
-//~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
-import "../../assets/styles/Global.css"
-
 
 export default function EditarInven() {
-    // Definimos los campos del formulario
+    const { id } = useParams(); // ID del producto desde la URL
+    const navigate = useNavigate();
+
+    const [valoresIniciales, setValoresIniciales] = useState({});
+    const [categorias, setCategorias] = useState([]);
+
+    // Obtener producto
+    useEffect(() => {
+        axios.get(`http://localhost:8000/api/productos/${id}/`)
+            .then(response => {
+                const producto = response.data;
+                setValoresIniciales({
+                    nombre: producto.nombre,
+                    precio: producto.precio,
+                    stock: producto.stock,
+                    fecha_vencimiento: producto.fecha_vencimiento,
+                    id_categoria: producto.id_categoria || ''
+                });
+            })
+            .catch(error => {
+                console.error("Error al cargar producto:", error);
+                alert("No se pudo cargar el producto.");
+            });
+    }, [id]);
+
+    // Obtener categorías
+    useEffect(() => {
+        axios.get("http://localhost:8000/api/categorias/")
+            .then(response => {
+                setCategorias(response.data);
+            })
+            .catch(error => {
+                console.error("Error al cargar categorías:", error);
+                alert("No se pudieron cargar las categorías.");
+            });
+    }, []);
+
+    // No renderizar hasta que se hayan cargado las categorías
+    if (categorias.length === 0) return <p>Cargando categorías...</p>;
+
     const camposProducto = [
         {
             nombre: 'nombre',
@@ -27,73 +66,80 @@ export default function EditarInven() {
         },
         {
             nombre: 'stock',
-            etiqueta: 'Actualizar Stock ',
+            etiqueta: 'Stock disponible',
             tipo: 'number',
-            placeholder: 'Ej: 30',
+            placeholder: 'Ej: 20',
+            requerido: true
+        },
+        {
+            nombre: 'fecha_vencimiento',
+            etiqueta: 'Fecha de vencimiento',
+            tipo: 'date',
+            requerido: false
+        },
+        {
+            nombre: 'id_categoria',
+            etiqueta: 'Categoría',
+            tipo: 'select',
+            opciones: categorias.map(cat => ({
+                valor: cat.id_categoria,
+                etiqueta: cat.nombre
+            })),
             requerido: true
         }
     ];
 
-    // Función para manejar el envío de datos del formulario
-    const manejarEnvio = (datos) => {
-        console.log("Datos recibidos del formulario:", datos);
-
-        // Enviar datos como FormData
-        const formData = new FormData();
-        for (const clave in datos) {
-            formData.append(clave, datos[clave]);
-        }
-
-        // Aquí podrías hacer una petición POST al backend
-        // fetch('/api/productos', { method: 'POST', body: formData })
+const manejarEnvio = async (datos) => {
+    const datosProcesados = {
+        ...datos,
+        id_categoria_id: datos.id_categoria  // 👈 importante
     };
+    delete datosProcesados.id_categoria;  // elimina el campo que no se acepta
+
+    try {
+        await axios.put(`http://localhost:8000/api/productos/${id}/`, datosProcesados);
+        alert("Producto actualizado correctamente.");
+        navigate("/AdministrarInven");
+    } catch (error) {
+        console.error("Error al actualizar producto:", error.response?.data || error);
+        alert("No se pudo actualizar el producto.");
+    }
+};
 
     const botones = [
-            {
-                texto: 'Guardar',      // Texto que se verá en el botón
-                tipo: 'submit',        // Tipo submit: envía el formulario
-                clase: 'guardar',      // Clase CSS para estilo personalizado
-                onClick: null          // Usa el onSubmit del formulario
-            },
-            {
-                texto: 'Limpiar',     
-                tipo: 'reset',       //limpia los campos
-                clase: 'Limpiar',     
-                onClick: null         
-            },
-            {
-                texto: 'Salir',
-                tipo: 'button',
-                clase: 'salir',
-                onClick: () => {
-                    // Aquí defines qué hacer cuando se cancela
-                    console.log("Formulario cancelado");
-                    // Podrías redirigir, cerrar modal, limpiar campos, etc.
-            }
-            }
+        {
+            texto: 'Guardar',
+            tipo: 'submit',
+            clase: 'guardar',
+            onClick: null
+        },
+        {
+            texto: 'Limpiar',
+            tipo: 'reset',
+            clase: 'limpiar',
+            onClick: null
+        },
+        {
+            texto: 'Salir',
+            tipo: 'button',
+            clase: 'salir',
+            onClick: () => navigate('/AdministrarInven')
+        }
     ];
-
 
     return (
         <>
-            {/* Categorias */}
-            <CategoriasAdmin></CategoriasAdmin>
-
+            <CategoriasAdmin />
             <div className="contenedor_formulario_inventario">
                 <h2>Editar producto</h2>
-                <br />
-
                 <div className='fila-campos'>
-                    {/* Aquí insertamos el formulario reutilizable */}
-                    {/*Prop = Información que se envía desde el componente padre al hijo.
-                    Se escribe dentro del componente hijo como atributos:<Formulario campos={...} onSubmit={...} />
-                    Se pone en el lugar donde renderizas el componente hijo */}
-                    <FormularioAdmin 
-                    campos={camposProducto} 
-                    onSubmit={manejarEnvio}
-                    botonesPersonalizados={botones}/>
+                    <FormularioAdmin
+                        campos={camposProducto}
+                        onSubmit={manejarEnvio}
+                        botonesPersonalizados={botones}
+                        valoresIniciales={valoresIniciales}
+                    />
                 </div>
-                
             </div>
         </>
     );
