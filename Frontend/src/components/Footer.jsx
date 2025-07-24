@@ -47,14 +47,16 @@ const Footer = () => {
         <div className="links-agrupar">
           <span className='separar'>
               <Link to="/InfoLegal">
-              Informacion Legal
+                Información Legal
               </Link>
             </span>
+            |
             <span>
-              <Link to="/ManifiestoDelConsumidor">
-              Manifiesto del consumidor
+              &nbsp;
+              <Link to="/ManifiestoConsumidor">
+                Manifiesto del consumidor
               </Link>
-              </span> 
+            </span> 
           
         </div>
       </footer>

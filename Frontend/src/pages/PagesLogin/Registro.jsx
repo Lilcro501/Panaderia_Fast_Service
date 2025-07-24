@@ -1,26 +1,17 @@
-/* Importaciones necesarias de React y librerías */
 import React, { useState } from 'react';
-
-/* Hoja de estilos */
-import '../../assets/styles/Acceso.css';
 import Login from "../PagesLogin/Login";
-
-/* Importación de íconos desde react-icons */
-import { FaUser, FaLock, FaUserLock, FaUserCheck } from 'react-icons/fa';
+import { FaUser, FaLock, FaUserLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
-
-/* Importación del componente de rutas */
 import { Link, useNavigate } from 'react-router-dom';
-
-/* Importar el componente del botón de Google */
 import LoginGoogle from '../../components/LoginGoogle';
-
-/* Importar función de registro desde api/login.js */
 import { registrarUsuario } from '../../api/login';
+import '../../assets/styles/Registro.css';
+import orquidea from "../../assets/images/orquidea.jpg"; 
 
 export default function Registro() {
   const [form, setForm] = useState({
-    username: '',
+    nombres: '',
+    apellidos: '',
     correo: '',
     password: '',
     confirmar: '',
@@ -38,20 +29,28 @@ export default function Registro() {
     const nuevosErrores = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!form.username.trim()) {
-      nuevosErrores.username = 'Por favor ingresa tu nombre de usuario ';
+    if (!form.nombres.trim()) {
+      nuevosErrores.nombres = 'Por favor ingresa tus nombres';
     }
+
+    if (!form.apellidos.trim()) {
+      nuevosErrores.apellidos = 'Por favor ingresa tus apellidos';
+    }
+
     if (!form.correo.trim()) {
-      nuevosErrores.correo = 'Por favor ingresa tu correo ';
+      nuevosErrores.correo = 'Por favor ingresa tu correo';
     } else if (!emailRegex.test(form.correo)) {
       nuevosErrores.correo = 'Correo no válido';
     }
+
     if (form.password.length < 6) {
       nuevosErrores.password = 'La contraseña debe tener al menos 6 caracteres';
     }
+
     if (form.confirmar !== form.password) {
-      nuevosErrores.confirmar = 'Las contraseñas no coinciden ';
+      nuevosErrores.confirmar = 'Las contraseñas no coinciden';
     }
+
     if (!form.terminos) {
       nuevosErrores.terminos = 'Debes aceptar los Términos y Condiciones';
     }
@@ -74,9 +73,8 @@ export default function Registro() {
         const response = await registrarUsuario({
           email: form.correo,
           password: form.password,
-          nombre_usuario: form.username,
-          nombre: '',
-          apellido: '',
+          nombre: form.nombres,
+          apellido: form.apellidos,
           telefono: '',
           direccion: '',
           rol: 'cliente'
@@ -84,7 +82,7 @@ export default function Registro() {
 
         if (response.status === 201 || response.status === 200) {
           alert('Usuario registrado con éxito ✅');
-          navigate('/AccedeAqui'); // redirige al login
+          navigate('/AccedeAqui');
         }
       } catch (error) {
         console.error(error);
@@ -95,6 +93,13 @@ export default function Registro() {
 
   return (
     <section className='Contenedor'>
+    <div className='PanelIzquierdo'>
+      <h2>Bienvenid@ a la sección de registro</h2>
+      <p>Por favor, completa el formulario para crear tu cuenta.</p>
+      <img src={orquidea} alt='Registro' className='ImagenRegistro' />
+    </div> 
+    <div className='PanelDerecho'>
+
       <button className='Salir' onClick={salir}>
         <IoMdClose />
       </button>
@@ -103,17 +108,30 @@ export default function Registro() {
 
       <form onSubmit={handleSubmit} noValidate>
         <div className='Campo'>
-          <FaUserCheck className='Icono' />
+          <FaUser className='Icono' />
           <input
             type='text'
-            id='username'
-            placeholder='Nombre de usuario'
-            value={form.username}
+            id='nombres'
+            placeholder='Nombres'
+            value={form.nombres}
             onChange={handleChange}
-            className={errores.username ? 'invalido' : ''}
+            className={errores.nombres ? 'invalido' : ''}
           />
         </div>
-        {errores.username && <p className='mensaje-error'>{errores.username}</p>}
+        {errores.nombres && <p className='mensaje-error'>{errores.nombres}</p>}
+
+        <div className='Campo'>
+          <FaUser className='Icono' />
+          <input
+            type='text'
+            id='apellidos'
+            placeholder='Apellidos'
+            value={form.apellidos}
+            onChange={handleChange}
+            className={errores.apellidos ? 'invalido' : ''}
+          />
+        </div>
+        {errores.apellidos && <p className='mensaje-error'>{errores.apellidos}</p>}
 
         <div className='Campo'>
           <FaUser className='Icono' />
@@ -180,6 +198,7 @@ export default function Registro() {
       <p className='Registro'>
         ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
       </p>
+      </div>
     </section>
   );
 }

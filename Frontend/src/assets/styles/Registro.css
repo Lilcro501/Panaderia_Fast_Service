@@ -1,0 +1,187 @@
+.Contenedor {
+  display: flex;
+  max-width: 960px;
+  margin: 60px auto;
+  background-color: #1a1a1a;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  position: relative;
+  
+}
+
+.PanelIzquierdo {
+  flex: 1;
+  background-color: #000000;
+  padding: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  
+
+}
+
+.PanelIzquierdo h2 {
+  font-size: 50px;
+  color: #d9b56b;
+  margin-bottom: 20px;
+
+}
+
+.PanelIzquierdo p {
+  font-size: 15px;
+  color: #ccc;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.PanelIzquierdo img {
+  width: 200px;
+  max-width: 100%;
+  margin: 0 auto;
+  filter: brightness(0.9);
+  border-radius: 50px;
+}
+
+.PanelDerecho {
+  flex: 1;
+  padding: 50px 40px;
+  background-color: #000000;
+  position: relative;
+  border-left: 4px solid #d4a461;
+}
+
+.Salir {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #cb9672;
+  cursor: pointer;
+}
+
+.TituloAcceso {
+  text-align: center;
+  font-size: 48px;
+  color: #fcfcfa;
+  margin-bottom: 35px;
+}
+
+.Campo {
+  display: flex;
+  align-items: center;
+  background-color: #d9b56b;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 18px;
+  transition: background 0.3s ease;
+}
+
+.Campo:hover {
+  background-color: #ad7a33;
+}
+
+.Icono {
+  color: #222;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  color: #000;
+  outline: none;
+}
+
+input::placeholder {
+  color: #000000;
+}
+
+.invalido {
+  border: 2px solid rgba(205, 124, 53, 0.756);
+}
+
+.mensaje-error {
+  color: #ff4d4d;
+  font-size: 14px;
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+.EstiloAceptartyc {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.TextoTerminos {
+  color: #ccc;
+}
+
+.TextoTerminos strong {
+  color: #eeb672;
+}
+
+.Continuar {
+  width: 100%;
+  padding: 12px;
+  background-color: #d4af37;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+.Continuar:hover {
+  background-color: #e5c75e;
+}
+
+.google-login-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.google-login-container p {
+  color: #aaa;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.Registro {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.Registro a {
+  color: #dcb075;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.Registro a:hover {
+  text-decoration: underline;
+}
+.ImagenRegistro {
+  width: 100%;
+  max-width: 300px; 
+  margin: 20px auto 0;
+  display: block;
+  border-radius: 10px;
+  object-fit: contain;
+  
+}
