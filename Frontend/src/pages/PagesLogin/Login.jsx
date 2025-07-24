@@ -1,14 +1,17 @@
-// src/pages/Login.jsx
-import React from 'react';
-import LoginGoogle from "../../components/LoginGoogle" ;
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRol } from "../../Context/RolContext";
 
-function Login() {
-  return (
-    <div>
-      <h1>Bienvenido al sistema</h1>
-      <LoginGoogle />
-    </div>
-  );
-}
+const Login = () => {
+    const navigate = useNavigate();
+    const { cambiarRol } = useRol();
+
+    useEffect(() => {
+    cambiarRol("cliente"); // Cambia el contexto y localStorage
+    navigate("/home"); // Redirige al home del cliente
+    }, [navigate, cambiarRol]);
+
+    return null;
+};
 
 export default Login;

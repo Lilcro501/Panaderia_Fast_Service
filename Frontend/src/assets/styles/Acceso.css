@@ -1,4 +1,4 @@
-
+/*
 .Contenedor {
     display: flex;
     flex-direction: column;
@@ -62,6 +62,7 @@ form {
     }
 
 /* Botón para continuar */
+/*
 .Continuar {
     background: linear-gradient(to right, rgb(219, 124, 162), rgb(216, 131, 121));
     width: 80%;
@@ -108,6 +109,7 @@ form {
 }
 
 /* Campos de entrada */
+/*
 .Campo {
     display: flex;
     align-items: center;
@@ -165,6 +167,7 @@ form {
 }
 
 /* Texto inferior de registro */
+/*
 .Registro {
     margin-top: 15px;
     color: #444;
@@ -183,6 +186,7 @@ form {
 }
 
 /* Cambiar el fondo para que no se vuelva blanco al escribir*/
+/*
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
@@ -274,6 +278,7 @@ input:-webkit-autofill:active {
 }
 
 /* ~~~~~~~ Estilos para el banner de cookies ~~~~~~~ */
+/*
 .FondoCookies {
     position: relative;
     left: 200px;
@@ -345,6 +350,7 @@ input:-webkit-autofill:active {
 }
 
 /*Estilo cuando hay error */
+/*
 input:invalid {
     border-color: #dc3545;
 }
