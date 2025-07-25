@@ -1,4 +1,4 @@
-.modal-fondo {
+.mod-fondo {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,46 +11,47 @@
   z-index: 999;
 }
 
-.modal-contenido {
-  background-color: white;
+.mod-contenido {
+  background-color: rgb(255, 255, 255);
   border-radius: 10px;
   overflow: hidden;
   width: 90%;
   max-width: 400px;
   text-align: center;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid #050505;
 }
 
-.modal-header {
+.mod-header {
   background-color: #050505;
   padding: 10px;
 }
 
-.modal-body {
+.mod-body {
   padding: 20px;
 }
 
-.modal-icono {
+.mod-icono {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.modal-titulo {
+.mod-titulo {
   font-size: 22px;
   color: #333;
   margin-bottom: 10px;
 }
 
-.modal-mensaje {
+.mod-mensaje {
   font-size: 16px;
-  color: #555;
+  color: #555; 
 }
 
-.modal-footer {
+.mod-footer {
   padding: 20px;
 }
 
-.modal-boton {
+.mod-boton {
   background-color: #E53935;
   color: white;
   border: none;
@@ -60,6 +61,6 @@
   cursor: pointer;
 }
 
-.modal-boton:hover {
+.mod-boton:hover {
   background-color: #d32f2f;
 }

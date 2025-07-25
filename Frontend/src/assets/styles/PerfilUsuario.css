@@ -1,24 +1,23 @@
 .entrada {
-    background-color: #554949;
-    border-radius: 10px;
-    width: 450px;
-    height: 30px;
+  background-color: #554949;
+  border-radius: 10px;
+  width: 450px;
+  height: 30px;
 }
 
 .foto-perfil {
-    width: 60px;
+  width: 60px;
 }
 
 
 .recuadro-perfil {
   max-width: 500px;
-  margin: 100px auto;
-  background: #000000;
+  background: #765c49;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.793);
   font-family: 'Segoe UI', sans-serif;
-}
+  border: 2px solid #301a0d;
+} 
 
 .foto-perfil {
   width: 120px;
@@ -52,7 +51,7 @@
   display: block;
   margin: 30px auto 0;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #9a563f;
   color: white;
   font-size: 16px;
   border: none;
@@ -62,5 +61,6 @@
 }
 
 .boton-actualizar:hover {
-  background-color: #0056b3;
+  background-color: #794331;
 }
+
