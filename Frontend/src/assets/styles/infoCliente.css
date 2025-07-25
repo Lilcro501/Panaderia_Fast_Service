@@ -12,12 +12,13 @@
 
 .recuadro-perfil {
   max-width: 500px;
-  margin: 100px auto;
-  background: #000000;
+  margin: 0px auto;
+  background: #6a4f3c;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.793);
   padding: 40px;
   font-family: 'Segoe UI', sans-serif;
+  border: 2px solid #301a0d;
 }
 
 .foto-perfil {
