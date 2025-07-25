@@ -19,7 +19,11 @@ from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
 # Locales
 from .models import CodigoVerificacion, Usuario
 from .serializers import CustomTokenObtainPairSerializer
@@ -41,9 +45,10 @@ Usuario = get_user_model()
 ###############################################################################
 
 #Decorador para desactivar la seguridad contra el CRFS
-@csrf_exempt
-#------------------------------------- VISTA DE REGISTRO DE USUARIO ---------------------------------
 
+#------------------------------------- VISTA DE REGISTRO DE USUARIO ---------------------------------
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def registrar_usuario(request):
     #validar si el metodo de respuesta es un post
     if request.method == 'POST':

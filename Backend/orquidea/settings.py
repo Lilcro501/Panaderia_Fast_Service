@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 #<-------------------------Configuracion de la aplicacion-------------------------->
+
 #Importamos el path para poder acceder a las carpetas de la aplicacion
 from pathlib import Path
 #Importamos el os para poder acceder a las variables de entorno
@@ -163,11 +164,12 @@ DATABASES = {
         #este campo especifica el nombre del usuario que se utilzara para autenticar la conexion con la base de datos
         'USER': "root",
         #este campo especifica la constraseña asociada con el usuario
-        'PASSWORD': '090906',
+        'PASSWORD': 'admin',
         #este campo especifica la direccion del servidor de la base de datos
         'HOST': 'localhost',
         #este campo especifica el puerto en el que se encuentra el servidor de la base de datos
         'PORT': '3306',
+        
     }
 }
 
@@ -281,7 +283,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         #Permite la autenticacion mediante JSON web tokens tokens (JWT)
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        #Esta clase permite la autenticaion basda en sesiones, que es el metodo de autenticacion predeterminado de django
+        #Esta clase permite la autenticaion basada en sesiones, que es el metodo de autenticacion predeterminado de django
         'rest_framework.authentication.SessionAuthentication',
     ],
 }

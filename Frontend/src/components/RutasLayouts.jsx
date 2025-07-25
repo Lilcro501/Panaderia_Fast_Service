@@ -15,7 +15,7 @@ const RutasLayouts = ({ children }) => {
   switch (rol) {
     case 'cliente':
       return <MainLayout>{children}</MainLayout>;
-    case 'administrador':
+    case 'admin':
       return <AdminLayout>{children}</AdminLayout>;
     case 'trabajador':
       return <LayoutTrabajador>{children}</LayoutTrabajador>;

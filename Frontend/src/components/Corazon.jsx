@@ -13,7 +13,7 @@ const Corazon = ({ productoId, onFavoritoChange }) => {
       if (!token) return;
 
       try {
-        const res = await axios.get("http://localhost:8000/api/favoritos/", {
+        const res = await axios.get("http://localhost:8000/api/favoritos_user/", {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -44,7 +44,7 @@ const Corazon = ({ productoId, onFavoritoChange }) => {
         setIdFavorito(null);
       } else {
         const res = await axios.post(
-          `http://localhost:8000/api/favoritos/`,
+          `http://localhost:8000/api/favoritos_user/`,
           { producto: productoId },
           {
             headers: {

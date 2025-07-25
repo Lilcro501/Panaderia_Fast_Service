@@ -11,7 +11,7 @@ export const useRol = () => {
 };
 
 // Roles válidos que usas en tu app
-const rolesValidos = ['cliente', 'administrador', 'trabajador', 'sin-registrar'];
+const rolesValidos = ['cliente', 'admin', 'trabajador', 'sin-registrar'];
 
 // Proveedor del contexto
 export const RolProvider = ({ children }) => {
