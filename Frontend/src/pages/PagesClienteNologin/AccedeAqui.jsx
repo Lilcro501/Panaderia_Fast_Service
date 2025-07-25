@@ -39,7 +39,7 @@ export default function AccedeAqui() {
   const redirigirPorRol = (rol) => {
     switch (rol) {
       case 'admin':
-        navigate('/admin/dashboard');
+        navigate('/PrincipalAdmin');
         break;
       case 'trabajador':
         navigate('/Inicio');
@@ -121,7 +121,7 @@ export default function AccedeAqui() {
 
   return (
     <section className='Contenedor'> 
-      <div className='ContenedorIzquierdo'> 
+      <div className='ContenedorIzquierdo'> j
         <h1>Tú día inicia mejor con nuestro pan</h1>
 
         <div className='ImagenOrquidea'> 

@@ -159,30 +159,22 @@ def crear_factura(request):
 
 
 def obtener_productos_por_categoria(request, categoria_nombre):
-    #manjo de errores con try 
     try:
-        #obtenemos el objeto de categoria
-        #nombre__iexact: Este campo de búsqueda es sensible a mayúsculas y minúsculas.
-        categoria = Categoria.objects.get(nombre__iexact=categoria_nombre)
-        #obtenemos todos los productos de la categoria
+        categoria = Categoria.objects.get(nombre__iexact=categoria_nombre.strip())
         productos = Producto.objects.filter(id_categoria=categoria)
-        #inicializamos la lista de datos vacia para almacenar los productos
-        data = []
-        #interamos sobre los productos
-        for producto in productos:
-            #agregamos los datos del producto a la lista de datos
-            data.append({
-                'id': producto.id_producto,
-                'nombre': producto.nombre,
-                'precio': float(producto.precio),
-                'descripcion': producto.descripcion,
-                'imagen': f'/media/{producto.imagen}',
-                'fecha_vencimiento': str(producto.fecha_vencimiento),
-                'stock': producto.stock,
-            })
-        #devolvemos una respuesta en formato json con los datos de los productos
+
+        data = [{
+            'id': producto.id_producto,
+            'nombre': producto.nombre,
+            'precio': float(producto.precio),
+            'descripcion': producto.descripcion,
+            'imagen': f'/media/{producto.imagen}',
+            'fecha_vencimiento': str(producto.fecha_vencimiento),
+            'stock': producto.stock,
+        } for producto in productos]
+
         return JsonResponse(data, safe=False)
-    #si no se encuentra la categoria, se devuelve un mensaje de error
+    
     except Categoria.DoesNotExist:
         return JsonResponse({'error': 'Categoría no encontrada'}, status=404)
 

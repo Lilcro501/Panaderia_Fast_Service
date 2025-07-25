@@ -96,11 +96,12 @@ const AppRouter = () => {
       <Route path='/categorias/CategoriasMecato' element={<PrivateRoute role="cliente"><MainLayout><CategoriasMecato /></MainLayout></PrivateRoute>} />
       <Route path='/categorias/CategoriasBebidas' element={<PrivateRoute role="cliente"><MainLayout><CategoriasBebidas /></MainLayout></PrivateRoute>} />
       <Route path='/producto/:id' element={<PrivateRoute role="cliente"><MainLayout><ProductoDetalle /></MainLayout></PrivateRoute>} />
+      <Route path='/FacturaProductos' element={<PrivateRoute role="cliente"><MainLayout><FacturaProductos></FacturaProductos></MainLayout></PrivateRoute>} />
+      <Route path='/FormularioEntrega' element={<PrivateRoute role="cliente"><MainLayout><FormularioEntrega></FormularioEntrega></MainLayout></PrivateRoute>} />
+      <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos></Favoritos></MainLayout></PrivateRoute>}></Route>
 
-
-      {/* Cliente No Login */}
-      <Route path='/' element={<PrivateRoute role="sin-registrar"><HomeSinRegistrar /></PrivateRoute>}></Route>
-      <Route path='/CambioContraseña' element={<PrivateRoute role="sin-registrar" ><CambioDeContraseña /></PrivateRoute> } />
+      {/* Rutas publicas */}
+      <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña></CambioDeContraseña></MainLayoutSinLogin>}></Route>
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
       <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />

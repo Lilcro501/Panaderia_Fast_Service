@@ -13,9 +13,9 @@ const Categoria = ({ nombre }) => {
   const [popup, setPopup] = useState(null);
 
   useEffect(() => {
-    const nombreFormateado = nombre.toLowerCase();
+    const nombreFormateado = nombre.trim().toLowerCase();
     axios
-      .get(`http://localhost:8000/api/productos/${nombreFormateado}/`)
+      .get(`http://localhost:8000/api/productos_categoria/${nombreFormateado}/`)
       .then((res) => {
         const productosFormateados = res.data.map((producto) => ({
           id: Number(producto.id_producto ?? producto.id), // Forzar número
