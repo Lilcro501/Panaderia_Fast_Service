@@ -1,134 +1,132 @@
 .contenedor-informacion {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 30px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
-  background-color: #343030be;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  border-radius: 20px;
   font-family: 'Segoe UI', sans-serif;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro translúcido */
 }
 
-.input-moderno {
-  width: 100%;
-  max-width: 300px;
-  padding: 12px 16px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  background-color: white;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  outline: none;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Al hacer foco */
-.input-moderno:focus {
-  border-color: #4CAF50; /* verde o cualquier color que desees */
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
-  transform: scale(1.02);
-}
-
-
-
+/* FORMULARIO */
 .formulario-columna {
-  flex: 1 1 450px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
+  flex: 1 1 460px;
+  background-color: #121212;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(200, 162, 119, 0.919); /* Dorado suave */
+  color: #fffefd; /* Texto dorado */
 }
 
+/* INPUTS */
 .input-moderno {
   width: 100%;
-  padding: 12px 14px;
+  padding: 14px 18px;
   margin-bottom: 20px;
-  font-size: 15px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
-  transition: border 0.3s, box-shadow 0.3s;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  font-size: 16px;
+  border: 2px solid #9b6c2a;
+  border-radius: 10px;
+  background-color: #1c1c1c;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.input-moderno::placeholder {
+  color: #aaa;
 }
 
 .input-moderno:focus {
-  border-color: #4CAF50;
+  border-color: #a7622a;
+  background-color: #2a2a2a;
+  box-shadow: 0 0 10px rgba(109, 65, 12, 0.4);
   outline: none;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
 }
 
-.detalle-orden {
-  background-color: #000000;
-  padding: 20px;
-  margin-bottom: 30px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.detalle-orden ul {
-  list-style-type: disc;
-  padding-left: 20px;
-  margin-bottom: 15px;
-}
-
-.detalle-orden li {
-  margin-bottom: 8px;
-  font-size: 15px;
-}
-
-.metodos-pago {
-  background-color: #000000;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.metodos-pago h4 {
-  margin-bottom: 10px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .contenedor-informacion {
-    flex-direction: column;
-    padding: 20px 10px;
-  }
-
-  .formulario-columna {
-    padding: 0.5rem 0;
-  }
-}
-
-
+/* BOTÓN */
 .boton-moderno {
-  background-color: #02ff2c;       /* Azul moderno (indigo) */
-  color: white;                    /* Texto blanco */
-  border: none;                    /* Sin borde */
-  padding: 12px 24px;              /* Espaciado interno */
+  width: 100%;
+  background: linear-gradient(90deg, #b99965, #ffb030);
+  color: #000;
+  border: none;
+  padding: 14px;
   font-size: 16px;
-  font-weight: 600;
-  border-radius: 12px;             /* Bordes redondeados */
-  cursor: pointer;                 /* Manito al pasar el mouse */
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);  /* Sombra suave */
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 14px rgba(255, 215, 0, 0.3);
 }
 
 .boton-moderno:hover {
-  background-color: #4338CA;       /* Azul más oscuro */
-  transform: translateY(-2px);     /* Efecto de levantar el botón */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(90deg, #bc9257, #fda307);
+  transform: translateY(-2px);
 }
 
 .boton-moderno:active {
-  transform: scale(0.98);          /* Ligera reducción al hacer clic */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: scale(0.97);
 }
 
+/* TARJETAS DE ORDEN Y PAGO */
+.detalle-orden,
+.metodos-pago {
+  flex: 1 1 300px;
+  background-color: #1b1b1b;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 6px 18px rgba(154, 101, 55, 0.872);
+  color: #ff842c;
+}
 
-.estilo-img {
-  width: 300px;
-  height: auto;
-  padding-left: 150px;
+.detalle-orden .titulo-orden,
+.metodos-pago .titulo-pago {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #9f7352;
+  border-bottom: 1px solid #6c5a3a;
+  padding-bottom: 10px;
+}
 
+.detalle-orden .lista-orden {
+  list-style: none;
+  padding-left: 0;
+}
+
+.detalle-orden .item-orden {
+  margin-bottom: 10px;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+}
+
+/* MÉTODOS DE PAGO */
+.metodos-pago .opcion-pago {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.metodos-pago .radio-pago {
+  accent-color: #ae7d33cd;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .contenedor-informacion {
+    flex-direction: column;
+  }
+
+  .formulario-columna,
+  .detalle-orden,
+  .metodos-pago {
+    width: 100%;
+  }
 }

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Factura #{{ factura.id }}</title>
+    <style>
+        /* Reset básico */
+        body, h2, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff8f0;
+            color: #4a3c31;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(74, 60, 49, 0.15);
+            border-top: 8px solid #d97824; /* color naranja panadería */
+        }
+
+        h2 {
+            color: #d97824;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 28px;
+            border-bottom: 2px solid #f4a261;
+            padding-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        strong {
+            color: #8b4513;
+        }
+
+        ul {
+            list-style-type: none;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            padding-left: 0;
+        }
+
+        ul li {
+            background: #fff3e0;
+            margin-bottom: 10px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(217, 135, 30, 0.2);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .detalle-producto {
+            flex: 1;
+        }
+
+        .detalle-cantidad,
+        .detalle-subtotal {
+            width: 120px;
+            text-align: right;
+            color: #7a4a15;
+        }
+
+        .footer {
+            font-style: italic;
+            text-align: center;
+            font-size: 18px;
+            color: #d97824;
+            margin-top: 35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>Hola <strong>{{ usuario.username }}</strong>,</p>
+        <p>Gracias por tu compra en <strong>Panadería Fast Service</strong>.</p>
+
+        <h2>Factura #{{ factura.id }}</h2>
+
+        <p><strong>Fecha:</strong> {{ factura.fecha }}</p>
+        <p><strong>Método de pago:</strong> {{ factura.metodo_pago }}</p>
+        <p><strong>Total:</strong> <span style="color:#d97824; font-weight:700;">${{ factura.total }}</span></p>
+
+        <h3>Detalles de la compra:</h3>
+        <ul>
+            {% for pedido in pedidos %}
+                <li>
+                    <span class="detalle-producto">{{ pedido.producto.nombre }}</span>
+                    <span class="detalle-cantidad">Cantidad: {{ pedido.cantidad }}</span>
+                    <span class="detalle-subtotal">Subtotal: ${{ pedido.subtotal }}</span>
+                </li>
+            {% empty %}
+                <li>No hay productos en esta factura.</li>
+            {% endfor %}
+        </ul>
+
+        <p class="footer">¡Esperamos verte pronto! 🍞</p>
+    </div>
+</body>
+</html>

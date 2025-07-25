@@ -1,63 +1,55 @@
-/* Importaciones necesarias de React y librerías */
 import React, { useState } from 'react';
-
-/* Hoja de estilos */
-import '../../assets/styles/Acceso.css';
-
-/* Importación de íconos desde react-icons */
-import { FaUser, FaLock, FaUserLock, FaUserCheck } from 'react-icons/fa';
+import { FaUser, FaLock, FaUserLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
+import { Link, useNavigate } from 'react-router-dom';
+import LoginGoogle from '../../components/LoginGoogle';
+import { registrarUsuario } from '../../api/login';
+import '../../assets/styles/Registro.css';
+import orquidea from "../../assets/images/orquidea.jpg"; 
 
-/* Importación del componente de rutas */
-import { Link } from 'react-router-dom';
-
-/* Componente funcional llamado Registro */
 export default function Registro() {
-  // Estado para almacenar los datos del formulario
   const [form, setForm] = useState({
-    username: '',
+    nombres: '',
+    apellidos: '',
     correo: '',
     password: '',
     confirmar: '',
     terminos: false,
   });
 
-  // Estado para almacenar mensajes de error por campo
   const [errores, setErrores] = useState({});
+  const navigate = useNavigate();
 
-  // Función para redirigir al inicio al presionar la X
   const salir = () => {
     window.location.href = '/';
   };
 
-  // Función para validar los campos del formulario
   const validar = () => {
     const nuevosErrores = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Validar nombre de usuario
-    if (!form.username.trim()) {
-      nuevosErrores.username = 'Por favor ingresa tu nombre de usuario ';
+    if (!form.nombres.trim()) {
+      nuevosErrores.nombres = 'Por favor ingresa tus nombres';
     }
 
-    // Validar correo
+    if (!form.apellidos.trim()) {
+      nuevosErrores.apellidos = 'Por favor ingresa tus apellidos';
+    }
+
     if (!form.correo.trim()) {
-      nuevosErrores.correo = 'Por favor ingresa tu correo ';
+      nuevosErrores.correo = 'Por favor ingresa tu correo';
     } else if (!emailRegex.test(form.correo)) {
       nuevosErrores.correo = 'Correo no válido';
     }
 
-    // Validar contraseña
     if (form.password.length < 6) {
       nuevosErrores.password = 'La contraseña debe tener al menos 6 caracteres';
     }
 
-    // Validar confirmación de contraseña
     if (form.confirmar !== form.password) {
-      nuevosErrores.confirmar = 'Las contraseñas no coinciden ';
+      nuevosErrores.confirmar = 'Las contraseñas no coinciden';
     }
 
-    // Validar aceptación de términos
     if (!form.terminos) {
       nuevosErrores.terminos = 'Debes aceptar los Términos y Condiciones';
     }
@@ -65,51 +57,81 @@ export default function Registro() {
     return nuevosErrores;
   };
 
-  // Función para actualizar los valores del formulario al escribir
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
     setForm({ ...form, [id]: type === 'checkbox' ? checked : value });
   };
 
-  // Función para manejar el envío del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Evita que se recargue la página
-    const erroresValidados = validar(); // Ejecuta las validaciones
-    setErrores(erroresValidados); // Muestra los errores
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const erroresValidados = validar();
+    setErrores(erroresValidados);
 
-    // Si no hay errores, se puede procesar el formulario
     if (Object.keys(erroresValidados).length === 0) {
-      alert('Formulario enviado correctamente ✅');
-      // Aquí podrías enviar los datos a una API o backend
+      try {
+        const response = await registrarUsuario({
+          email: form.correo,
+          password: form.password,
+          nombre: form.nombres,
+          apellido: form.apellidos,
+          telefono: '',
+          direccion: '',
+          rol: 'cliente'
+        });
+
+        if (response.status === 201 || response.status === 200) {
+          alert('Usuario registrado con éxito ✅');
+          navigate('/AccedeAqui');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Error al registrar usuario ❌');
+      }
     }
   };
 
   return (
     <section className='Contenedor'>
-      {/* Botón para cerrar el formulario */}
+    <div className='PanelIzquierdo'>
+      <h2>Bienvenid@ a la sección de registro</h2>
+      <p>Por favor, completa el formulario para crear tu cuenta.</p>
+      <img src={orquidea} alt='Registro' className='ImagenRegistro' />
+    </div> 
+    <div className='PanelDerecho'>
+
       <button className='Salir' onClick={salir}>
-        <IoMdClose /> {/* Ícono de X */}
+        <IoMdClose />
       </button>
 
       <h1 className='TituloAcceso'>Regístrate</h1>
 
-      {/* Formulario con evento onSubmit */}
       <form onSubmit={handleSubmit} noValidate>
-        {/* Campo: Nombre de usuario */}
         <div className='Campo'>
-          <FaUserCheck className='Icono' />
+          <FaUser className='Icono' />
           <input
             type='text'
-            id='username'
-            placeholder='Nombre de usuario'
-            value={form.username}
+            id='nombres'
+            placeholder='Nombres'
+            value={form.nombres}
             onChange={handleChange}
-            className={errores.username ? 'invalido' : ''}
+            className={errores.nombres ? 'invalido' : ''}
           />
         </div>
-        {errores.username && <p className='mensaje-error'>{errores.username}</p>}
+        {errores.nombres && <p className='mensaje-error'>{errores.nombres}</p>}
 
-        {/* Campo: Correo */}
+        <div className='Campo'>
+          <FaUser className='Icono' />
+          <input
+            type='text'
+            id='apellidos'
+            placeholder='Apellidos'
+            value={form.apellidos}
+            onChange={handleChange}
+            className={errores.apellidos ? 'invalido' : ''}
+          />
+        </div>
+        {errores.apellidos && <p className='mensaje-error'>{errores.apellidos}</p>}
+
         <div className='Campo'>
           <FaUser className='Icono' />
           <input
@@ -123,7 +145,6 @@ export default function Registro() {
         </div>
         {errores.correo && <p className='mensaje-error'>{errores.correo}</p>}
 
-        {/* Campo: Contraseña */}
         <div className='Campo'>
           <FaLock className='Icono' />
           <input
@@ -137,7 +158,6 @@ export default function Registro() {
         </div>
         {errores.password && <p className='mensaje-error'>{errores.password}</p>}
 
-        {/* Campo: Confirmar contraseña */}
         <div className='Campo'>
           <FaUserLock className='Icono' />
           <input
@@ -151,7 +171,6 @@ export default function Registro() {
         </div>
         {errores.confirmar && <p className='mensaje-error'>{errores.confirmar}</p>}
 
-        {/* Campo: Aceptar Términos y Condiciones */}
         <div className='EstiloAceptartyc'>
           <label className='TextoTerminos'>
             <input
@@ -165,16 +184,20 @@ export default function Registro() {
         </div>
         {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
 
-        {/* Botón para enviar el formulario */}
         <button className='Continuar' type='submit'>
           Registrarse
         </button>
       </form>
 
-      {/* Enlace a AccedeAquí si ya tienes cuenta */}
+      <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
+        <p>O regístrate con Google</p>
+        <LoginGoogle />
+      </div>
+
       <p className='Registro'>
-        ¿Ya estás registrado? <a href='AccedeAqui'>Accede aquí</a>
+        ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
       </p>
+      </div>
     </section>
   );
 }

@@ -21,7 +21,7 @@ const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado pa
         )}
         
         <div className="Cookies">
-          {/* Ícono decorativo o para volver a mostrar las cookies si se ocultan */}
+            {/* Ícono decorativo o para volver a mostrar las cookies si se ocultan */}
             <BiSolidCookie onClick={() => setMostrarCookies(true)} />
         </div>
 
@@ -46,8 +46,8 @@ const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado pa
         <div className="links-agrupar">
             <span>
             <p> {/* &nbsp; para hacer un espaciado*/}
-                
-                <a href="InfoLegal">Información legal</a> &nbsp; | &nbsp; <a href="ManifiestoConsumidor">Manifiesto del consumidor</a>
+                <a href="InfoLegal">Información legal</a> &nbsp; | &nbsp; 
+                <a href="ManifiestoConsumidor">Manifiesto del consumidor</a>
             </p>
             </span>
         </div>

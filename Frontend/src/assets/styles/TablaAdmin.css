@@ -24,7 +24,7 @@
 
 /* Estilo para el cuerpo de la tabla */
 .Tabla-5c tbody tr {
-    background-color: black;
+    background-color: rgb(26, 25, 25);
     transition: background-color 0.3s ease;
 }
 

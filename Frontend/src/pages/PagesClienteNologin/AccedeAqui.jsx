@@ -1,115 +1,202 @@
 
-// ~~~~~~~ Importación de React y useState para manejar estado interno ~~~~~~~
+// ~~~~~~~ Importación de React y useState para manejar estados ~~~~~~~
 import React, { useState } from 'react';
 
-// ~~~~~~~ Hoja de estilos personalizada ~~~~~~~
-import '../../assets/styles/Acceso.css';
+// ~~~~~~~ Importación de hoja de estilos ~~~~~~~
+import '../../assets/styles/AccedeAqui.css';
 
-// ~~~~~~~ Importación para navegación entre rutas ~~~~~~~
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-// ~~~~~~~ Íconos desde react-icons ~~~~~~~
+// Importar el componente del botón de Google
+import LoginGoogle from '../../components/LoginGoogle';
+
 import { FaUser, FaLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
+import { iniciarSesion } from '../../api/login';
+import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+
+import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 
 export default function AccedeAqui() {
-    // ~~~~~~~ Hook para redirigir al inicio al presionar la X ~~~~~~~
-    const salir = () => {
+  const navigate = useNavigate();
+
+  const [correo, setCorreo] = useState('');
+  const [password, setPassword] = useState('');
+  const [enviado, setEnviado] = useState(false);
+  const [errorLogin, setErrorLogin] = useState('');
+
+  const salir = () => {
     window.location.href = '/';
-    };
+  };
 
-    // ~~~~~~~ Estados para los campos del formulario ~~~~~~~
-    const [correo, setCorreo] = useState('');
-    const [password, setPassword] = useState('');
-    const [enviado, setenviado] = useState(false);      // Bandera para mostrar errores al tocar el formulario
-    const [validado, setValidado] = useState(false);  // Bandera para mostrar éxito
+  const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
-    // ~~~~~~~ Función de validación y manejo del envío del formulario ~~~~~~~
-    const handleSubmit = (e) => {
-    e.preventDefault(); // Prevenir recarga de página
-    setenviado(true);
+  const CorreoValido = regexCorreo.test(correo);
+  const PasswordValida = regexPassword.test(password);
 
-    // Expresiones regulares para validaciones
-    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const regexPassword = /^(?=.*\d)[A-Za-z\d]{6,}$/; // Mínimo 6 caracteres, al menos una letra y un número
-    // ^ Inicio de la cadena
-    // (?=.*\d)              // Al menos un número
-    // [A-Za-z\d]{6,}        // Letras y números, mínimo 6 caracteres
-    // $                    // Fin de la cadena
-
-    const CorreoValido = regexCorreo.test(correo);
-    const PasswordValida = regexPassword.test(password);
-
-    if (!CorreoValido) {
-        alert("El correo no es válido");
-        return;
+  const redirigirPorRol = (rol) => {
+    switch (rol) {
+      case 'admin':
+        navigate('/PrincipalAdmin');
+        break;
+      case 'trabajador':
+        navigate('/Inicio');
+        break;
+      case 'cliente':
+      default:
+        navigate('/home');
+        break;
     }
+  };
 
-    if (!PasswordValida) {
-        alert("La contraseña debe tener al menos 6 caracteres, incluyendo letras y números");
-        return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setEnviado(true);
+    setErrorLogin('');
+
+    if (!CorreoValido || !PasswordValida) return;
+
+    try {
+      const response = await iniciarSesion({ email: correo, password });
+
+      if (response.status === 200) {
+        const { access, refresh, nombre, rol, id_usuario } = response.data;
+
+        if (!rol) {
+          setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
+          return;
+        }
+
+        const rolLower = rol.toLowerCase();
+
+        localStorage.setItem('access', access);
+        localStorage.setItem('token', access); // Esto mantiene compatibilidad con tu lógica actual
+        localStorage.setItem('refresh', refresh);
+        localStorage.setItem('nombre', nombre);
+        localStorage.setItem('rol', rolLower);
+        localStorage.setItem('id_usuario', id_usuario);
+
+        alert(`Bienvenido ${nombre} (${rolLower})`);
+        redirigirPorRol(rolLower);
+      }
+    } catch (error) {
+      console.error("📛 Error:", error);
+      const mensaje = error.response?.data?.error || '❌ Error desconocido en el inicio de sesión';
+      setErrorLogin(mensaje);
     }
+  };
 
-    setValidado(true);
-    alert("Inicio de sesión exitoso");
-    };
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/usuarios/login/google/', {
+        token: credentialResponse.credential
+      });
 
-    return (
-    <section className='Contenedor'>
-        <form onSubmit={handleSubmit} noValidate>
-        {/* Botón para cerrar */}
+      const { access, refresh, nombre, rol, id_usuario } = response.data;
+
+      if (!rol) {
+        setErrorLogin('⚠️ Error: No se recibió el rol del usuario (Google).');
+        return;
+      }
+
+      const rolLower = rol.toLowerCase();
+
+      localStorage.setItem('access', access);
+      localStorage.setItem('refresh', refresh);
+      localStorage.setItem('nombre', nombre);
+      localStorage.setItem('rol', rolLower);
+      localStorage.setItem('id_usuario', id_usuario);
+
+      alert(`Bienvenido ${nombre} (${rolLower}) con Google`);
+      redirigirPorRol(rolLower);
+    } catch (error) {
+      console.error("❌ Error en login con Google:", error.response?.data || error.message);
+      setErrorLogin('Error al iniciar sesión con Google');
+      console.log("📦 Respuesta backend:", data);
+
+    }
+  };
+
+  return (
+    <section className='Contenedor'> 
+      <div className='ContenedorIzquierdo'> j
+        <h1>Tú día inicia mejor con nuestro pan</h1>
+
+        <div className='ImagenOrquidea'> 
+          <img src={ImagenOrquidea} alt="Orquidea" />
+        </div>
+      </div>
+
+      <div className='ContenedorDerecho'>
         <button className='Salir' type="button" onClick={salir}>
-            <IoMdClose />
+          <IoMdClose />
         </button>
+      <form className='Form' onSubmit={handleSubmit} noValidate>
+        
 
-        {/* Título del formulario */}
-        <h1 className='TituloAcceso'>Inicia sesión</h1>
+        <h1 className='TituloAccesoI'>Inicia sesión</h1>
 
-        {/* Campo de correo */}
-        <div className={`Campo form-control ${!correo && enviado ? 'is-invalid' : correo && validado ? 'is-valid' : ''}`}>
-            <FaUser className="Icono" />
-            <input
+        <div className={`Camp form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
+          <FaUser className="Icono" />
+          <input
             type='email'
-            id='correo'
             placeholder='Correo'
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
             required
-            />
-            {!correo && enviado && <div className="invalid-feedback">Por favor, ingresa un correo válido</div>}
+          />
         </div>
 
-        {/* Campo de contraseña */}
-        <div className={`Campo form-control ${!password && enviado ? 'is-invalid' : password && validado ? 'is-valid' : ''}`}>
-            <FaLock className="Icono" />
-            <input
+        {!CorreoValido && enviado && (
+          <div className="invalid">Por favor, ingresa un correo válido</div>
+        )}
+
+        <div className={`Camp form-control ${!PasswordValida && enviado ? 'is-invalid' : ''}`}>
+          <FaLock className="Icono" />
+          <input
             type='password'
-            id='password'
             placeholder='Contraseña'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            />
-            {!password && enviado && <div className="invalid-feedback">Ingresa una contraseña válida.</div>}
+          />
         </div>
+        {!PasswordValida && enviado && (
+          <div className="invalid">La contraseña debe tener al menos 6 caracteres, incluyendo letras y números.</div>
+        )}
 
-        {/* Opciones extra */}
+        {errorLogin && <div className="invalid">{errorLogin}</div>}
+
         <div className="Opciones">
-            <label>
-            <input type='checkbox' id='check' name='check' />
-            Recordar mi contraseña
-            </label>
-            <Link to="/OlvidoContraseña">¿Olvidaste tu contraseña?</Link>
+          <label className='Label'>
+            <input type='checkbox' name='check' />
+            Recordar contraseña
+          </label>
+          <Link to="/OlvidoContraseña">¿Olvidaste tu contraseña?</Link>
         </div>
 
-        {/* Botón para enviar el formulario */}
-        <button className='Continuar' type='submit'>Iniciar sesión</button>
+        {/* Botón para iniciar sesión */}
+        <button className='Continua' type='submit'>Iniciar sesión</button>
 
-        {/* Enlace para registro */}
+        {/* Google Login (OAuth directo) */}
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <p style={{ marginBottom: '10px' }}>O inicia sesión con:</p>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => {
+              console.log('❌ Error en el login con Google');
+              setErrorLogin('Error al iniciar sesión con Google');
+            }}
+          />
+        </div>
+        {/* Enlace para registrarse */}
         <p className="Registro">
-            ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
+          ¿No estás registrado? <Link to="/Registro">Regístrate</Link>
         </p>
-        </form>
+      </form>
+      </div>
     </section>
-    );
+  );
 }

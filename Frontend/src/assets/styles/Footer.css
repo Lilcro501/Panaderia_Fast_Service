@@ -69,10 +69,12 @@
 
 .footer a {
   color: rgb(255, 255, 255);
+  text-decoration: none;
+  border-bottom: 2px dashed beige; /* Agrega línea decorativa */
 }
 
 .links-agrupar {
-  text-decoration: underline;
+  text-decoration: none;
   gap: 20px;
   justify-content: center;
   justify-content: space-between;
@@ -96,6 +98,10 @@
 .logo img {
   box-shadow: 2px 2px 3px rgb(54, 53, 53);
   border-radius: 25px;
+}
+
+.logo a {
+  border-bottom: none;
 }
 
 .Cookies {

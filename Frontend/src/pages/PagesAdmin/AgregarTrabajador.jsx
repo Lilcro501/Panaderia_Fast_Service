@@ -1,80 +1,73 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
+import axios from 'axios';
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
 import FormularioAdmin from '../../components/FormularioAdmin';
-//~~~~~~~~~~~~~~ Estilo Global~~~~~~~~~~~~~~
-import "../../assets/styles/Global.css"
-
+//~~~~~~~~~~~~~~ Estilo Global ~~~~~~~~~~~~~~
+import "../../assets/styles/Global.css";
 
 export default function AgregarTrabajador() {
-    // Definimos los campos del formulario
-    const camposProducto = [
+    const camposTrabajador = [
         {
-            nombre: 'stock',
-            etiqueta: 'Cédula',
-            tipo: 'number',
+            nombre: 'email',
+            etiqueta: 'Correo Electrónico',
+            tipo: 'email',
             requerido: true
         },
-
         {
             nombre: 'nombre',
-            etiqueta: 'Nombre Completo',
+            etiqueta: 'Nombre',
             tipo: 'text',
             requerido: true
         },
         {
-            nombre: 'descripcion',
-            etiqueta: 'Cargo',
+            nombre: 'apellido',
+            etiqueta: 'Apellido',
             tipo: 'text',
             requerido: true
         },
-
+        {
+            nombre: 'telefono',
+            etiqueta: 'Teléfono',
+            tipo: 'text',
+            requerido: false
+        }
     ];
 
-    // Función para manejar el envío de datos del formulario
-    const manejarEnvio = (datos) => {
-        console.log("Datos recibidos del formulario:", datos);
-
-        // Enviar datos como FormData
-        const formData = new FormData();
-        for (const clave in datos) {
-            formData.append(clave, datos[clave]);
+    const manejarEnvio = async (datos) => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/usuarios/', datos);
+            console.log("Trabajador creado exitosamente:", response.data);
+            alert("Trabajador guardado con éxito.");
+        } catch (error) {
+            console.error("Error al guardar el trabajador:", error.response?.data || error);
+            alert("Error al guardar el trabajador. Verifica los datos.");
         }
-
-        // Aquí podrías hacer una petición POST al backend
-        // fetch('/api/productos', { method: 'POST', body: formData })
     };
 
-        const botones = [
-            {
-                texto: 'Aceptar',      // Texto que se verá en el botón
-                tipo: 'submit',        // Tipo submit: envía el formulario
-                clase: 'guardar',      // Clase CSS para estilo personalizado
-                onClick: null          // Usa el onSubmit del formulario
-            },
-            {
-                texto: 'Cancelar',
-                tipo: 'button',
-                clase: 'salir',
-                onClick: () => {
-                    // Aquí defines qué hacer cuando se cancela
-                    console.log("Formulario cancelado");
-                    // Podrías redirigir, cerrar modal, limpiar campos, etc.
+    const botones = [
+        {
+            texto: 'Aceptar',
+            tipo: 'submit',
+            clase: 'guardar',
+            onClick: null
+        },
+        {
+            texto: 'Cancelar',
+            tipo: 'button',
+            clase: 'salir',
+            onClick: () => {
+                console.log("Formulario cancelado");
             }
-            }
+        }
     ];
 
-
     return (
-        <>
-            <div className="contenedor_formulario_inventario">
-                {/* Aquí insertamos el formulario reutilizable */}
-                <FormularioAdmin 
-                campos={camposProducto} 
+        <div className="contenedor_formulario_inventario">
+            <FormularioAdmin 
+                campos={camposTrabajador} 
                 onSubmit={manejarEnvio} 
-                botonesPersonalizados={botones}/>
-            </div>
-        </>
+                botonesPersonalizados={botones} 
+            />
+        </div>
     );
 }
-
-
