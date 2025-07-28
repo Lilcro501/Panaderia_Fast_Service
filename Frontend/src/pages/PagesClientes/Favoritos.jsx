@@ -40,7 +40,13 @@ const Favoritos = () => {
           <p>No tienes productos favoritos todavía.</p>
         ) : (
           favoritos.map((favorito, index) => {
-            const producto = favorito.producto_detalle;
+            const producto = favorito.producto_detalle || favorito.producto;
+
+            // Validar si el producto o su imagen no están definidos
+            if (!producto || !producto.imagen) {
+              return null; // O puedes mostrar un mensaje alternativo aquí
+            }
+
             const imagenSrc = producto.imagen.startsWith("http")
               ? producto.imagen
               : `http://localhost:8000${producto.imagen}`;
@@ -78,4 +84,3 @@ const Favoritos = () => {
 };
 
 export default Favoritos;
-

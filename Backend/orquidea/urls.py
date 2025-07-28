@@ -42,6 +42,7 @@ urlpatterns = [
     path('api/', include('carrito.urls')),  # Esto expone todo lo de carrito en /api/
     #esta es la app de usuarios
     path('api/usuarios/', include('usuarios.urls')),
+    path('api/', include('trabajador.urls')),
 ]
 
 #Configuracion para archivos multimedia

@@ -4,6 +4,7 @@ from django.http import JsonResponse
 
 # Importaciones de Django relacionadas con bases de datos
 from django.db import models
+from trabajador.models import EstadoFactura
 
 # Importación del modelo de usuario de Django 
 from django.contrib.auth.models import User 
@@ -158,4 +159,7 @@ class Valoracion(models.Model):
     def __str__(self):
         #retornamos el nombre del usuario y el nombre del producto
         return f'{self.id_usuario.username} -> {self.id_producto.nombre} ({self.puntuacion})'
-#-------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------------#
+
+

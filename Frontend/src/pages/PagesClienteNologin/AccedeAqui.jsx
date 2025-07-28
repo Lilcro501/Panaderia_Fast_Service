@@ -16,11 +16,15 @@ import { iniciarSesion } from '../../api/login';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
+import { useRol } from '../../Context/RolContext';
+
+
 import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
-
+  
+  const { cambiarRol } = useRol();
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
   const [enviado, setEnviado] = useState(false);
@@ -76,6 +80,7 @@ export default function AccedeAqui() {
         localStorage.setItem('refresh', refresh);
         localStorage.setItem('nombre', nombre);
         localStorage.setItem('rol', rolLower);
+        cambiarRol(rolLower);
         localStorage.setItem('id_usuario', id_usuario);
 
         alert(`Bienvenido ${nombre} (${rolLower})`);
