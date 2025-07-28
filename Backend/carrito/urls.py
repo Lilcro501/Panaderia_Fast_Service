@@ -13,7 +13,7 @@ urlpatterns = [
     path('producto/<int:id>/', views.obtener_producto_por_id, name='obtener_producto_por_id'),
 
     # Favoritos
-    path('favoritos_user/', ListaCrearFavoritos.as_view(), name='listar_crear_favoritos'),
+    path('favoritos/', ListaCrearFavoritos.as_view(), name='listar_crear_favoritos'),
     path('favoritos/<int:pk>/', EliminarFavorito.as_view(), name='eliminar_favorito'),
 
     #comentarios 
