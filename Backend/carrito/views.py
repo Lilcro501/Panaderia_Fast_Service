@@ -52,6 +52,7 @@ def crear_factura(request):
             if 'multipart/form-data' in request.content_type:
                 # Obténemos los datos de la solicitud que hace el formulario 
                 usuario_id = request.POST.get('id_usuario')
+                print(usuario_id)
                 metodo_pago = request.POST.get('metodo_pago')
                 total = request.POST.get('total')
                 direccion_entrega = request.POST.get('direccion_entrega')
