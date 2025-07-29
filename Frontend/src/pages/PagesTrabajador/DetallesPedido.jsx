@@ -1,42 +1,45 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import TablaBase from "../../components/TablaBase";
 import EtiquetaPago from "../../components/EtiquetaPago";
-import datos from "../../Data/data";
+import axios from "axios";
 import "../../assets/styles/DetallesPedido.css";
-import Comp346757 from '../../assets/images/34562.png';
-
-const pedidosPorId = {
-  "26263": { productos: [{ id: "pan1", cantidad: 2 }, { id: "pan3", cantidad: 1 }], comprobante: null},
-  "34562": { productos: [{ id: "pan8", cantidad: 4 }, { id: "pan10", cantidad: 2 }], comprobante: null},
-  "598941": { productos: [{ id: "pan11", cantidad: 3 }, { id: "pan1", cantidad: 1 }], comprobante: null},
-  "346757": { productos: [{ id: "pan3", cantidad: 4 }, { id: "pan8", cantidad: 2 }], comprobante: Comp346757}
-};
-
 
 const DetallesPedido = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const pedido = pedidosPorId[id];
-  const productosSeleccionados = pedido?.productos || [];
-  const comprobanteURL = pedido?.comprobante;
-  const allProductos = Object.values(datos).flat();
+  const [productosConInfo, setProductosConInfo] = useState([]);
+  const [comprobanteURL, setComprobanteURL] = useState(null);
+  const [cargando, setCargando] = useState(true);
 
-  const productosConInfo = productosSeleccionados.map((item) => {
-    const producto = allProductos.find((p) => p.id === item.id);
-    const precioTotal = producto ? producto.price * item.cantidad : 0;
-    return {
-      nombre: producto?.nameProduct || "Producto no encontrado",
-      cantidad: item.cantidad,
-      precioUnitario: producto?.price || 0,
-      precioTotal,
+  useEffect(() => {
+    const fetchPedido = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/facturas/${id}/`);
+        const { productos, comprobante } = response.data;
+
+        const formateados = productos.map(p => ({
+          nombre: p.nombre,
+          cantidad: p.cantidad,
+          precioUnitario: p.precio_unitario,
+          precioTotal: p.cantidad * p.precio_unitario
+        }));
+
+        setProductosConInfo(formateados);
+        setComprobanteURL(comprobante);
+      } catch (error) {
+        console.error("❌ Error al obtener detalles del pedido:", error);
+      } finally {
+        setCargando(false);
+      }
     };
-  });
+
+    fetchPedido();
+  }, [id]);
 
   const columnas = ["Producto", "Cantidad", "Precio unitario", "Precio total", "Comprobante de pago"];
-  
+
   const datosTabla = productosConInfo.map((p, index) => [
     p.nombre,
     p.cantidad,
@@ -58,6 +61,8 @@ const DetallesPedido = () => {
 
   const totalGeneral = productosConInfo.reduce((sum, p) => sum + p.precioTotal, 0);
 
+  if (cargando) return <p>Cargando detalles del pedido...</p>;
+
   return (
     <div className="contenedor-detalles">
       <h2 className="titulo-detalles">Detalles del pedido #{id}</h2>
@@ -78,4 +83,5 @@ const DetallesPedido = () => {
 };
 
 export default DetallesPedido;
+
 

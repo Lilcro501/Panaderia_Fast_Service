@@ -42,15 +42,10 @@ urlpatterns = [
     path('api/', include('carrito.urls')),  # Esto expone todo lo de carrito en /api/
     #esta es la app de usuarios
     path('api/usuarios/', include('usuarios.urls')),
+    path('api/', include('trabajador.urls')),
 ]
-
 
 #Configuracion para archivos multimedia
 #esto permite que se puedan ver las imagenes en el navegador
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
-    
-
-

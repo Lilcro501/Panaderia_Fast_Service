@@ -41,9 +41,9 @@ class UsuarioManager(BaseUserManager):
 class Usuario(AbstractBaseUser):
     #definimos los roles de los usuarios que van a ingresar
     ROLES = (
-        ('cliente', 'Cliente'),
-        ('trabajador', 'Trabajador'),
-        ('admin', 'Administrador'),
+        ('cliente', 'cliente'),
+        ('trabajador', 'trabajador'),
+        ('admin', 'admin'),
     )
     #definimos los atributos de la tabla de modelo
     id_usuario = models.AutoField(primary_key=True)  # debe coincidir con tu base de datos

@@ -7,7 +7,7 @@ urlpatterns = [
     path('crear-factura/', views.crear_factura, name='crear_factura'),
 
     # Productos por categoría
-    path('productos/<str:categoria_nombre>/', views.obtener_productos_por_categoria),
+    path('productos_categoria/<str:categoria_nombre>/', views.obtener_productos_por_categoria),
 
     # Obtener producto por ID
     path('producto/<int:id>/', views.obtener_producto_por_id, name='obtener_producto_por_id'),

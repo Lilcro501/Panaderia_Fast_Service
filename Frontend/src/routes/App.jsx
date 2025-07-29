@@ -78,7 +78,7 @@ import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 const AppRouter = () => {
   return (
     
-      <Routes>
+    <Routes>
 
       <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin>}></Route>
       {/* Cliente */}
@@ -95,23 +95,20 @@ const AppRouter = () => {
       <Route path='/categorias/CategoriasMecato' element={<PrivateRoute role="cliente"><MainLayout><CategoriasMecato /></MainLayout></PrivateRoute>} />
       <Route path='/categorias/CategoriasBebidas' element={<PrivateRoute role="cliente"><MainLayout><CategoriasBebidas /></MainLayout></PrivateRoute>} />
       <Route path='/producto/:id' element={<PrivateRoute role="cliente"><MainLayout><ProductoDetalle /></MainLayout></PrivateRoute>} />
-      <Route path='/CalificarExperiencia' element={<PrivateRoute role="cliente"><MainLayout><CalificarExperiencia /></MainLayout></PrivateRoute>} />
-      <Route path='/Recomendacion' element={<PrivateRoute role="cliente"><MainLayout><Recomendacion /></MainLayout></PrivateRoute>} />
-      <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos /></MainLayout></PrivateRoute>} />
-      <Route path='/PerfilUsuario' element={<PrivateRoute role="cliente"><MainLayout><PerfilUsuario /></MainLayout></PrivateRoute>} />
-      <Route path='/ActualizarPerfil' element={<PrivateRoute role="cliente"><MainLayout><ActualizarPerfil /></MainLayout></PrivateRoute>} />
+      <Route path='/FacturaProductos' element={<PrivateRoute role="cliente"><MainLayout><FacturaProductos></FacturaProductos></MainLayout></PrivateRoute>} />
+      <Route path='/FormularioEntrega' element={<PrivateRoute role="cliente"><MainLayout><FormularioEntrega></FormularioEntrega></MainLayout></PrivateRoute>} />
+      <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos></Favoritos></MainLayout></PrivateRoute>}></Route>
+      <Route path='/CalificarExperiencia' element={<PrivateRoute><MainLayout> <CalificarExperiencia></CalificarExperiencia> </MainLayout></PrivateRoute>}></Route>
+      <Route path='/PerfilUsuario' element={<PrivateRoute> <MainLayout> <PerfilUsuario></PerfilUsuario> </MainLayout> </PrivateRoute>}></Route>
 
-
-
-
-      {/* Cliente No Login */}
-      <Route path='/' element={<PrivateRoute role="sin-registrar"><HomeSinRegistrar /></PrivateRoute>}></Route>
-      <Route path='/CambioContraseña' element={<PrivateRoute role="sin-registrar" ><CambioDeContraseña /></PrivateRoute> } />
+      {/* Rutas publicas */}
+      <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña></CambioDeContraseña></MainLayoutSinLogin>}></Route>
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
       <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
       <Route path='/AccedeAqui' element={<MainLayoutSinLogin><AccedeAqui /></MainLayoutSinLogin>} />
       <Route path="/Login" element={<Login />} />
+
 
 
         {/* Trabajador */}
@@ -142,7 +139,7 @@ const AppRouter = () => {
         <Route path='/AdministrarTrabajadores' element={<AdminLayout><AdministrarTrabajadores /></AdminLayout>} />
         <Route path='/PrincipalAdmin' element={<AdminLayout><PrincipalAdmin /></AdminLayout>} />
 
-      </Routes>
+    </Routes>
   );
 };
 

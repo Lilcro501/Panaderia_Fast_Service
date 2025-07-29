@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Login from "../PagesLogin/Login";
 import { FaUser, FaLock, FaUserLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';

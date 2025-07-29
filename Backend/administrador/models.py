@@ -42,7 +42,7 @@ class Productos(models.Model):
     nombre = models.CharField(max_length=100)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     descripcion = models.TextField(blank=True, null=True)
-    imagen = models.CharField(max_length=255, blank=True, null=True)
+    imagen = models.ImageField(max_length=255, blank=True, null=True)
     fecha_vencimiento = models.DateField(blank=True, null=True)
     stock = models.IntegerField()
     fecha_actualizacion = models.DateField(blank=True, null=True)

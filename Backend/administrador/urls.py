@@ -15,7 +15,8 @@ router = DefaultRouter()
 router.register(r'categorias', CategoriaViewSet)
 router.register(r'productos', ProductoViewSet)
 router.register(r'cronograma', CronogramaViewSet)
-router.register(r'usuarios', UsuarioViewSet)
+#se comento esta linea de codigo debido a que esta generando una interferencia en la autenticacion y registro
+#router.register(r'usuarios', UsuarioViewSet)
 router.register(r'valoraciones', ValoracionViewSet)
 
 

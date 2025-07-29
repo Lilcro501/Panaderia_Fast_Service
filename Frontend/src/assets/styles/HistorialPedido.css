@@ -5,10 +5,11 @@
 }
 
 .panel {
-  background-color: #3f2c09;
+  background-color: #976a4a;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: solid 2px #9a8271;
 }
 
 .titulo-panel {

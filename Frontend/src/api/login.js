@@ -8,13 +8,11 @@ export const registrarUsuario = async (datos) => {
   return await axios.post(`${API_URL}/registro/`, datos);
 };
 
-// ✅ Login con JWT personalizado
 export const iniciarSesion = async ({ email, password }) => {
-  const response = await axios.post(`${API_URL}/token/`, { email, password });
+  const response = await axios.post(`${API_URL}/login/`, { email, password });
 
   const { access, refresh, nombre, rol, id_usuario } = response.data;
 
-  // Guardar en localStorage (puedes moverlo a un AuthContext si prefieres)
   localStorage.setItem('access', access);
   localStorage.setItem('refresh', refresh);
   localStorage.setItem('nombre', nombre);
@@ -23,6 +21,7 @@ export const iniciarSesion = async ({ email, password }) => {
 
   return response;
 };
+
 
 // Enviar código de verificación al correo
 export const enviarCodigoAlCorreo = async (email) => {

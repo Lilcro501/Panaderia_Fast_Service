@@ -4,6 +4,7 @@ from django.http import JsonResponse
 
 # Importaciones de Django relacionadas con bases de datos
 from django.db import models
+from trabajador.models import EstadoFactura
 
 # Importación del modelo de usuario de Django 
 from django.contrib.auth.models import User 
@@ -13,6 +14,7 @@ from django.contrib.auth.models import User
 #para asi interactuar con la base de datos e integrarlo a ORM
 class Factura(models.Model):
     #Definimos los campos del modelo, con sus respectivos tipos de datos y restricciones
+    id = models.AutoField(primary_key=True)
     #definimos el campo de usuario definido en settings
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,db_column='id_usuario' )
     #definimos el tipo de dato para la fecha
@@ -158,4 +160,7 @@ class Valoracion(models.Model):
     def __str__(self):
         #retornamos el nombre del usuario y el nombre del producto
         return f'{self.id_usuario.username} -> {self.id_producto.nombre} ({self.puntuacion})'
-#-------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------------#
+
+

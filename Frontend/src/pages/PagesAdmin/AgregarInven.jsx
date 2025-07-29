@@ -62,7 +62,13 @@ export default function AgregarInven() {
             requerido: true
         },
         {
-            nombre: 'id_categoria',
+            nombre: 'fecha_vencimiento',
+            etiqueta: 'Fecha de vencimiento',
+            tipo: 'date',
+            requerido: true
+        },
+        {
+            nombre: 'id_categoria_id',
             etiqueta: 'Categoría',
             tipo: 'select',
             opciones: categorias.map(cat => ({
@@ -84,13 +90,14 @@ export default function AgregarInven() {
             await axios.post('http://localhost:8000/api/productos/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
+                    // Agrega Authorization si es necesario
                 }
             });
 
             alert("Producto agregado exitosamente.");
             navigate("/AdministrarInven");
         } catch (error) {
-            console.error("Error al agregar producto:", error);
+            console.error("Error al agregar producto:", error.response?.data || error.message);
             alert("No se pudo agregar el producto.");
         }
     };
@@ -117,16 +124,13 @@ export default function AgregarInven() {
     ];
 
     return (
-        <>
-
-            <div className="contenedor_formulario_inventario">
-                <h2>Registrar nuevo producto</h2>
-                <FormularioAdmin
-                    campos={camposProducto}
-                    onSubmit={manejarEnvio}
-                    botonesPersonalizados={botones}
-                />
-            </div>
-        </>
+        <div className="contenedor_formulario_inventario">
+            <h2>Registrar nuevo producto</h2>
+            <FormularioAdmin
+                campos={camposProducto}
+                onSubmit={manejarEnvio}
+                botonesPersonalizados={botones}
+            />
+        </div>
     );
 }

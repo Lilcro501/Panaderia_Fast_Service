@@ -23,6 +23,7 @@ from rest_framework import permissions
 from .models import Factura, Pedido, Producto, Categoria, Favorito
 from usuarios.models import Usuario
 from . models import Valoracion
+from trabajador.models import EstadoFactura
 
 # Serializadores
 from .serializers import FavoritoSerializer
@@ -51,6 +52,7 @@ def crear_factura(request):
             if 'multipart/form-data' in request.content_type:
                 # Obténemos los datos de la solicitud que hace el formulario 
                 usuario_id = request.POST.get('id_usuario')
+                print(usuario_id)
                 metodo_pago = request.POST.get('metodo_pago')
                 total = request.POST.get('total')
                 direccion_entrega = request.POST.get('direccion_entrega')
@@ -103,6 +105,12 @@ def crear_factura(request):
                 notas=notas,
                 comprobante=comprobante,
                 metodo_entrega=metodo_entrega
+            )
+
+            EstadoFactura.objects.create(
+                factura=factura,
+                estado_pago="pendiente",
+                proceso_pedido="preparando"
             )
             #procesamos los productos que se van a comprar
             for producto in productos:
@@ -159,30 +167,22 @@ def crear_factura(request):
 
 
 def obtener_productos_por_categoria(request, categoria_nombre):
-    #manjo de errores con try 
     try:
-        #obtenemos el objeto de categoria
-        #nombre__iexact: Este campo de búsqueda es sensible a mayúsculas y minúsculas.
-        categoria = Categoria.objects.get(nombre__iexact=categoria_nombre)
-        #obtenemos todos los productos de la categoria
+        categoria = Categoria.objects.get(nombre__iexact=categoria_nombre.strip())
         productos = Producto.objects.filter(id_categoria=categoria)
-        #inicializamos la lista de datos vacia para almacenar los productos
-        data = []
-        #interamos sobre los productos
-        for producto in productos:
-            #agregamos los datos del producto a la lista de datos
-            data.append({
-                'id': producto.id_producto,
-                'nombre': producto.nombre,
-                'precio': float(producto.precio),
-                'descripcion': producto.descripcion,
-                'imagen': f'/media/{producto.imagen}',
-                'fecha_vencimiento': str(producto.fecha_vencimiento),
-                'stock': producto.stock,
-            })
-        #devolvemos una respuesta en formato json con los datos de los productos
+
+        data = [{
+            'id': producto.id_producto,
+            'nombre': producto.nombre,
+            'precio': float(producto.precio),
+            'descripcion': producto.descripcion,
+            'imagen': f'/media/{producto.imagen}',
+            'fecha_vencimiento': str(producto.fecha_vencimiento),
+            'stock': producto.stock,
+        } for producto in productos]
+
         return JsonResponse(data, safe=False)
-    #si no se encuentra la categoria, se devuelve un mensaje de error
+    
     except Categoria.DoesNotExist:
         return JsonResponse({'error': 'Categoría no encontrada'}, status=404)
 

@@ -18,3 +18,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'orquidea.settings')
 
 #se llama para crear una instancia de la aplicacion ASGI, esta instancia se le asiganara a la variable , que es la que el servidor utilizara para manejar las solicitudes entrantes
 application = get_wsgi_application()
+

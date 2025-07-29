@@ -1,13 +1,13 @@
 from django.urls import path
 from .views import (
     login_usuario,
-    registrar_usuario,
     enviar_codigo_verificacion,
     verificar_codigo,
     cambiar_password,
     login_google,
-    CustomTokenObtainPairView  # 👈 Vista personalizada para login con JWT
+    CustomTokenObtainPairView 
 )
+from .views import registrar_usuario
 
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -23,7 +23,7 @@ urlpatterns = [
     path('cambiar-password/', cambiar_password),
 
     # Autenticación con JWT personalizada
-    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  # ✅ CORREGIDA
+    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/logout/', TokenBlacklistView.as_view(), name='token_blacklist'),  # Opcional
 

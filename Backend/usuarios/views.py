@@ -19,7 +19,11 @@ from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
 # Locales
 from .models import CodigoVerificacion, Usuario
 from .serializers import CustomTokenObtainPairSerializer
@@ -41,9 +45,10 @@ Usuario = get_user_model()
 ###############################################################################
 
 #Decorador para desactivar la seguridad contra el CRFS
-@csrf_exempt
-#------------------------------------- VISTA DE REGISTRO DE USUARIO ---------------------------------
 
+#------------------------------------- VISTA DE REGISTRO DE USUARIO ---------------------------------
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def registrar_usuario(request):
     #validar si el metodo de respuesta es un post
     if request.method == 'POST':
@@ -90,24 +95,26 @@ def registrar_usuario(request):
 
 
 #Decorador para desactivar la seguridad CRFS
+#------------------------vista para iniciar sesion---------------------------
+
+# Decorador para desactivar la seguridad CSRF
 @csrf_exempt
 def login_usuario(request):
-    #definimos el tipo de silicitud
+    # Definimos el tipo de solicitud
     if request.method == 'POST':
         try:
-            #cargamos el JSON que se envio desde el front
+            # Cargamos el JSON que se envió desde el front
             data = json.loads(request.body)
-            #imprimimos los datos para validar que datos se estan ingresando
+            # Imprimimos los datos para validar que datos se están ingresando
             print("Email:", data.get('email'))
             print(" Password:", data.get('password'))
 
-            #obtenemos el email y la password de la data 
+            # Obtenemos el email y la password de la data 
             email = data.get('email')
             password = data.get('password')
             
-            #validacion de que si se hayan recibido ambos campos
+            # Validación de que sí se hayan recibido ambos campos
             if not email or not password:
-                #retoramnos una respuesta en tal caso de marcar un error ¿
                 return JsonResponse({'error': 'Faltan datos'}, status=400)
 
             try:
@@ -116,26 +123,27 @@ def login_usuario(request):
                 return JsonResponse({'error': 'Correo no registrado'}, status=404)
 
             if check_password(password, usuario.password):
-                #generamos tokens para el usuario recien creado utilizando  RefreshToken.for_user
+                # Generamos tokens para el usuario utilizando RefreshToken.for_user
                 refresh = RefreshToken.for_user(usuario)
 
-                #Retornamos un json response con la validacion del inicio de sesion
+                # ✅ Retornamos todos los datos necesarios, incluyendo el id del usuario
                 return JsonResponse({
                     'mensaje': 'Inicio de sesión exitoso',
                     'access': str(refresh.access_token),
                     'refresh': str(refresh),
-                    'nombre': usuario.nombre_usuario,
-                    'rol': usuario.rol
+                    'nombre': usuario.nombre,
+                    'rol': usuario.rol,
+                    'id_usuario': usuario.id_usuario
                 }, status=200)
             else:
-                #retornmos un respuesta json mostrando en tal caso de que sea contraseña incorrecta
                 return JsonResponse({'error': 'Contraseña incorrecta'}, status=401)
-        #mostar un error en tal caso de que haya un error desde el front
+
         except Exception as e:
             print("❌ Error en login_usuario:", e)
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
 
 
 #----------------------------vista para enviar el codigo de verificacion-----------------------------------------

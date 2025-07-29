@@ -16,11 +16,15 @@ import { iniciarSesion } from '../../api/login';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
+import { useRol } from '../../Context/RolContext';
+
+
 import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
-
+  
+  const { cambiarRol } = useRol();
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
   const [enviado, setEnviado] = useState(false);
@@ -39,7 +43,7 @@ export default function AccedeAqui() {
   const redirigirPorRol = (rol) => {
     switch (rol) {
       case 'admin':
-        navigate('/admin/dashboard');
+        navigate('/PrincipalAdmin');
         break;
       case 'trabajador':
         navigate('/Inicio');
@@ -76,6 +80,7 @@ export default function AccedeAqui() {
         localStorage.setItem('refresh', refresh);
         localStorage.setItem('nombre', nombre);
         localStorage.setItem('rol', rolLower);
+        cambiarRol(rolLower);
         localStorage.setItem('id_usuario', id_usuario);
 
         alert(`Bienvenido ${nombre} (${rolLower})`);
@@ -120,9 +125,9 @@ export default function AccedeAqui() {
   };
 
   return (
-    <section className='Cont'> 
-      <div className='ContenedorIzquierdo'> 
-        <h1 className='Bienvenida'>Tú día inicia mejor con nuestro pan</h1>
+    <section className='Contenedor'> 
+      <div className='ContenedorIzquierdo'> j
+        <h1>Tú día inicia mejor con nuestro pan</h1>
 
         <div className='ImagenOrquidea'> 
           <img src={ImagenOrquidea} alt="Orquidea" />
