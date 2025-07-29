@@ -15,12 +15,11 @@ router = DefaultRouter()
 router.register(r'categorias', CategoriaViewSet)
 router.register(r'productos', ProductoViewSet)
 router.register(r'cronograma', CronogramaViewSet)
-#se comento esta linea de codigo debido a que esta generando una interferencia en la autenticacion y registro
-#router.register(r'usuarios', UsuarioViewSet)
+router.register(r'usuarios', UsuarioViewSet)
 router.register(r'valoraciones', ValoracionViewSet)
 
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('api/estadisticas/', EstadisticasView.as_view(), name='estadisticas'),
-    path('api/facturas/', listar_facturas),]
+    path('', include(router.urls)),
+    path('estadisticas/', EstadisticasView.as_view(), name='estadisticas'),
+    path('facturas/', listar_facturas),]

@@ -129,7 +129,7 @@ def login_usuario(request):
                     'mensaje': 'Inicio de sesión exitoso',
                     'access': str(refresh.access_token),
                     'refresh': str(refresh),
-                    'nombre': usuario.nombre_usuario,
+                    'nombre': usuario.nombre,
                     'rol': usuario.rol
                 }, status=200)
             else:
