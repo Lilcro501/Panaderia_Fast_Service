@@ -23,3 +23,5 @@ class EstadoFactura(models.Model):
     class Meta:
         db_table = "estado_factura"
         managed = False
+
+

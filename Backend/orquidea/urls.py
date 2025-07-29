@@ -49,6 +49,3 @@ urlpatterns = [
 #esto permite que se puedan ver las imagenes en el navegador
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
-
