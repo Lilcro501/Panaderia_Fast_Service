@@ -90,3 +90,6 @@ const Corazon = ({ productoId, onFavoritoChange }) => {
 };
 
 export default Corazon;
+
+
+

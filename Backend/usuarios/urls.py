@@ -30,4 +30,3 @@ urlpatterns = [
     # Login con Google
     path('login/google/', login_google),
 ]
-#.
