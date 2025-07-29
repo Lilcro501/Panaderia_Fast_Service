@@ -79,7 +79,7 @@ import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 const AppRouter = () => {
   return (
     
-      <Routes>
+    <Routes>
 
       <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin>}></Route>
       {/* Cliente */}
@@ -140,7 +140,7 @@ const AppRouter = () => {
         <Route path='/AdministrarTrabajadores' element={<AdminLayout><AdministrarTrabajadores /></AdminLayout>} />
         <Route path='/PrincipalAdmin' element={<AdminLayout><PrincipalAdmin /></AdminLayout>} />
 
-      </Routes>
+    </Routes>
   );
 };
 
