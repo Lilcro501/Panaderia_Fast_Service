@@ -6,6 +6,8 @@ import { enviarFactura } from '../../api/factura';
 import '../../assets/styles/MetodosPago.css';
 import qr from "../../assets/images/qr.png";
 
+
+
 const FormularioEntrega = () => {
   const { carrito, vaciarCarrito } = useCarrito();
   const [metodoEntrega, setMetodoEntrega] = useState('');
