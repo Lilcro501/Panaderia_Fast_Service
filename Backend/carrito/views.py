@@ -23,6 +23,7 @@ from rest_framework import permissions
 from .models import Factura, Pedido, Producto, Categoria, Favorito
 from usuarios.models import Usuario
 from . models import Valoracion
+from trabajador.models import EstadoFactura
 
 # Serializadores
 from .serializers import FavoritoSerializer
@@ -103,6 +104,12 @@ def crear_factura(request):
                 notas=notas,
                 comprobante=comprobante,
                 metodo_entrega=metodo_entrega
+            )
+
+            EstadoFactura.objects.create(
+                factura=factura,
+                estado_pago="pendiente",
+                proceso_pedido="preparando"
             )
             #procesamos los productos que se van a comprar
             for producto in productos:
