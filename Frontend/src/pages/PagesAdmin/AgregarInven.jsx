@@ -110,12 +110,6 @@ export default function AgregarInven() {
             onClick: null
         },
         {
-            texto: 'Limpiar',
-            tipo: 'reset',
-            clase: 'limpiar',
-            onClick: null
-        },
-        {
             texto: 'Salir',
             tipo: 'button',
             clase: 'salir',

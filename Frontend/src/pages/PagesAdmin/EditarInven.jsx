@@ -114,12 +114,6 @@ const manejarEnvio = async (datos) => {
             onClick: null
         },
         {
-            texto: 'Limpiar',
-            tipo: 'reset',
-            clase: 'limpiar',
-            onClick: null
-        },
-        {
             texto: 'Salir',
             tipo: 'button',
             clase: 'salir',
@@ -129,7 +123,6 @@ const manejarEnvio = async (datos) => {
 
     return (
         <>
-            <CategoriasAdmin />
             <div className="contenedor_formulario_inventario">
                 <h2>Editar producto</h2>
                 <div className='fila-campos'>
