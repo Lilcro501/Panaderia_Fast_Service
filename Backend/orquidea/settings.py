@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     'administrador',
     'carrito',
     'usuarios',
+    'trabajador'
 ]
 
 #Este es el intermediario que permite que las aplicaciones se comuniquen entre si  

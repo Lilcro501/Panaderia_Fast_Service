@@ -13,9 +13,10 @@ const HeaderAdmin = () => {
             <div className="contenido-header">
 
                 {/* lOGO */}
-                <div className="logocontainer">
+                <Link className='logocontainer' to="/PrincipalAdmin">
                     <img src={logo} alt="logo-panaderia"  className="estilologo"/>
-                </div>
+
+                </Link>
             </div>
 
                 {/*barra de navegacion administrador*/}
