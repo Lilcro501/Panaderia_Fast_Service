@@ -38,6 +38,3 @@ function LoginGoogle() {
 }
 
 export default LoginGoogle;
-
-
-
