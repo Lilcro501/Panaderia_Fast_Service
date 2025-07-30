@@ -82,6 +82,7 @@ const AppRouter = () => {
     <Routes>
 
       <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin>}></Route>
+
       {/* Cliente */}
       <Route path='/home' element={<PrivateRoute role="cliente"><RutasLayouts><Home></Home></RutasLayouts></PrivateRoute>} />
       <Route path="/conocenos" element={<PrivateRoute role="cliente"><MainLayout><Conocenos /></MainLayout></PrivateRoute>} />
@@ -100,6 +101,7 @@ const AppRouter = () => {
       <Route path='/FormularioEntrega' element={<PrivateRoute role="cliente"><MainLayout><FormularioEntrega></FormularioEntrega></MainLayout></PrivateRoute>} />
       <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos></Favoritos></MainLayout></PrivateRoute>}></Route>
       <Route path='/CalificarExperiencia' element={<PrivateRoute><MainLayout> <CalificarExperiencia></CalificarExperiencia> </MainLayout></PrivateRoute>}></Route>
+      <Route path='/Recomendacion' element={<PrivateRoute><MainLayout> <Recomendacion/> </MainLayout></PrivateRoute>}></Route>
       <Route path='/PerfilUsuario' element={<PrivateRoute> <MainLayout> <PerfilUsuario></PerfilUsuario> </MainLayout> </PrivateRoute>}></Route>
 
       {/* Rutas publicas */}
@@ -145,8 +147,4 @@ const AppRouter = () => {
 };
 
 export default AppRouter;
-
-
-
-
 
