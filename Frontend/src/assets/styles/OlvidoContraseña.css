@@ -1,13 +1,14 @@
 
 .ContenedorC {
   max-width: 500px;
-  margin: 60px auto;
+  margin: auto;
   padding: 40px;
-  background-color: #ffffff;
+  background-color: #ebe7e7;
   border-radius: 30px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 3px 5px 20px rgba(180, 161, 135, 0.386);
   text-align: center;
   position: relative;
+  border: 2px solid #3e3b3b;
 }
 
 .TituloAcceso {
@@ -51,6 +52,12 @@
   margin-top: -10px;
   margin-bottom: 10px;
   text-align: center;
+}
+
+.ContenedorC p {
+  color: #000000;
+  margin: 10px;
+  font-size: 20px;
 }
 
 @media screen and (max-width: 500px) {
