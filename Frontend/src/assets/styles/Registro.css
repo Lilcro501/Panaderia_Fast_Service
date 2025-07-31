@@ -117,20 +117,3 @@ input::placeholder {
   margin-bottom: 10px;
   font-size: 14px;
 }
-
-.Registro {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #848383;
-}
-
-.Registro a {
-  color: #6f472e;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.Registro a:hover {
-  text-decoration: underline;
-}

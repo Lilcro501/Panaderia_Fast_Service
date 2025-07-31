@@ -40,7 +40,7 @@
 #username,
 #confirmar {
     width: 100%;
-    padding: 20px 20px 20px 30px;
+    padding: 15px 15px 15px 25px;
     font-size: 17px;
     border: 1px solid #979797;
     border-radius: 12px;
@@ -133,7 +133,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 15px;
+    font-size: 18px;
     color: #5d5c5c;
     margin-bottom: 20px;
 }
@@ -145,6 +145,7 @@
 
 .Opciones a:hover {
     text-decoration: underline;
+    color: #a2735c;
 }
 
 /* Texto inferior de registro */
@@ -155,15 +156,18 @@
     color: #242323;
 }
 
+
 .Registro a {
-    color: #bb7555;
-    text-decoration: none;
+    color: #6f472e;
     font-weight: bold;
+    text-decoration: none;
 }
 
 .Registro a:hover {
+    text-decoration: underline;
     color: #a2735c;
 }
+
 
 /* Cambiar el fondo para que no se vuelva blanco al escribir*/
 input:-webkit-autofill,

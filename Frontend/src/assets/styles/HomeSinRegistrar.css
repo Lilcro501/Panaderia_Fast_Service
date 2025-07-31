@@ -124,21 +124,8 @@
 }
 
 /* Link de acceso */
-.Registro {
-  text-align: center;
-  margin-top: 1.5rem;
-  color: #555;
-}
 
-.Registro a {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: bold;
-}
 
-.Registro a:hover {
-  text-decoration: underline;
-}
 
 /* Campo inválido */
 .invalido {
