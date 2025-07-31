@@ -17,41 +17,6 @@
   -webkit-text-stroke: 1px #000000;
 }
 
-.Salir {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: linear-gradient(to right, rgb(219, 124, 162), rgb(216, 131, 121));
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 6px 10px;
-  border-radius: 50%;
-  border: none;
-}
-
-.Campo {
-  display: flex;
-  align-items: center;
-  background-color: rgba(154, 143, 146, 0.15);
-  border-radius: 10px;
-  padding: 2px 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  position: relative;
-  border: 1px solid transparent;
-}
-
-.Campo input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #000;
-  font-size: 18px;
-  flex: 1;
-  padding: 15px;
-}
-
 .Icono {
   margin-right: 10px;
   color: #ba896b;
@@ -59,7 +24,7 @@
 }
 
 .Continuar {
-  background: linear-gradient(to right, rgb(219, 124, 162), rgb(216, 131, 121));
+  background:linear-gradient(to right, rgb(109, 86, 68), rgb(112, 65, 41));
   width: 100%;
   color: white;
   font-size: 18px;

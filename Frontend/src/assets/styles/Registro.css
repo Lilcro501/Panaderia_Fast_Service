@@ -1,34 +1,29 @@
 .Contenedor {
   display: flex;
-  max-width: 960px;
-  margin: 60px auto;
-  background-color: #1a1a1a;
-  border-radius: 20px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: 72%;
+  margin: 20px auto;
+  border-radius: 40px;
   overflow: hidden;
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
-  font-family: 'Segoe UI', sans-serif;
-  color: white;
-  position: relative;
-  
+  background-color: #ffffff;
+  box-shadow: 0 0 25px rgba(85, 67, 7, 0.15);
 }
 
 .PanelIzquierdo {
   flex: 1;
-  background-color: #000000;
-  padding: 50px 30px;
+  background: #705741;
+  padding: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  color: #b7b7b7;
+  -webkit-text-stroke: 1px #565656;
   text-align: center;
-  
-
-}
-
-.PanelIzquierdo h2 {
-  font-size: 50px;
-  color: #906a47;
-  margin-bottom: 20px;
-
 }
 
 .PanelIzquierdo p {
@@ -38,52 +33,24 @@
   line-height: 1.6;
 }
 
-.PanelIzquierdo img {
-  width: 200px;
-  max-width: 100%;
-  margin: 0 auto;
-  filter: brightness(0.9);
-  border-radius: 50px;
-}
-
 .PanelDerecho {
   flex: 1;
-  padding: 50px 40px;
-  background-color: #000000;
+  padding: 40px 30px;
+  background-color: #ffffff;
   position: relative;
-  border-left: 4px solid #9a7d54;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.Salir {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  color: #c58b71;
-  cursor: pointer;
-}
+
 
 .TituloAcceso {
+  color: #4a2d21eb;
   text-align: center;
-  font-size: 48px;
-  color: #fcfcfa;
-  margin-bottom: 35px;
-}
-
-.Campo {
-  display: flex;
-  align-items: center;
-  background-color: #cd9465;
-  border-radius: 10px;
-  padding: 12px 15px;
-  margin-bottom: 18px;
-  transition: background 0.3s ease;
-}
-
-.Campo:hover {
-  background-color: #a16534;
+  margin-bottom: 20px;
+  font-size: 50px;
+  -webkit-text-stroke: 1px #000000;
 }
 
 .Icono {
@@ -124,29 +91,20 @@ input::placeholder {
 }
 
 .TextoTerminos {
-  color: #ccc;
-}
-
-.TextoTerminos strong {
-  color: #eeb672;
-}
-
-.Continuar {
-  width: 100%;
-  padding: 12px;
-  background-color: #d4af37;
-  border: none;
-  color: #000;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background 0.3s ease;
+  color: #333;
 }
 
-.Continuar:hover {
-  background-color: #e5c75e;
+.TextoTerminos input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.TextoTerminos strong {
+  color: #6f472e;
 }
 
 .google-login-container {
@@ -175,13 +133,4 @@ input::placeholder {
 
 .Registro a:hover {
   text-decoration: underline;
-}
-
-.ImagenRegistro {
-  width: 100%;
-  max-width: 300px; 
-  margin: 20px auto 0;
-  display: block;
-  border-radius: 10px;
-  object-fit: contain;
 }

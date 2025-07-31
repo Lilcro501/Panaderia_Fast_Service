@@ -27,36 +27,24 @@
     margin-left: 17px;
 }
 
-.Salir {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: linear-gradient(to right, rgb(142, 93, 72), rgb(124, 72, 54));
-    color: rgb(152, 101, 80);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 6px 10px;
-    border-radius: 50%;
-    border: none;
-}
-
 .TituloAccesoI {
     color: #4a2d21eb;
     text-align: center;
     margin-bottom: 20px;
-    font-size: 35px;
+    font-size: 50px;
     -webkit-text-stroke: 1px #000000;
 }
 
 #correo,
 #password,
-#username {
+#username,
+#confirmar {
     width: 100%;
     padding: 20px 20px 20px 30px;
     font-size: 17px;
     border: 1px solid #979797;
     border-radius: 12px;
-    background-color: #f4f2ef;
+    background-color: #f3f0eb;
     transition: border-color 0.3s ease;
 }
 
@@ -415,6 +403,7 @@ svg.LgbsSe-Bz112c {
 }
 
 .S9gUrf-YoZ4jf div {
+    font-size: 18px;
     border-radius: 12px;
     background: linear-gradient(to right, rgb(109, 86, 68), rgb(112, 65, 41));
     color: #ffffff;
