@@ -28,14 +28,3 @@ const PrivateRoute = ({ children, role }) => {
 
 export default PrivateRoute;
 
-/* 
-import { Navigate } from 'react-router-dom';
-
-const PrivateRoute = ({ children, role }) => {
-  const userRol = localStorage.getItem('rol')?.toLowerCase();
-  if (!userRol) return <Navigate to="/login" />;
-  if (role && userRol !== role.toLowerCase()) return <Navigate to="/" />;
-  return children;
-};
-export default PrivateRoute; 
-*/ 

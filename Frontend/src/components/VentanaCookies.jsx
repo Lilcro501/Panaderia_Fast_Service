@@ -1,6 +1,6 @@
 
 import React from 'react';
-import '../assets/styles/Acceso.css'; // ~~~~~~ Estilos del banner ~~~~~~
+import '../assets/styles/AccedeAqui.css'; // ~~~~~~ Estilos del banner ~~~~~~
 
 /* ~~~~~~ Icono de cookies ~~~~~~ */
 import { BiSolidCookie } from "react-icons/bi";

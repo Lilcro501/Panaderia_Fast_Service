@@ -140,7 +140,6 @@ export default function AccedeAqui() {
         </button>
       <form className='Form' onSubmit={handleSubmit} noValidate>
         
-
         <h1 className='TituloAccesoI'>Inicia sesión</h1>
 
         <div className={`Camp form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
