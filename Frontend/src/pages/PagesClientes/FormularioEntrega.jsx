@@ -74,16 +74,14 @@ const FormularioEntrega = () => {
 
     try {
       const datosFactura = new FormData();
-      console.log("🧪 userData.id_usuario:", userData.id_usuario);
-      console.log("📦 localStorage id_usuario:", localStorage.getItem('id_usuario'));
-      
       datosFactura.append('id_usuario', userData.id_usuario);
       datosFactura.append('metodo_pago', metodoEntrega);
       datosFactura.append('metodo_entrega', metodoEnvio);
       datosFactura.append('total', total.toFixed(2));
-      datosFactura.append('direccion_entrega', formData.direccion_entrega);
+      datosFactura.append('direccion_entrega', metodoEnvio === 'local' ? 'Recoger en tienda' : formData.direccion_entrega);
       datosFactura.append('fecha_entrega', formData.fecha_entrega);
       datosFactura.append('informacion_adicional', formData.informacion_adicional || '');
+      datosFactura.append("telefono_usuario", userData.telefono)
 
       carrito.forEach((item, index) => {
         datosFactura.append(`productos[${index}][id_producto]`, item.id);
@@ -93,10 +91,6 @@ const FormularioEntrega = () => {
 
       if (metodoEntrega === 'qr' && comprobante) {
         datosFactura.append('comprobante', comprobante);
-      }
-
-      for (let [key, value] of datosFactura.entries()) {
-        console.log(key, value);
       }
 
       const response = await enviarFactura(datosFactura);
@@ -153,6 +147,13 @@ const FormularioEntrega = () => {
             </>
           )}
 
+          {metodoEnvio === 'local' && (
+            <div style={{ marginBottom: '10px', fontStyle: 'italic', color: '#555' }}>
+              Puedes recoger tu pedido en: <br />
+              <strong>Cra 15 #45-10, Local 3, Bogotá</strong>
+            </div>
+          )}
+
           <label>Fecha de entrega*</label>
           <input
             className="input-moderno"
@@ -172,7 +173,7 @@ const FormularioEntrega = () => {
             required
           >
             <option value="domicilio">Entrega a domicilio</option>
-            <option value="local">Recoger en el local</option>
+            <option value="local">Recoger en tienda</option>
           </select>
 
           <label>Información adicional</label>
