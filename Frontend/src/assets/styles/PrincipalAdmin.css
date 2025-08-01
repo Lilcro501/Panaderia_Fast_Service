@@ -31,19 +31,47 @@
     font-weight: bold;
 }
 
-.btn-descargar {
-    display: block;
-    margin: 2rem auto;
-    background-color: #28a745;
+.filtro-descarga {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    background-color: #1c1c1c;
     color: white;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    padding: 20px;
+    border-radius: 16px;
+    width: 180px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+    text-align: center;
+    font-family: sans-serif;
+    z-index: 1000;
 }
 
-.btn-descargar:hover {
-    background-color: #218838;
+.filtro-descarga h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.input-fecha {
+    width: 100%;
+    padding: 6px;
+    margin: 10px 0;
+    background: transparent;
+    color: white;
+    border: none;
+    border-bottom: 2px solid white;
+    text-align: center;
+    font-size: 16px;
+}
+
+.input-fecha::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.icono-descarga {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    margin-top: 10px;
 }

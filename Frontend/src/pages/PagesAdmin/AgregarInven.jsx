@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 import axios from 'axios';
 // Estilos
 import '../../assets/styles/AgregarInven.css';
@@ -82,15 +84,41 @@ export default function AgregarInven() {
     // Manejar envío al backend
     const manejarEnvio = async (datos) => {
         try {
-            const formData = new FormData();
-            for (const clave in datos) {
-                formData.append(clave, datos[clave]);
+            // 1. Obtener la categoría seleccionada
+            const categoriaSeleccionada = categorias.find(
+                cat => cat.id_categoria === parseInt(datos.id_categoria_id)
+            );
+            const nombreCategoria = categoriaSeleccionada.nombre.toLowerCase();
+
+            // 2. Subir imagen a Cloudinary si existe
+            let imagenUrl = '';
+            let imagenPublicId
+
+            if (datos.imagen) {
+                const cloudinaryData = new FormData();
+                cloudinaryData.append('file', datos.imagen);
+                cloudinaryData.append('upload_preset', uploadPreset);
+                cloudinaryData.append('folder', `productos/${nombreCategoria}`);
+            
+                const cloudinaryResponse = await axios.post(
+                    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                    cloudinaryData
+                );
+                imagenUrl = cloudinaryResponse.data.secure_url;
+                imagenPublicId = cloudinaryResponse.data.public_id;
             }
 
-            await axios.post('http://localhost:8000/api/productos/', formData, {
+            // 3. Preparar datos para el backend Django
+            const datosParaBackend = {
+                ...datos,
+                imagen: imagenUrl,  // Reemplazamos el File con la URL de Cloudinary
+                imagen_public_id: imagenPublicId 
+            };
+
+            // 4. Enviar al backend
+            await axios.post('http://localhost:8000/api/productos/', datosParaBackend, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
-                    // Agrega Authorization si es necesario
+                    'Content-Type': 'application/json'  // Cambiado porque ya no enviamos FormData
                 }
             });
 
@@ -109,6 +137,7 @@ export default function AgregarInven() {
             clase: 'guardar',
             onClick: null
         },
+
         {
             texto: 'Salir',
             tipo: 'button',

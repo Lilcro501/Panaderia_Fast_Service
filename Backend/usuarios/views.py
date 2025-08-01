@@ -99,6 +99,7 @@ def registrar_usuario(request):
 
 # Decorador para desactivar la seguridad CSRF
 @csrf_exempt
+@api_view(['POST'])
 def login_usuario(request):
     # Definimos el tipo de solicitud
     if request.method == 'POST':

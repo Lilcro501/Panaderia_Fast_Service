@@ -18,7 +18,8 @@ from pathlib import Path
 import os
 #Importamos el timedelta para poder configurar el tiempo de vida de la sesion de usuario
 from datetime import timedelta
-
+from decouple import config 
+import cloudinary
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #este es el directorio base de la aplicacion
 #esto es para que django pueda acceder a las carpetas de la aplicacion
@@ -53,6 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',        # Para django_session  
     'django.contrib.messages',        # Para mensajes flash
     'django.contrib.staticfiles',     # Para archivos estáticos
+    'cloudinary',
+    'cloudinary_storage',
     'django.contrib.auth',            # Para autenticación
     'django.contrib.admin',           # Para el panel de administración
 
@@ -89,6 +92,19 @@ INSTALLED_APPS = [
     'usuarios',
     'trabajador'
 ]
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET')
+}
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key=CLOUDINARY_STORAGE['API_KEY'],
+    api_secret=CLOUDINARY_STORAGE['API_SECRET'],
+    secure=True
+)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 #Este es el intermediario que permite que las aplicaciones se comuniquen entre si  
 # este ayuda a modificar o procesar solicitudes y respuestas htpp, entre otras cosas 

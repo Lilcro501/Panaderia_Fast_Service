@@ -8,6 +8,7 @@ import '../../assets/styles/PrincipalAdmin.css';
 const AdminPage = () => {
     const [productoMasVendido, setProductoMasVendido] = useState(null);
     const [gananciasPorMes, setGananciasPorMes] = useState([]);
+    const [fechaSeleccionada, setFechaSeleccionada] = useState('');
     const chartRef = useRef(null);
     const pieChartRef = useRef(null);
     const reportRef = useRef(null);
@@ -69,11 +70,21 @@ const AdminPage = () => {
         const canvas = await html2canvas(reportRef.current);
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF();
+
         const imgProps = pdf.getImageProperties(imgData);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save('reporte_estadisticas.pdf');
+
+        // Agrega fecha si fue seleccionada
+        if (fechaSeleccionada) {
+            pdf.setFontSize(14);
+            pdf.text(`Informe generado el: ${fechaSeleccionada}`, 10, 10);
+            pdf.addImage(imgData, 'PNG', 0, 20, pdfWidth, pdfHeight);
+        } else {
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        }
+
+        pdf.save(`informe_${fechaSeleccionada || 'general'}.pdf`);
     };
 
     return (
@@ -97,7 +108,17 @@ const AdminPage = () => {
                 </div>
             </div>
 
-            <button className="btn-descargar" onClick={generarPDF}>Descargar Informe en PDF</button>
+            {/* Cuadro fijo de descarga */}
+            <div className="filtro-descarga">
+                <h3>Descarga de informes</h3>
+                <input
+                    type="date"
+                    className="input-fecha"
+                    onChange={(e) => setFechaSeleccionada(e.target.value)}
+                    value={fechaSeleccionada}
+                />
+                <button className="icono-descarga" onClick={generarPDF}>⬇️</button>
+            </div>
         </div>
     );
 };
