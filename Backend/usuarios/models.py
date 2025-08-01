@@ -62,7 +62,7 @@ class Usuario(AbstractBaseUser):
     #campos requeridos al momento de ingresar datos en el modelo
     REQUIRED_FIELDS = ['nombre', 'apellido', 'rol']
 
-    #este se asigna a al gestor perzonalizado en el cual se encargara de la creacion e instancias de usuario
+    #este se asigna a al gestor cd en el cual se encargara de la creacion e instancias de usuario
     objects = UsuarioManager()
     #metodo de representacion
     #aca definimos como se representara el objeto usuario
