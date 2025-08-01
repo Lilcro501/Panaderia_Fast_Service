@@ -35,7 +35,7 @@ import TYC from "../pages/PagesClientes/TYC";
 import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
 import ProductoDetalle from '../components/ProductoDetalle';
 import FormularioEntrega from '../pages/PagesClientes/FormularioEntrega';
-
+import ActualizarPerfilUsuario from '../pages/PagesClientes/ActualizarPerfil';
 
 // ------------------- Páginas Cliente No Login -------------------
 import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
@@ -81,10 +81,9 @@ const AppRouter = () => {
     
     <Routes>
 
-      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin>}></Route>
-
+      <Route path='/' element={<PrivateRoute role="cliente"><MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin></PrivateRoute>}></Route>
       {/* Cliente */}
-      <Route path='/home' element={<PrivateRoute role="cliente"><RutasLayouts><Home></Home></RutasLayouts></PrivateRoute>} />
+      <Route path='/Home' element={<PrivateRoute role="cliente"><MainLayout><Home></Home></MainLayout></PrivateRoute>} />
       <Route path="/conocenos" element={<PrivateRoute role="cliente"><MainLayout><Conocenos /></MainLayout></PrivateRoute>} />
       <Route path="/InfoLegal" element={<PrivateRoute role="cliente"><MainLayout><InfoLegal /></MainLayout></PrivateRoute>} />
       <Route path="/ManifiestoConsumidor" element={<PrivateRoute role="cliente"><MainLayout><ManifiestoConsumidor /></MainLayout></PrivateRoute>} />
@@ -100,9 +99,10 @@ const AppRouter = () => {
       <Route path='/FacturaProductos' element={<PrivateRoute role="cliente"><MainLayout><FacturaProductos></FacturaProductos></MainLayout></PrivateRoute>} />
       <Route path='/FormularioEntrega' element={<PrivateRoute role="cliente"><MainLayout><FormularioEntrega></FormularioEntrega></MainLayout></PrivateRoute>} />
       <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos></Favoritos></MainLayout></PrivateRoute>}></Route>
-      <Route path='/CalificarExperiencia' element={<PrivateRoute><MainLayout> <CalificarExperiencia></CalificarExperiencia> </MainLayout></PrivateRoute>}></Route>
-      <Route path='/Recomendacion' element={<PrivateRoute><MainLayout> <Recomendacion/> </MainLayout></PrivateRoute>}></Route>
-      <Route path='/PerfilUsuario' element={<PrivateRoute> <MainLayout> <PerfilUsuario></PerfilUsuario> </MainLayout> </PrivateRoute>}></Route>
+      <Route path='/CalificarExperiencia' element={<PrivateRoute role="cliente"><MainLayout> <CalificarExperiencia></CalificarExperiencia> </MainLayout></PrivateRoute>}></Route>
+      <Route path='/PerfilUsuario' element={<PrivateRoute role="cliente"> <MainLayout> <PerfilUsuario></PerfilUsuario> </MainLayout> </PrivateRoute>}></Route>
+      <Route path='/Actualizar' element={<PrivateRoute role="cliente"><MainLayout><ActualizarPerfilUsuario></ActualizarPerfilUsuario></MainLayout></PrivateRoute>}></Route>
+
 
       {/* Rutas publicas */}
       <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña></CambioDeContraseña></MainLayoutSinLogin>}></Route>
@@ -120,27 +120,27 @@ const AppRouter = () => {
         <Route path='/HistorialPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><HistorialPedidos /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/InfoCliente/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><InfoCliente /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/Inicio' element={<PrivateRoute role="trabajador"><LayoutTrabajador><Inicio /></LayoutTrabajador></PrivateRoute>} />
-        <Route path='/ListaPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><ListaPedidos /></LayoutTrabajador></PrivateRoute>} />
+        <Route path='/ListaPedidos/' element={<PrivateRoute role="trabajador"><LayoutTrabajador><ListaPedidos /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/DetallesPedido/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><DetallesPedido /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/EditarPerfil' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EditarPerfil /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/InfoCliente' element={<LayoutTrabajador><InfoCliente /></LayoutTrabajador>} />
-
+      
 
         {/* Admin */}
-        <Route path='/AgregarTrabajador' element={<AdminLayout><AgregarTrabajador /></AdminLayout>} />
-        <Route path='/EditarTrabajador/:id' element={<AdminLayout><EditarTrabajador /></AdminLayout>} />
-        <Route path='/EliminarTrabajador' element={<AdminLayout><EliminarTrabajador /></AdminLayout>} />
-        <Route path='/Cronograma' element={<AdminLayout><Cronograma /></AdminLayout>} />
-        <Route path='/AgregarCrono' element={<AdminLayout><AgregarCrono /></AdminLayout>} />
-        <Route path='/EditarCrono/:id' element={<AdminLayout><EditarCrono /></AdminLayout>} />
-        <Route path='/HistorialPedido' element={<AdminLayout><HistorialPedido /></AdminLayout>} />
-        <Route path='/CatalogoAdmin' element={<AdminLayout><Catalogo_Admin /></AdminLayout>} />
-        <Route path='/AdministrarInven' element={<AdminLayout><AdministrarInven /></AdminLayout>} />
-        <Route path='/AgregarInven' element={<AdminLayout><AgregarInven /></AdminLayout>} />
-        <Route path='/EditarInven/:id' element={<AdminLayout><EditarInven /></AdminLayout>} />
-        <Route path='/EliminarInven' element={<AdminLayout><EliminarInven /></AdminLayout>} />
-        <Route path='/AdministrarTrabajadores' element={<AdminLayout><AdministrarTrabajadores /></AdminLayout>} />
-        <Route path='/PrincipalAdmin' element={<AdminLayout><PrincipalAdmin /></AdminLayout>} />
+        <Route path='/AgregarTrabajador' element={<PrivateRoute role="admin"><AgregarTrabajador></AgregarTrabajador></PrivateRoute>} />
+        <Route path='/EditarTrabajador/:id' element={<PrivateRoute role="admin"><AdminLayout><EditarTrabajador /></AdminLayout></PrivateRoute>} />
+        <Route path='/EliminarTrabajador' element={<PrivateRoute role="admin"><AdminLayout><EliminarTrabajador /></AdminLayout></PrivateRoute>} />
+        <Route path='/Cronograma' element={<PrivateRoute role="admin"><AdminLayout><Cronograma /></AdminLayout></PrivateRoute>} />
+        <Route path='/AgregarCrono' element={<PrivateRoute role="admin"><AdminLayout><AgregarCrono /></AdminLayout></PrivateRoute>} />
+        <Route path='/EditarCrono/:id' element={<PrivateRoute role="admin"> <EditarCrono></EditarCrono></PrivateRoute>} />
+        <Route path='/HistorialPedido' element={<PrivateRoute role="admin"><AdminLayout><HistorialPedido /></AdminLayout> </PrivateRoute>} />
+        <Route path='/CatalogoAdmin' element={<PrivateRoute role="admin"><AdminLayout><Catalogo_Admin /></AdminLayout></PrivateRoute>} />
+        <Route path='/AdministrarInven' element={<PrivateRoute role="admin"><AdminLayout><AdministrarInven /></AdminLayout></PrivateRoute>} />
+        <Route path='/AgregarInven' element={<PrivateRoute role="admin"><AdminLayout><AgregarInven /></AdminLayout></PrivateRoute>} />
+        <Route path='/EditarInven/:id' element={<PrivateRoute role="admin"><AdminLayout><EditarInven /></AdminLayout></PrivateRoute>} />
+        <Route path='/EliminarInven' element={<PrivateRoute role="admin"><AdminLayout><EliminarInven /></AdminLayout></PrivateRoute>} />
+        <Route path='/AdministrarTrabajadores' element={<PrivateRoute role="admin"><AdminLayout><AdministrarTrabajadores /></AdminLayout></PrivateRoute>} />
+        <Route path='/PrincipalAdmin' element={<PrivateRoute role="admin"><AdminLayout><PrincipalAdmin /></AdminLayout></PrivateRoute>} />
 
     </Routes>
   );

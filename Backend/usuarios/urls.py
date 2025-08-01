@@ -8,6 +8,7 @@ from .views import (
     CustomTokenObtainPairView 
 )
 from .views import registrar_usuario
+from .views import UsuarioDetalleView
 
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -21,6 +22,7 @@ urlpatterns = [
     path('enviar-codigo/', enviar_codigo_verificacion),
     path('verificar-codigo/', verificar_codigo),
     path('cambiar-password/', cambiar_password),
+    path('perfil/', UsuarioDetalleView.as_view(), name='usuario-detalle'),
 
     # Autenticación con JWT personalizada
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  
