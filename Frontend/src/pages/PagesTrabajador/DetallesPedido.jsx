@@ -11,23 +11,36 @@ const DetallesPedido = () => {
 
   const [productosConInfo, setProductosConInfo] = useState([]);
   const [comprobanteURL, setComprobanteURL] = useState(null);
+  const [infoFactura, setInfoFactura] = useState({});
   const [cargando, setCargando] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchPedido = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/facturas/${id}/`);
-        const { productos, comprobante } = response.data;
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:8000/api/facturas/${id}/`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const {
+          productos,
+          comprobante_archivo,
+          ...infoRestante
+        } = response.data;
 
         const formateados = productos.map(p => ({
           nombre: p.nombre,
           cantidad: p.cantidad,
-          precioUnitario: p.precio_unitario,
-          precioTotal: p.cantidad * p.precio_unitario
+          precioUnitario: parseFloat(p.precio_unitario),
+          precioTotal: p.subtotal
         }));
 
         setProductosConInfo(formateados);
-        setComprobanteURL(comprobante);
+        setComprobanteURL(comprobante_archivo);
+        setInfoFactura(infoRestante);
       } catch (error) {
         console.error("❌ Error al obtener detalles del pedido:", error);
       } finally {
@@ -38,25 +51,13 @@ const DetallesPedido = () => {
     fetchPedido();
   }, [id]);
 
-  const columnas = ["Producto", "Cantidad", "Precio unitario", "Precio total", "Comprobante de pago"];
+  const columnas = ["Producto", "Cantidad", "Precio unitario", "Precio total"];
 
-  const datosTabla = productosConInfo.map((p, index) => [
+  const datosTabla = productosConInfo.map(p => [
     p.nombre,
     p.cantidad,
     `$${p.precioUnitario.toLocaleString()}`,
-    `$${p.precioTotal.toLocaleString()}`,
-    index === 0 ? (
-      comprobanteURL ? (
-        <img
-          src={comprobanteURL}
-          alt="Comprobante de pago"
-          className="comprobante-img"
-          style={{ width: "100px", height: "auto", borderRadius: "8px" }}
-        />
-      ) : (
-        <span>Sin comprobante</span>
-      )
-    ) : null
+    `$${p.precioTotal.toLocaleString()}`
   ]);
 
   const totalGeneral = productosConInfo.reduce((sum, p) => sum + p.precioTotal, 0);
@@ -75,6 +76,57 @@ const DetallesPedido = () => {
         <EtiquetaPago texto={`Total: $${totalGeneral.toLocaleString()}`} />
       </div>
 
+      <div className="info-adicional">
+        <h3>Información adicional</h3>
+        <p><strong>Dirección de entrega:</strong> {infoFactura.direccion_entrega || "No especificada"}</p>
+        <p><strong>Fecha de entrega:</strong> {infoFactura.fecha_entrega || "No especificada"}</p>
+        <p><strong>Notas:</strong> {infoFactura.notas || "Sin notas"}</p>
+        <p><strong>Método de pago:</strong> {infoFactura.metodo_pago}</p>
+        <p><strong>Método de entrega:</strong> {infoFactura.metodo_entrega}</p>
+
+        {comprobanteURL && (
+          <div className="seccion-comprobante">
+            <strong>Comprobante:</strong>
+            <button
+              className="boton-ver-comprobante"
+              onClick={() => setModalVisible(true)}
+              style={{
+                marginLeft: "10px",
+                padding: "6px 12px",
+                backgroundColor: "#3498db",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer"
+              }}
+            >
+              Ver comprobante
+            </button>
+          </div>
+        )}
+      </div>
+
+      {modalVisible && (
+        <div className="modal-comprobante" onClick={() => setModalVisible(false)} style={{
+          position: "fixed",
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.7)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          zIndex: 9999
+        }}>
+          <img
+            src={comprobanteURL}
+            alt="Comprobante"
+            style={{
+              maxHeight: "80vh",
+              maxWidth: "80vw",
+              borderRadius: "10px",
+              boxShadow: "0 0 10px white"
+            }}
+          />
+        </div>
+      )}
+
       <div className="contenedor-volver">
         <button className="boton-volver" onClick={() => navigate(-1)}>Volver</button>
       </div>
@@ -83,5 +135,6 @@ const DetallesPedido = () => {
 };
 
 export default DetallesPedido;
+
 
 

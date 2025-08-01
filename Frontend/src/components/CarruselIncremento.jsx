@@ -1,30 +1,48 @@
-// src/components/CarruselIncremento.jsx
-
-import React, { useRef, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "../assets/styles/CarruselIncremento.css";
-import datos from "../Data/data"; // Asegúrate que `datos` sea igual a `productCategories`
+import { useCarrito } from "../Context/CarritoContext";
 
 export default function CarruselCatalogo() {
   const contenedorRef = useRef(null);
+  const { carrito, agregarProducto, quitarProducto, eliminarProducto } = useCarrito();
+  const [productos, setProductos] = useState([]);
 
   const idsProductos = [
-    "pan1", "pan2", "pan8", "pan11", "pan5", "pan4", // panes
-    "m2", "m1", "m4", "m6",                         // mecato
-    "b3", "b4"                                      // bebidas
+    "78", "79", "80", "81", "82", "83",
+    "83", "85", "87", "88",
+    "89", "90"
   ];
 
-  // Buscar el producto según ID recorriendo todas las categorías
-  const buscarProducto = (id) => {
-    for (const categoria of Object.values(datos)) {
-      const encontrado = categoria.find(p => p.id === id);
-      if (encontrado) return encontrado;
-    }
-    return null;
-  };
+  // Obtener datos del backend para cada ID
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const peticiones = idsProductos.map(id =>
+          axios.get(`http://localhost:8000/api/producto/${id}/`).then(res => res.data)
+        );
+        const resultados = await Promise.all(peticiones);
+        const productosFormateados = resultados.map(p => ({
+          id: p.id_producto,
+          nameProduct: p.nombre,
+          price: p.precio,
+          description: p.descripcion,
+          image: p.imagen ? `http://localhost:8000${p.imagen}` : null,
+        }));
+        setProductos(productosFormateados);
+      } catch (error) {
+        console.error("Error cargando productos:", error);
+      }
+    };
 
-  const productos = idsProductos.map(buscarProducto).filter(Boolean);
-  const [cantidades, setCantidades] = useState(Array(productos.length).fill(0));
+    fetchProductos();
+  }, []);
+
+  const obtenerCantidad = (id) => {
+    const item = carrito.find(p => p.id === id);
+    return item ? item.quantity : 0;
+  };
 
   const scroll = (offset) => {
     if (contenedorRef.current) {
@@ -32,16 +50,17 @@ export default function CarruselCatalogo() {
     }
   };
 
-  const incrementar = (index) => {
-    const nuevas = [...cantidades];
-    nuevas[index] += 1;
-    setCantidades(nuevas);
-  };
+  const cambiarCantidadManual = (e, producto) => {
+    const nuevaCantidad = Math.max(0, parseInt(e.target.value) || 0);
+    const actual = obtenerCantidad(producto.id);
 
-  const disminuir = (index) => {
-    const nuevas = [...cantidades];
-    nuevas[index] = Math.max(0, nuevas[index] - 1);
-    setCantidades(nuevas);
+    if (nuevaCantidad > actual) {
+      for (let i = actual; i < nuevaCantidad; i++) agregarProducto(producto);
+    } else if (nuevaCantidad < actual) {
+      for (let i = actual; i > nuevaCantidad; i--) quitarProducto(producto.id);
+    }
+
+    if (nuevaCantidad === 0) eliminarProducto(producto.id);
   };
 
   return (
@@ -51,23 +70,32 @@ export default function CarruselCatalogo() {
       </button>
 
       <div className="catalogo-deslizar" ref={contenedorRef}>
-        {productos.map((prod, index) => (
-          <div className="recuadro-catalogo" key={prod.id}>
-            <Link to={`/producto/${prod.id}`} className="enlace-producto">
-              <img className="carrusel-catalogo" src={prod.image} alt={prod.nameProduct} />
-              <div className="P">
-                {prod.nameProduct}
-                <br />${prod.price.toLocaleString()}
-              </div>
-            </Link>
+        {productos.map((prod) => {
+          const cantidad = obtenerCantidad(prod.id);
 
-            <section className="number-input">
-              <button className="disminucion" onClick={() => disminuir(index)}>−</button>
-              <input type="number" value={cantidades[index]} readOnly />
-              <button className="incremento" onClick={() => incrementar(index)}>+</button>
-            </section>
-          </div>
-        ))}
+          return (
+            <div className="recuadro-catalogo" key={prod.id}>
+              <Link to={`/producto/${prod.id}`} className="enlace-producto">
+                <img className="carrusel-catalogo" src={prod.image} alt={prod.nameProduct} />
+                <div className="P">
+                  {prod.nameProduct}
+                  <br />${prod.price.toLocaleString()}
+                </div>
+              </Link>
+
+              <section className="number-input">
+                <button className="disminucion" onClick={() => quitarProducto(prod.id)}>−</button>
+                <input
+                  type="number"
+                  min="0"
+                  value={cantidad}
+                  onChange={(e) => cambiarCantidadManual(e, prod)}
+                />
+                <button className="incremento" onClick={() => agregarProducto(prod)}>+</button>
+              </section>
+            </div>
+          );
+        })}
       </div>
 
       <button className="boton-carrusel" onClick={() => scroll(300)}>

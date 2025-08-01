@@ -1,8 +1,11 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+// import { useNavigate } from 'react-router-dom'; // opcional si quieres redirigir
 
 function LoginGoogle() {
+  // const navigate = useNavigate(); // opcional
+
   const handleSuccess = async (credentialResponse) => {
     try {
       // Enviamos el token de Google al backend
@@ -10,18 +13,25 @@ function LoginGoogle() {
         token: credentialResponse.credential
       });
 
-      // El backend debería devolver un token JWT u otro token de sesión
-      const token = response.data.access || response.data.token;
+      const { access, refresh, nombre, rol, id_usuario } = response.data;
 
-      if (token) {
-        // Guardamos el token en localStorage para usarlo después
-        localStorage.setItem('token', token);
-        console.log("✅ Usuario autenticado. Token guardado.");
+      if (access) {
+        // Guardamos los datos en localStorage
+        localStorage.setItem('access', access);
+        localStorage.setItem('refresh', refresh);
+        localStorage.setItem('nombre', nombre);
+        localStorage.setItem('rol', rol);
+        localStorage.setItem('id_usuario', id_usuario);
+
+        console.log("✅ Usuario autenticado con Google. Token guardado.");
+
+        // Redirigir al usuario (opcional)
+        // navigate('/perfil'); 
       } else {
         console.error("❌ El backend no devolvió un token.");
       }
     } catch (error) {
-      console.error("❌ Error al autenticar:", error.response?.data || error.message);
+      console.error("❌ Error al autenticar con Google:", error.response?.data || error.message);
     }
   };
 
@@ -38,6 +48,3 @@ function LoginGoogle() {
 }
 
 export default LoginGoogle;
-
-
-
