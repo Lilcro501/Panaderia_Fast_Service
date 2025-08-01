@@ -1,16 +1,16 @@
+# carrito/serializers.py
 from rest_framework import serializers
-from carrito.models import Factura
-from carrito.models import Pedido
+from carrito.models import Factura, Pedido
 
+class FacturaSerializer(serializers.ModelSerializer):
+    clienteId = serializers.CharField(source='usuario.username', read_only=True)
 
-
-class PedidoSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Factura
-        fields = '__all__'
+        fields = ['id', 'clienteId', 'metodo_pago', 'metodo_entrega', 'total']
+
 
 class PedidoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pedido
         fields = '__all__'
-        

@@ -1,7 +1,8 @@
+// ProductoDetalle.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../assets/styles/InfoPorProducto.css';
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiFillEdit, AiFillDelete } from 'react-icons/ai';
 import axios from 'axios';
 import { useCarrito } from '../Context/CarritoContext';
 
@@ -14,6 +15,11 @@ export default function ProductoDetalle() {
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState('');
   const [puntuacion, setPuntuacion] = useState(5);
+  const [usuarioId, setUsuarioId] = useState(null);
+
+  const [comentarioEditando, setComentarioEditando] = useState(null);
+  const [comentarioEditado, setComentarioEditado] = useState('');
+  const [puntuacionEditada, setPuntuacionEditada] = useState(5);
 
   const { agregarProducto, carrito } = useCarrito();
 
@@ -44,9 +50,23 @@ export default function ProductoDetalle() {
       }
     };
 
+    const obtenerUsuario = () => {
+      try {
+        const token = localStorage.getItem("access");
+        if (token) {
+          const payloadBase64 = token.split('.')[1];
+          const decoded = JSON.parse(atob(payloadBase64));
+          setUsuarioId(decoded.user_id);
+        }
+      } catch (err) {
+        console.error("❌ Error al decodificar token:", err);
+      }
+    };
+
     if (id) {
       obtenerProducto();
       obtenerComentarios();
+      obtenerUsuario();
     }
   }, [id]);
 
@@ -96,6 +116,56 @@ export default function ProductoDetalle() {
     }
   };
 
+  const iniciarEdicion = (comentario) => {
+    setComentarioEditando(comentario.id_valoracion);
+    setComentarioEditado(comentario.comentario);
+    setPuntuacionEditada(comentario.puntuacion);
+  };
+
+  const guardarEdicion = async (comentarioId) => {
+    try {
+      const token = localStorage.getItem("access");
+      console.log("🧪 Enviando PUT:", {
+        comentario: comentarioEditado,
+        puntuacion: puntuacionEditada,
+        id_producto: producto.id,
+      });
+
+      const response = await axios.put(`http://localhost:8000/api/comentarios/${comentarioId}/`, {
+        comentario: comentarioEditado,
+        puntuacion: puntuacionEditada,
+        id_producto: producto.id, // 👈 esto es lo que falta probablemente
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      setComentarios(prev =>
+        prev.map(c => c.id_valoracion === comentarioId ? response.data : c)
+      );
+      setComentarioEditando(null);
+    } catch (error) {
+      console.error("❌ Error al editar comentario:", error);
+    }
+  };
+
+  const eliminarComentario = async (comentarioId) => {
+    const confirmacion = window.confirm("¿Estás seguro de que quieres eliminar este comentario?");
+    if (!confirmacion) return;
+
+    try {
+      const token = localStorage.getItem("access");
+      await axios.delete(`http://localhost:8000/api/comentarios/${comentarioId}/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      setComentarios(prev => prev.filter(c => c.id_valoracion !== comentarioId));
+    } catch (error) {
+      console.error("❌ Error al eliminar comentario:", error);
+    }
+  };
+
   if (error) return <h2 className="error">{error}</h2>;
   if (!producto) return <h2 className="loading">Cargando producto...</h2>;
 
@@ -134,14 +204,10 @@ export default function ProductoDetalle() {
       <h2 className='Calificacion'>Calificación</h2>
       <div className='ContenedorPanesC'>
         {[...Array(3)].map((_, i) => (
-          <span key={`filled-${i}`} style={{ fontSize: '24px', marginRight: '5px', color: '#D2691E' }}>
-            🍞
-          </span>
+          <span key={`filled-${i}`} style={{ fontSize: '24px', marginRight: '5px', color: '#D2691E' }}>🍞</span>
         ))}
         {[...Array(2)].map((_, i) => (
-          <span key={`gray-${i}`} style={{ fontSize: '24px', marginRight: '5px', color: 'lightgray' }}>
-            🍞
-          </span>
+          <span key={`gray-${i}`} style={{ fontSize: '24px', marginRight: '5px', color: 'lightgray' }}>🍞</span>
         ))}
       </div>
 
@@ -153,16 +219,58 @@ export default function ProductoDetalle() {
             {comentarios.length === 0 ? (
               <p>No hay comentarios aún.</p>
             ) : (
-              comentarios.map((comentario) => (
-                <div key={comentario.id_valoracion} className='ComentarioItem'>
-                  <strong>
-                    {comentario.usuario?.nombre} {comentario.usuario?.apellido}
-                  </strong>
-                  <p>{comentario.comentario}</p>
-                  <span>Puntuación: {comentario.puntuacion}/5</span><br />
-                  <small>{new Date(comentario.fecha_valoracion).toLocaleDateString()}</small>
-                </div>
-              ))
+              comentarios.map((comentario) => {
+                const esComentarioUsuario = Number(usuarioId) === Number(comentario.usuario?.id);
+                const enEdicion = comentarioEditando === comentario.id_valoracion;
+
+                return (
+                  <div
+                    key={comentario.id_valoracion}
+                    className={`ComentarioItem ${esComentarioUsuario ? 'ComentarioDerecha' : 'ComentarioIzquierda'}`}
+                  >
+                    <strong>{comentario.usuario?.nombre} {comentario.usuario?.apellido}</strong>
+
+                    {enEdicion ? (
+                      <>
+                        <textarea
+                          value={comentarioEditado}
+                          onChange={(e) => setComentarioEditado(e.target.value)}
+                          placeholder="Edita tu comentario..."
+                        />
+                        <select
+                          value={puntuacionEditada}
+                          onChange={(e) => setPuntuacionEditada(parseInt(e.target.value))}
+                        >
+                          {[1, 2, 3, 4, 5].map(n => (
+                            <option key={n} value={n}>{n}</option>
+                          ))}
+                        </select>
+                        <div className="BotonesEdicion">
+                          <button onClick={() => guardarEdicion(comentario.id_valoracion)}>💾 Guardar</button>
+                          <button onClick={() => setComentarioEditando(null)}>❌ Cancelar</button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <p>{comentario.comentario}</p>
+                        <span>Puntuación: {comentario.puntuacion}/5</span><br />
+                        <small>{new Date(comentario.fecha_valoracion).toLocaleDateString()}</small>
+
+                        {esComentarioUsuario && (
+                          <div className="BotonesComentario">
+                            <button onClick={() => iniciarEdicion(comentario)}>
+                              <AiFillEdit size={20} color="orange" />
+                            </button>
+                            <button onClick={() => eliminarComentario(comentario.id_valoracion)}>
+                              <AiFillDelete size={20} color="red" />
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                );
+              })
             )}
           </div>
 
