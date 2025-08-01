@@ -1,76 +1,74 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TablaBase from "../../components/TablaBase";
 import Boton from "../../components/Boton";
-import { obtenerPedidosPorFactura } from "../../api/pedidos";
 import "../../assets/styles/listas.css";
+import axios from "axios";
 
 const ListaPedidos = () => {
   const navigate = useNavigate();
-  const { idFactura } = useParams();
   const [pedidos, setPedidos] = useState([]);
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const cargarPedidos = async () => {
+    const fetchPedidos = async () => {
       try {
-        setCargando(true);
-        const data = await obtenerPedidosPorFactura(idFactura);
-        console.log("Pedidos cargados:", data);
-        setPedidos(data);
-      } catch (err) {
-        console.error("Error cargando pedidos:", err);
-        setError("Error al cargar los pedidos");
-      } finally {
-        setCargando(false);
+        const response = await axios.get("http://localhost:8000/api/listar-pedidos/", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setPedidos(response.data);
+      } catch (error) {
+        console.error("Error al obtener pedidos:", error);
       }
     };
 
-    if (idFactura) {
-      cargarPedidos();
-    }
-  }, [idFactura]);
+    fetchPedidos();
+  }, []);
 
-  const columnas = ["ID Pedido", "Acciones"];
+  const columnas = [
+    "ID Pedido",
+    "Método Entrega",
+    "Cliente",
+    "Estado",
+    "Ver Pedido",
+    "Acciones"
+  ];
 
-  const datos = pedidos.map((pedido) => ({
-    key: pedido.id,
-    rowData: [
-      pedido.id,
-      <div className="botones-acciones">
-        <Boton
-          texto="Ver Detalles"
-          onClick={() => navigate(`/pedidos/${pedido.id}`)}
-          tipo="boton-ver"
-        />
-        <Boton
-          texto="Aceptar"
-          onClick={() => alert(`Pedido ${pedido.id} aceptado`)}
-          tipo="boton-aceptar"
-        />
-        <Boton
-          texto="Rechazar"
-          onClick={() => alert(`Pedido ${pedido.id} rechazado`)}
-          tipo="boton-rechazar"
-        />
-      </div>
-    ]
-  }));
-
-  if (cargando) return <div>Cargando pedidos...</div>;
-  if (error) return <div className="error">{error}</div>;
-  if (pedidos.length === 0) return <div>No hay pedidos para esta factura</div>;
+  const datos = pedidos.map((pedido) => [
+    pedido.id,
+    pedido.metodo_entrega,
+    <Boton texto="Ver cliente" onClick={() => navigate(`/InfoCliente/${pedido.clienteId}`)} />,
+    pedido.estado || "Pagar",
+    <Boton
+      texto="Ver pedido"
+      onClick={() => navigate(`/DetallesPedido/${pedido.id}`)}
+    />,
+    <div className="botones-acciones">
+      <Boton
+        texto="Aceptar"
+        onClick={() => alert(`Pedido ${pedido.id} aceptado`)}
+        tipo="boton-aceptar"
+      />
+      <Boton
+        texto="Rechazar"
+        onClick={() => alert(`Pedido ${pedido.id} rechazado`)}
+        tipo="boton-rechazar"
+      />
+    </div>
+  ]);
 
   return (
     <div className="contenido">
-      <h2 className="titulo">Pedidos de la Factura #{idFactura}</h2>
-      <TablaBase columnas={columnas} datos={datos.map(d => d.rowData)} />
-      <Boton 
-        texto="Volver a Facturas" 
-        onClick={() => navigate("/facturas")} 
-        className="boton-volver" 
-      />
+      <h2 className="titulo">Lista de pedidos</h2>
+      <TablaBase columnas={columnas} datos={datos} />
+      <div className="contenedor-volver">
+        <Boton
+          texto="Volver"
+          onClick={() => navigate("/Inicio")}
+          className="boton-volver"
+        />
+      </div>
     </div>
   );
 };

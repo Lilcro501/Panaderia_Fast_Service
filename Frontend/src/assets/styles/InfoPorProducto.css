@@ -85,3 +85,57 @@
     list-style: none;
 }
 
+.ComentarioItem {
+  display: flex;
+  flex-direction: column;
+  max-width: 60%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f4f4f4;
+}
+
+.ComentarioIzquierda {
+  align-self: flex-start;
+  background-color: #e6f0ff;
+}
+
+.ComentarioDerecha {
+  align-self: flex-end;
+  background-color: #d9fdd3;
+  text-align: right;
+}
+
+
+textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 5px;
+  resize: vertical;
+  margin-top: 5px;
+}
+
+select {
+  margin-top: 5px;
+  padding: 4px;
+}
+
+.BotonesEdicion button,
+.BotonesComentario button {
+  margin-right: 5px;
+  margin-top: 5px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.BotonesEdicion button:first-child {
+  background-color: #4caf50;
+  color: white;
+}
+
+.BotonesEdicion button:last-child {
+  background-color: #f44336;
+  color: white;
+}
