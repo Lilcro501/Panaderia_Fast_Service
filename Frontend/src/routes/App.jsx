@@ -79,7 +79,7 @@ import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 const AppRouter = () => {
   return (
     
-      <Routes>
+    <Routes>
 
       <Route path='/' element={<PrivateRoute role="cliente"><MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin></PrivateRoute>}></Route>
       {/* Cliente */}
@@ -142,7 +142,7 @@ const AppRouter = () => {
         <Route path='/AdministrarTrabajadores' element={<PrivateRoute role="admin"><AdminLayout><AdministrarTrabajadores /></AdminLayout></PrivateRoute>} />
         <Route path='/PrincipalAdmin' element={<PrivateRoute role="admin"><AdminLayout><PrincipalAdmin /></AdminLayout></PrivateRoute>} />
 
-      </Routes>
+    </Routes>
   );
 };
 
