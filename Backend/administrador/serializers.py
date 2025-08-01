@@ -20,13 +20,15 @@ class ProductoSerializer(serializers.ModelSerializer):
         model = Productos
         fields = [
             'id_producto',
+            'id_categoria',       # Para mostrar el objeto completo (GET)
             'nombre',
-            'descripcion',
             'precio',
-            'stock',
+            'descripcion',
             'imagen',
             'fecha_vencimiento',
-            'id_categoria',       # Para mostrar el objeto completo (GET)
+            'stock',
+            'fecha_actualizacion',
+            'imagen_public_id',
             'id_categoria_id'     # Para enviar solo el ID (POST/PUT)
         ]
 

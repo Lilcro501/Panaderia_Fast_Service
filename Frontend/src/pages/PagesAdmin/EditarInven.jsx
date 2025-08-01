@@ -1,15 +1,14 @@
+// ~~~~~~~~~~~~~~ importar React, hooks, etc ~~~~~~~~~~~~~~
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-//~~~~~~~~~~~~~~ Estilos ~~~~~~~~~~~~~~
+
 import '../../assets/styles/EditarInven.css';
 import "../../assets/styles/Global.css";
-//~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
-import CategoriasAdmin from "../../components/CategoriasAdmin";
 import FormularioAdmin from '../../components/FormularioAdmin';
 
 export default function EditarInven() {
-    const { id } = useParams(); // ID del producto desde la URL
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const [valoresIniciales, setValoresIniciales] = useState({});
@@ -25,7 +24,9 @@ export default function EditarInven() {
                     precio: producto.precio,
                     stock: producto.stock,
                     fecha_vencimiento: producto.fecha_vencimiento,
-                    id_categoria: producto.id_categoria || ''
+                    id_categoria: producto.id_categoria || '',
+                    imagen_url: producto.imagen, // 👈 añadimos la imagen actual
+                    imagen_public_id: producto.imagen_public_id || null // 👈 si lo tienes
                 });
             })
             .catch(error => {
@@ -46,10 +47,16 @@ export default function EditarInven() {
             });
     }, []);
 
-    // No renderizar hasta que se hayan cargado las categorías
     if (categorias.length === 0) return <p>Cargando categorías...</p>;
 
     const camposProducto = [
+        {
+            nombre: 'imagen',
+            etiqueta: 'Imagen del producto',
+            tipo: 'file',
+            requerido: false,
+            vistaPrevia: valoresIniciales.imagen_url || null // 👈 para mostrar imagen actual
+        },
         {
             nombre: 'nombre',
             etiqueta: 'Nombre del producto',
@@ -89,22 +96,32 @@ export default function EditarInven() {
         }
     ];
 
-const manejarEnvio = async (datos) => {
-    const datosProcesados = {
-        ...datos,
-        id_categoria_id: datos.id_categoria  // 👈 importante
-    };
-    delete datosProcesados.id_categoria;  // elimina el campo que no se acepta
+    const manejarEnvio = async (datos) => {
+        const datosProcesados = {
+            ...datos,
+            id_categoria_id: datos.id_categoria
+        };
+        delete datosProcesados.id_categoria;
 
-    try {
-        await axios.put(`http://localhost:8000/api/productos/${id}/`, datosProcesados);
-        alert("Producto actualizado correctamente.");
-        navigate("/AdministrarInven");
-    } catch (error) {
-        console.error("Error al actualizar producto:", error.response?.data || error);
-        alert("No se pudo actualizar el producto.");
-    }
-};
+        try {
+            const formData = new FormData();
+            Object.entries(datosProcesados).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+
+            await axios.put(`http://localhost:8000/api/productos/${id}/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            alert("Producto actualizado correctamente.");
+            navigate("/AdministrarInven");
+        } catch (error) {
+            console.error("Error al actualizar producto:", error.response?.data || error);
+            alert("No se pudo actualizar el producto.");
+        }
+    };
 
     const botones = [
         {

@@ -54,12 +54,10 @@ import Registro from '../pages/PagesLogin/Registro';
 import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
 import AgregarInven from '../pages/PagesAdmin/AgregarInven';
 import EditarInven from '../pages/PagesAdmin/EditarInven';
-import EliminarInven from '../pages/PagesAdmin/EliminarInven';
 import Catalogo_Admin from '../pages/PagesAdmin/Catalogo_Admin';
 import AdministrarTrabajadores from '../pages/PagesAdmin/AdministrarTrabajadores';
 import AgregarTrabajador from '../pages/PagesAdmin/AgregarTrabajador';
 import EditarTrabajador from '../pages/PagesAdmin/EditarTrabajador';
-import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
 import Cronograma from '../pages/PagesAdmin/Cronograma';
 import AgregarCrono from '../pages/PagesAdmin/AgregarCrono';
 import EditarCrono from '../pages/PagesAdmin/EditarCrono';
@@ -127,7 +125,6 @@ const AppRouter = () => {
         {/* Admin */}
         <Route path='/AgregarTrabajador' element={<AdminLayout><AgregarTrabajador /></AdminLayout>} />
         <Route path='/EditarTrabajador/:id' element={<AdminLayout><EditarTrabajador /></AdminLayout>} />
-        <Route path='/EliminarTrabajador' element={<AdminLayout><EliminarTrabajador /></AdminLayout>} />
         <Route path='/Cronograma' element={<AdminLayout><Cronograma /></AdminLayout>} />
         <Route path='/AgregarCrono' element={<AdminLayout><AgregarCrono /></AdminLayout>} />
         <Route path='/EditarCrono/:id' element={<AdminLayout><EditarCrono /></AdminLayout>} />
@@ -136,7 +133,6 @@ const AppRouter = () => {
         <Route path='/AdministrarInven' element={<AdminLayout><AdministrarInven /></AdminLayout>} />
         <Route path='/AgregarInven' element={<AdminLayout><AgregarInven /></AdminLayout>} />
         <Route path='/EditarInven/:id' element={<AdminLayout><EditarInven /></AdminLayout>} />
-        <Route path='/EliminarInven' element={<AdminLayout><EliminarInven /></AdminLayout>} />
         <Route path='/AdministrarTrabajadores' element={<AdminLayout><AdministrarTrabajadores /></AdminLayout>} />
         <Route path='/PrincipalAdmin' element={<AdminLayout><PrincipalAdmin /></AdminLayout>} />
 
