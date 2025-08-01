@@ -10,7 +10,7 @@ import "../../assets/styles/Global.css";
 import CategoriasAdmin from "../../components/CategoriasAdmin";
 import TablaAdmin from '../../components/TablaAdmin';
 
-// Imágenes
+// Imágenes 
 import agregar_documento from '../../assets/images/agregar_documento.png';
 import editar_documento from '../../assets/images/editar_documento.png';
 import eliminar_documento from '../../assets/images/eliminar_documento.png';
