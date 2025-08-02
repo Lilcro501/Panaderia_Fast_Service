@@ -171,6 +171,3 @@ export function MostrarInformacion() {
     </div>
   );
 }
-
-
-
