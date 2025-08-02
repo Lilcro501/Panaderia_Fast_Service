@@ -190,8 +190,6 @@ export default function Registro() {
           Registrarse
         </button>
       
-
-
         <p className='Registro'>
           ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
         </p>
