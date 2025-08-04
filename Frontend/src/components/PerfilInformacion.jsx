@@ -1,5 +1,6 @@
 
-import "../assets/styles/PerfilUsuario.css"
+import "../assets/styles/perfil.css"
+
 import { Link, useNavigate } from "react-router-dom";
 import PerfilLogo from "../assets/icons/perfil-negro-2.png"; // actualiza con tu ruta
 import React, { useEffect, useState } from 'react';
@@ -16,7 +17,7 @@ export default function PerfilInformacion() {
 
   return (
     <div>
-        <h1 style={{textAlign: "center"}}>Informacion de usuario</h1>
+        <h1 style={{textAlign: "center"}}>Información de usuario</h1>
         <br />
         <br />
 

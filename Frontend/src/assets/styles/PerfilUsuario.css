@@ -4,6 +4,10 @@
   width: 450px;
   height: 30px;
 }
+.entrada{
+  margin-bottom:20px;
+  display: flex;
+}
 
 .foto-perfil {
   width: 60px;
@@ -12,7 +16,7 @@
 
 .recuadro-perfil {
   max-width: 500px;
-  background: #765c49;
+  background: #f0853a;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.793);
   font-family: 'Segoe UI', sans-serif;
@@ -23,7 +27,7 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 3px solid #ccc;
+  border: 3px solid #fdf8f8;
   object-fit: cover;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -61,6 +65,6 @@
 }
 
 .boton-actualizar:hover {
-  background-color: #794331;
+  background-color: #000000;
 }
 

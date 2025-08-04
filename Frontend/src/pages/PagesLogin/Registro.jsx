@@ -93,7 +93,7 @@ export default function Registro() {
   return (
     <section className='Contenedor'>
     <div className='PanelIzquierdo'>
-      <h2>Bienvenid@ a la sección de registro</h2>
+      <h2>Bienvenid@ a la sesión de registro</h2>
       <p>Por favor, completa el formulario para crear tu cuenta.</p>
       <img src={orquidea} alt='Registro' className='ImagenRegistro' />
     </div> 

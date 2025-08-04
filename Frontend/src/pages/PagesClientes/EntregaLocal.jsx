@@ -9,6 +9,7 @@ import qr from "../../assets/images/qr.png";
 const EntregaLocal = () => {
   const { carrito, vaciarCarrito } = useCarrito();
   const [metodoEntrega, setMetodoEntrega] = useState('');
+  const [metodoEnvio, setMetodoEnvio] = useState('domicilio');
   const [mostrarModal, setMostrarModal] = useState(false);
   const [comprobante, setComprobante] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -50,6 +51,8 @@ const EntregaLocal = () => {
   const validarCampos = () => {
     const camposRequeridos = [
       { value: metodoEntrega, message: 'Selecciona un método de pago' },
+      { value: metodoEnvio, message: 'Selecciona un método de entrega' },
+      { condition: metodoEnvio === 'domicilio' && !formData.direccion_entrega, message: 'La dirección de entrega es requerida' },
       { value: formData.fecha_entrega, message: 'La fecha de entrega es requerida' },
       { value: userData.nombre, message: 'El nombre es requerido' },
       { value: userData.telefono, message: 'El teléfono es requerido' },
@@ -79,6 +82,7 @@ const EntregaLocal = () => {
 
       datosFactura.append('metodo_entrega', 'Local');
       datosFactura.append('id_usuario', userData.id_usuario);
+      datosFactura.append('metodo_entrega', metodoEnvio);
       datosFactura.append('metodo_pago', metodoEntrega);
       datosFactura.append('total', total.toFixed(2));
       datosFactura.append('fecha_entrega', formData.fecha_entrega);
@@ -93,6 +97,7 @@ const EntregaLocal = () => {
 
       if (metodoEntrega === 'qr' && comprobante) {
         datosFactura.append('comprobante', comprobante);
+
         //organizar la logia de aca 
       } else {
         datosFactura.append("comprobante", "No aplica")
@@ -152,10 +157,35 @@ const EntregaLocal = () => {
           <input className="input-moderno" type="tel" name="telefono"
             value={userData.telefono} onChange={handleUserChange} required />
 
+          
+          {metodoEnvio === 'domicilio' && (
+            <>
+              <label className='info'>Dirección de entrega*</label>
+              <input
+                className="input-moderno"
+                type="text"
+                name="direccion_entrega"
+                value={formData.direccion_entrega}
+                onChange={handleChange}
+                required
+              />
+            </>
+          )}      
           <label>Fecha de entrega*</label>
           <input className="input-moderno" type="date" name="fecha_entrega"
             value={formData.fecha_entrega} onChange={handleChange}
             min={new Date().toISOString().split('T')[0]} required />
+          
+          <label className='info'>Método de entrega*</label>
+          <select
+            className="input-moderno"
+            value={metodoEnvio}
+            onChange={(e) => setMetodoEnvio(e.target.value)}
+            required
+          >
+            <option value="domicilio">Entrega a domicilio</option>
+            <option value="local">Recoger en el local</option>
+          </select>
 
           <label>Información adicional</label>
           <textarea className="input-moderno" name="informacion_adicional"

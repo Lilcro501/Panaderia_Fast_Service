@@ -105,18 +105,22 @@
 .circulo-rojo {
   width: 100px;
   height: 100px;
-  background-color: red;
+  background-color: rgb(226, 68, 68);
   border-radius: 50%;
   z-index: 1;
-  border: 5px solid black; /* ✅ corregido */
+  border: 5px solid 
+  
+  
+  rgb(255, 255, 255); /* ✅ corregido */
 
   display: flex; /* Centrar texto */
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 10px;
-  color: white;
-  font-size: 12px;
+  color: rgb(255, 255, 255);
+  font-size: 15px;
+
 }
 
 
@@ -127,15 +131,16 @@
   background-color: rgb(56, 239, 0);
   border-radius: 50%;
   z-index: 1;
-  border: 2px solid rgb(255, 255, 255); /* ✅ corregido */
+  border: 3px solid rgb(2, 2, 2); /* ✅ corregido */
 
   display: flex; /* Centrar texto */
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 10px;
-  color: white;
-  font-size: 12px;
+  color: rgb(5, 5, 5);
+  font-size: 15px;
+  font-style: italic;
 }
 
 /* Círculo */
@@ -145,15 +150,16 @@
   background-color: rgb(255, 234, 0);
   border-radius: 50%;
   z-index: 1;
-  border: 3px solid rgb(255, 254, 254); /* ✅ corregido */
+  border: 3px solid rgb(2, 2, 2); /* ✅ corregido */
 
   display: flex; /* Centrar texto */
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 10px;
-  color: white;
-  font-size: 12px;
+  color: rgb(10, 10, 10);
+  font-size: 15px;
+  font-style: italic;
 }
 
 /* Línea que conecta los círculos */

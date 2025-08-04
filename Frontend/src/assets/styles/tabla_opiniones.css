@@ -1,0 +1,22 @@
+.tabla-contenedor {
+  margin: 20px auto;
+  padding: 10px;
+  max-width: 900px;
+}
+
+.tabla-resumen {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabla-resumen th,
+.tabla-resumen td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.tabla-resumen th {
+  background-color: #f2f2f2;
+}

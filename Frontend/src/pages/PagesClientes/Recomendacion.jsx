@@ -1,13 +1,13 @@
 import { useState } from "react";
-import "../../assets/styles/Experiencia.css"; // Asegúrate que esta ruta sea correcta
+import "../../assets/styles/Experiencia.css";
 import Alerta from "../../components/Alerta";
-import Notificacion from "../../components/Notificacion"; // ✅ Nuevo import
+import Notificacion from "../../components/Notificacion";
 
-export default function Recomendacion() {
+export default function Recomendacion({ onGuardar }) {
   const [valorSeleccionado, setValorSeleccionado] = useState(null);
   const [respuesta, setRespuesta] = useState("");
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
-  const [mostrarNotificacion, setMostrarNotificacion] = useState(false); // ✅ Estado nuevo
+  const [mostrarNotificacion, setMostrarNotificacion] = useState(false);
 
   const manejarSeleccion = (valor) => {
     setValorSeleccionado(valor);
@@ -15,11 +15,22 @@ export default function Recomendacion() {
 
   const manejarSiguiente = () => {
     if (valorSeleccionado === null || respuesta.trim() === "") {
-      setMostrarAlerta(true); // Mostrar alerta si falta información
+      setMostrarAlerta(true);
     } else {
-      setMostrarNotificacion(true); 
-      console.log("Datos enviados:", { valorSeleccionado, respuesta });
+      if (onGuardar) {
+        onGuardar({
+          recomendacionFinal: respuesta,
+          calificacion: valorSeleccionado,
+          fecha: new Date().toLocaleDateString(), // Agregamos la fecha aquí
+        });
+      }
+      setMostrarNotificacion(true);
     }
+  };
+
+  const cerrarNotificacion = () => {
+    setMostrarNotificacion(false);
+    // No redirige, porque se mostrará la tabla al terminar ambas encuestas
   };
 
   return (
@@ -73,7 +84,7 @@ export default function Recomendacion() {
       {mostrarNotificacion && (
         <Notificacion
           mensaje="¡Gracias por tu respuesta! Tu opinión es muy valiosa para nosotros."
-          onClose={() => setMostrarNotificacion(false)}
+          onClose={cerrarNotificacion}
         />
       )}
     </div>

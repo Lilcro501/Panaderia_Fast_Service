@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import "../../assets/styles/Experiencia.css";
-import Alerta from "../../components/Alerta.jsx"; // Asegúrate que la ruta es correcta
+import Alerta from "../../components/Alerta.jsx";
 
 import carita1 from "../../assets/images/carita1.png";
 import carita2 from "../../assets/images/carita2.png";      
@@ -15,13 +15,18 @@ const opciones = [
     { src: carita4, alt: "Excelente" }
 ];
 
-export default function CalificarExperiencia() {
+export default function CalificarExperiencia({ onGuardar }) {
     const [seleccionadas, setSeleccionadas] = useState({});
+    const [respuestasTexto, setRespuestasTexto] = useState({});
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
-    const navigate = useNavigate(); // Para redireccionar manualmente si todo está completo
+    const navigate = useNavigate();
 
     const manejarSeleccion = (pregunta, indice) => {
         setSeleccionadas({ ...seleccionadas, [pregunta]: indice });
+    };
+
+    const manejarCambioTexto = (preguntaId, valor) => {
+        setRespuestasTexto({ ...respuestasTexto, [preguntaId]: valor });
     };
 
     const renderPreguntas = [
@@ -50,9 +55,18 @@ export default function CalificarExperiencia() {
     const manejarSiguiente = () => {
         const todasRespondidas = renderPreguntas.every(p => seleccionadas[p.id] !== undefined);
         if (!todasRespondidas) {
-            setMostrarAlerta(true); // Mostrar alerta si falta alguna pregunta
+            setMostrarAlerta(true);
         } else {
-            navigate("/Recomendacion"); // Redirige manualmente
+            if (onGuardar) {
+                onGuardar({
+                    opinionGeneral: seleccionadas.pregunta1,
+                    amabilidad: seleccionadas.pregunta2,
+                    calidad: seleccionadas.pregunta3,
+                    agilidad: seleccionadas.pregunta4,
+                    opinionTexto: respuestasTexto // <-- texto adicional
+                });
+            }
+            navigate("/Recomendacion");
         }
     };
 
@@ -79,7 +93,13 @@ export default function CalificarExperiencia() {
                             ))}
                         </div>
                         <p className="texto-pregunta">{pregunta.texto}</p>
-                        <input type="text" className="input-respuesta" placeholder="Escribe tu respuesta aquí" />
+                        <input
+                            type="text"
+                            className="input-respuesta"
+                            placeholder="Escribe tu respuesta aquí"
+                            value={respuestasTexto[pregunta.id] || ""}
+                            onChange={(e) => manejarCambioTexto(pregunta.id, e.target.value)}
+                        />
                     </div>
                 ))}
             </section>
