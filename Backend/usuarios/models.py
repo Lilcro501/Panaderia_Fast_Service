@@ -18,7 +18,7 @@ class UsuarioManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         #validamos de que se haya ingresado un correo 
         if not email:
-            #en tal caso de que no se ingrese lanzara el siguiente error
+            #en tal caso de que     no se ingrese lanzara el siguiente error
             raise ValueError('El correo es obligatorio')
         #normalize_email, lo utilzamos para pasar el correo a un formato estandar (minusculas)
         email = self.normalize_email(email)
@@ -62,7 +62,7 @@ class Usuario(AbstractBaseUser):
     #campos requeridos al momento de ingresar datos en el modelo
     REQUIRED_FIELDS = ['nombre', 'apellido', 'rol']
 
-    #este se asigna a al gestor perzonalizado en el cual se encargara de la creacion e instancias de usuario
+    #este se asigna a al gestor cd en el cual se encargara de la creacion e instancias de usuario
     objects = UsuarioManager()
     #metodo de representacion
     #aca definimos como se representara el objeto usuario

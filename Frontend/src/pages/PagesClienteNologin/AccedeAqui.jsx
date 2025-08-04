@@ -49,9 +49,10 @@ export default function AccedeAqui() {
         navigate('/Inicio');
         break;
       case 'cliente':
-      default:
         navigate('/home');
         break;
+      default: 
+        navigate("/")
     }
   };
 
@@ -74,7 +75,8 @@ export default function AccedeAqui() {
         }
 
         const rolLower = rol.toLowerCase();
-
+        // Guardar token (en login)
+        localStorage.setItem("token", response.data.access);
         localStorage.setItem('access', access);
         localStorage.setItem('token', access); // Esto mantiene compatibilidad con tu lógica actual
         localStorage.setItem('refresh', refresh);
