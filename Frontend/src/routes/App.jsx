@@ -36,7 +36,7 @@ import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
 import ProductoDetalle from '../components/ProductoDetalle';
 import FormularioEntrega from '../pages/PagesClientes/FormularioEntrega';
 import EncuestaCliente from '../pages/PagesClientes/EncuestaCliente';
-import EntregaLocal from '../pages/PagesClientes/EntregaLocald';
+import EntregaLocal from '../pages/PagesClientes/EntregaLocal';
   
 // ------------------- Páginas Cliente No Login -------------------
 import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';

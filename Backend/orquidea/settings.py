@@ -174,6 +174,7 @@ DATABASES = {
     }
 }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -304,7 +305,6 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id_usuario',  
 }
 
-
 # Configuración para HTTPS
 #Redirige automaticamente todas las peticiones HTTP a HTTPS
 #SECURE_SSL_REDIRECT = True
@@ -325,3 +325,4 @@ SIMPLE_JWT = {
 #X_FRAME_OPTIONS = 'DENY'
 # Configuración para HSTS
 #SECURE_HSTS_SECONDS = 3600 
+

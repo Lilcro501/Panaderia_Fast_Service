@@ -24,10 +24,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+
 # Locales
 from .models import CodigoVerificacion, Usuario
 from .serializers import CustomTokenObtainPairSerializer
-
+from .serializers import UsuarioSerializer
 
 ##################################################################################
 # importamos el serializador
@@ -263,7 +266,6 @@ def verificar_codigo(request):
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
-
 ##################################################################################
 #vista para cambiar el password del usuario
 ##################################################################################
@@ -297,8 +299,9 @@ def cambiar_password(request):
 
 
 ###################################################################################
-#
+
 ###################################################################################
+
 
 @csrf_exempt
 def login_google(request):
@@ -310,10 +313,8 @@ def login_google(request):
             if not token:
                 return JsonResponse({'error': 'Token no proporcionado'}, status=400)
 
-            # Verificar y decodificar el token
+            # Verificar el token con Google
             idinfo = id_token.verify_oauth2_token(token, google_requests.Request())
-            print("🔎 idinfo:", idinfo)
-
 
             email = idinfo['email']
             nombre = idinfo.get('given_name', '')
@@ -323,17 +324,17 @@ def login_google(request):
             usuario, creado = Usuario.objects.get_or_create(
                 email=email,
                 defaults={
-                    'nombre_usuario': email.split('@')[0],
                     'nombre': nombre,
                     'apellido': apellido,
                     'telefono': '',
                     'rol': 'cliente',
                     'fecha_registro': now(),
-                    'is_active': True
+                    'is_active': True,
+                    'is_staff': False,
                 }
             )
 
-            # Crear token JWT
+            # Generar los tokens JWT
             refresh = RefreshToken.for_user(usuario)
 
             return JsonResponse({
@@ -345,9 +346,25 @@ def login_google(request):
             }, status=200)
 
         except Exception as e:
-            print("❌ Error al verificar token de Google:", e)
+            print("❌ Error al verificar el token de Google:", e)
             return JsonResponse({'error': 'Token inválido o error interno'}, status=400)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
+#----------------------------- Vista para actualizar  y obtener los datos del usuario -----------------------------
 
+class UsuarioDetalleView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        usuario = request.user
+        serializer = UsuarioSerializer(usuario)
+        return Response(serializer.data)
+
+    def put(self, request):
+        usuario = request.user
+        serializer = UsuarioSerializer(usuario, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

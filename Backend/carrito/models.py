@@ -14,7 +14,9 @@ from django.contrib.auth.models import User
 #para asi interactuar con la base de datos e integrarlo a ORM
 class Factura(models.Model):
     #Definimos los campos del modelo, con sus respectivos tipos de datos y restricciones
-    id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True, db_column='id_factura')
+    # otros campos...
+
     #definimos el campo de usuario definido en settings
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,db_column='id_usuario' )
     #definimos el tipo de dato para la fecha

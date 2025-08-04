@@ -18,7 +18,7 @@ class UsuarioManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         #validamos de que se haya ingresado un correo 
         if not email:
-            #en tal caso de que no se ingrese lanzara el siguiente error
+            #en tal caso de que     no se ingrese lanzara el siguiente error
             raise ValueError('El correo es obligatorio')
         #normalize_email, lo utilzamos para pasar el correo a un formato estandar (minusculas)
         email = self.normalize_email(email)

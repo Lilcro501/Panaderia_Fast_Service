@@ -1,51 +1,52 @@
-from django.shortcuts import render
-from rest_framework.decorators import api_view
+# trabajador/views.py
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from carrito.models import Factura as FacturaCarrito
-from carrito.models import Factura, Pedido
-from .serializers import PedidoSerializer
-from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
-# Create your views here.
-
-#--------------------------------VISTA PARA TRAER LAS FACTURAS----------------------------
-#definimos el metodo htpp para establecer que puede manejar la vista
+from carrito.models import Factura
+from carrito.serializers import FacturaSerializer
+from rest_framework import status
+from carrito.models import Factura, Pedido, Producto
+from .serializers import PedidoSerializer
 
 
 @api_view(['GET'])
-def listar_factura(request):
+def listar_pedidos(request):
+    facturas = Factura.objects.all().order_by('-fecha')
+    serializer = FacturaSerializer(facturas, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def obtener_factura(request, id_factura):
     try:
-        factura = Factura.objects.get(id_factura=id_factura)
+        factura = Factura.objects.get(id=id_factura)
         pedidos = Pedido.objects.filter(factura=factura)
 
-        productos = [
-            {
-                "id": p.producto.id_producto,
-                "nombre": p.producto.nombre,
-                "precio_unitario": float(p.producto.precio),
-                "cantidad": p.cantidad
-            }
-            for p in pedidos
-        ]
+        productos = [{
+            "nombre": pedido.producto.nombre,
+            "cantidad": pedido.cantidad,
+            "precio_unitario": float(pedido.producto.precio),
+            "subtotal": float(pedido.subtotal),
+            "estado": "comprado"
+        } for pedido in pedidos]
 
-        comprobante_url = request.build_absolute_uri(factura.comprobante.url) if factura.comprobante else None
+        data = {
+            "id_factura": factura.id,
+            "id_usuario": factura.usuario.id,
+            "fecha": factura.fecha,
+            "metodo_pago": factura.metodo_pago,
+            "total": float(factura.total),
+            "direccion_entrega": factura.direccion_entrega,
+            "fecha_entrega": factura.fecha_entrega,
+            "notas": factura.notas,
+            "comprobante": factura.comprobante.url if factura.comprobante else None,  # <- aquí ajustado
+            "metodo_entrega": factura.metodo_entrega,
+            "productos": productos
+        }
 
-        return Response({
-            "id_factura": factura.id_factura,
-            "productos": productos,
-            "comprobante": comprobante_url
-        })
+        return Response(data, status=status.HTTP_200_OK)
 
     except Factura.DoesNotExist:
-        return Response({"error": "Factura no encontrada"}, status=404)
+        return Response({"error": "Factura no encontrada"}, status=status.HTTP_404_NOT_FOUND)
 
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])  # Si usas autenticación
-def listar_pedidos(request, id_factura):
-    try:
-        pedidos = Pedido.objects.filter(factura_id=id_factura)
-        serializer = PedidoSerializer(pedidos, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

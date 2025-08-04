@@ -45,22 +45,17 @@ User = get_user_model()
 #decorador para deshabilitar la proteccion contra ataques CSRF
 @csrf_exempt
 def crear_factura(request):
-    #metodo de respuesta en este cao es post
     if request.method == 'POST':
         try:
-            #verificamos el tipo de contenido de la solicitud, si es multipart/form-data es porque viene del formulario de la pagina web, validamos si se esta enviando un comprobante junto a los datos del formulario
             if 'multipart/form-data' in request.content_type:
-                # Obténemos los datos de la solicitud que hace el formulario 
                 usuario_id = request.POST.get('id_usuario')
-                print(usuario_id)
                 metodo_pago = request.POST.get('metodo_pago')
                 total = request.POST.get('total')
                 direccion_entrega = request.POST.get('direccion_entrega')
                 fecha_entrega = request.POST.get('fecha_entrega')
                 notas = request.POST.get('informacion_adicional', '')
                 metodo_entrega = request.POST.get('metodo_entrega', 'local')
-
-                # Creamos una lista vacia para que se almacenen los productos quue llegan en la soliciud, estos se guardan como diccionarios en la lista productos
+                telefono_usuario = request.POST.get('telefono_usuario')
                 productos = []
                 i = 0
                 while f'productos[{i}][id_producto]' in request.POST:
@@ -69,13 +64,9 @@ def crear_factura(request):
                         'cantidad': request.POST[f'productos[{i}][cantidad]'],
                     })
                     i += 1
-                #obtenemos el comprobante de pago si lo hay
                 comprobante = request.FILES.get('comprobante')
-            # en tal caso de qie no venga el comprobante de pago, se obtienen los datos de la solicitud que viene en formato json
             else:
-                # Parseamos los datos JSON de la solicitud
                 data = json.loads(request.body)
-                #obtenemos los valores de la solicitud que esta realizando el frontend
                 usuario_id = data.get('id_usuario')
                 metodo_pago = data.get('metodo_pago')
                 total = data.get('total')
@@ -83,18 +74,20 @@ def crear_factura(request):
                 fecha_entrega = data.get('fecha_entrega')
                 notas = data.get('informacion_adicional', '')
                 metodo_entrega = data.get('metodo_entrega', 'local')
-                #obtenemos los productos que se van a comprar
+                telefono_usuario = data.get('telefono_usuario')  # 👈 nuevo campo
                 productos = data.get('productos', [])
-                #el comprobante de pago no viene en la solicitud
                 comprobante = None
 
-            # validamos que si se haya recibido el id del usuario, en tal caso de que no lo haya encintrado lanzara un eror  400(Bad request)  
             if not usuario_id:
                 return JsonResponse({'error': 'ID de usuario no recibido'}, status=400)
-            #obtenemos el usuario correspondiente al id que se le paso en la solicitud
+
             usuario = Usuario.objects.get(id_usuario=usuario_id)
-            #creamos la factura 
-            #llamando el modelo y alamcenadolo como un objeto
+
+            # 👇 Si se recibe el número de teléfono, actualizarlo
+            if telefono_usuario:
+                usuario.telefono = telefono_usuario
+                usuario.save()
+
             factura = Factura.objects.create(
                 usuario=usuario,
                 fecha=timezone.now(),
@@ -112,28 +105,21 @@ def crear_factura(request):
                 estado_pago="pendiente",
                 proceso_pedido="preparando"
             )
-            #procesamos los productos que se van a comprar
+
             for producto in productos:
-                #obtenemos el id del producto
                 id_producto = int(producto['id_producto'])
-                #obtenemos la cantidad de productos que se van a comprar
                 cantidad_comprada = int(producto['cantidad'])
-                #obtenemos el id del producto correspondiete el al que se envio en la solicitud
                 producto_db = Producto.objects.get(id_producto=id_producto)
-                # Verificar si hay suficiente stock
+
                 if producto_db.stock < cantidad_comprada:
                     return JsonResponse({
-                        #lanzamos un mensaje de erorr en tal caso de que la cantidad sea mayor al stock que hay en la base de datos
                         'error': f'Stock insuficiente para el producto \"{producto_db.nombre}\"'
                     }, status=400)
-                #restamos la cantidad comprada en el stock por la cantidad comprada
+
                 producto_db.stock -= cantidad_comprada
-                #guardamos los cambios en la base de datos
                 producto_db.save()
-                #obtenemos el subttoal del producto
                 subtotal = producto_db.precio * cantidad_comprada
 
-                #creamos el pedido
                 Pedido.objects.create(
                     producto=producto_db,
                     cantidad=cantidad_comprada,
@@ -141,15 +127,15 @@ def crear_factura(request):
                     factura=factura
                 )
 
-            # Envíamos el correo despues de crear la factura
             enviar_factura_por_correo(factura)
 
             return JsonResponse({
                 'success': True,
                 'factura_id': factura.id,
+                'telefono_usuario': usuario.telefono,  # 👈 incluir el número en la respuesta
                 'message': 'Factura y pedidos registrados correctamente'
             }, status=201)
-        #manejo de errores
+
         except Usuario.DoesNotExist:
             return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
         except Producto.DoesNotExist:
@@ -159,6 +145,7 @@ def crear_factura(request):
             return JsonResponse({'error': str(e)}, status=400)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
 
 
 #-----------------------------------------------------------------------------------------------------------------
@@ -264,3 +251,9 @@ class CrearComentarioView(generics.CreateAPIView):
         serializer.save(id_usuario=self.request.user)
 
 #----------------------------------------------------------------------------------------------------------
+class ComentarioDetalleView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Valoracion.objects.all()
+    serializer_class = ValoracionSerializer
+    lookup_field = 'pk'
+
+

@@ -1,12 +1,10 @@
 import React from "react";
-import ActualizarDatos  from "../../components/PerfilInformacion";
+import PerfilInformacion from "../../components/PerfilInformacion";
 
-
-export default function ActualizarPerfil() {
+export default function ActualizarPerfilUsuario() {
     return (
         <>
-            <ActualizarDatos/>    
+            <PerfilInformacion></PerfilInformacion>
         </>
     )
-
 }

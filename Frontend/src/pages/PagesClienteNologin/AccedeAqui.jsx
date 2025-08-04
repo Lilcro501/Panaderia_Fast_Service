@@ -74,7 +74,8 @@ export default function AccedeAqui() {
         }
 
         const rolLower = rol.toLowerCase();
-
+        // Guardar token (en login)
+        localStorage.setItem("token", response.data.access);
         localStorage.setItem('access', access);
         localStorage.setItem('token', access); // Esto mantiene compatibilidad con tu lógica actual
         localStorage.setItem('refresh', refresh);

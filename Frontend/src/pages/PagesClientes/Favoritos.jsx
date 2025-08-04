@@ -1,4 +1,3 @@
-// pages/Favoritos.jsx
 import React from "react";
 import { useFavoritos } from "../../Context/FavoritosContext";
 import { useCarrito } from "../../Context/CarritoContext";
@@ -7,7 +6,7 @@ import { Link } from "react-router-dom";
 import "../../assets/styles/Categoria.css";
 
 const Favoritos = () => {
-  const { favoritos, isLoading, error } = useFavoritos();
+  const { favoritos, isLoading, error, eliminarFavoritoLocal } = useFavoritos();
   const { agregarProducto, carrito } = useCarrito();
 
   const manejarAgregar = (producto) => {
@@ -102,7 +101,12 @@ const Favoritos = () => {
                     >
                       {producto.stock > 0 ? "Añadir" : "Agotado"}
                     </button>
-                    <Corazon productoId={producto.id_producto} />
+
+                    {/* ✅ Pasamos onRemove para actualizar la vista local */}
+                    <Corazon
+                      productoId={producto.id_producto}
+                      onRemove={() => eliminarFavoritoLocal(producto.id)}
+                    />
                   </div>
                 </div>
               </div>
@@ -115,4 +119,3 @@ const Favoritos = () => {
 };
 
 export default Favoritos;
-

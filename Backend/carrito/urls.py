@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
 from .views import ListaCrearFavoritos, EliminarFavorito
-from.views import ComentariosPorProductoView, CrearComentarioView
+from.views import ComentariosPorProductoView, CrearComentarioView, ComentarioDetalleView
+
 urlpatterns = [
     # Crear factura
     path('crear-factura/', views.crear_factura, name='crear_factura'),
@@ -19,4 +20,5 @@ urlpatterns = [
     #comentarios 
     path('producto/<int:producto_id>/comentarios/', ComentariosPorProductoView.as_view(), name='comentarios-producto'),
     path('comentarios/', CrearComentarioView.as_view(), name='crear-comentario'),
+    path('comentarios/<int:pk>/', ComentarioDetalleView.as_view(), name='detalle-comentario'),
 ]

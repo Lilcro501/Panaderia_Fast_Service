@@ -25,7 +25,8 @@ const Header = () => {
             <ul className="lista-info">
               <Link to="/Conocenos" className='sin-subrayado'><li>Conócenos</li></Link>
               <Link to="/CalificarExperiencia" className='sin-subrayado'><li>Calificar Experiencia</li></Link>
-              <Link to="/Favoritos" className="sin-subrayado"><li>Favoritos</li></Link>
+              <li onClick={() => (window.location.href = "/Favoritos")}>Favoritos</li>
+
             </ul>
           </nav>
         </div>

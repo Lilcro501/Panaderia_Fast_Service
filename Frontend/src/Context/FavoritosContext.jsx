@@ -1,4 +1,3 @@
-// Context/FavoritosContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -33,14 +32,28 @@ export const FavoritosProvider = ({ children }) => {
     }
   };
 
+  // 🔴 NUEVA FUNCIÓN PARA ELIMINAR DE FAVORITOS LOCALMENTE
+  const eliminarFavoritoLocal = (productoId) => {
+    setFavoritos((prevFavoritos) =>
+      prevFavoritos.filter((fav) => fav.producto_detalle.id !== productoId)
+    );
+  };
+
   useEffect(() => {
     fetchFavoritos();
   }, []);
 
   return (
-    <FavoritosContext.Provider value={{ favoritos, isLoading, error, fetchFavoritos }}>
+    <FavoritosContext.Provider
+      value={{
+        favoritos,
+        isLoading,
+        error,
+        fetchFavoritos,
+        eliminarFavoritoLocal, 
+      }}
+    >
       {children}
     </FavoritosContext.Provider>
   );
 };
-

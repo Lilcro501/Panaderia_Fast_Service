@@ -1,9 +1,9 @@
+# trabajador/urls.py
 from django.urls import path
-from .views import listar_factura, listar_pedidos
-from . import views
+from .views import listar_pedidos, obtener_factura
 
 urlpatterns = [
-    #vista para traer todas las facturas
-    path('listas_facturas/', views.listar_factura, name='lista_facturas'),
-    path('facturas/<int:id_factura>/pedidos/', listar_pedidos, name='listar_pedidos'),
+    path('listar-pedidos/', listar_pedidos, name='listar_pedidos'),
+    path('facturas/<int:id_factura>/', obtener_factura, name='obtener_factura'),
 ]
+

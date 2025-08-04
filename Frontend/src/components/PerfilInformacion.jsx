@@ -7,16 +7,65 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
+
 export default function PerfilInformacion() {
   const navegacion = useNavigate();
-  const EnviarDatos = (e) => {
-    e.preventDefault()
-    navegacion("/")
-  }
+  const [usuario, setUsuario] = useState({
+    nombre: "",
+    apellido: "",
+    email: "",
+  });
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.warn("Token no encontrado. Redirigiendo a login...");
+      navegacion("/login"); 
+      return;
+    }
+
+    const obtenerUsuario = async () => {
+      try {
+        const response = await api.get("usuarios/perfil/", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setUsuario({
+          nombre: response.data.nombre,
+          apellido: response.data.apellido || "",
+          email: response.data.email,
+        });
+      } catch (error) {
+        console.error("Error al obtener los datos del usuario:", error);
+      }
+    };
+
+    obtenerUsuario();
+  }, [navegacion]);
+
+  const EnviarDatos = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    try {
+      await api.put("usuarios/perfil/", usuario, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      alert("Datos actualizados correctamente");
+      navegacion("/Home");
+    } catch (error) {
+      console.error("Error al actualizar datos:", error);
+      alert("Ocurrió un error al actualizar los datos.");
+    }
+  };
 
   return (
     <div>
+
         <h1 style={{textAlign: "center"}}>Información de usuario</h1>
         <br />
         <br />
@@ -66,6 +115,7 @@ export default function PerfilInformacion() {
       </Link>
        
     </form>
+
     </div>
   );
 }
@@ -73,35 +123,39 @@ export default function PerfilInformacion() {
 
 export function MostrarInformacion() {
   const [usuario, setUsuario] = useState({
-    nombre: '',
-    apellidos: '',
-    correo: ''
+    nombre: "",
+    apellido: "",
+    email: ""
   });
 
+  const navegacion = useNavigate();
+
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navegacion("/login");
+      return;
+    }
+
     const obtenerUsuario = async () => {
       try {
-        const response = await axios.get('/api/usuario/', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        });
+        const response = await api.get("usuarios/perfil/"); 
         setUsuario(response.data);
       } catch (error) {
-        console.error('Error al obtener los datos del usuario:', error);
+        console.error("Error al obtener los datos del usuario:", error);
       }
     };
 
     obtenerUsuario();
-  }, []);
+  }, [navegacion]);
 
   return (
     <div className="recuadro-perfil">
-      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
         Información de Usuario
       </h1>
 
-      <div style={{ textAlign: 'center' }}>
+      <div style={{ textAlign: "center" }}>
         <img src={PerfilLogo} className="foto-perfil" alt="Foto de perfil" />
       </div>
 
@@ -109,11 +163,19 @@ export function MostrarInformacion() {
         <tbody>
           <tr>
             <th>Nombre</th>
-            <td>{usuario.nombre} {usuario.apellidos}</td>
+            <td>{usuario.nombre}</td>
+          </tr>
+          <tr>
+            <th>Apellido</th>
+            <td>{usuario.apellido}</td>
           </tr>
           <tr>
             <th>Correo</th>
-            <td>{usuario.correo}</td>
+            <td>{usuario.email}</td>
+          </tr>
+          <tr>
+            <th>Contraseña</th>
+            <td>********</td>
           </tr>
         </tbody>
       </table>
@@ -124,3 +186,6 @@ export function MostrarInformacion() {
     </div>
   );
 }
+
+
+

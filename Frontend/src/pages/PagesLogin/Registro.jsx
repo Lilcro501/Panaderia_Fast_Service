@@ -78,7 +78,6 @@ export default function Registro() {
           direccion: '',
           rol: 'cliente'
         });
-
         if (response.status === 201 || response.status === 200) {
           alert('Usuario registrado con éxito ✅');
           navigate('/AccedeAqui');

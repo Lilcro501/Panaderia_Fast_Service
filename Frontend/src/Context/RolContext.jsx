@@ -10,8 +10,8 @@ export const useRol = () => {
   return ctx;
 };
 
-// Roles válidos que usas en tu app
-const rolesValidos = ['cliente', 'admin', 'trabajador', 'sin-registrar'];
+// Lista de roles válidos
+const rolesValidos = ['admin', 'trabajador', 'sin-registrar', 'cliente'];
 
 // Proveedor del contexto
 export const RolProvider = ({ children }) => {
@@ -19,7 +19,7 @@ export const RolProvider = ({ children }) => {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    const rolGuardado = localStorage.getItem('rol') || 'sin-registrar';
+    const rolGuardado = (localStorage.getItem('rol') || 'sin-registrar').toLowerCase();
 
     if (rolesValidos.includes(rolGuardado)) {
       setRol(rolGuardado);
@@ -30,7 +30,7 @@ export const RolProvider = ({ children }) => {
     setCargando(false);
   }, []);
 
-  // Función para cambiar el rol manualmente
+  // Cambiar el rol manualmente
   const cambiarRol = (nuevoRol) => {
     const r = nuevoRol.toLowerCase();
     if (rolesValidos.includes(r)) {
