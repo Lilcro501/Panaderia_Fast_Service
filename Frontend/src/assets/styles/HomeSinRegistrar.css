@@ -126,7 +126,6 @@
 /* Link de acceso */
 
 
-
 /* Campo inválido */
 .invalido {
   border-bottom: 2px solid red;
@@ -134,5 +133,62 @@
 
 .titulo-productos {
   text-align: center;
+  font-size: 30px;
+}
+
+.recuadro-informacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #cda17abd;
+  border-radius: 25px;
+  padding: 20px;
+  width: 66%;
+  margin: auto;
+  font-size: 1.2rem;
+  color: #5c321d;
+  transition: transform 0.3s ease;
+}
+
+.recuadro-informacion:hover {
+  transform: scale(1.03);
+}
+
+.nosotros {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0px 20px;
+  font-size: 29px ;
+}
+
+.sobre {
+  color: #2a150b;
+  font-size: 43px;
+  font-weight: bold;
+}
+
+.Sobre {
+  text-decoration: none;
+  color: #2a150b;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.objetivo {
+  color: #5c321d;
+  font-size: 26px;
+}
+
+.destacados{
+  margin-left: 20%;
+}
+
+.texto-nosotros {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.Slogan {
   font-size: 30px;
 }
