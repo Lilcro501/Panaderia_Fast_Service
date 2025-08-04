@@ -78,10 +78,7 @@ import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 
 const AppRouter = () => {
   return (
-    
     <Routes>
-
-      <Route path='/' element={<PrivateRoute role="cliente"><MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin></PrivateRoute>}></Route>
       {/* Cliente */}
       <Route path='/Home' element={<PrivateRoute role="cliente"><MainLayout><Home></Home></MainLayout></PrivateRoute>} />
       <Route path="/conocenos" element={<PrivateRoute role="cliente"><MainLayout><Conocenos /></MainLayout></PrivateRoute>} />
@@ -106,6 +103,7 @@ const AppRouter = () => {
 
 
       {/* Rutas publicas */}
+      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>}/>
       <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña></CambioDeContraseña></MainLayoutSinLogin>}></Route>
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />

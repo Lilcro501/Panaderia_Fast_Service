@@ -3,15 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { useRol } from "../../Context/RolContext";
 
 const Login = () => {
-    const navigate = useNavigate();
-    const { cambiarRol } = useRol();
+  const navigate = useNavigate();
+  const { cambiarRol } = useRol();
 
-    useEffect(() => {
+  useEffect(() => {
     cambiarRol("cliente"); // Cambia el contexto y localStorage
-    navigate("/home"); // Redirige al home del cliente
-    }, [navigate, cambiarRol]);
 
-    return null;
+    // Retardo leve para evitar conflictos con rutas protegidas
+    const timer = setTimeout(() => {
+      navigate("/home");
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [navigate, cambiarRol]);
+
+  return null;
 };
 
 export default Login;
