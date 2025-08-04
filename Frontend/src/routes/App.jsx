@@ -75,7 +75,6 @@ import InfoCliente from '../pages/PagesTrabajador/InfoCliente';
 import Inicio from '../pages/PagesTrabajador/Inicio';
 import ListaPedidos from '../pages/PagesTrabajador/ListaPedidos';
 import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
-import EncuestaCliente from '../pages/PagesAdmin/EncuestaCliente';
 const AppRouter = () => {
   return (
     
@@ -104,7 +103,6 @@ const AppRouter = () => {
       <Route path= '/Recomendacion' element={<PrivateRoute><MainLayout><Recomendacion></Recomendacion> </MainLayout></PrivateRoute>}></Route>
       <Route path='ActualizarPerfil' element={<PrivateRoute><MainLayout><ActualizarPerfil></ActualizarPerfil></MainLayout></PrivateRoute>}></Route>
       <Route path='EntegaLocal' element= {<PrivateRoute><MainLayout></MainLayout><EntregaLocal></EntregaLocal></PrivateRoute>}></Route>
-      <Route path='EncuestaCliente' element={<PrivateRoute><MainLayout><EncuestaCliente></EncuestaCliente></MainLayout></PrivateRoute>}></Route>
       
       {/* Rutas publicas */}
       <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña></CambioDeContraseña></MainLayoutSinLogin>}></Route>
