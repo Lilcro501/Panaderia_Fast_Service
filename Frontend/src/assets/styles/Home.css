@@ -77,35 +77,33 @@
   display: none;
 }
 
-.recuadro-informacion {
-  margin-left: 32%;
-  width: 610px;
-  height: 250px;
-  background-color: #c6956ae9;
-  justify-content: center;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: 1.5rem;
-  transition: all;
-  transition: transform 0.3s;
-}
 
-.recuadro-informacion:hover {
-  transform: scale(1.09);
-}
-
-.imagen-mostrador{
+.imagen-mostrador {
+  width: 300px;
   border-radius: 25px;
+  transition: transform 0.1s ease-out;
+  position: relative;
   margin: 10px;
   margin-right: 20px;
-  transition: transform 0.3s;
+  max-width: 80%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.imagen-mostrador:hover {
+  animation: flotar 0.8s ease-out;
+}
+
+@keyframes flotar {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
 
 .bienvenida {
   background-color: #8b5e3c;
 }
 
-/*aca empieza la animacion del titulo*/
+/* Animación del título */
 .contenedor-encabezado {
   display: flex;
   align-items: center;
@@ -127,7 +125,6 @@
   animation: aparecerDesdeAbajo 0.8s ease-out forwards;
 }
 
-/* Líneas decorativas arriba y abajo */
 .texto-animado::before,
 .texto-animado::after {
   content: "";
@@ -146,7 +143,6 @@
   bottom: 0;
 }
 
-/* Animación */
 @keyframes aparecerDesdeAbajo {
   to {
     opacity: 1;
@@ -154,27 +150,29 @@
   }
 }
 
-/* Buscar una fuente acorde para todo el aplicativo 
-.subtitulo-productos {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-*/
-
-/*aca termina la animacion del titulo*/
-
-/*animacion del cuadro donde esta la foto del mostrador */
-.frase-logo{
-  margin-left: 17%;
-  width: 70%;
+/* Animación mostrador final */
+.frase-logo {
+  margin: 5px 18%;
+  padding: 15px;
   background-color: #8b6141ae;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  align-items: center;
   border-radius: 25px;
+  width: 70%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
-.texto-slogan{
-  text-align: center;
+.texto-slogan {
   color: rgb(255, 229, 202);
+  text-align: center;
+  max-width: 450px;
+}
+
+.Slogan {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.5;
 }
 
 .scroll-animado {
@@ -196,12 +194,7 @@
   color: #997b6c;
 }
 
-.sobre {
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.subtitulo-productos{
+.subtitulo-productos {
   text-align: center;
   font-size: 30px;
 }
