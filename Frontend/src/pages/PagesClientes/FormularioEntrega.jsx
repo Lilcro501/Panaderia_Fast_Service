@@ -22,7 +22,7 @@ const FormularioEntrega = () => {
   });
 
   const [userData, setUserData] = useState({
-    id_usuario: "",
+    id_usuario: null,
     telefono: ''
   });
 
@@ -74,9 +74,7 @@ const FormularioEntrega = () => {
 
     try {
       const datosFactura = new FormData();
-      console.log("🧪 userData.id_usuario:", userData.id_usuario);
-      console.log("📦 localStorage id_usuario:", localStorage.getItem('id_usuario'));
-      
+
       datosFactura.append('id_usuario', userData.id_usuario);
       datosFactura.append('metodo_pago', metodoEntrega);
       datosFactura.append('metodo_entrega', metodoEnvio);
@@ -291,5 +289,4 @@ const FormularioEntrega = () => {
     </>
   );
 };
-
 export default FormularioEntrega;
