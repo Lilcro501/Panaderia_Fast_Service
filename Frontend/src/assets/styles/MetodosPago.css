@@ -3,232 +3,127 @@
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
-  max-width: 1100px;
-  margin: 0 auto 60px;
-  padding: 30px 20px;
-  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: 15px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Columnas */
-.formulario-columna,
-.panel-derecho {
-  flex: 1 1 320px;
-  min-width: 280px;
-  background: #b88f6f;
-  border-radius: 16px;
-  padding: 25px 22px;
-  position: relative;
-  box-shadow: 0 20px 50px -5px rgba(0, 0, 0, 0.5);
-  color: #1f1f1f;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  border: 1px solid #d4b787;
+.formulario-columna {
+  flex: 1 1 460px;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  color: #2c3e50;
 }
 
-/* Títulos internos */
-h1 {
-  color: #d1b085;
-  font-size: 38px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-h4 {
-  color: #1f1f1f;
-  margin-bottom: 16px;
-  font-size: 30px;
-  font-weight: 600;
-  font-style:oblique;
-  text-align: center;
-  
-}
-
-.titulo-orden,
-.titulo-pago {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-  border-bottom: 2px solid rgba(0,0,0,0.1);
-  padding-bottom: 6px;
-  color: #2c1f0e;
-}
-
-/* Inputs */
 .input-moderno {
   width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 16px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  border: 1px solid #e1e1e1;
   border-radius: 8px;
-  border: 2px solid #6e4f30;
-  background: #d8b58f;
-  font-size: 0.95rem;
-  box-sizing: border-box;
-  color: #1f1f1f;
-  transition: border-color .25s, box-shadow .25s, background .25s;
+  background-color: #ffffff;
+  color: #2c3e50;
+  transition: all 0.3s ease;
 }
 
 .input-moderno::placeholder {
-  color: rgba(31,31,31,0.6);
+  color: #95a5a6;
 }
 
 .input-moderno:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
   outline: none;
   border-color: #ffd700;
   background: #e4c79d;
   box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
 }
 
-/* Radio personalizado */
-.opcion-pago {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-  font-size: 0.95rem;
-  position: relative;
-  padding-left: 28px;
-  cursor: pointer;
-  user-select: none;
-  color: #f0d8aa;
-}
-
-.opcion-pago input {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #6e4f30;
-  border-radius: 50%;
-  background: #b88f6f;
-  cursor: pointer;
-  transition: all .2s;
-  display: grid;
-  place-items: center;
-}
-
-.opcion-pago input::after {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  transform: scale(0);
-  background: #ffd700;
-  transition: transform .2s ease-in-out;
-}
-
-.opcion-pago input:checked::after {
-  transform: scale(1);
-}
-
-.opcion-pago input:focus-visible {
-  outline: 2px solid rgba(255,215,0,0.8);
-}
-
-/* Resumen y métodos */
-.detalle-orden,
-.metodos-pago {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  padding: 20px 18px;
-  margin-top: 10px;
-  border: 1px solid rgba(212, 183, 120, 0.8);
-  box-shadow: 0 12px 35px -5px rgba(0,0,0,0.4);
-}
-
-/* Lista de orden */
-.detalle-orden ul {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0;
-}
-
-.detalle-orden li {
-  margin-bottom: 6px;
-  font-size: 0.9rem;
-}
-
-/* Total */
-.detalle-orden p strong {
-  display: block;
-  margin-top: 12px;
-  font-size: 1.1rem;
-}
-
-/* Botones */
-.boton-moderno,
-.boton-detalles {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: transform .15s, filter .2s;
-  display: inline-block;
-}
-
 .boton-moderno {
-  background: linear-gradient(135deg, #1f1f1f, #0f0f0f);
-  color: #fff;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  width: 100%;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(41, 128, 185, 0.2);
 }
 
 .boton-moderno:hover {
-  filter: brightness(1.1);
+  background: linear-gradient(135deg, #2980b9, #2573a7);
   transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(41, 128, 185, 0.3);
 }
 
 .boton-moderno:active {
-  transform: scale(.97);
+  transform: translateY(1px);
 }
 
-.boton-moderno[disabled] {
-  opacity: .55;
-  cursor: not-allowed;
+.detalle-orden,
+.metodos-pago {
+  flex: 1 1 300px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  color: #2c3e50;
 }
 
-.boton-detalles {
-  background: #fafafa;
-  color: #1f1f1f;
-  border: 1px solid #d4b787;
+.detalle-orden h2,
+.metodos-pago h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  border-bottom: 2px solid #f1f2f6;
+  padding-bottom: 10px;
 }
 
-.boton-detalles:hover {
-  background: #f0ebdf;
+.detalle-orden ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* Mensaje de error */
-.error-message {
-  background: rgba(255, 80, 80, 0.12);
-  border: 1px solid #ff5757;
-  padding: 10px 14px;
-  border-radius: 6px;
-  color: #fff;
-  margin: 12px 0;
-  font-size: 0.9rem;
+.detalle-orden li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f2f6;
+  color: #2c3e50;
 }
 
-/* etiquetas y textos secundarios */
-label {
-  font-weight: 600;
-  margin-bottom: 6px;
+.radio-option {
   display: block;
-  color: #2c1f0e;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
+.radio-option:hover {
+  background-color: #f8f9fa;
+}
+
+@media (max-width: 768px) {
   .contenedor-informacion {
-    flex-direction: column;
-    padding: 15px;
+    padding: 20px;
   }
 
   .formulario-columna,
-  .panel-derecho {
-    width: 100%;
+  .detalle-orden,
+  .metodos-pago {
+    flex: 1 1 100%;
   }
 
   .fila-doble {

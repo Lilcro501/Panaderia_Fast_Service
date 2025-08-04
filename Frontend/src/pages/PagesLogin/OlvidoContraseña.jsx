@@ -49,7 +49,7 @@ export default function OlvidoContraseña() {
   return (
     <section className='ContenedorC'>
       <button className='Salir' onClick={salir}><IoMdClose /></button>
-      <h1 className='TituloAcceso'>Olvidó su contraseña</h1>
+      <h1 className='TituloAcceso'>¿Olvidó su contraseña?</h1>
       <p>Ingresa tu correo y te enviaremos un código de recuperación</p>
 
       <div className={`Campo ${!esCorreoValido && enviado ? 'invalido' : ''}`}>

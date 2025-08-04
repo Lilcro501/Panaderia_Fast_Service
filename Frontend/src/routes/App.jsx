@@ -77,10 +77,8 @@ import ListaPedidos from '../pages/PagesTrabajador/ListaPedidos';
 import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
 const AppRouter = () => {
   return (
-    
     <Routes>
 
-      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar></HomeSinRegistrar></MainLayoutSinLogin>}></Route>
       {/* Cliente */}
       <Route path='/home' element={<PrivateRoute role="cliente"><RutasLayouts><Home></Home></RutasLayouts></PrivateRoute>} />
       <Route path="/conocenos" element={<PrivateRoute role="cliente"><MainLayout><Conocenos /></MainLayout></PrivateRoute>} />
@@ -98,13 +96,14 @@ const AppRouter = () => {
       <Route path='/FacturaProductos' element={<PrivateRoute role="cliente"><MainLayout><FacturaProductos></FacturaProductos></MainLayout></PrivateRoute>} />
       <Route path='/FormularioEntrega' element={<PrivateRoute role="cliente"><MainLayout><FormularioEntrega></FormularioEntrega></MainLayout></PrivateRoute>} />
       <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos></Favoritos></MainLayout></PrivateRoute>}></Route>
-      <Route path='/CalificarExperiencia' element={<PrivateRoute><MainLayout> <CalificarExperiencia></CalificarExperiencia> </MainLayout></PrivateRoute>}></Route>
-      <Route path='/PerfilUsuario' element={<PrivateRoute> <MainLayout> <PerfilUsuario></PerfilUsuario> </MainLayout> </PrivateRoute>}></Route>
-      <Route path= '/Recomendacion' element={<PrivateRoute><MainLayout><Recomendacion></Recomendacion> </MainLayout></PrivateRoute>}></Route>
-      <Route path='ActualizarPerfil' element={<PrivateRoute><MainLayout><ActualizarPerfil></ActualizarPerfil></MainLayout></PrivateRoute>}></Route>
-      <Route path='EntegaLocal' element= {<PrivateRoute><MainLayout></MainLayout><EntregaLocal></EntregaLocal></PrivateRoute>}></Route>
-      
+      <Route path='/CalificarExperiencia' element={<PrivateRoute role="cliente"><MainLayout> <CalificarExperiencia></CalificarExperiencia> </MainLayout></PrivateRoute>}></Route>
+      <Route path='/PerfilUsuario' element={<PrivateRoute role="cliente"> <MainLayout> <PerfilUsuario></PerfilUsuario> </MainLayout> </PrivateRoute>}></Route>
+      <Route path='/Actualizar' element={<PrivateRoute role="cliente"><MainLayout><ActualizarPerfilUsuario></ActualizarPerfilUsuario></MainLayout></PrivateRoute>}></Route>
+      <Route path='/Recomendacion' element={<PrivateRoute role="cliente"><MainLayout><Recomendacion></Recomendacion></MainLayout></PrivateRoute>}></Route>
+
+
       {/* Rutas publicas */}
+      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>}/>
       <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña></CambioDeContraseña></MainLayoutSinLogin>}></Route>
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
@@ -148,8 +147,4 @@ const AppRouter = () => {
 };
 
 export default AppRouter;
-
-
-
-
 

@@ -1,26 +1,32 @@
 /* contenedor principal */
 .Contenedor {
   display: flex;
-  max-width: 900px;
-  margin: 60px auto;
-  border-radius: 16px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: 72%;
+  margin: 20px auto;
+  border-radius: 40px;
   overflow: hidden;
-  box-shadow: 0 30px 80px -10px rgba(0, 0, 0, 0.6);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  position: relative;
-  background: #0f0f0f;
-  color: #f0e8c8;
+  background-color: #ffffff;
+  box-shadow: 0 0 25px rgba(85, 67, 7, 0.15);
 }
 
 /* panel izquierdo */
 .PanelIzquierdo {
   flex: 1;
-  background: #0e0e0e;
-  padding: 50px 35px;
+  background: #705741;
+  padding: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  color: #b7b7b7;
+  -webkit-text-stroke: 1px #565656;
   text-align: center;
+
 }
 
 .PanelIzquierdo h2 {
@@ -29,6 +35,7 @@
   margin-bottom: 15px;
   font-style: italic;
   line-height: 1.1;
+
 }
 
 .PanelIzquierdo p {
@@ -38,38 +45,20 @@
   line-height: 1.5;
 }
 
-.PanelIzquierdo img {
-  width: 160px;
-  max-width: 100%;
-  margin: 0 auto;
-  filter: brightness(0.95);
-  border-radius: 8px;
-  margin-top: 10px;
-}
 
-/* panel derecho */
 .PanelDerecho {
   flex: 1;
-  padding: 45px 35px;
-  background: linear-gradient(135deg, #a67b5b 0%, #c7955f 70%);
+  padding: 40px 30px;
+  background-color: #ffffff;
   position: relative;
-  border-left: 4px solid #e0b56f;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.Salir {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  background: transparent;
-  border: none;
-  font-size: 22px;
-  color: #ffe2a1;
-  cursor: pointer;
-}
 
 .TituloAcceso {
+  color: #4a2d21eb;
   text-align: center;
   font-size: 46px;
   color: #fcfcfa;
@@ -92,6 +81,10 @@
 
 .Campo:hover {
   background-color: #d4b37e;
+  margin-bottom: 20px;
+  font-size: 50px;
+  -webkit-text-stroke: 1px #000000;
+
 }
 
 .Icono {
@@ -140,6 +133,7 @@ input::placeholder {
 }
 
 .TextoTerminos {
+
   color: #ece2d3;
   font-size: 13px;
 }
@@ -167,6 +161,21 @@ input::placeholder {
 .Continuar:hover {
   filter: brightness(1.08);
   transform: translateY(-1px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.TextoTerminos input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.TextoTerminos strong {
+  color: #6f472e;
+
 }
 
 /* login alternativo / google */
@@ -181,7 +190,7 @@ input::placeholder {
   font-size: 13px;
 }
 
-/* registro ya tienes cuenta */
+/* en registro ya se tiene la cuenta */
 .Registro {
   text-align: center;
   margin-top: 18px;

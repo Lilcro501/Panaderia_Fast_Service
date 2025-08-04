@@ -186,6 +186,3 @@ export function MostrarInformacion() {
     </div>
   );
 }
-
-
-

@@ -24,7 +24,7 @@ const FormularioEntrega = () => {
   });
 
   const [userData, setUserData] = useState({
-    id_usuario: "",
+    id_usuario: null,
     telefono: ''
   });
 
@@ -76,14 +76,14 @@ const FormularioEntrega = () => {
 
     try {
       const datosFactura = new FormData();
+
       datosFactura.append('id_usuario', userData.id_usuario);
       datosFactura.append('metodo_pago', metodoEntrega);
       datosFactura.append('metodo_entrega', metodoEnvio);
       datosFactura.append('total', total.toFixed(2));
-      datosFactura.append('direccion_entrega', metodoEnvio === 'local' ? 'Recoger en tienda' : formData.direccion_entrega);
+      datosFactura.append('direccion_entrega', formData.direccion_entrega);
       datosFactura.append('fecha_entrega', formData.fecha_entrega);
       datosFactura.append('informacion_adicional', formData.informacion_adicional || '');
-      datosFactura.append("telefono_usuario", userData.telefono)
 
       carrito.forEach((item, index) => {
         datosFactura.append(`productos[${index}][id_producto]`, item.id);
@@ -93,6 +93,10 @@ const FormularioEntrega = () => {
 
       if (metodoEntrega === 'qr' && comprobante) {
         datosFactura.append('comprobante', comprobante);
+      }
+
+      for (let [key, value] of datosFactura.entries()) {
+        console.log(key, value);
       }
 
       const response = await enviarFactura(datosFactura);
@@ -149,9 +153,7 @@ const FormularioEntrega = () => {
             </>
           )}
 
-
-          <label className='info'>Fecha de entrega*</label>
-
+          <label>Fecha de entrega*</label>
           <input
             className="input-moderno"
             type="date"
@@ -170,7 +172,7 @@ const FormularioEntrega = () => {
             required
           >
             <option value="domicilio">Entrega a domicilio</option>
-            <option value="local">Recoger en tienda</option>
+            <option value="local">Recoger en el local</option>
           </select>
 
           <label className='info'>Información adicional</label>
@@ -289,5 +291,4 @@ const FormularioEntrega = () => {
     </>
   );
 };
-
 export default FormularioEntrega;

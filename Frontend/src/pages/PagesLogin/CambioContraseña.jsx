@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../assets/styles/Acceso.css';
+import '../../assets/styles/AccedeAqui.css';
 import { IoMdClose } from 'react-icons/io';
 import { FaUnlockAlt, FaUserLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';

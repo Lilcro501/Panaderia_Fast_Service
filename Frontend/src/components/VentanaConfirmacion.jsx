@@ -2,7 +2,7 @@
 import React from 'react';
 
 /* ~~~~~~~ Hoja de estilos del componente ~~~~~~~ */
-import '../assets/styles/Acceso.css';
+import '../assets/styles/AccedeAqui.css';
 
 /* ~~~~~~~ Redirección ~~~~~~~ */
 import { useNavigate } from 'react-router-dom';

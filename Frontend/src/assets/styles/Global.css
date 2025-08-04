@@ -9,32 +9,3 @@ body {
   background-image: url("../images/fondo.jpg");
   color: white;
 }
-
-.recuadro-informacion {
-  margin-left: 32%;
-  width: 610px;
-  height: 230px;
-  background-color: #c79970d4;
-  justify-content: center;
-  border-radius: 25px;
-  padding: 10px;
-  font-size: 1.5rem;
-}
-
-.sobre {
-  color: #2a150b;
-}
-
-.objetivo {
-  color: #5c321d;
-}
-
-.destacados{
-  margin-left: 20%;
-}
-
-h3 {
-  text-align: center;
-  font-size: 40px;
-  margin-top: 30%;
-}

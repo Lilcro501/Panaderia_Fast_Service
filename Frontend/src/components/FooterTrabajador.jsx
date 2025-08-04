@@ -34,7 +34,7 @@ const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado pa
         <div className="informacion">
             <div>
             <h5 style={{ textAlign: 'center' }}>Llámanos</h5>
-            <li>+57 300842511</li>
+            <li>+57 3589271058</li>
             </div>
             <div>
             <h5>Escríbenos</h5>
@@ -50,6 +50,7 @@ const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado pa
                 <a href="ManifiestoConsumidor">Manifiesto del consumidor</a>
             </p>
             </span>
+            <p className='FastService'> © FastService 2025 </p>
         </div>
         </footer>
     </>

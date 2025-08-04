@@ -1,4 +1,3 @@
-// src/routes/RutaConLayout.jsx
 import React from 'react';
 import { useRol } from '../Context/RolContext';
 
@@ -10,18 +9,18 @@ import LayoutTrabajador from '../layouts/LayoutTrabajador';
 const RutasLayouts = ({ children }) => {
   const { rol, cargando } = useRol();
 
-  if (cargando) return null; // Puedes cambiar esto por <Loading /> si quieres mostrar algo
+  if (cargando) return <div>Cargando...</div>; // Puedes reemplazar con <Loading /> si tienes un componente de carga
 
-  switch (rol) {
-    case 'cliente':
-      return <MainLayout>{children}</MainLayout>;
-    case 'admin':
-      return <AdminLayout>{children}</AdminLayout>;
-    case 'trabajador':
-      return <LayoutTrabajador>{children}</LayoutTrabajador>;
-    case 'sin-registrar':
-      return <MainLayoutSinLogin>{children}</MainLayoutSinLogin>;
-  }
+  const layoutMap = {
+    cliente: MainLayout,
+    admin: AdminLayout,
+    trabajador: LayoutTrabajador,
+    'sin-registrar': MainLayoutSinLogin,
+  };
+
+  const Layout = layoutMap[rol];
+
+  return Layout ? <Layout>{children}</Layout> : null; // fallback si el rol no es reconocido
 };
 
 export default RutasLayouts;
