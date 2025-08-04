@@ -1,191 +1,187 @@
 .factura-container {
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: #ffffff46;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 .factura-tabla {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  color: black;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin-top: 1.5rem;
+  color: #2c3e50;
 }
 
 .factura-tabla th,
 .factura-tabla td {
-  padding: 10px;
+  padding: 15px;
   text-align: center;
-  border: none;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
 }
 
+.factura-tabla th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  color: #495057;
+}
 
 .factura-total {
   text-align: right;
-  font-size: 1.2rem;
-  margin-top: 1rem;
-  color: black;
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+  color: #2c3e50;
+  font-weight: 600;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
 }
 
 .btn-control {
-  margin: 0 4px;
-  background-color: #b7b3b3;
+  margin: 0 5px;
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: white;
   border: none;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 8px 15px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn-control:hover {
-  background-color: #d4d4d4;
+  background: linear-gradient(135deg, #495057, #343a40);
+  transform: translateY(-1px);
 }
 
 .btn-delete {
-  background-color: #ff4d4d;
+  background: linear-gradient(135deg, #ff4d4d, #dc3545);
   color: white;
   border: none;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 8px 15px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn-delete:hover {
-  background-color: #e60000;
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  transform: translateY(-1px);
 }
 
 .btn-vaciar {
   margin-top: 1.5rem;
-  background-color: #cc0000;
+  background: linear-gradient(135deg, #dc3545, #c82333);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
 }
 
 .btn-continuar {
   margin-top: 1.5rem;
-  background-color: #07c119;
+  background: linear-gradient(135deg, #28a745, #218838);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
 }
 
+.btn-vaciar:hover,
+.btn-continuar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
 
-
-
-
-.btn-vaciar:hover {
-  background-color: #990000;
+.btn-vaciar:active,
+.btn-continuar:active {
+  transform: translateY(1px);
 }
 
 .contenedor-linea {
   display: flex;
   justify-content: center;
-  margin: 50px 0;
+  margin: 60px 0;
   position: relative;
 }
 
-
-
-/*apartado del proceso del circulo*/
 .formato-circulo {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 50px;
   position: relative;
-  padding: 20px 0;
+  padding: 30px 0;
 }
 
-/* Círculo */
-.circulo-rojo {
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  border-radius: 50%;
-  z-index: 1;
-  border: 5px solid black; /* ✅ corregido */
-
-  display: flex; /* Centrar texto */
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 10px;
-  color: white;
-  font-size: 12px;
-}
-
-
-/* Círculo */
-.circulo-verde {
-  width: 100px;
-  height: 100px;
-  background-color: rgb(56, 239, 0);
-  border-radius: 50%;
-  z-index: 1;
-  border: 2px solid rgb(255, 255, 255); /* ✅ corregido */
-
-  display: flex; /* Centrar texto */
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 10px;
-  color: white;
-  font-size: 12px;
-}
-
-/* Círculo */
+.circulo-rojo,
+.circulo-verde,
 .circulo-amarillo {
-  width: 100px;
-  height: 100px;
-  background-color: rgb(255, 234, 0);
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   z-index: 1;
-  border: 3px solid rgb(255, 254, 254); /* ✅ corregido */
-
-  display: flex; /* Centrar texto */
+  display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 10px;
+  padding: 15px;
   color: white;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Línea que conecta los círculos */
+.circulo-rojo {
+  background: linear-gradient(135deg, #ff4d4d, #dc3545);
+  border: 4px solid rgba(255, 255, 255, 0.8);
+}
+
+.circulo-verde {
+  background: linear-gradient(135deg, #28a745, #218838);
+  border: 4px solid rgba(255, 255, 255, 0.8);
+}
+
+.circulo-amarillo {
+  background: linear-gradient(135deg, #ffc107, #d39e00);
+  border: 4px solid rgba(255, 255, 255, 0.8);
+}
+
 .formato-circulo::before {
   content: '';
   position: absolute;
-  top: 50%; /* alineado verticalmente con los círculos */
-  left: 30px; /* empieza un poco dentro del primer círculo */
-  right: 30px; /* termina un poco dentro del último círculo */
+  top: 50%;
+  left: 40px;
+  right: 40px;
   height: 4px;
-  background-color: black;
+  background: linear-gradient(90deg, #e9ecef, #dee2e6);
   z-index: 0;
 }
 
-
-/*metoodo de pago*/
-
 .metodo-entrega {
-  margin-top: 20px;
-  font-size: 16px;
-}
-
-.btn-continuar {
-  padding: 10px 20px;
-  background-color: green;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 6px;
+  margin-top: 25px;
+  font-size: 1rem;
+  color: #2c3e50;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
 }
 
 .posicicion-botones {
   display: flex;
   justify-content: space-between;
+  margin-top: 2rem;
+  padding: 0 15px;
 }

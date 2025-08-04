@@ -49,9 +49,10 @@ export default function AccedeAqui() {
         navigate('/Inicio');
         break;
       case 'cliente':
-      default:
         navigate('/home');
         break;
+      default: 
+        navigate("/")
     }
   };
 
