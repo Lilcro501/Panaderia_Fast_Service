@@ -34,11 +34,11 @@ class ProductoSerializer(serializers.ModelSerializer):
         ]
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)  # Para que no se retorne en la respuesta
+    password = serializers.CharField(write_only=True) 
 
     class Meta:
         model = Usuario
-        fields = ['id_usuario', 'email', 'nombre', 'apellido', 'telefono', 'direccion', 'rol', 'password']
+        fields = ['id_usuario', 'email', 'nombre', 'apellido', 'telefono', 'rol', 'password']
 
     def create(self, validated_data):
         password = validated_data.pop('password')
