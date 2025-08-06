@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import LoginGoogle from '../../components/LoginGoogle';
 import { registrarUsuario } from '../../api/login';
 import '../../assets/styles/Registro.css';
-import orquidea from "../../assets/images/orquidea.jpg"; 
+import orquidea from "../../assets/icons/ImagenOrquidea.png"; 
 
 export default function Registro() {
   const [form, setForm] = useState({
@@ -91,32 +91,34 @@ export default function Registro() {
 
   return (
     <section className='Contenedor'>
-    <div className='PanelIzquierdo'>
-      <h2>Bienvenid@ a la sección de registro</h2>
-      <p>Por favor, completa el formulario para crear tu cuenta.</p>
-      <img src={orquidea} alt='Registro' className='ImagenRegistro' />
-    </div> 
-    <div className='PanelDerecho'>
-
-      <button className='Salir' onClick={salir}>
-        <IoMdClose />
-      </button>
-
-      <h1 className='TituloAcceso'>Regístrate</h1>
-
-      <form onSubmit={handleSubmit} noValidate>
-        <div className='Campo'>
-          <FaUser className='Icono' />
-          <input
-            type='text'
-            id='nombres'
-            placeholder='Nombres'
-            value={form.nombres}
-            onChange={handleChange}
-            className={errores.nombres ? 'invalido' : ''}
-          />
+      <div className='PanelIzquierdo'>
+        <h1>Bienvenido a la sección de registro</h1>
+        <br/>
+        <div className='ImagenOrquidea'>
+        <img src={orquidea} alt='Registro' />
         </div>
-        {errores.nombres && <p className='mensaje-error'>{errores.nombres}</p>}
+      </div> 
+
+      <div className='PanelDerecho'>
+
+        <button className='Salir' onClick={salir}>
+          <IoMdClose />
+        </button>
+        
+        <form className='Form' onSubmit={handleSubmit} noValidate>
+          <h1 className='TituloAcceso'>Regístrate</h1>
+          <div className='Campo'>
+            <FaUser className='Icono' />
+            <input
+              type='text'
+              id='nombres'
+              placeholder='Nombres'
+              value={form.nombres}
+              onChange={handleChange}
+              className={errores.nombres ? 'invalido' : ''}
+            />
+          </div>
+          {errores.nombres && <p className='mensaje-error'>{errores.nombres}</p>}
 
         <div className='Campo'>
           <FaUser className='Icono' />
@@ -178,24 +180,20 @@ export default function Registro() {
               checked={form.terminos}
               onChange={handleChange}
             />
-            Acepto los <strong>Términos y Condiciones</strong>
+          <span>Acepto los <strong>Términos y Condiciones</strong></span> 
           </label>
+          
         </div>
         {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
 
         <button className='Continuar' type='submit'>
           Registrarse
         </button>
+      
+        <p className='Registro'>
+          ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
+        </p>
       </form>
-
-      <div className='google-login-container' style={{ marginTop: '20px', textAlign: 'center' }}>
-        <p>O regístrate con Google</p>
-        <LoginGoogle />
-      </div>
-
-      <p className='Registro'>
-        ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
-      </p>
       </div>
     </section>
   );

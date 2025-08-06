@@ -49,9 +49,10 @@ export default function AccedeAqui() {
         navigate('/Inicio');
         break;
       case 'cliente':
-      default:
         navigate('/home');
         break;
+      default: 
+        navigate("/")
     }
   };
 
@@ -126,8 +127,8 @@ export default function AccedeAqui() {
   };
 
   return (
-    <section className='Contenedor'> 
-      <div className='ContenedorIzquierdo'> j
+    <section className='Cont'> 
+      <div className='ContenedorIzquierdo'> 
         <h1>Tú día inicia mejor con nuestro pan</h1>
 
         <div className='ImagenOrquidea'> 
@@ -141,7 +142,6 @@ export default function AccedeAqui() {
         </button>
       <form className='Form' onSubmit={handleSubmit} noValidate>
         
-
         <h1 className='TituloAccesoI'>Inicia sesión</h1>
 
         <div className={`Camp form-control ${!CorreoValido && enviado ? 'is-invalid' : ''}`}>
@@ -183,20 +183,22 @@ export default function AccedeAqui() {
           <Link to="/OlvidoContraseña">¿Olvidaste tu contraseña?</Link>
         </div>
 
-        {/* Botón para iniciar sesión */}
-        <button className='Continua' type='submit'>Iniciar sesión</button>
-
-        {/* Google Login (OAuth directo) */}
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <p style={{ marginBottom: '10px' }}>O inicia sesión con:</p>
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => {
-              console.log('❌ Error en el login con Google');
-              setErrorLogin('Error al iniciar sesión con Google');
-            }}
-          />
+        <div className='IntegracionBotones'>
+          {/* Botón para iniciar sesión */}
+          <button className='Continua' type='submit'>Iniciar sesión</button>
+          <br/><br/>
+          {/* Google Login (OAuth directo) */}
+          <div>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => {
+                console.log('❌ Error en el login con Google');
+                setErrorLogin('Error al iniciar sesión con Google');
+              }}
+            />
+          </div>
         </div>
+
         {/* Enlace para registrarse */}
         <p className="Registro">
           ¿No estás registrado? <Link to="/Registro">Regístrate</Link>

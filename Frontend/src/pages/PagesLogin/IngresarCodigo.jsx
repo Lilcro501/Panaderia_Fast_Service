@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-import '../../assets/styles/Acceso.css';
+import '../../assets/styles/AccedeAqui.css';
 import { useNavigate } from 'react-router-dom';
 import { IoMdClose } from 'react-icons/io';
 import axios from 'axios';
