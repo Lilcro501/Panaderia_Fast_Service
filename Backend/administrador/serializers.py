@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from .models import Categorias, Cronograma, Productos, Usuarios, Valoraciones, Facturas
+from .models import Categorias, Cronograma, Productos, Usuarios, Valoraciones, Facturas, Pedido
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -82,3 +82,9 @@ class FacturaSerializer(serializers.ModelSerializer):
         model = Facturas
         fields = ['id_factura', 'cliente', 'fecha', 'total']
 
+class PedidoSerializer(serializers.ModelSerializer):
+    id_producto = ProductoSerializer()  # Anida nombre del producto
+
+    class Meta:
+        model = Pedido
+        fields = ['id_producto', 'cantidad', 'subtotal']

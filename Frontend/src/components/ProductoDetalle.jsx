@@ -26,7 +26,7 @@ export default function ProductoDetalle() {
   useEffect(() => {
     const obtenerProducto = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/producto/${id}/`);
+        const response = await axios.get(`http://localhost:8000/api/productos/${id}/`);
         setProducto({
           id: response.data.id_producto ?? response.data.id,
           nameProduct: response.data.nombre,
@@ -43,7 +43,7 @@ export default function ProductoDetalle() {
 
     const obtenerComentarios = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/producto/${id}/comentarios/`);
+        const response = await axios.get(`http://localhost:8000/api/productos/${id}/comentario/`);
         setComentarios(response.data);
       } catch (error) {
         console.error("❌ Error al obtener comentarios:", error);
@@ -65,7 +65,7 @@ export default function ProductoDetalle() {
 
     if (id) {
       obtenerProducto();
-      obtenerComentarios();
+      obtenerComentario();
       obtenerUsuario();
     }
   }, [id]);

@@ -4,21 +4,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import action, api_view 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.db.models import Sum, Count, Q
-from .models import Pedido, Productos, Facturas
-from django.db.models.functions import TruncMonth
-from .serializers import (CategoriaSerializer, ProductoSerializer, CronogramaSerializer,UsuarioSerializer,ValoracionSerializer)
-from .models import Categorias,Productos,Cronograma,Usuarios,Valoraciones,Facturas
+from django.db.models import Sum, Func
+from django.db.models.functions import TruncMonth,TruncDate
+from .serializers import (CategoriaSerializer, ProductoSerializer, CronogramaSerializer,UsuarioSerializer,ValoracionSerializer,PedidoSerializer)
+from .models import Categorias,Productos,Cronograma,Usuarios,Valoraciones,Facturas,Pedido, Facturas
 from .serializers import FacturaSerializer
 import cloudinary.uploader
-import re
 from cloudinary.uploader import destroy as cloudinary_destroy
 # Create your views here.
-
-
-
-
-
 
 class ProductoCreateView(APIView):
     def post(self, request):
@@ -77,10 +70,7 @@ class ProductoUpdateView(APIView):
                     folder=folder_name
                 )
                 data['imagen'] = upload_result['secure_url']
-                
-                # Opcional: Eliminar la imagen anterior de Cloudinary
-                # (implementar lógica para extraer public_id y eliminarla)
-            
+
             # Actualizar otros campos
             for field in ['nombre', 'precio', 'stock', 'fecha_vencimiento', 'imagen', 'id_categoria_id']:
                 if field in data:
@@ -145,39 +135,98 @@ class ValoracionViewSet(viewsets.ModelViewSet):
     queryset = Valoraciones.objects.all()
     serializer_class = ValoracionSerializer
 
-class EstadisticasView(APIView):
-    def get(self, request):
-        # Producto más vendido
-        producto_mas_vendido = (
-            Pedido.objects.values('id_producto__nombre')
-            .annotate(total_vendidos=Sum('cantidad'))
-            .order_by('-total_vendidos')
-            .first()
-        )
-
-        # Filtrar facturas con fecha válida
-        facturas_validas = Facturas.objects.exclude(
-            Q(fecha__isnull=True) | Q(fecha='0000-00-00 00:00:00')
-        )
-
-        # Ganancias por mes con control de errores
-        ganancias_por_mes = (
-            Facturas.objects
-            .exclude(fecha__isnull=True)  # Evitar facturas sin fecha
-            .annotate(mes=TruncMonth('fecha'))
-            .values('mes')
-            .annotate(total=Sum('total'))
-            .order_by('mes')
-        )
-
-        return Response({
-            "producto_mas_vendido": producto_mas_vendido,
-            "ganancias_por_mes": list(ganancias_por_mes),
-        })
-
-
 @api_view(['GET'])
 def listar_facturas(request):
     facturas = Facturas.objects.all().order_by('-fecha')
     serializer = FacturaSerializer(facturas, many=True)
     return Response(serializer.data)
+
+class EstadisticasView(APIView):
+    def get(self, request):
+        try:
+            # Producto más vendido
+            producto_data = (
+                Pedido.objects
+                .values('id_producto__nombre')
+                .annotate(total_vendidos=Sum('cantidad'))
+                .order_by('-total_vendidos')
+                .first()
+            )
+
+            producto_mas_vendido = {
+                'nombre': producto_data['id_producto__nombre'],
+                'cantidad': producto_data['total_vendidos']
+            } if producto_data else {
+                'nombre': 'Sin datos',
+                'cantidad': 0
+            }
+
+            # Ganancias por mes
+            ganancias_data = (
+                Facturas.objects
+                .annotate(mes=TruncMonth('fecha'))
+                .values('mes')
+                .annotate(total_mes=Sum('total'))
+                .order_by('mes')
+            )
+
+            ganancias_por_mes = [
+                {
+                    'mes': item['mes'].strftime('%Y-%m'),
+                    'total': float(item['total_mes']) if item['total_mes'] else 0
+
+                } for item in ganancias_data
+            ]
+
+            return Response({
+                'producto_mas_vendido': producto_mas_vendido,
+                'ganancias_por_mes': ganancias_por_mes
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+@api_view(['GET'])
+def productos_por_categoria(request):
+    categoria_id = request.GET.get('categoria_id')
+    
+    if not categoria_id:
+        return Response({'error': 'categoria_id es requerido'}, status=400)
+
+    productos = Productos.objects.filter(id_categoria=categoria_id)
+
+    productos_data = []
+    max_vendidos = {'nombre': '', 'cantidad': 0}
+
+    for producto in productos:
+        total_vendidos = Pedido.objects.filter(id_producto=producto).aggregate(total=Sum('cantidad'))['total'] or 0
+        productos_data.append({
+            'nombre': producto.nombre,
+            'cantidad_vendida': total_vendidos,
+        })
+        if total_vendidos > max_vendidos['cantidad']:
+            max_vendidos = {'nombre': producto.nombre, 'cantidad': total_vendidos}
+
+    return Response({
+        'productos': productos_data,
+        'mas_vendido': max_vendidos
+    })
+
+@api_view(['GET'])
+def ventas_por_fecha(request):
+    fecha = request.GET.get('fecha')  # formato: '2025-07-29'
+    if not fecha:
+        return Response({'error': 'Fecha no proporcionada'}, status=400)
+    
+    pedidos = Pedido.objects.annotate(
+        fecha_sin_hora=TruncDate('factura__fecha')
+    ).filter(fecha_sin_hora=fecha).values(
+        'id_producto__nombre'
+    ).annotate(
+        total_vendidos=Sum('cantidad'),
+        total_ganancia=Sum('subtotal')
+    ).order_by('-total_vendidos')
+
+    return Response(pedidos)

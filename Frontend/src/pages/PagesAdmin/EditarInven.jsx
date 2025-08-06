@@ -83,6 +83,11 @@ export default function EditarInven() {
             etiqueta: 'Fecha de vencimiento',
             tipo: 'date',
             requerido: false
+        },{
+            nombre: 'fecha_actualizacion',
+            etiqueta: 'Fecha de actualización',
+            tipo: 'date',
+            requerido: true
         },
         {
             nombre: 'id_categoria',
@@ -154,3 +159,4 @@ export default function EditarInven() {
         </>
     );
 }
+ 

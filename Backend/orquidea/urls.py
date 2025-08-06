@@ -21,10 +21,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('administrador.urls')),
     #este modulo incluye todas las rutas de la app carrito
-    path('api/carrito', include('carrito.urls')),  # Esto expone todo lo de carrito en /api/
+    path('api/carrito/', include('carrito.urls')),  # Esto expone todo lo de carrito en /api/
     #esta es la app de usuarios
     path('api/usuarios/', include('usuarios.urls')),
-    path('api/', include('trabajador.urls')),
+    path('api/tabajador/', include('trabajador.urls')),
+    
 ]
 
 #Configuracion para archivos multimedia

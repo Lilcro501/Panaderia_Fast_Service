@@ -73,7 +73,7 @@ import InfoCliente from '../pages/PagesTrabajador/InfoCliente';
 import Inicio from '../pages/PagesTrabajador/Inicio';
 import ListaPedidos from '../pages/PagesTrabajador/ListaPedidos';
 import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
-
+import CronogramaTrabajador from '../pages/PagesTrabajador/CronogramaTrabajador'
 const AppRouter = () => {
   return (
     
@@ -122,7 +122,7 @@ const AppRouter = () => {
         <Route path='/DetallesPedido/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><DetallesPedido /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/EditarPerfil' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EditarPerfil /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/InfoCliente' element={<LayoutTrabajador><InfoCliente /></LayoutTrabajador>} />
-      
+        <Route path='/CronogramaTrabajador' element={<PrivateRoute role="trabajador"><LayoutTrabajador><CronogramaTrabajador /></LayoutTrabajador></PrivateRoute>} />
 
         {/* Admin */}
         <Route path='/AgregarTrabajador' element={<PrivateRoute role="admin"><AgregarTrabajador></AgregarTrabajador></PrivateRoute>} />
