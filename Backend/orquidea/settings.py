@@ -225,7 +225,7 @@ TIME_ZONE = 'America/Bogota'
 #este campo habilita la internacionalizacion de la aplicacion
 USE_I18N = True
 #este campo habilita el soporte para zonas horarias en la aplicacion
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
