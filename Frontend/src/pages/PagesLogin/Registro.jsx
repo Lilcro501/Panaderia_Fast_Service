@@ -75,7 +75,6 @@ export default function Registro() {
           nombre: form.nombres,
           apellido: form.apellidos,
           telefono: '',
-          direccion: '',
           rol: 'cliente'
         });
         if (response.status === 201 || response.status === 200) {
