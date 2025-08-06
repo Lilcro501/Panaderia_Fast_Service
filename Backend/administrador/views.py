@@ -11,6 +11,7 @@ from .models import Categorias,Productos,Cronograma,Usuarios,Valoraciones,Factur
 from .serializers import FacturaSerializer
 import cloudinary.uploader
 from cloudinary.uploader import destroy as cloudinary_destroy
+from usuarios.models import Usuario
 # Create your views here.
 
 class ProductoCreateView(APIView):
@@ -122,14 +123,45 @@ class CronogramaViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = Usuarios.objects.all()
+    queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
-    
+
     @action(detail=False, methods=['get'], url_path='trabajadores')
     def trabajadores(self, request):
-        trabajadores = Usuarios.objects.filter(rol='trabajador')
+        trabajadores = Usuario.objects.filter(rol='trabajador')
         serializer = self.get_serializer(trabajadores, many=True)
         return Response(serializer.data)
+
+    @action(detail=False, methods=['post'], url_path='login')
+    def login(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        if not email or not password:
+            return Response({'error': 'Email y contraseña requeridos'}, status=status.HTTP_400_BAD_REQUEST)
+            
+    @action(detail=False, methods=['post'], url_path='registro')
+    def registro(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            usuario = serializer.save()
+            return Response({'mensaje': 'Usuario registrado con éxito'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            usuario = Usuario.objects.get(email=email)
+            if usuario.check_password(password):
+                # Aquí puedes retornar los datos del usuario, token, o rol
+                return Response({
+                    'mensaje': 'Login exitoso',
+                    'rol': usuario.rol,
+                    'id': usuario.id,
+                    'nombre': usuario.nombre
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Contraseña incorrecta'}, status=status.HTTP_401_UNAUTHORIZED)
+        except Usuario.DoesNotExist:
+            return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
 
 class ValoracionViewSet(viewsets.ModelViewSet):
     queryset = Valoraciones.objects.all()
