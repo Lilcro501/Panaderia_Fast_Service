@@ -1,51 +1,128 @@
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TablaBase from "../../components/TablaBase";
 import "../../assets/styles/EstadoPedido.css";
 import Boton from "../../components/Boton";
-
-
-const pedidosIniciales = [
-  { id: "26263", fecha: "12:05:23 PM - 12/02/2025", estado: "recibido" },
-  { id: "34562", fecha: "01:25:53 PM - 08/03/2025", estado: "en_proceso" },
-  { id: "598941", fecha: "03:53:08 PM - 20/05/2025", estado: "despachado" },
-  { id: "346757", fecha: "06:38:08 PM - 25/06/2025", estado: "recibido" },
-];
+import axios from "axios";
 
 const EstadosPedidos = () => {
-  const [pedidos, setPedidos] = useState(pedidosIniciales);
+  const [pedidos, setPedidos] = useState([]);
   const navigate = useNavigate();
 
-  const cambiarEstado = (index, nuevoEstado) => {
-    const copia = [...pedidos];
-    copia[index].estado = nuevoEstado;
-    setPedidos(copia);
+  // Cargar los estados guardados en localStorage
+  const cargarEstadosLocales = () => {
+    const estadosGuardados = localStorage.getItem("estadosPedidos");
+    return estadosGuardados ? JSON.parse(estadosGuardados) : {};
   };
-  
-  /* ~~~~~~ Simulación de los pedidos acorde a la pestaña ListaPedidos ~~~~~~ */
-  const PedidosSimulacion = [ 
-    { id: "26263", clienteId: "cliente1" },
-    { id: "34562", clienteId: "cliente2" },
-    { id: "598941", clienteId: "cliente3" },
-    { id: "346757", clienteId: "cliente4"},
+
+  const [estadosLocales, setEstadosLocales] = useState(cargarEstadosLocales);
+
+  // Guardar en localStorage cada vez que cambia el estado local
+  useEffect(() => {
+    localStorage.setItem("estadosPedidos", JSON.stringify(estadosLocales));
+  }, [estadosLocales]);
+
+  useEffect(() => {
+    const obtenerPedidos = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:8000/api/estados-pedidos/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // Aplicar estados locales si existen
+        const pedidosConEstado = response.data.map((pedido) => {
+          const estadoLocal = estadosLocales[pedido.id];
+          return estadoLocal ? { ...pedido, proceso_pedido: estadoLocal } : pedido;
+        });
+
+        setPedidos(pedidosConEstado);
+      } catch (error) {
+        console.error("Error al obtener pedidos:", error);
+      }
+    };
+
+    obtenerPedidos();
+  }, [estadosLocales]); // <-- también depende de estadosLocales
+
+  const cambiarEstado = async (idFactura, nuevoProceso) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await axios.post(
+        "http://localhost:8000/api/actualizar-estado/",
+        {
+          id_factura: idFactura,
+          proceso_pedido: nuevoProceso,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Estado actualizado a:", nuevoProceso);
+
+      // Actualizar estado en localStorage y estado React
+      setEstadosLocales((prev) => ({
+        ...prev,
+        [idFactura]: nuevoProceso,
+      }));
+
+      setPedidos((prevPedidos) =>
+        prevPedidos.map((pedido) =>
+          pedido.id === idFactura ? { ...pedido, proceso_pedido: nuevoProceso } : pedido
+        )
+      );
+    } catch (error) {
+      console.error("Error al actualizar estado:", error.response?.data || error);
+    }
+  };
+
+  const columnas = [
+    "Código pedido",
+    "Fecha",
+    "Preparando",
+    "Empaquetando",
+    "En entrega",
+    "Detalles pedido",
+    "Detalles cliente",
   ];
 
-  const columnas = ["Código pedido", "Fecha", "Recibido", "En proceso", "Despachado",  "Detalles pedido", "Detalles cliente",""];
-  
-  const datos = pedidos.map((pedido, index) => {
-    const p = PedidosSimulacion.find((sim) => sim.id === pedido.id);
-    return [
-      pedido.id,
-      pedido.fecha,
-      <span className={`estado-circulo ${pedido.estado === "recibido" ? "activo rojo" : "rojo"}`} onClick={() => cambiarEstado(index, "recibido")}></span>,
-      <span className={`estado-circulo ${pedido.estado === "en_proceso" ? "activo amarillo" : "amarillo"}`} onClick={() => cambiarEstado(index, "en_proceso")} ></span>,
-      <span className={`estado-circulo ${pedido.estado === "despachado" ? "activo verde" : "verde"}`} onClick={() => cambiarEstado(index, "despachado")} ></span>,
-      <Boton texto="Ver pedido" onClick={() => navigate(`/DetallesPedido/${pedido.id}`)} />,
-      <Boton texto="Detalles del cliente" onClick={() => navigate(`/InfoCliente/${p?.clienteId}`)} />,
-      <Boton texto="Cancelar pedido" onClick={() => navigate(`/Inicio`)} />,
-    ];
-  });
+  const datos = pedidos.map((pedido) => [
+    pedido.id,
+    pedido.fecha,
+
+    <span
+      className={`estado-circulo ${
+        pedido.proceso_pedido === "preparando" ? "activo rojo" : "rojo"
+      }`}
+      onClick={() => cambiarEstado(pedido.id, "preparando")}
+      title="Preparando"
+    ></span>,
+
+    <span
+      className={`estado-circulo ${
+        pedido.proceso_pedido === "empaquetando" ? "activo amarillo" : "amarillo"
+      }`}
+      onClick={() => cambiarEstado(pedido.id, "empaquetando")}
+      title="Empaquetando"
+    ></span>,
+
+    <span
+      className={`estado-circulo ${
+        pedido.proceso_pedido === "en entrega" ? "activo verde" : "verde"
+      }`}
+      onClick={() => cambiarEstado(pedido.id, "en entrega")}
+      title="En entrega"
+    ></span>,
+
+    <Boton texto="Ver pedido" onClick={() => navigate(`/DetallesPedido/${pedido.id}`)} />,
+    <Boton texto="Detalles del cliente" onClick={() => navigate(`/InfoCliente/${pedido.cliente_id}`)} />,
+  ]);
 
   return (
     <div className="estados-body">
@@ -53,7 +130,7 @@ const EstadosPedidos = () => {
       <TablaBase columnas={columnas} datos={datos} />
 
       <div className="Volver">
-        <button onClick={() => navigate('/Inicio')} className="boton-personalizado">
+        <button onClick={() => navigate("/Inicio")} className="boton-personalizado">
           Volver
         </button>
       </div>
@@ -62,3 +139,4 @@ const EstadosPedidos = () => {
 };
 
 export default EstadosPedidos;
+

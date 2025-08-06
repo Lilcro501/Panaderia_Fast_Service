@@ -14,7 +14,6 @@
   position: relative;
   top: -50px;
 }
-
 /* ~~~~~~~~~~~ Plantilla ~~~~~~~~~~~*/
 /* ~~~~~~~~~~~ Header estilizado ~~~~~~~~~~~*/
 .shapedividers_com-5996 {
@@ -169,3 +168,4 @@
   filter: drop-shadow(0 10px 20px rgb(255, 255, 255));
   transform: scale(1.1); /* efecto de zoom ligero */
 }
+

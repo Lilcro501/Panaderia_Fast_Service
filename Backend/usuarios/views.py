@@ -152,30 +152,27 @@ def login_usuario(request):
 
 #----------------------------vista para enviar el codigo de verificacion-----------------------------------------
 
-#decorador para desacrtivar la seguiridad
 @csrf_exempt
-#----------------------------------------- vista para enviar el digo de verificacion al usuario ------------------------------
 def enviar_codigo_verificacion(request):
-    #definir el metodo de la respuesta 
     if request.method == 'POST':
         try:
-            #cargar el arrchivo json desde el frot
             data = json.loads(request.body)
-            #obtener el valor de email
             email = data.get('email')
-            #si no se ingresa un email valido
+
             if not email:
-                #retornar un erorr en tal caso de que no se ingrese el correo
                 return JsonResponse({'error': 'El correo es obligatorio'}, status=400)
+
+            # ✅ Validar si el correo está registrado en la base de datos
+            if not Usuario.objects.filter(email=email).exists():
+                return JsonResponse({'error': 'El correo no está registrado'}, status=404)
 
             # Generar código aleatorio de 4 dígitos
             codigo = ''.join([str(random.randint(0, 9)) for _ in range(4)])
             
-            # Guardar en base de datos
+            # Guardar código en base de datos
             CodigoVerificacion.objects.create(email=email, codigo=codigo)
 
-            # Cuerpo HTML del mensaje
-            #estructura del html para enviar el mensaje
+            # HTML del correo
             html_content = f"""
             <html>
                 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
@@ -189,7 +186,6 @@ def enviar_codigo_verificacion(request):
                         <br>
                         <p>Gracias por usar nuestro servicio.</p>
                         <p>— Equipo de Panadería Fast Service</p>
-                        <!-- Imagen centrada al final -->
                         <div style="text-align: center; margin-top: 30px;">
                             <img src="cid:logo_fast_service" alt="Panadería Logo" style="width: 120px;" />
                         </div>
@@ -198,37 +194,32 @@ def enviar_codigo_verificacion(request):
             </html>
             """
 
-            # Crear el correo con HTML embebido
-            #este permite enciar correos electronicos en formato html
+            # Crear y enviar el correo
             correo = EmailMultiAlternatives(
                 subject='Código de Verificación',
                 body='Tu código de verificación está en el mensaje HTML.',
-                from_email='tu_correo@gmail.com',
+                from_email='tu_correo@gmail.com',  # Cambia esto por el correo real del remitente
                 to=[email],
             )
-            #adjuntamos el html al correo electronicp
             correo.attach_alternative(html_content, "text/html")
 
-            # Adjuntar la imagen desde media/logo_header.png
-            #Abrimos la imagen y la adjuntamos en en el html
+            # Adjuntar imagen del logo
             ruta_imagen = os.path.join(settings.MEDIA_ROOT, 'logo_header.png')
             with open(ruta_imagen, 'rb') as img:
                 imagen = MIMEImage(img.read())
-                imagen.add_header('Content-ID', '<logo_fast_service>')  # Usado en el src: cid:...
+                imagen.add_header('Content-ID', '<logo_fast_service>')
                 imagen.add_header("Content-Disposition", "inline", filename="logo_header.png")
                 correo.attach(imagen)
-            #enviamos el correo electronico
+
             correo.send()
-            #retornamos el mensaje de exito al momento de enviar el correo electronico
             return JsonResponse({'mensaje': 'Código enviado'}, status=200)
-        #exepcion en tal caso de mostar un errror al momento de enviar el correo electronico
+
         except Exception as e:
-            #mostrar menaje en la consola
             print("❌ Error al enviar código:", e)
-            #retornar con un mennaje de error en el front
             return JsonResponse({'error': str(e)}, status=500)
-    #retornar en en el front en tal caso de un metdo invalido
+
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
 
 ##################################################################################
 #vista para verificar el codigo
