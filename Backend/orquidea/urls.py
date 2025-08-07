@@ -21,10 +21,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/administrador/', include('administrador.urls')),
     #este modulo incluye todas las rutas de la app carrito
-    path('api/', include('carrito.urls')),  # Esto expone todo lo de carrito en /api/
+    path('api/carrito/', include('carrito.urls')),  # Esto expone todo lo de carrito en /api/
     #esta es la app de usuarios
-    path('api/', include('usuarios.urls')),
-    path('api/', include('trabajador.urls')),
+    path('api/usuarios/', include('usuarios.urls')),
+    path('api/trabajador/', include('trabajador.urls')),
     
 ]
 

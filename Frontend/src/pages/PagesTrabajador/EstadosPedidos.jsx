@@ -26,7 +26,7 @@ const EstadosPedidos = () => {
     const obtenerPedidos = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:8000/api/estados-pedidos/", {
+        const response = await axios.get("http://localhost:8000/api/trabajador/estados-pedidos/", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -52,7 +52,7 @@ const EstadosPedidos = () => {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:8000/api/actualizar-estado/",
+        "http://localhost:8000/api/trabajador/actualizar-estado/",
         {
           id_factura: idFactura,
           proceso_pedido: nuevoProceso,
