@@ -50,7 +50,7 @@ class Usuario(AbstractBaseUser):
     email = models.EmailField(unique=True, max_length=150)
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=20)
+    telefono = models.CharField(max_length=20, blank=True, null=True)
     rol = models.CharField(max_length=20, choices=ROLES)
     fecha_registro = models.DateTimeField()
     #validamos si el usuuario esta activo

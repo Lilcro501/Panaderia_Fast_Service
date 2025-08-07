@@ -34,7 +34,7 @@ class ProductoSerializer(serializers.ModelSerializer):
         ]
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)  # Para que no se retorne en la respuesta
+    password = serializers.CharField(write_only=True) 
 
     class Meta:
         model = Usuario
