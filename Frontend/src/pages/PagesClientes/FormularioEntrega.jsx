@@ -120,7 +120,8 @@ const FormularioEntrega = () => {
   return (
     <>
       <ComponenteProcesoPago />
-      <center><h1>Factura</h1></center>
+      <div className='titulo-factura'><h1>Factura de compra</h1></div>  
+
       {error && <div className="error-message">{error}</div>}
 
       <section className="contenedor-informacion">
@@ -242,7 +243,7 @@ const FormularioEntrega = () => {
       <VentanaEmergente
         visible={mostrarModal}
         onClose={() => setMostrarModal(false)}
-        title={`Detalles de pago (${metodoEntrega === 'qr' ? 'QR' : 'Contra entrega'})`}
+        title={`Detalles de pago:  (${metodoEntrega === 'qr' ? 'QR' : 'Contra entrega'})`}
         content={
           metodoEntrega === 'qr' ? (
             <>
@@ -269,19 +270,21 @@ const FormularioEntrega = () => {
             </>
           ) : (
             <>
-              <h3 style={{ color: '#4CAF50' }}>Pago al recibir tu pedido</h3>
-              <p>El mensajero recibirá:</p>
+              <center><h3 style={{ color: '#4CAF50' }}>Pago contra entrega</h3></center>
+              <br />
+              <p>Total del pedido:</p>
               <p style={{
                 fontSize: '1.2em',
                 fontWeight: 'bold',
-                textAlign: 'center',
                 margin: '15px 0'
-              }}>
-                ${total.toFixed(2)} en efectivo
-              </p>
+              }}> ${total.toFixed(2)} en efectivo</p>
               <p style={{ fontStyle: 'italic' }}>
-                Por favor ten el dinero exacto o cercano para facilitar el proceso.
+                El metodo de pago sera contraentrega!, recuerda tener el dinero exacto para facilitar el proceso de entrega del pedido, la factura de tu compra llegara a tu correo electronico y previamente se confirmara tu pedido
               </p>
+              <br /> <br />
+              <p>Disfruta de tu pedido</p>
+              <p>Panaderia la orquidea!</p>
+              <button className='estilo-boton'>Aceptar</button>
             </>
           )
         }
@@ -290,4 +293,5 @@ const FormularioEntrega = () => {
   );
 };
 export default FormularioEntrega;
+
 

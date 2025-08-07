@@ -280,8 +280,8 @@ EMAIL_USE_TLS = True
 #############################################################
 #terminar de confugurar esta apartado para que sea mas seguro
 #############################################################
-EMAIL_HOST_USER = 'crisandresortiz3228@gmail.com'
-EMAIL_HOST_PASSWORD = 'fyuc rias vqws orkq'
+EMAIL_HOST_USER = 'fservice28.076@gmail.com'
+EMAIL_HOST_PASSWORD = 'yabb fihb sqvn vlyu'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 #autenticacion con google
