@@ -13,6 +13,8 @@ import cloudinary.uploader
 from cloudinary.uploader import destroy as cloudinary_destroy
 from usuarios.models import Usuario
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 
 class ProductoCreateView(APIView):
@@ -146,10 +148,16 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         try:
             usuario = Usuario.objects.get(email=email)
             if usuario.check_password(password):
+                # ✅ Generar tokens JWT
+                refresh = RefreshToken.for_user(usuario)
+                access = str(refresh.access_token)
+
                 return Response({
                     'mensaje': 'Login exitoso',
+                    'access': access,
+                    'refresh': str(refresh),
                     'rol': usuario.rol,
-                    'id': usuario.id,
+                    'id_usuario': usuario.id,
                     'nombre': usuario.nombre
                 }, status=status.HTTP_200_OK)
             else:
