@@ -13,7 +13,7 @@ export default function Cronograma() {
     const [filas, setFilas] = useState([]);
 
     const obtenerCronogramas = () => {
-        axios.get('http://localhost:8000/api/cronograma/trabajadores/')
+        axios.get('http://localhost:8000/api/administrador/cronograma/trabajadores/')
             .then(response => {
                 const cronogramas = response.data;
 
@@ -65,7 +65,7 @@ export default function Cronograma() {
         if (!confirmacion) return;
 
         try {
-            await axios.delete(`http://localhost:8000/api/cronograma/${id}/`);
+            await axios.delete(`http://localhost:8000/api/administrador/cronograma/${id}/`);
             alert("Cronograma eliminado correctamente.");
             obtenerCronogramas(); // Refrescar lista
         } catch (error) {

@@ -27,7 +27,7 @@ const AdminPage = () => {
 
     // Cargar estadísticas generales
     useEffect(() => {
-        axios.get('http://localhost:8000/api/estadisticas/')
+        axios.get('http://localhost:8000/api/administrador/estadisticas/')
             .then(res => {
                 setProductoMasVendido(res.data.producto_mas_vendido);
                 setGananciasPorMes(res.data.ganancias_por_mes);
@@ -37,7 +37,7 @@ const AdminPage = () => {
 
     // Cargar categorías
     useEffect(() => {
-        axios.get('http://localhost:8000/api/categorias/')
+        axios.get('http://localhost:8000/api/administrador/categorias/')
             .then(res => setCategorias(res.data))
             .catch(err => console.error(err));
     }, []);
@@ -45,7 +45,7 @@ const AdminPage = () => {
     // Cargar productos por categoría seleccionada
     useEffect(() => {
         if (!categoriaSeleccionada) return;
-        axios.get(`http://localhost:8000/api/productos_por_categoria/?categoria_id=${categoriaSeleccionada}`)
+        axios.get(`http://localhost:8000/api/administrador/productos-por-categoria/?categoria_id=${categoriaSeleccionada}`)
             .then(res => {
                 setProductosPorCategoria(res.data.productos);
                 setMasVendidoCategoria(res.data.mas_vendido);
@@ -56,7 +56,7 @@ const AdminPage = () => {
     // Cargar ventas por fecha seleccionada
     useEffect(() => {
         if (!fechaSeleccionada) return;
-        axios.get(`http://localhost:8000/api/ventas_por_fecha/?fecha=${fechaSeleccionada}`)
+        axios.get(`http://localhost:8000/api/administrador/ventas-por-fecha/?fecha=${fechaSeleccionada}`)
             .then(res => setVentas(res.data))
             .catch(err => console.error(err));
     }, [fechaSeleccionada]);

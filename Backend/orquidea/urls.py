@@ -19,7 +19,7 @@ def home(request):
 urlpatterns = [
     path('', home),  # Ruta raíz
     path('admin/', admin.site.urls),
-    path('api/', include('administrador.urls')),
+    path('api/administrador/', include('administrador.urls')),
     #este modulo incluye todas las rutas de la app carrito
     path('api/', include('carrito.urls')),  # Esto expone todo lo de carrito en /api/
     #esta es la app de usuarios

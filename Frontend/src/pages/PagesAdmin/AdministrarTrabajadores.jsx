@@ -20,7 +20,7 @@ export default function AdministrarTrabajadores() {
     const encabezados = ['Correo', 'Nombre', 'Apellido', 'Teléfono', 'Acciones'];
 
     const obtenerTrabajadores = () => {
-        axios.get('http://localhost:8000/api/usuarios/trabajadores/')
+        axios.get('http://localhost:8000/api/administrador/usuarios/trabajadores/')
             .then(response => {
                 const trabajadores = response.data;
                 console.log("Trabajadores recibidos:", trabajadores); 
@@ -71,7 +71,7 @@ export default function AdministrarTrabajadores() {
         if (!confirmacion) return;
 
         try {
-            await axios.delete(`http://localhost:8000/api/usuarios/${id}/`);
+            await axios.delete(`http://localhost:8000/api/administrador/usuarios/${id}/`);
             alert("Trabajador eliminado correctamente.");
             obtenerTrabajadores(); // Refrescar lista
         } catch (error) {
