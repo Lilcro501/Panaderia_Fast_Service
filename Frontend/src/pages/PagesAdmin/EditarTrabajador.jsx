@@ -30,7 +30,7 @@ export default function EditarTrabajador() {
             return;
         }
 
-        axios.get(`http://localhost:8000/api/usuarios/${id}/`)
+        axios.get(`http://localhost:8000/api/administrador/usuarios/${id}/`)
             .then(res => {
                 setDatosIniciales(res.data);
             })
@@ -46,7 +46,7 @@ export default function EditarTrabajador() {
 
     const manejarEnvio = async (datos) => {
         try {
-            const response = await axios.patch(`http://localhost:8000/api/usuarios/${id}/`, datos);
+            const response = await axios.patch(`http://localhost:8000/api/administrador/usuarios/${id}/`, datos);
             console.log("Trabajador actualizado:", response.data);
             alert("Trabajador actualizado con éxito.");
             navigate("/AdministrarTrabajadores");

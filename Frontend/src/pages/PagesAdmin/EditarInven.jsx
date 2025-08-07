@@ -16,7 +16,7 @@ export default function EditarInven() {
 
     // Obtener producto
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/productos/${id}/`)
+        axios.get(`http://localhost:8000/api/administrador/productos/${id}/`)
             .then(response => {
                 const producto = response.data;
                 setValoresIniciales({
@@ -37,7 +37,7 @@ export default function EditarInven() {
 
     // Obtener categorías
     useEffect(() => {
-        axios.get("http://localhost:8000/api/categorias/")
+        axios.get("http://localhost:8000/api/administrador/categorias/")
             .then(response => {
                 setCategorias(response.data);
             })
@@ -114,7 +114,7 @@ export default function EditarInven() {
                 formData.append(key, value);
             });
 
-            await axios.put(`http://localhost:8000/api/productos/${id}/`, formData, {
+            await axios.put(`http://localhost:8000/api/administrador/productos/${id}/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

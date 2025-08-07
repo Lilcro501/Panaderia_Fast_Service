@@ -1,3 +1,4 @@
+#vistas admin
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -7,7 +8,7 @@ from rest_framework.response import Response
 from django.db.models import Sum, Func
 from django.db.models.functions import TruncMonth,TruncDate
 from .serializers import (CategoriaSerializer, ProductoSerializer, CronogramaSerializer,UsuarioSerializer,ValoracionSerializer,PedidoSerializer)
-from .models import Categorias,Productos,Cronograma,Usuarios,Valoraciones,Facturas,Pedido, Facturas
+from .models import Categorias,Productos,Cronograma,Usuarios,Valoraciones,Facturas,Pedido
 from .serializers import FacturaSerializer
 import cloudinary.uploader
 from cloudinary.uploader import destroy as cloudinary_destroy
@@ -128,12 +129,12 @@ class CronogramaViewSet(viewsets.ModelViewSet):
 
 
 class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = Usuario.objects.all()
+    queryset = Usuarios.objects.all()
     serializer_class = UsuarioSerializer
 
     @action(detail=False, methods=['get'], url_path='trabajadores')
     def trabajadores(self, request):
-        trabajadores = Usuario.objects.filter(rol='trabajador')
+        trabajadores = Usuarios.objects.filter(rol='trabajador')
         serializer = self.get_serializer(trabajadores, many=True)
         return Response(serializer.data)
 
@@ -144,6 +145,14 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 
         if not email or not password:
             return Response({'error': 'Email y contraseña requeridos'}, status=status.HTTP_400_BAD_REQUEST)
+            
+    @action(detail=False, methods=['post'], url_path='registro')
+    def registro(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            usuario = serializer.save()
+            return Response({'mensaje': 'Usuario registrado con éxito'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             usuario = Usuario.objects.get(email=email)
@@ -162,7 +171,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
                 }, status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'Contraseña incorrecta'}, status=status.HTTP_401_UNAUTHORIZED)
-        except Usuario.DoesNotExist:
+        except Usuarios.DoesNotExist:
             return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
     @action(detail=False, methods=['post'], url_path='registro')

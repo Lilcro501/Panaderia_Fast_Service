@@ -52,7 +52,7 @@ export default function EditarCrono() {
 
     const manejarEnvio = async (datos) => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/cronograma/${id}/`);
+            const response = await axios.get(`http://localhost:8000/api/administrador/cronograma/${id}/`);
             const idUsuario = response.data.id_usuario;
 
             const payload = {
@@ -65,7 +65,7 @@ export default function EditarCrono() {
 
             console.log("Datos enviados al backend:", payload);
 
-            await axios.put(`http://localhost:8000/api/cronograma/${id}/`, payload);
+            await axios.put(`http://localhost:8000/api/administrador/cronograma/${id}/`, payload);
 
             alert("Cronograma actualizado correctamente.");
             navigate('/Cronograma');
@@ -94,7 +94,7 @@ export default function EditarCrono() {
     ];
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/cronograma/${id}/`)
+        axios.get(`http://localhost:8000/api/administrador/cronograma/${id}/`)
             .then(response => {
                 const data = response.data;
                 const usuario = data.usuario_detalle || {};

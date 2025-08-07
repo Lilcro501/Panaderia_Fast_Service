@@ -8,7 +8,7 @@ export default function HistorialPedido() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8000/api/facturas/")
+            .get("http://localhost:8000/api/administrador/facturas/")
             .then((res) => {
                 setFacturas(res.data);
                 setCargando(false);

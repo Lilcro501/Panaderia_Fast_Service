@@ -20,8 +20,8 @@ function CatalogoPage() {
 
     const obtenerProductos = () => {
         const url = categoriaSeleccionada
-            ? `http://localhost:8000/api/productos/?categoria=${categoriaSeleccionada}`
-            : `http://localhost:8000/api/productos/`;
+            ? `http://localhost:8000/api/administrador/productos/?categoria=${categoriaSeleccionada}`
+            : `http://localhost:8000/api/administrador/productos/`;
 
         axios.get(url)
             .then(response => setProducts(response.data))
@@ -33,7 +33,7 @@ function CatalogoPage() {
     }, [categoriaSeleccionada]);
 
     const handleStatusChange = (id_producto, newStatus) => {
-        axios.patch(`http://localhost:8000/api/productos/${id_producto}/`, { activo: newStatus })
+        axios.patch(`http://localhost:8000/api/administrador/productos/${id_producto}/`, { activo: newStatus })
             .then(() => {
                 const updated = products.map(p =>
                     p.id_producto === id_producto ? { ...p, activo: newStatus } : p
@@ -49,7 +49,7 @@ function CatalogoPage() {
     };
 
     const handleSaveComments = (updatedProduct) => {
-        axios.patch(`http://localhost:8000/api/productos/${updatedProduct.id_producto}/`, {
+        axios.patch(`http://localhost:8000/api/administrador/productos/${updatedProduct.id_producto}/`, {
             comments: updatedProduct.comments
         })
             .then(() => {
