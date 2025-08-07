@@ -14,7 +14,7 @@ export default function AgregarTrabajador() {
             requerido: true
         },
         {
-            nombre: 'contraseña',
+            nombre: 'password',
             etiqueta: 'Contraseña',
             tipo: 'text',
             requerido: false
@@ -37,6 +37,7 @@ export default function AgregarTrabajador() {
             tipo: 'number',
             requerido: false
         }
+        
     ];
 
     const manejarEnvio = async (datos) => {

@@ -17,7 +17,7 @@ router = DefaultRouter()
 router.register(r'categorias', CategoriaViewSet)
 router.register(r'productos', ProductoViewSet)
 router.register(r'cronograma', CronogramaViewSet)
-#router.register(r'usuarios', UsuarioViewSet)
+router.register(r'usuarios', UsuarioViewSet)
 router.register(r'valoraciones', ValoracionViewSet)
 
 

@@ -26,7 +26,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['rol'] = self.user.rol
         data['id_usuario'] = self.user.id_usuario
         #retornamos data, en el cual ahira incluimos los campos perzonalizados junsto con el token de acceso y refresco
-        return dat
+        return data
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
