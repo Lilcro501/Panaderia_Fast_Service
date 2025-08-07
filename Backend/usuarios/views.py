@@ -364,5 +364,15 @@ class UsuarioDetalleView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def eliminar_usuario(request, id_usuario):
+    try:
+        usuario = Usuario.objects.get(pk=id_usuario)
+        usuario.delete()
+        return Response({'mensaje': 'Usuario eliminado correctamente'}, status=200)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado'}, status=404)
+    except Exception as e:
+        print("❌ Error al eliminar usuario:", str(e))
+        return Response({'error': 'Error interno del servidor'}, status=500)

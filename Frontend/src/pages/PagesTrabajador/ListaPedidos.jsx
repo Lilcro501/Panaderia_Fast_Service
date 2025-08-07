@@ -24,6 +24,7 @@ const ListaPedidos = () => {
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
+        console.log("TOKEN:", localStorage.getItem("token"));
         const response = await axios.get("http://localhost:8000/api/listar-pedidos/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

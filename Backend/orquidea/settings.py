@@ -75,8 +75,6 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     # Este modulo se encarga de manejar el registro de nuevos usuarios y la activación de los usuarios
     'dj_rest_auth.registration',
-    # proporciona un sistema completo de autenticacion, como registro, inicio de sesión, recuperación de contraseñas, etc.
-    'allauth',
     #facilita la implementaciond de la gestoion de cuentas de usuarios en la aplicacion de django sin necesidad de escribir codigo adicional
     'allauth.account',
     #proporciona una forma de autenticar a los usuarios a traves de redes sociales
