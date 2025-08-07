@@ -50,6 +50,7 @@ Usuario = get_user_model()
 #Decorador para desactivar la seguridad contra el CRFS
 
 #------------------------------------- VISTA DE REGISTRO DE USUARIO ---------------------------------
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def registrar_usuario(request):
@@ -99,48 +100,49 @@ def registrar_usuario(request):
 
 #Decorador para desactivar la seguridad CRFS
 #------------------------vista para iniciar sesion---------------------------
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.hashers import check_password
+from rest_framework_simplejwt.tokens import RefreshToken
+from .models import Usuario
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login_usuario(request):
-    if request.method == 'POST':
+    try:
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        if not email or not password:
+            return Response({'error': 'Por favor, ingrese correo y contraseña'}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            data = json.loads(request.body)
-            email = data.get('email')
-            password = data.get('password')
-            
-            if not email or not password:
-                return JsonResponse({'error': 'Por favor, ingrese correo y contraseña'}, status=400)
+            usuario = Usuario.objects.get(email=email)
+        except Usuario.DoesNotExist:
+            return Response({'error': 'Correo no registrado'}, status=status.HTTP_404_NOT_FOUND)
 
-            try:
-                usuario = Usuario.objects.get(email=email)
-            except Usuario.DoesNotExist:
-                return JsonResponse({'error': 'Correo no registrado'}, status=404)
+        if not check_password(password, usuario.password):
+            return Response({'error': 'Contraseña incorrecta'}, status=status.HTTP_401_UNAUTHORIZED)
 
-            if check_password(password, usuario.password):
-                refresh = RefreshToken.for_user(usuario)
-                return JsonResponse({
-                    'mensaje': 'Inicio de sesión exitoso',
-                    'access': str(refresh.access_token),
-                    'refresh': str(refresh),
-                    'nombre': usuario.nombre,
-                    'apellido': usuario.apellido,
-                    'rol': usuario.rol,
-                    'id_usuario': usuario.id_usuario,
-                    'email': usuario.email
-                }, status=200)
-            else:
-                return JsonResponse({'error': 'Credenciales inválidas'}, status=401)
+        # Generar tokens JWT
+        refresh = RefreshToken.for_user(usuario)
 
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Formato de datos inválido'}, status=400)
-        except Exception as e:
-            print(f"❌ Error en login_usuario: {str(e)}")
-            return JsonResponse({'error': 'Error interno del servidor'}, status=500)
+        return Response({
+            'mensaje': 'Inicio de sesión exitoso',
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'nombre': usuario.nombre,
+            'apellido': usuario.apellido,
+            'rol': usuario.rol,
+            'id_usuario': usuario.id_usuario,
+            'email': usuario.email
+        }, status=status.HTTP_200_OK)
 
-    return JsonResponse({'error': 'Método no permitido'}, status=405)
-
-
+    except Exception as e:
+        # ✅ Captura cualquier excepción imprevista y responde
+        return Response({'error': f'Error interno del servidor: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #----------------------------vista para enviar el codigo de verificacion-----------------------------------------
 
@@ -362,5 +364,15 @@ class UsuarioDetalleView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def eliminar_usuario(request, id_usuario):
+    try:
+        usuario = Usuario.objects.get(pk=id_usuario)
+        usuario.delete()
+        return Response({'mensaje': 'Usuario eliminado correctamente'}, status=200)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado'}, status=404)
+    except Exception as e:
+        print("❌ Error al eliminar usuario:", str(e))
+        return Response({'error': 'Error interno del servidor'}, status=500)

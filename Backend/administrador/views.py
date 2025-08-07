@@ -12,8 +12,11 @@ from .models import Categorias,Productos,Cronograma,Usuarios,Valoraciones,Factur
 from .serializers import FacturaSerializer
 import cloudinary.uploader
 from cloudinary.uploader import destroy as cloudinary_destroy
+from usuarios.models import Usuario
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 
-# Create your views here.
+
 
 class ProductoCreateView(APIView):
     def post(self, request):
@@ -115,6 +118,7 @@ class CategoriaViewSet(viewsets.ModelViewSet):
     serializer_class = CategoriaSerializer
 
 class CronogramaViewSet(viewsets.ModelViewSet):
+
     queryset = Cronograma.objects.all()
     serializer_class = CronogramaSerializer
     @action(detail=False, methods=['get'], url_path='trabajadores')
@@ -122,6 +126,7 @@ class CronogramaViewSet(viewsets.ModelViewSet):
         trabajadores_cronograma = Cronograma.objects.filter(id_usuario__rol='trabajador')
         serializer = self.get_serializer(trabajadores_cronograma, many=True)
         return Response(serializer.data)
+
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuarios.objects.all()
@@ -141,14 +146,27 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         if not email or not password:
             return Response({'error': 'Email y contraseña requeridos'}, status=status.HTTP_400_BAD_REQUEST)
             
+    @action(detail=False, methods=['post'], url_path='registro')
+    def registro(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            usuario = serializer.save()
+            return Response({'mensaje': 'Usuario registrado con éxito'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            usuario = Usuarios.objects.get(email=email)
+            usuario = Usuario.objects.get(email=email)
             if usuario.check_password(password):
-                # Aquí puedes retornar los datos del usuario, token, o rol
+                # ✅ Generar tokens JWT
+                refresh = RefreshToken.for_user(usuario)
+                access = str(refresh.access_token)
+
                 return Response({
                     'mensaje': 'Login exitoso',
+                    'access': access,
+                    'refresh': str(refresh),
                     'rol': usuario.rol,
-                    'id': usuario.id,
+                    'id_usuario': usuario.id,
                     'nombre': usuario.nombre
                 }, status=status.HTTP_200_OK)
             else:

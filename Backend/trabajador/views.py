@@ -18,6 +18,7 @@ from django.core.mail import EmailMultiAlternatives
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def listar_pedidos(request):
     # Subquery: obtener el último estado de cada factura (ordenado por id_estado descendente)
     ultimos_estados = EstadoFactura.objects.filter(
@@ -51,8 +52,7 @@ def obtener_factura(request, id_factura):
             "estado": "comprado"
         } for pedido in pedidos]
 
-        usuario = factura.usuario  # Esto es una instancia del modelo Usuario
-
+        usuario = factura.usuario  
         datos_usuario = {
             "nombre": usuario.nombre,
             "apellido": usuario.apellido,
