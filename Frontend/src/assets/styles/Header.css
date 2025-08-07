@@ -3,17 +3,19 @@
   padding: 70px 20px;
   position: relative;
   z-index: 1; /* para que se mantenga sobre el fondo ondulado */
+  overflow: hidden;
 }
 
 .contenido-header {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
   gap: 20px;
   position: relative;
   top: -50px;
-  padding-top: 40px;
+  z-index: 2;
+  margin-left: 20%;
 }
 
 /* ~~~~~~~~~~~~~~~~ Barra de navegación ~~~~~~~~~~~~~~~~ */
@@ -58,7 +60,7 @@
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  margin-left: 5%;
+  margin-left: 0%;
 }
 
 .icono-carrito:hover {
@@ -85,12 +87,11 @@
 /* ~~~~~~~~~~~~~~~~ Logo ~~~~~~~~~~~~~~~~ */
 .estilo-logo {
   border-radius: 50%;
-  width: 60%;
+  width: 50%;
   height: 50%;
   box-shadow: -5px 5px 7px rgb(62, 62, 62);
   transition: transform 1.4s;
-  margin-left: 50%;
-  
+  margin-left: 80%;
 }
 
 .estilo-logo:hover {
@@ -106,7 +107,8 @@
   margin-right: 25px;
   border-radius: 50%;
   width: 130px;
-  height: auto;
+  height: 45px;
+  border: 1px solid #ccc;
 }
 
 .estilo-logo-perfil:hover {
@@ -118,6 +120,13 @@
 }
 
 /* ~~~~~~~~~~~ Fondo Ondulado en el Encabezado ~~~~~~~~~~~ */
+header.shapedividers_com-9705{
+  position: relative;
+  z-index: 0;
+  background-color: black ;
+  padding: 20px;
+  height: 130px;
+}
 .shapedividers_com-9705 {
   overflow: hidden;
   position: relative;
@@ -125,19 +134,18 @@
 }
 
 .shapedividers_com-9705::before {
-  width:100%;
-  height: 100%;
   content: '';
   position: absolute;
-  top: -0.1vw;
+  top: 100%;
   left: 0;
-  right: -0.1vw;
-  bottom: -1px;
-  z-index: 1;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
   pointer-events: none;
   background-repeat: no-repeat;
+  background-size: 100% 100px;
+  background-position: center bottom;
   background-size: cover;
-  background-position: 50% 100%;
   background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 35.28 2.17' preserveAspectRatio='none'><path d='M35.28 1.67c-3.07-.55-9.27.41-16.15 0-6.87-.4-13.74-.58-19.13.1v.4h35.28z' fill='%23000000'/><path d='M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z' opacity='.5' fill='%23000000'/><path d='M35.28.31c-2.57.84-7.68.3-11.8.43-4.1.12-6.85.61-9.57.28C11.18.69 8.3-.16 5.3.02 2.3.22.57.85 0 .87v1.2h35.28z' opacity='.5' fill='%23000000'/></svg>");
 }
 
@@ -158,6 +166,8 @@
     background-size: 100% calc(2vw + 300px);
   }
 }
+
+
 
 
 /* ~~~~~~~~~~~ Fin de estilos del encabezado ~~~~~~~~~~~ */

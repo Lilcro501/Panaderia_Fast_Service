@@ -12,10 +12,8 @@ const Header = () => {
   const [mostrarModal, setMostrarModal] = useState(false); // Estado del modal
 
   return (
-    <div className="contenedor-header"> {/* Contenedor principal */}
-      <header className='header shapedividers_com-9705'>
+      <header className='shapedividers_com-9705'>
       <div className="contenido-header">
-        <div className="contenido-header">
           <div className="logo-container">
             <Link to="/Home">
               <img src={logo} alt="logo-panaderia" className="estilo-logo" />
@@ -50,9 +48,7 @@ const Header = () => {
 
         {/* Modal del carrito */}
         <ModalCarrito visible={mostrarModal} onClose={() => setMostrarModal(false)} />
-      </div>
       </header>
-    </div>
   );
 };
 
