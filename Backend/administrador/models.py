@@ -42,10 +42,11 @@ class Productos(models.Model):
     nombre = models.CharField(max_length=100)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     descripcion = models.TextField(blank=True, null=True)
-    imagen = models.ImageField(max_length=255, blank=True, null=True)
+    imagen = models.URLField(max_length=255, blank=True, null=True)
     fecha_vencimiento = models.DateField(blank=True, null=True)
     stock = models.IntegerField()
     fecha_actualizacion = models.DateField(blank=True, null=True)
+    imagen_public_id = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombre} ({self.id_categoria.nombre})"
@@ -132,11 +133,7 @@ class Pedido(models.Model):
         db_table = 'pedido'
 
 class Estado(models.Model):
-    ESTADO_PEDIDO_CHOICES = [
-        ('pendiente', 'Pendiente'),
-        ('confirmado', 'Confirmado'),
-        ('cancelado', 'Cancelado'),
-    ]
+
     PROCESO_PEDIDO_CHOICES = [
         ('preparando', 'Preparando'),
         ('empaquetando', 'Empaquetando'),
@@ -145,11 +142,10 @@ class Estado(models.Model):
     ]
     ESTADO_PAGO_CHOICES = [
         ('pendiente', 'Pendiente'),
-        ('pagado', 'Pagado'),
-        ('fallido', 'Fallido'),
+        ('pago', 'Pago'),
+        ('cancelado', 'Cancelado'),
     ]
     id_estado = models.AutoField(primary_key=True)
-    estado_pedido = models.CharField(max_length=20,choices=ESTADO_PEDIDO_CHOICES)  # Enum: 'pendiente', 'confirmado', 'cancelado'
     proceso_pedido = models.CharField(max_length=20,choices=PROCESO_PEDIDO_CHOICES)
     estado_pago = models.CharField(max_length=20,choices=ESTADO_PAGO_CHOICES)
 
@@ -161,7 +157,7 @@ class Estado(models.Model):
     )
 
     def __str__(self):
-        return f"Estado #{self.id_estado} - Pedido {self.facturas.id_factura}: {self.estado_pedido}, {self.proceso_pedido}, {self.estado_pago}"
+        return f"Estado #{self.id_estado} - {self.proceso_pedido} / {self.estado_pago}"
 
     class Meta:
         managed = False

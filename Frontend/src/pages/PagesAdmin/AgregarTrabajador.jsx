@@ -14,6 +14,12 @@ export default function AgregarTrabajador() {
             requerido: true
         },
         {
+            nombre: 'password',
+            etiqueta: 'Contraseña',
+            tipo: 'text',
+            requerido: true
+        },
+        {
             nombre: 'nombre',
             etiqueta: 'Nombre',
             tipo: 'text',
@@ -28,8 +34,17 @@ export default function AgregarTrabajador() {
         {
             nombre: 'telefono',
             etiqueta: 'Teléfono',
-            tipo: 'text',
+            tipo: 'number',
             requerido: false
+        },
+        {
+            nombre: 'rol', 
+            etiqueta: 'Rol',
+            tipo: 'select',
+            opciones: [
+                { valor: 'trabajador', texto: 'Trabajador' }
+            ],
+            requerido: true
         }
     ];
 

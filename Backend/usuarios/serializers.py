@@ -26,9 +26,31 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['rol'] = self.user.rol
         data['id_usuario'] = self.user.id_usuario
         #retornamos data, en el cual ahira incluimos los campos perzonalizados junsto con el token de acceso y refresco
-        return data
+        return dat
+
 
 class UsuarioSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)  # Campo solo para escritura
+
     class Meta:
         model = Usuario
-        fields = ['id_usuario', 'email', 'nombre', 'apellido', 'telefono', 'rol', 'fecha_registro']
+        fields = [
+            'id_usuario',
+            'email',
+            'password',
+            'nombre',
+            'apellido',
+            'telefono',
+            'rol',
+            'fecha_registro'
+        ]
+
+    def create(self, validated_data):
+        # Encriptar la contraseña
+        validated_data['password'] = make_password(validated_data['password'])
+        # Establecer la fecha actual
+        validated_data['fecha_registro'] = timezone.now()
+        # Puedes establecer los siguientes campos si no vienen del frontend
+        validated_data['is_active'] = True
+        validated_data['is_staff'] = True if validated_data['rol'] != 'cliente' else False
+        return Usuario.objects.create(**validated_data)
