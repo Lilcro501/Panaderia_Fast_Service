@@ -10,7 +10,7 @@ from django.db import models
 class EstadoFactura(models.Model):
     id_estado = models.AutoField(primary_key=True)
     proceso_pedido = models.CharField(max_length=50)
-    estado_pago = models.CharField( max_length=50)
+    estado_pedido = models.CharField( max_length=50)
     
     factura = models.ForeignKey(
         "carrito.Factura",

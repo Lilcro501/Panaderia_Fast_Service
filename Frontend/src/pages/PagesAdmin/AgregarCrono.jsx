@@ -10,16 +10,12 @@ export default function AgregarCrono() {
         axios.get('http://localhost:8000/api/usuarios/')
             .then(response => {
                 console.log("🧾 Trabajadores recibidos:", response.data);
-
                 const trabajadoresFiltrados = response.data.filter(usuario => usuario.rol === "trabajador");
-
-                // Formateamos para el campo tipo select
                 const opciones = trabajadoresFiltrados.map(usuario => ({
                     valor: usuario.id_usuario.toString(),
                     etiqueta: `${usuario.nombre} ${usuario.apellido}`
                 }));
-
-                setUsuarios(opciones); // ← Aquí sí usamos el estado correcto
+                setUsuarios(opciones);
             })
             .catch(error => {
                 console.error("Error al obtener trabajadores:", error);
@@ -61,22 +57,38 @@ export default function AgregarCrono() {
     ];
 
     const manejarEnvio = async (datos) => {
-        const datosAEnviar = {
-            ...datos,
-            id_usuario: parseInt(datos.id_usuario, 10),
-            fecha_inicio: datos.fecha_inicio,
-            fecha_fin: datos.fecha_fin
-        };
-
-        console.log("Enviando datos al backend:", datosAEnviar);
-
         try {
+            console.log("🕵️ Datos recibidos del formulario:", datos);
+
+            const fechaInicio = new Date(datos.fecha_inicio);
+            const fechaFin = new Date(datos.fecha_fin);
+
+            if (isNaN(fechaInicio.getTime())) {
+                alert("⚠️ La fecha de inicio no es válida.");
+                return;
+            }
+
+            if (isNaN(fechaFin.getTime())) {
+                alert("⚠️ La fecha de fin no es válida.");
+                return;
+            }
+
+            const datosAEnviar = {
+                id_usuario: parseInt(datos.id_usuario, 10),
+                titulo: datos.titulo,
+                descripcion: datos.descripcion,
+                fecha_inicio: fechaInicio.toISOString(),
+                fecha_fin: fechaFin.toISOString()
+            };
+
+            console.log("🚀 Enviando datos al backend:", datosAEnviar);
+
             const response = await axios.post("http://localhost:8000/api/cronograma/", datosAEnviar);
-            console.log("Cronograma creado:", response.data);
-            alert("Cronograma guardado correctamente.");
+            console.log("✅ Cronograma creado:", response.data);
+            alert("✅ Cronograma guardado correctamente.");
         } catch (error) {
-            console.error("Error al guardar cronograma:", error.response?.data || error);
-            alert("Error al guardar el cronograma: " + JSON.stringify(error.response?.data));
+            console.error("❌ Error al guardar cronograma:", error.response?.data || error.message);
+            alert("❌ Error al guardar el cronograma: " + JSON.stringify(error.response?.data || error.message));
         }
     };
 
@@ -91,7 +103,7 @@ export default function AgregarCrono() {
             tipo: 'button',
             clase: 'salir',
             onClick: () => {
-                console.log("Formulario cancelado");
+                console.log("🛑 Formulario cancelado");
             }
         }
     ];
@@ -106,3 +118,4 @@ export default function AgregarCrono() {
         </div>
     );
 }
+

@@ -23,52 +23,53 @@ export default function ProductoDetalle() {
 
   const { agregarProducto, carrito } = useCarrito();
 
-  useEffect(() => {
-    const obtenerProducto = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/producto/${id}/`);
-        setProducto({
-          id: response.data.id_producto ?? response.data.id,
-          nameProduct: response.data.nombre,
-          price: response.data.precio,
-          image: `http://localhost:8000${response.data.imagen}`,
-          description: response.data.descripcion,
-          stock: response.data.stock,
-        });
-      } catch (err) {
-        console.error('❌ Error al obtener producto:', err);
-        setError('Producto no encontrado');
-      }
-    };
-
-    const obtenerComentarios = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/producto/${id}/comentarios/`);
-        setComentarios(response.data);
-      } catch (error) {
-        console.error("❌ Error al obtener comentarios:", error);
-      }
-    };
-
-    const obtenerUsuario = () => {
-      try {
-        const token = localStorage.getItem("access");
-        if (token) {
-          const payloadBase64 = token.split('.')[1];
-          const decoded = JSON.parse(atob(payloadBase64));
-          setUsuarioId(decoded.user_id);
-        }
-      } catch (err) {
-        console.error("❌ Error al decodificar token:", err);
-      }
-    };
-
-    if (id) {
-      obtenerProducto();
-      obtenerComentarios();
-      obtenerUsuario();
+useEffect(() => {
+  const obtenerProducto = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/productos/${id}/`);
+      setProducto({
+        id: response.data.id_producto ?? response.data.id,
+        nameProduct: response.data.nombre,
+        price: response.data.precio,
+        image: `http://localhost:8000${response.data.imagen}`,
+        description: response.data.descripcion,
+        stock: response.data.stock,
+      });
+    } catch (err) {
+      console.error('❌ Error al obtener producto:', err);
+      setError('Producto no encontrado');
     }
-  }, [id]);
+  };
+
+  const obtenerComentarios = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/productos/${id}/comentario/`);
+      setComentarios(response.data);
+    } catch (error) {
+      console.error("❌ Error al obtener comentarios:", error);
+    }
+  };
+
+  const obtenerUsuario = () => {
+    try {
+      const token = localStorage.getItem("access");
+      if (token) {
+        const payloadBase64 = token.split('.')[1];
+        const decoded = JSON.parse(atob(payloadBase64));
+        setUsuarioId(decoded.user_id);
+      }
+    } catch (err) {
+      console.error("❌ Error al decodificar token:", err);
+    }
+  };
+
+  if (id) {
+    obtenerProducto();
+    obtenerComentarios();
+    obtenerUsuario();
+  }
+}, [id]);
+
 
   const manejarAgregar = (producto) => {
     const productoEnCarrito = carrito.find((item) => item.id === producto.id);

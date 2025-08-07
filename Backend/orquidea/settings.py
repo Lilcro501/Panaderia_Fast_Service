@@ -18,7 +18,8 @@ from pathlib import Path
 import os
 #Importamos el timedelta para poder configurar el tiempo de vida de la sesion de usuario
 from datetime import timedelta
-
+from decouple import config 
+import cloudinary
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #este es el directorio base de la aplicacion
 #esto es para que django pueda acceder a las carpetas de la aplicacion
@@ -53,6 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',        # Para django_session  
     'django.contrib.messages',        # Para mensajes flash
     'django.contrib.staticfiles',     # Para archivos estáticos
+    'cloudinary',
+    'cloudinary_storage',
     'django.contrib.auth',            # Para autenticación
     'django.contrib.admin',           # Para el panel de administración
 
@@ -72,8 +75,6 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     # Este modulo se encarga de manejar el registro de nuevos usuarios y la activación de los usuarios
     'dj_rest_auth.registration',
-    # proporciona un sistema completo de autenticacion, como registro, inicio de sesión, recuperación de contraseñas, etc.
-    'allauth',
     #facilita la implementaciond de la gestoion de cuentas de usuarios en la aplicacion de django sin necesidad de escribir codigo adicional
     'allauth.account',
     #proporciona una forma de autenticar a los usuarios a traves de redes sociales
@@ -89,6 +90,19 @@ INSTALLED_APPS = [
     'usuarios',
     'trabajador'
 ]
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET')
+}
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key=CLOUDINARY_STORAGE['API_KEY'],
+    api_secret=CLOUDINARY_STORAGE['API_SECRET'],
+    secure=True
+)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 #Este es el intermediario que permite que las aplicaciones se comuniquen entre si  
 # este ayuda a modificar o procesar solicitudes y respuestas htpp, entre otras cosas 
@@ -209,7 +223,7 @@ TIME_ZONE = 'America/Bogota'
 #este campo habilita la internacionalizacion de la aplicacion
 USE_I18N = True
 #este campo habilita el soporte para zonas horarias en la aplicacion
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

@@ -54,12 +54,10 @@ import Registro from '../pages/PagesLogin/Registro';
 import AdministrarInven from '../pages/PagesAdmin/AdministrarInven';
 import AgregarInven from '../pages/PagesAdmin/AgregarInven';
 import EditarInven from '../pages/PagesAdmin/EditarInven';
-import EliminarInven from '../pages/PagesAdmin/EliminarInven';
 import Catalogo_Admin from '../pages/PagesAdmin/Catalogo_Admin';
 import AdministrarTrabajadores from '../pages/PagesAdmin/AdministrarTrabajadores';
 import AgregarTrabajador from '../pages/PagesAdmin/AgregarTrabajador';
 import EditarTrabajador from '../pages/PagesAdmin/EditarTrabajador';
-import EliminarTrabajador from '../pages/PagesAdmin/EliminarTrabajador';
 import Cronograma from '../pages/PagesAdmin/Cronograma';
 import AgregarCrono from '../pages/PagesAdmin/AgregarCrono';
 import EditarCrono from '../pages/PagesAdmin/EditarCrono';
@@ -75,6 +73,10 @@ import InfoCliente from '../pages/PagesTrabajador/InfoCliente';
 import Inicio from '../pages/PagesTrabajador/Inicio';
 import ListaPedidos from '../pages/PagesTrabajador/ListaPedidos';
 import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
+<<<<<<< HEAD
+=======
+import CronogramaTrabajador from '../pages/PagesTrabajador/CronogramaTrabajador'
+>>>>>>> 31cab1da48d8430f1d484f63d45b77cfddec9e63
 const AppRouter = () => {
   return (
     <Routes>
@@ -122,6 +124,7 @@ const AppRouter = () => {
         <Route path='/DetallesPedido/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><DetallesPedido /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/EditarPerfil' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EditarPerfil /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/InfoCliente' element={<LayoutTrabajador><InfoCliente /></LayoutTrabajador>} />
+<<<<<<< HEAD
 
 
 
@@ -141,6 +144,23 @@ const AppRouter = () => {
         <Route path='/AdministrarTrabajadores' element={<AdminLayout><AdministrarTrabajadores /></AdminLayout>} />
         <Route path='/PrincipalAdmin' element={<AdminLayout><PrincipalAdmin /></AdminLayout>} />
         <Route path='/admin/AdminRecomendaciones'element={<AdminLayout><AdminRecomendaciones/></AdminLayout>}></Route>
+=======
+        <Route path='/CronogramaTrabajador' element={<PrivateRoute role="trabajador"><LayoutTrabajador><CronogramaTrabajador /></LayoutTrabajador></PrivateRoute>} />
+
+        {/* Admin */}
+        <Route path='/AgregarTrabajador' element={<PrivateRoute role="admin"><AgregarTrabajador></AgregarTrabajador></PrivateRoute>} />
+        <Route path='/EditarTrabajador/:id' element={<PrivateRoute role="admin"><AdminLayout><EditarTrabajador /></AdminLayout></PrivateRoute>} />
+        <Route path='/Cronograma' element={<PrivateRoute role="admin"><AdminLayout><Cronograma /></AdminLayout></PrivateRoute>} />
+        <Route path='/AgregarCrono' element={<PrivateRoute role="admin"><AdminLayout><AgregarCrono /></AdminLayout></PrivateRoute>} />
+        <Route path='/EditarCrono/:id' element={<PrivateRoute role="admin"> <EditarCrono></EditarCrono></PrivateRoute>} />
+        <Route path='/HistorialPedido' element={<PrivateRoute role="admin"><AdminLayout><HistorialPedido /></AdminLayout> </PrivateRoute>} />
+        <Route path='/CatalogoAdmin' element={<PrivateRoute role="admin"><AdminLayout><Catalogo_Admin /></AdminLayout></PrivateRoute>} />
+        <Route path='/AdministrarInven' element={<PrivateRoute role="admin"><AdminLayout><AdministrarInven /></AdminLayout></PrivateRoute>} />
+        <Route path='/AgregarInven' element={<PrivateRoute role="admin"><AdminLayout><AgregarInven /></AdminLayout></PrivateRoute>} />
+        <Route path='/EditarInven/:id' element={<PrivateRoute role="admin"><AdminLayout><EditarInven /></AdminLayout></PrivateRoute>} />
+        <Route path='/AdministrarTrabajadores' element={<PrivateRoute role="admin"><AdminLayout><AdministrarTrabajadores /></AdminLayout></PrivateRoute>} />
+        <Route path='/PrincipalAdmin' element={<PrivateRoute role="admin"><AdminLayout><PrincipalAdmin /></AdminLayout></PrivateRoute>} />
+>>>>>>> 31cab1da48d8430f1d484f63d45b77cfddec9e63
 
     </Routes>
   );
