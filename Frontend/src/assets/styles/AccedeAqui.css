@@ -457,3 +457,130 @@ svg.LgbsSe-Bz112c {
     }
 }
 
+/* Pantallas medianas (tablets y hasta notebooks pequeñas) */
+@media (max-width: 1024px) {
+  .Cont {
+    flex-direction: column;
+    max-width: 90%;
+    margin: 15px auto;
+    border-radius: 25px;
+  }
+
+  .ContenedorIzquierdo,
+  .ContenedorDerecho {
+    padding: 40px 25px;
+  }
+
+  .TituloAccesoI {
+    font-size: 42px;
+  }
+
+  .ImagenOrquidea img {
+    height: auto;
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .Form {
+    max-width: 100%;
+  }
+
+  .CampoNumero {
+    margin: 7px 30px;
+  }
+}
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+  .Cont {
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .ContenedorIzquierdo {
+    padding: 50px 20px;
+    font-size: 20px;
+  }
+
+  .TituloAccesoI {
+    font-size: 32px;
+    -webkit-text-stroke-width: 0.5px;
+    margin-bottom: 15px;
+  }
+
+  .Camp {
+    margin: 2px 15px 15px 15px;
+    padding: 8px 15px;
+  }
+
+  #correo,
+  #password,
+  #username,
+  #confirmar {
+    font-size: 16px;
+    padding: 12px 15px 12px 20px;
+  }
+
+  .Continua {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .ImagenOrquidea {
+    height: auto;
+    margin-top: 10px;
+  }
+
+  .ImagenOrquidea img {
+    height: auto;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .Opciones {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 16px;
+  }
+
+  .BotonesCookies {
+    padding-left: 15px;
+  }
+
+  .BotonesCookies button {
+    margin-left: 10px;
+    padding: 8px 18px;
+  }
+}
+
+/* Muy pequeñas / vertical (ej: teléfonos pequeños) */
+@media (max-width: 480px) {
+  .TituloAccesoI {
+    font-size: 28px;
+    -webkit-text-stroke-width: 0.5px;
+  }
+
+  .ContenedorIzquierdo {
+    padding: 35px 15px;
+    font-size: 18px;
+  }
+
+  .Form {
+    padding: 0 10px;
+  }
+
+  .CampoNumero {
+    margin: 7px 15px;
+  }
+
+  .Registro {
+    font-size: 14px;
+  }
+
+  .EstiloAceptartyc {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+

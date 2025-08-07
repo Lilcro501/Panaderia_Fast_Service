@@ -9,6 +9,9 @@ import { RolProvider } from './Context/RolContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { BrowserRouter } from 'react-router-dom';
 
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

@@ -98,7 +98,7 @@ const AppRouter = () => {
       <Route path='/Favoritos' element={<PrivateRoute role="cliente"><MainLayout><Favoritos></Favoritos></MainLayout></PrivateRoute>}></Route>
       <Route path='/CalificarExperiencia' element={<PrivateRoute role="cliente"><MainLayout> <CalificarExperiencia></CalificarExperiencia> </MainLayout></PrivateRoute>}></Route>
       <Route path='/PerfilUsuario' element={<PrivateRoute role="cliente"> <MainLayout> <PerfilUsuario></PerfilUsuario> </MainLayout> </PrivateRoute>}></Route>
-      <Route path='/Actualizar' element={<PrivateRoute role="cliente"><MainLayout><ActualizarPerfilUsuario></ActualizarPerfilUsuario></MainLayout></PrivateRoute>}></Route>
+      <Route path='/ActualizarPerfil' element={<PrivateRoute role="cliente"><MainLayout><ActualizarPerfil></ActualizarPerfil></MainLayout></PrivateRoute>}></Route>
       <Route path='/Recomendacion' element={<PrivateRoute role="cliente"><MainLayout><Recomendacion></Recomendacion></MainLayout></PrivateRoute>}></Route>
 
 

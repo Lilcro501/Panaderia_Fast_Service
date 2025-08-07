@@ -1,82 +1,34 @@
-
 /* ~~~~~~~~~~~~~~~~ Encabezado ~~~~~~~~~~~~~~~~ */
 .header {
   padding: 70px 20px;
-  z-index: 1;
+  position: relative;
+  z-index: 1; /* para que se mantenga sobre el fondo ondulado */
 }
 
 .contenido-header {
   display: flex;
-  flex-direction:row ;
+  flex-direction: row;
   justify-content: space-evenly;
   align-items: flex-start;
   gap: 20px;
   position: relative;
   top: -50px;
+  padding-top: 40px;
 }
-/* ~~~~~~~~~~~ Plantilla ~~~~~~~~~~~*/
-/* ~~~~~~~~~~~ Header estilizado ~~~~~~~~~~~*/
-.shapedividers_com-5996 {
-  overflow: hidden;
+
+/* ~~~~~~~~~~~~~~~~ Barra de navegación ~~~~~~~~~~~~~~~~ */
+.barra-navegacion {
+  width: 100%;
   position: relative;
+  z-index: 5;
 }
 
-.shapedividers_com-5996::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  pointer-events: none;
-  background-repeat: no-repeat;
-  background-size: 100% 140px;
-  background-position: center bottom;
-  background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 35.28 2.17' preserveAspectRatio='none'><path d='M0 .5c3.07.55 9.27-.42 16.14 0 6.88.4 13.75.57 19.14-.11V0H0z' fill='%23fbd8c2'/><path d='M0 1c3.17.8 7.29-.38 10.04-.55 2.75-.17 9.25 1.47 12.67 1.3 3.43-.17 4.65-.84 7.05-.87 2.4-.02 5.52.88 5.52.88V0H0z' opacity='.5' fill='%23fbd8c2'/><path d='M0 1.85c2.56-.83 7.68-.3 11.79-.42 4.1-.12 6.86-.61 9.58-.28 2.73.33 5.61 1.17 8.61 1 3-.19 4.73-.82 5.3-.84V.1H0z' opacity='.5' fill='%23fbd8c2'/></svg>");
-
-}
-
-@media (min-width: 768px) {
-  .shapedividers_com-5996::before {
-    background-size: 100% 180px;
-  }
-}
-
-@media (min-width: 1025px) {
-  .shapedividers_com-5996::before {
-    background-size: 100% 260px;
-    background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'><path fill='%23fbd8c2' d='M0,160 C360,320 1080,0 1440,160 L1440,320 L0,320 Z' /></svg>");
-  }
-}
-
-@media (min-width: 2100px) {
-  .shapedividers_com-5996::before {
-    background-size: 100% calc(2vw + 300px);
-  }
-}
-/* ~~~~~~~~~~~ Fin estilos ~~~~~~~~~~~ */
-
-
-
-/* Fin estilos de la plantilla */
-/*~~~~~~~~~~~~~~~~ Fin encabezado ~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-
-/* ~~~~~~~~~~~~~ Barra de navegacion ~~~~~~~~~~~~~*/
-.barra-navegacion{
-  width: 100%; /* Ocupa todo el ancho disponible */
-  position: relative; /* Permite posicionar elementos hijos de forma absoluta relativa a este */
-  z-index: 5; /* Asegura que esta barra se muestre por encima de otros elementos si se superponen */
-}
-
-/* ~~~~~~~~~~~~~~~~ Menú encabezado ~~~~~~~~~~~~~~~~*/
-
+/* ~~~~~~~~~~~~~~~~ Menú encabezado ~~~~~~~~~~~~~~~~ */
 .lista-info {
   display: flex;
   justify-content: center;
   list-style: none;
   gap: 40px;
-}
-
-.lista-info li:hover{
-  color: #997b6c;
 }
 
 .lista-info li {
@@ -85,56 +37,76 @@
   font-weight: bold;
   font-size: 1.8rem;
   list-style: none;
+  transition: transform 0.3s ease;
 }
 
-.lista-info a{
-  color: #ffffff;
+.lista-info a {
+  color: #eead70;
 }
 
 .lista-info li:hover {
+  color: #997b6c;
   transform: scale(1.12);
 }
 
-/* ~~~~~~~~~~~~~~~~ Fin de la barra de navegación del encabezado ~~~~~~~~~~~~~~~~ */
-
 /* ~~~~~~~~~~~~~~~~ Icono del carrito ~~~~~~~~~~~~~~~~ */
 .icono-carrito {
+  position: relative;
+  margin: 10px 20px 0 10px;
   z-index: 5;
-  margin-right: 20px; /*Agrega separación del borde derecho o de otros elementos*/
-  margin-top: 10px; /*Agrega separación del borde superior */
+  padding: 5px;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  margin-left: 5%;
 }
 
-.icono-carrito img{
-  width: 50px; /*ancho*/
-  height: 50px; /*alto*/
+.icono-carrito:hover {
+  filter: drop-shadow(0 10px 20px rgb(255, 255, 255));
+  transform: scale(1.1);
 }
 
-/*validar dos clases que no se encuentran*/
-/*menu-secundario*/
-/*bi bi-search*/
+.icono-carrito img {
+  width: 50px;
+  height: 50px;
+}
 
+.contador-carrito {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  color: rgb(233, 171, 100);
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+}
+
+/* ~~~~~~~~~~~~~~~~ Logo ~~~~~~~~~~~~~~~~ */
 .estilo-logo {
-  border-radius: 50%; /*redondea el logo en forma de circulo*/
-  width: 100px; /*ancho del logo*/
-  height: 100px; /*alto del logo*/
+  border-radius: 50%;
+  width: 60%;
+  height: 50%;
   box-shadow: -5px 5px 7px rgb(62, 62, 62);
+  transition: transform 1.4s;
+  margin-left: 50%;
+  
 }
 
-.estilo-logo:hover{
+.estilo-logo:hover {
   transform: rotate(360deg);
-  transition-duration: 1.4s ;
 }
 
-.logo-container:hover{
+.logo-container:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
 
 .estilo-logo-perfil {
   margin-right: 25px;
-  border-radius: 50%; /*redondea el logo en forma de circulo*/
-  width: 130px; /*ancho del logo*/
-  height: auto; /*alto del logo*/
+  border-radius: 50%;
+  width: 130px;
+  height: auto;
 }
 
 .estilo-logo-perfil:hover {
@@ -145,26 +117,47 @@
   text-decoration: none;
 }
 
-.contador-carrito {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 2px 6px;
-}
-
-.icono-carrito {
+/* ~~~~~~~~~~~ Fondo Ondulado en el Encabezado ~~~~~~~~~~~ */
+.shapedividers_com-9705 {
+  overflow: hidden;
   position: relative;
-  margin-left: 10px;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  padding: 5px;
+
 }
 
-.icono-carrito:hover {
-  filter: drop-shadow(0 10px 20px rgb(255, 255, 255));
-  transform: scale(1.1); /* efecto de zoom ligero */
+.shapedividers_com-9705::before {
+  width:100%;
+  height: 100%;
+  content: '';
+  position: absolute;
+  top: -0.1vw;
+  left: 0;
+  right: -0.1vw;
+  bottom: -1px;
+  z-index: 1;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 100%;
+  background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 35.28 2.17' preserveAspectRatio='none'><path d='M35.28 1.67c-3.07-.55-9.27.41-16.15 0-6.87-.4-13.74-.58-19.13.1v.4h35.28z' fill='%23000000'/><path d='M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z' opacity='.5' fill='%23000000'/><path d='M35.28.31c-2.57.84-7.68.3-11.8.43-4.1.12-6.85.61-9.57.28C11.18.69 8.3-.16 5.3.02 2.3.22.57.85 0 .87v1.2h35.28z' opacity='.5' fill='%23000000'/></svg>");
 }
+
+@media (min-width: 768px) {
+  .shapedividers_com-9705::before {
+    background-size: 100% 180px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .shapedividers_com-9705::before {
+    background-size: 100% 260px;
+  }
+}
+
+@media (min-width: 2100px) {
+  .shapedividers_com-9705::before {
+    background-size: 100% calc(2vw + 300px);
+  }
+}
+
+
+/* ~~~~~~~~~~~ Fin de estilos del encabezado ~~~~~~~~~~~ */
