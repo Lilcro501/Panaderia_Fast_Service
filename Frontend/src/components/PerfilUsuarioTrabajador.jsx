@@ -24,7 +24,7 @@ export function PerfilUsuarioTrabajador() {
 
     const obtenerUsuarioDeFactura = async () => {
       try {
-        const response = await api.get(`facturas/${id}/`); // <- aquí corregido
+        const response = await api.get(`trabajador/facturas/${id}/`); // <- aquí corregido
         setUsuario(response.data.usuario);
       } catch (error) {
         console.error("Error al obtener los datos de la factura:", error);

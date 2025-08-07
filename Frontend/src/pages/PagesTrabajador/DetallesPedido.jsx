@@ -19,7 +19,7 @@ const DetallesPedido = () => {
     const fetchPedido = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:8000/api/facturas/${id}/`, {
+        const response = await axios.get(`http://localhost:8000/api/trabajador/facturas/${id}/`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

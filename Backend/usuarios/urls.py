@@ -23,7 +23,7 @@ urlpatterns = [
     path('enviar-codigo/', enviar_codigo_verificacion),
     path('verificar-codigo/', verificar_codigo),
     path('cambiar-password/', cambiar_password),
-    path('usuarios/perfil/', UsuarioDetalleView.as_view(), name='usuario-detalle'),
+    path('perfil/', UsuarioDetalleView.as_view(), name='usuario-detalle'),
 
     # Autenticación con JWT personalizada
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  

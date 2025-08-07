@@ -20,7 +20,7 @@ export default function CarruselCatalogo() {
     const fetchProductos = async () => {
       try {
         const peticiones = idsProductos.map(id =>
-          axios.get(`http://localhost:8000/api/producto/${id}/`).then(res => res.data)
+          axios.get(`http://localhost:8000/api/carrito/producto/${id}/`).then(res => res.data)
         );
         const resultados = await Promise.all(peticiones);
         const productosFormateados = resultados.map(p => ({

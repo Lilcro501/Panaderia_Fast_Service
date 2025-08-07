@@ -4,7 +4,7 @@ import axios from 'axios';
 export const enviarFactura = async (formData) => {
   try {
     const response = await axios.post(
-      'http://localhost:8000/api/crear-factura/',
+      'http://localhost:8000/api/carrito/crear-factura/',
       formData,
       {
         headers: {
