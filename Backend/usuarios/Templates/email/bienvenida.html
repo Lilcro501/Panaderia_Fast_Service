@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido a Panadería Fast Service</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #e8ba6c;
+            margin: 40px auto;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #d97824;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 15px 0;
+        }
+        strong {
+            color: #b35c00;
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>¡Hola {{ usuario.first_name }}!</h2>
+        <p>Gracias por registrarte en <strong>Panadería Fast Service</strong> 🥖🥐.</p>
+        <p>Ahora puedes explorar nuestros productos y realizar tus pedidos fácilmente.</p>
+        <p>Estamos encantados de tenerte con nosotros.</p>
+        <p>¡Disfruta tu experiencia!</p>
+        <p class="footer"><strong>Equipo de Panadería Fast Service</strong></p>
+    </div>
+</body>
+</html>

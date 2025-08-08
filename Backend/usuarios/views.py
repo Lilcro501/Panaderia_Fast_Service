@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
+from .utils import enviar_correo_bienvenida
 
 # Terceros
 from google.auth.transport import requests as google_requests
@@ -67,6 +68,7 @@ def registrar_usuario(request):
             if Usuario.objects.filter(email=data['email']).exists():
                 return JsonResponse({'error': 'Correo ya registrado'}, status=400)
             #agreamos los campos al modelo de usuario para crearlo
+
             usuario = Usuario.objects.create_user(
                 email=data['email'],
                 password=data['password'],
@@ -76,6 +78,9 @@ def registrar_usuario(request):
                 rol=data.get('rol', 'cliente'),
                 fecha_registro=now()
             )
+            
+            
+            enviar_correo_bienvenida(usuario)
 
             # Emitir JWT
             #generamos tokens para el usuario recien creado utilizando  RefreshToken.for_user
@@ -100,13 +105,6 @@ def registrar_usuario(request):
 
 #Decorador para desactivar la seguridad CRFS
 #------------------------vista para iniciar sesion---------------------------
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth.hashers import check_password
-from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Usuario
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -376,3 +374,14 @@ def eliminar_usuario(request, id_usuario):
     except Exception as e:
         print("❌ Error al eliminar usuario:", str(e))
         return Response({'error': 'Error interno del servidor'}, status=500)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout_view(request):
+    try:
+        refresh_token = request.data["refresh"]
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        return Response({"mensaje": "Cierre de sesión exitoso"}, status=status.HTTP_205_RESET_CONTENT)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

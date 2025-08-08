@@ -37,7 +37,7 @@ const DetallesPedido = () => {
           precioUnitario: parseFloat(p.precio_unitario),
           precioTotal: p.subtotal
         }));
-
+        
         setProductosConInfo(formateados);
         setComprobanteURL(comprobante); 
         setInfoFactura(infoRestante);

@@ -1,36 +1,40 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-// Crear el contexto
 const RolContext = createContext();
 
-// Hook personalizado para consumir el contexto
 export const useRol = () => {
   const ctx = useContext(RolContext);
   if (!ctx) throw new Error('useRol debe usarse dentro de RolProvider');
   return ctx;
 };
 
-// Lista de roles válidos
 const rolesValidos = ['admin', 'trabajador', 'sin-registrar', 'cliente'];
 
-// Proveedor del contexto
 export const RolProvider = ({ children }) => {
   const [rol, setRol] = useState('sin-registrar');
+  const [token, setToken] = useState(null);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
+    // Recuperar datos del localStorage
     const rolGuardado = (localStorage.getItem('rol') || 'sin-registrar').toLowerCase();
+    const tokenGuardado = localStorage.getItem('access');
 
-    if (rolesValidos.includes(rolGuardado)) {
+    if (rolesValidos.includes(rolGuardado) && tokenGuardado) {
       setRol(rolGuardado);
+      setToken(tokenGuardado);
     } else {
       setRol('sin-registrar');
+      setToken(null);
     }
 
-    setCargando(false);
+    // Simular verificación rápida del token antes de quitar el "cargando"
+    // Aquí podrías llamar a tu backend para verificar que el token sigue siendo válido
+    setTimeout(() => {
+      setCargando(false);
+    }, 100);
   }, []);
 
-  // Cambiar el rol manualmente
   const cambiarRol = (nuevoRol) => {
     const r = nuevoRol.toLowerCase();
     if (rolesValidos.includes(r)) {
@@ -41,10 +45,19 @@ export const RolProvider = ({ children }) => {
     }
   };
 
+  const guardarToken = (nuevoToken) => {
+    if (nuevoToken) {
+      localStorage.setItem('access', nuevoToken);
+      setToken(nuevoToken);
+    } else {
+      localStorage.removeItem('access');
+      setToken(null);
+    }
+  };
+
   return (
-    <RolContext.Provider value={{ rol, cambiarRol, cargando }}>
+    <RolContext.Provider value={{ rol, token, cambiarRol, guardarToken, cargando }}>
       {children}
     </RolContext.Provider>
   );
 };
-

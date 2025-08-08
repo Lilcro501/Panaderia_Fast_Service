@@ -104,23 +104,36 @@ class Producto(models.Model):
 
 #---------------------------MODELO DE CARRITO------------------
 #definimos el modelo de pedido/carrito para conectarlo con la tabla en la base de datos
+
 class Pedido(models.Model):
     id_carrito = models.AutoField(primary_key=True)
+
     producto = models.ForeignKey(
         Producto,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
+
         db_column='id_producto'
     )
+
+    nombre_producto = models.CharField(max_length=255)  # copia del nombre del producto
+    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)  # copia del precio actual
+
     cantidad = models.PositiveIntegerField()
-    fecha_agregado = models.DateTimeField(auto_now_add=True)
-    factura = models.ForeignKey( Factura,on_delete=models.CASCADE,related_name='pedidos', db_column='facturas_id_factura')
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
 
-    #conectamos con la base de datos
+    fecha_agregado = models.DateTimeField(auto_now_add=True)
+
+    factura = models.ForeignKey(
+        Factura,
+        on_delete=models.CASCADE,
+        related_name='pedidos',
+        db_column='facturas_id_factura'
+    )
+
     class Meta:
         db_table = 'pedido'
-        #para que django no modifque la tabla de la base de datps
-        managed = False  
+        managed = False
 
 #-------------------------------------------------------------------------
 
