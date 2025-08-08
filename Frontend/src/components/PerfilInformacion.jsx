@@ -89,7 +89,7 @@ export default function PerfilInformacion() {
           <label>
             <strong>Correo:</strong>
             <input
-              className="entrada"
+              className="entrada-texto"
               type="email"
               name="email"
               value={usuario.email}
@@ -157,10 +157,6 @@ export function MostrarInformacion() {
           <tr>
             <th>Correo</th>
             <td>{usuario.email}</td>
-          </tr>
-          <tr>
-            <th>Contraseña</th>
-            <td>********</td>
           </tr>
         </tbody>
       </table>

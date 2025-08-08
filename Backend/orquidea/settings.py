@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     # proporciona la funcionalidad necesaria para manejar la autenticacion de usuarios a travez de google
     'allauth.socialaccount.providers.google',
 
+
     # mis apps
     # este es el apartado de apps, cada app creada se debe agregar en este apartado 
     #para que django pueda acceder a las carpetas de la aplicacion
@@ -149,7 +150,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 #agrega informacion sobre la autenticacion del usuario, coomo el usuario actual,
                 #y a los grupos que pertenece
-                'django.contrib.auth.context_processors.auth',
+                'django.contrib.auth.context_processors.auth',  
                 #agrega mensajes temporales al contexto, que se pueden utilizar para mostar notificaciones al usuario por ejemplo, mensajes de error o exito
                 'django.contrib.messages.context_processors.messages',
             ],

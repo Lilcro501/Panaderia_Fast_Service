@@ -1,4 +1,3 @@
-// src/pages/PagesClientes/Factura.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCarrito } from '../../Context/CarritoContext';
@@ -6,9 +5,16 @@ import '../../assets/styles/Factura.css';
 import { MdOutlineAdd, MdOutlineRemove, MdDelete } from 'react-icons/md';
 import ComponenteProcesoPago from '../../components/ComponenteProcesoPago';
 import "../../assets/styles/MetodosPago.css";
+import axios from 'axios'; // ✅ Importamos axios
 
 const Factura = () => {
-  const { carrito, agregarProducto, quitarProducto, vaciarCarrito } = useCarrito();
+  const {
+    carrito,
+    agregarProducto,
+    quitarProducto,
+    eliminarProducto,
+    vaciarCarrito
+  } = useCarrito();
   const navigate = useNavigate();
 
   const total = carrito.reduce(
@@ -17,11 +23,22 @@ const Factura = () => {
   );
 
   const handleContinuar = () => {
-    navigate('/FormularioEntrega'); // 
+    navigate('/FormularioEntrega');
   };
 
   const formatoCOP = (valor) =>
     valor.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+
+  // ✅ Función para consultar el stock desde el backend
+  const obtenerStockActual = async (productoId) => {
+    try {
+      const res = await axios.get(`http://localhost:8000/api/carrito/producto/${productoId}/`);
+      return res.data.stock;
+    } catch (error) {
+      console.error("❌ Error al obtener el stock del producto:", error);
+      return null; // Retorna null si falla
+    }
+  };
 
   return (
     <>
@@ -52,13 +69,40 @@ const Factura = () => {
                     <td>{formatoCOP(item.price)}</td>
                     <td>{formatoCOP(item.price * item.quantity)}</td>
                     <td>
-                      <button className="btn-control" onClick={() => quitarProducto(item.id)}>
+                      {/* ➖ Disminuir cantidad */}
+                      <button
+                        className="btn-control"
+                        onClick={() => quitarProducto(item.id)}
+                        disabled={item.quantity === 1}
+                      >
                         <MdOutlineRemove />
                       </button>
-                      <button className="btn-control" onClick={() => agregarProducto(item)}>
+
+                      {/* ➕ Aumentar cantidad con validación de stock */}
+                      <button
+                        className="btn-control"
+                        onClick={async () => {
+                          const stockActual = await obtenerStockActual(item.id);
+                          if (stockActual === null) {
+                            alert("❌ No se pudo verificar el stock del producto.");
+                            return;
+                          }
+
+                          if (item.quantity < stockActual) {
+                            agregarProducto(item);
+                          } else {
+                            alert(`⚠️ No puedes agregar más de ${stockActual} unidades de ${item.nameProduct}`);
+                          }
+                        }}
+                      >
                         <MdOutlineAdd />
                       </button>
-                      <button className="btn-delete" onClick={() => quitarProducto(item.id, true)}>
+
+                      {/* 🗑️ Eliminar completamente el producto */}
+                      <button
+                        className="btn-delete"
+                        onClick={() => eliminarProducto(item.id)}
+                      >
                         <MdDelete />
                       </button>
                     </td>
@@ -90,3 +134,4 @@ const Factura = () => {
 };
 
 export default Factura;
+  
