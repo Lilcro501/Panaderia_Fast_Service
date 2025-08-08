@@ -27,7 +27,7 @@ const DetallesPedido = () => {
 
         const {
           productos,
-          comprobante_archivo,
+          comprobante,
           ...infoRestante
         } = response.data;
 
@@ -39,7 +39,7 @@ const DetallesPedido = () => {
         }));
 
         setProductosConInfo(formateados);
-        setComprobanteURL(comprobante_archivo);
+        setComprobanteURL(comprobante); 
         setInfoFactura(infoRestante);
       } catch (error) {
         console.error("❌ Error al obtener detalles del pedido:", error);
@@ -68,14 +68,7 @@ const DetallesPedido = () => {
     <div className="contenedor-detalles">
       <h2 className="titulo-detalles">Detalles del pedido #{id}</h2>
       <TablaBase columnas={columnas} datos={datosTabla} />
-
-      <div className="pago-seccion">
-        <label className="checkbox">
-          <input type="checkbox" className="checkbox-input" /> Pagado
-        </label>
-        <EtiquetaPago texto={`Total: $${totalGeneral.toLocaleString()}`} />
-      </div>
-
+      
       <div className="info-adicional">
         <h3>Información adicional</h3>
         <p><strong>Dirección de entrega:</strong> {infoFactura.direccion_entrega || "No especificada"}</p>
@@ -135,6 +128,3 @@ const DetallesPedido = () => {
 };
 
 export default DetallesPedido;
-
-
-

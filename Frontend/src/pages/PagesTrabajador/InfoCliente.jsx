@@ -1,8 +1,8 @@
-
-import { MostrarInformacion } from "../../components/Info_Cliente"
+import React from 'react'
+import PerfilInformacion from '../../components/PerfilInformacion'
 
 export default function PerfilUsario(){
     return (
-        <MostrarInformacion/>
+        <PerfilInformacion/>
     )
 }
