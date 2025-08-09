@@ -73,7 +73,9 @@ import InfoCliente from '../pages/PagesTrabajador/InfoCliente';
 import Inicio from '../pages/PagesTrabajador/Inicio';
 import ListaPedidos from '../pages/PagesTrabajador/ListaPedidos';
 import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
+
 import CronogramaTrabajador from '../pages/PagesTrabajador/CronogramaTrabajador'
+
 const AppRouter = () => {
   return (
     <Routes>

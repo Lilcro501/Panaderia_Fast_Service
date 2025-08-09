@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/Header.css';
 import logo from '../assets/images/logo_header.png';
@@ -12,9 +12,9 @@ const Header = () => {
   const [mostrarModal, setMostrarModal] = useState(false); // Estado del modal
 
   return (
-    <div className="contenedor-header"> {/* Contenedor principal */}
-      <header className='header shapedividers_com-9705'>
-      <div className="contenido-header">
+
+      <header className='shapedividers_com-9705'>
+      <div className="header">
         <div className="contenido-header">
           <div className="logo-container">
             <Link to="/Home">
@@ -52,7 +52,7 @@ const Header = () => {
         <ModalCarrito visible={mostrarModal} onClose={() => setMostrarModal(false)} />
       </div>
       </header>
-    </div>
+  
   );
 };
 

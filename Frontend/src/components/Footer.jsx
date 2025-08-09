@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/Footer.css'; // ~~~~~~ Estilos del footer ~~~~~~
@@ -8,6 +7,7 @@ import VentanaCookies from '../components/VentanaCookies'; // ~~~~~~ Ventana coo
 
 const Footer = () => {
   const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado para mostrar u ocultar cookies ~~~~~~
+  const [mostrarConstruccion, setMostrarConstruccion] = useState(true); // ~~~~~~ Estado para mostrar u ocultar aviso de construcción ~~~~~~
 
   return (
     <>
@@ -34,13 +34,26 @@ const Footer = () => {
         <div className="informacion">
           <div>
             <h5 style={{ textAlign: 'center' }}>Llámanos</h5>
-            <li>+57 3589271058</li>
+            <li>+57 3589271058 </li>
           </div>
           <div>
             <h5>Escríbenos</h5>
             <li>fservie28.076@gmail.com</li>
           </div>
         </div>
+
+        {/* ~~~~~~ Aviso de que la página está en construcción ~~~~~~ */}
+        {mostrarConstruccion && (
+          <div className="aviso-construccion">
+            🚧 Esta sección está en construcción 🚧
+            <button 
+              className="cerrar-aviso"
+              onClick={() => setMostrarConstruccion(false)}
+            >
+              Cerrar
+            </button>
+          </div>
+        )}
 
         <br />
 
