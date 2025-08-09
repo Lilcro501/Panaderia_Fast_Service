@@ -1,3 +1,4 @@
+
 .categorias {
   margin: 3.125rem auto; /* 50px */
   padding: 0.75rem; /* 12px */
@@ -7,11 +8,13 @@
   background: linear-gradient(135deg, #b8875b, #a67344);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   border-radius: 1.6875rem; /* 27px */
   box-shadow: 0 0.5rem 1.5625rem rgba(0, 0, 0, 0.25); /* 8px 25px */
   transition: all 0.3s ease;
   border: 0.0625rem solid rgba(255, 255, 255, 0.1); /* 1px */
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .categorias:hover {
@@ -27,6 +30,18 @@
   gap: 5rem; /* 80px */
   width: auto;
   height: auto;
+}
+
+.categoria img {
+  width: 100%;
+  max-width: 60px;
+  height: auto;
+  object-fit: contain;
+}
+
+.nom-categoria {
+  text-align: center;
+  word-wrap: break-word;
 }
 
 @media (max-width: 37.5rem) { /* 600px */
@@ -100,32 +115,43 @@
   font-size: 1rem;
   cursor: pointer;
   border-radius: 8px;
-  margin: 10px auto;
+  margin: 0 auto 1rem auto;
 }
+
 
 /* Por defecto, la recuadro-categoria está siempre visible */
 .recuadro-categoria {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
+  gap: 1.5rem;
+  padding: 0 1rem;
 }
 
 /* Solo en pantallas pequeñas: */
 @media (max-width: 768px) {
+  .categorias {
+    padding: 0.75rem 1rem; /* menos padding horizontal y vertical */
+    border-radius: 1rem; /* esquinas más suaves si lo deseas */
+    max-width: 90%; /* más compacto */
+    margin: 1rem auto; /* espacio vertical menor */
+    gap: 0.5rem;
+  }
+
   .hamburguesa {
     display: block;
+    padding: 1rem;
   }
 
   .recuadro-categoria {
-    display: none; /* Oculto por defecto */
-    flex-direction: column;
+    display: none;
+    flex-direction: row;
     align-items: center;
+    gap: 1rem;
   }
 
   .recuadro-categoria.mostrar {
-    display: flex; /* Se muestra al hacer clic */
+    display: flex;
   }
 }
-
 

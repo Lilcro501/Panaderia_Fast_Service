@@ -66,7 +66,7 @@ export default function PerfilInformacion() {
   return (
     <div>
 
-        <h1 style={{textAlign: "center"}}>Información de usuario</h1>
+        <h1 className="H1Perfil" style={{textAlign: "center"}}>Información de usuario</h1>
         <br />
         <br />
 
@@ -111,9 +111,9 @@ export default function PerfilInformacion() {
         </label>
       </div>
       <Link to="/Home">
-       <button className="boton-actualizar" type="submit">Actualizar Datos</button>
+      <button className="boton-actualizar" type="submit">Actualizar Datos</button>
       </Link>
-       
+      
     </form>
 
     </div>
@@ -151,7 +151,7 @@ export function MostrarInformacion() {
 
   return (
     <div className="recuadro-perfil">
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
+      <h1 className="H1Perfil" style={{ textAlign: "center", marginBottom: "20px" }}>
         Información de Usuario
       </h1>
 

@@ -12,10 +12,10 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   box-sizing: border-box;
 }
-h1{
-    font-size: 1.3rem;
-    font-style: italic;
 
+.H1Perfil{
+  font-size: 1.3rem;
+  font-style: italic;
 }
 
 /* título (si usas h1 encima) */

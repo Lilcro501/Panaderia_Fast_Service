@@ -18,7 +18,7 @@ export default function Categorias() {
   };
   return (
     <section className="categorias">
-       
+      
        {/* Botón de hamburguesa visible solo en pantallas pequeñas */}
       <button className="hamburguesa" onClick={toggleMenu}>
         ☰ Categorías

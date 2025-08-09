@@ -200,7 +200,7 @@
 
 /* Animación mostrador final */
 .frase-logo {
-  margin: 5px 18%;
+  margin: 40px auto;
   padding: 15px;
   background-color: #8b6141ae;
   display: flex;
