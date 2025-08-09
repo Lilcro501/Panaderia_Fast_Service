@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio Animación</title>
+  <link rel="stylesheet" href="src/css/InicioHome.css">
+</head>
+<body>
+  <div id="splash" class="contenedor">
+    <div id="lottie"></div>
+    <h1 class="titulo-cafe">¡Bienvenido!</h1>
+  </div>
+  <div id="main-content" style="display:none;">
+    <!-- Aquí va el contenido principal de tu página -->
+    <h2>Contenido principal</h2>
+    <p>Este es el contenido que se mostrará después de la animación.</p>
+  </div>
+  <script src="homeAni.js"></script>
+  <script>
+    // Espera a que la animación termine o un tiempo fijo (ejemplo: 2.5s)
+    setTimeout(function() {
+      document.getElementById('splash').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    }, 2500);
+  </script>
+</body>
+</html>

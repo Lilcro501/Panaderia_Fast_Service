@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 import '../assets/styles/Header.css';  /* ~~~~~~ Estilo del encabezado ~~~~~~ */
 import logo from '../assets/images/logo_header.png'; /* ~~~~~~ Logo de la panadería ~~~~~~ */
 import carritoIcon from '../assets/icons/icono-carrito.svg'; /* ~~~~~~ Icon del carrito de compras ~~~~~~ */
+import {FaUser, FaSignInAlt} from 'react-icons/fa';
+
 
 /* ~~~~~~ Encabezado constante ~~~~~~ */
 const HeaderSinLogin = () => { 
   return (
-    <header className="header shapedividers_com-5996">
+    <header className="header shapedividers_com-9705">
       <div className="contenido-header">
 
         {/* ~~~~~~~~~~~~~ Logo ~~~~~~~~~~~~~ */}
@@ -25,8 +27,18 @@ const HeaderSinLogin = () => {
           {/* ~~~~~~~~~~~~~~~~ Lista de navegación superior ~~~~~~~~~~~~~~~~ */}
           <nav className="menu-secundario">
             <ul className="lista-info">
-              <li><a href="/Conocenos">Conócenos</a></li>
-              <li><a href="/AccedeAqui">Accede aquí</a></li>
+              <li>
+                <Link to="/Conocenos" className="header-btn">
+                <FaUser style={{ marginRight: '8px' }} />
+                Conócenos
+                </Link>
+              </li>
+              <li>
+                <Link to="/AccedeAqui" className="header-btn">
+                < FaSignInAlt style={{ marginRight: '8px' }} />
+                Accede aquí
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>

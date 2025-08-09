@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cargando...</title>
+    <link rel="stylesheet" href="{% static 'src/css/InicioHome.css' %}">
+    <meta http-equiv="refresh" content="4; url={% url 'login' %}">
+</head>
+<body>
+    <div class="contenedor">
+        <div id="lottie"></div>
+        <h1 class="titulo-cafe">LA ORQUIDEA 🌸</h1>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
+    <script src="{% static 'src/js/cs' %}"></script>
+</body>
+</html>

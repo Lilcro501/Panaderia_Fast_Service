@@ -10,7 +10,6 @@ import MainLayoutSinLogin from '../layouts/MainLayoutSinLogin';
 import AdminLayout from '../layouts/AdminLayout';
 import LayoutTrabajador from '../layouts/LayoutTrabajador';
 
-
 // Componentes
 import PrivateRoute from "../components/PrivateRoute";
 import RutasLayouts from '../components/RutasLayouts';
