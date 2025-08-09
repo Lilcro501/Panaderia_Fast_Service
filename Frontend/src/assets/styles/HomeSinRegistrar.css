@@ -137,6 +137,7 @@
 }
 
 .recuadro-informacion {
+  flex-direction: row;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,6 +157,7 @@
 
 .nosotros {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 40px;
