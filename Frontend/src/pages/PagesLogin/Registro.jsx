@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { FaUser, FaLock, FaUserLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
-import LoginGoogle from '../../components/LoginGoogle';
 import { registrarUsuario } from '../../api/login';
 import '../../assets/styles/Registro.css';
 import orquidea from "../../assets/icons/ImagenOrquidea.png"; 
@@ -104,7 +103,7 @@ export default function Registro() {
           <IoMdClose />
         </button>
         
-        <form className='Form' onSubmit={handleSubmit} noValidate>
+        <form className='FormR' onSubmit={handleSubmit} noValidate>
           <h1 className='TituloAcceso'>Regístrate</h1>
           <div className='Campo'>
             <FaUser className='Icono' />
@@ -179,7 +178,7 @@ export default function Registro() {
               checked={form.terminos}
               onChange={handleChange}
             />
-          <span>Acepto los <strong>Términos y Condiciones</strong></span> 
+          <span className='Registro'> Acepto los <strong>Términos y Condiciones</strong></span> 
           </label>
           
         </div>

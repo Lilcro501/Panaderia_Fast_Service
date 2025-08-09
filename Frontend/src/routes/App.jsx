@@ -73,10 +73,7 @@ import InfoCliente from '../pages/PagesTrabajador/InfoCliente';
 import Inicio from '../pages/PagesTrabajador/Inicio';
 import ListaPedidos from '../pages/PagesTrabajador/ListaPedidos';
 import EditarPerfil from '../pages/PagesTrabajador/EditarPerfil';
-<<<<<<< HEAD
-=======
 import CronogramaTrabajador from '../pages/PagesTrabajador/CronogramaTrabajador'
->>>>>>> 31cab1da48d8430f1d484f63d45b77cfddec9e63
 const AppRouter = () => {
   return (
     <Routes>
@@ -124,27 +121,6 @@ const AppRouter = () => {
         <Route path='/DetallesPedido/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><DetallesPedido /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/EditarPerfil' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EditarPerfil /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/InfoCliente' element={<LayoutTrabajador><InfoCliente /></LayoutTrabajador>} />
-<<<<<<< HEAD
-
-
-
-        {/* Admin */}
-        <Route path='/AgregarTrabajador' element={<AdminLayout><AgregarTrabajador /></AdminLayout>} />
-        <Route path='/EditarTrabajador/:id' element={<AdminLayout><EditarTrabajador /></AdminLayout>} />
-        <Route path='/EliminarTrabajador' element={<AdminLayout><EliminarTrabajador /></AdminLayout>} />
-        <Route path='/Cronograma' element={<AdminLayout><Cronograma /></AdminLayout>} />
-        <Route path='/AgregarCrono' element={<AdminLayout><AgregarCrono /></AdminLayout>} />
-        <Route path='/EditarCrono/:id' element={<AdminLayout><EditarCrono /></AdminLayout>} />
-        <Route path='/HistorialPedido' element={<AdminLayout><HistorialPedido /></AdminLayout>} />
-        <Route path='/CatalogoAdmin' element={<AdminLayout><Catalogo_Admin /></AdminLayout>} />
-        <Route path='/AdministrarInven' element={<AdminLayout><AdministrarInven /></AdminLayout>} />
-        <Route path='/AgregarInven' element={<AdminLayout><AgregarInven /></AdminLayout>} />
-        <Route path='/EditarInven/:id' element={<AdminLayout><EditarInven /></AdminLayout>} />
-        <Route path='/EliminarInven' element={<AdminLayout><EliminarInven /></AdminLayout>} />
-        <Route path='/AdministrarTrabajadores' element={<AdminLayout><AdministrarTrabajadores /></AdminLayout>} />
-        <Route path='/PrincipalAdmin' element={<AdminLayout><PrincipalAdmin /></AdminLayout>} />
-        <Route path='/admin/AdminRecomendaciones'element={<AdminLayout><AdminRecomendaciones/></AdminLayout>}></Route>
-=======
         <Route path='/CronogramaTrabajador' element={<PrivateRoute role="trabajador"><LayoutTrabajador><CronogramaTrabajador /></LayoutTrabajador></PrivateRoute>} />
 
         {/* Admin */}
@@ -160,7 +136,6 @@ const AppRouter = () => {
         <Route path='/EditarInven/:id' element={<PrivateRoute role="admin"><AdminLayout><EditarInven /></AdminLayout></PrivateRoute>} />
         <Route path='/AdministrarTrabajadores' element={<PrivateRoute role="admin"><AdminLayout><AdministrarTrabajadores /></AdminLayout></PrivateRoute>} />
         <Route path='/PrincipalAdmin' element={<PrivateRoute role="admin"><AdminLayout><PrincipalAdmin /></AdminLayout></PrivateRoute>} />
->>>>>>> 31cab1da48d8430f1d484f63d45b77cfddec9e63
 
     </Routes>
   );

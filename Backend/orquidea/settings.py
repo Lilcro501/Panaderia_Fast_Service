@@ -20,6 +20,9 @@ import os
 from datetime import timedelta
 from decouple import config 
 import cloudinary
+import pymysql
+pymysql.install_as_MySQLdb()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #este es el directorio base de la aplicacion
 #esto es para que django pueda acceder a las carpetas de la aplicacion

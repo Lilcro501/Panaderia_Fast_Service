@@ -10,9 +10,11 @@ import "../../assets/styles/Global.css"
 import mostrador from "../../assets/icons/mostrador.jpg"
 import Categorias from "../../components/Categorias"
 
-//importacion de compoentnes
+//importacion de componentes
+/* ~~~~~~ Componente de carrusel con botones de incremento ~~~~~~ */ 
 import Carrusel1 from "../../components/CarruselIncremento"
-import Carrusel2 from "../../components/CarruselCalificacion"
+/* ~~~~~~ Componente de imagen con texto circular rotatorio ~~~~~~ */ 
+import TextoCircular from '../../components/TextoCircular'; 
 
 //importacion de iconos de react
 import { AiFillSun } from "react-icons/ai";
@@ -43,38 +45,35 @@ export default function Home() {
       <br />
 
       <article className="recuadro-informacion">
-          <div className="nosotros">
-              <center> <h2 className="sobre"> Sobre nosostros</h2>
-                <p className="objetivo"> Queremos ser tu panadería favorita, por lo que cada día nuestro equipo de panaderos trabajan con pasión, 
-                  cariño y dedicación para ofrecerte productos que te deleiten y te hagan sentir como en casa. 
-                  Conoce más sobre nosotros haciendo <Link className="sobre" to="/Conocenos">click aquí</Link>.
-                </p>
-              </center>
-            </div>
-        </article>
+        <div className="nosotros">
+          <div className="texto-nosotros">
+            <h2 className="sobre">Sobre nosotros</h2>
+            <p className="objetivo">
+              Queremos ser tu panadería favorita, por lo que cada día nuestro equipo de panaderos trabajan con pasión, 
+              cariño y dedicación para ofrecerte productos que te deleiten y te hagan sentir como en casa. 
+              Conoce más sobre nosotros haciendo <Link className="Sobre" to="/conocenos">Click aquí</Link>.
+            </p>
+          </div>
+          <TextoCircular />
+        </div>
+      </article>
       <br />
       <br />
 
         <h2 className='subtitulo-productos'>Productos destacados</h2>
       <br />
       <br />
-      <Carrusel2/>
-      <br />
-      <br />
 
-      <section className="frase-logo">
+      <section className ="frase-logo">
+        <div className ="home-mostrador">
+          <img className ="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />
+        </div>
+        
         <div className="texto-slogan texto-animado">
-          <h3> Más que 
-            <br/> una panadería, somos un
-            <br/> lugar donde los aromas 
-            <br/> y sabores se unen para 
-            <br/> crear experiencias  
-            <br/> inolvidables. 
+          <h3 className='Slogan'> 
+            Donde cada aroma y sabor se transforma en una experiencia.  
           </h3>
         </div>
-          <div className="home-mostrador">
-            <img className="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="440px" />
-          </div>
       </section>
 
     </main>

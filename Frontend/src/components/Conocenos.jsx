@@ -5,7 +5,6 @@ import '../assets/styles/Conocenos.css';
 import VitrinaPanes from '../assets//icons/vitrina_panes.jpg'
 import VitrinaGalletas from '../assets/icons/vitrina_galletas.jpg';
 import Mostrador from '../assets/icons/mostrador.jpg';
-import Location from '../assets/icons/location.png';
 
 export default function Conocenos() {
     return (
@@ -13,8 +12,14 @@ export default function Conocenos() {
         <div className="info">
             <h1 className='SobreNosotros'>Sobre nosotros</h1>
 
-            <div className='ContenedorMision'>
+            <p className='PLocation'>
+                <h2 className='Locacion'>Horarios de atención</h2>
+                Abrímos todos los días a partir las 5:00 AM hasta las 11:00 PM
                 <br/>
+                Cl. 34, La Gabriela, Bello, Antioquia
+            </p>
+            
+            <div className='ContenedorMision'>
                 <p className='PMision'>
                     <h2 className='Mision'>Misión</h2> 
                     Ofrecer productos frescos y deliciosos, elaborados con ingredientes de alta calidad.
@@ -23,8 +28,6 @@ export default function Conocenos() {
                 </p>
                 <img className="VitrinaPanes" src={VitrinaPanes} alt="Vitrina de panes" />
             </div>
-
-            <br/><br/>
             
             <div className='ContenedorVision'>
                 <img className='Mostrador' src={Mostrador} alt="Mostrador" />
@@ -36,28 +39,17 @@ export default function Conocenos() {
                 </p>
             </div>
 
-            <br/><br/>
             <div className='ContenedorPagoEntrega'>
 
             <div className='PPagoEntrega'>
                 <h2 className='PagoEntrega'>Métodos de pago</h2>
                 <p className='PagoEntrega'> Manejamos pagos en efectivo o por QR.</p>
-                <br/>
                 <h2 className='PagoEntrega'>Formas de entrega</h2>
                 <p className='PagoEntrega'>Puedes realizar tus pedidos y recogerlos en la panadería o que lleguen directamente a la puerta de tu casa. </p> 
             </div>
             <img className="VitrinaGalletas" src={VitrinaGalletas} alt="Galletas en vitrina" />
             </div>
-
-            <br/><br/>
-            <div className='ContenedorLocacion'>
-            <img className="Location" src={Location} alt="Ubicación" />
-            <p className='PLocation'>
-                <h2 className='Locacion'>Horarios de atención</h2>
-                Inicio de servicio: 5:00 AM <br />
-                Cierre de servicio: 11:00 PM
-            </p>
-            </div>
+            
         </div>
     </section>
     );
