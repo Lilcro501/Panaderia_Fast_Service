@@ -260,3 +260,4 @@ class ComentarioDetalleView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'pk'
 
 
+

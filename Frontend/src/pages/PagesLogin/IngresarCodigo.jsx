@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-
 import '../../assets/styles/AccedeAqui.css';
 import { useNavigate } from 'react-router-dom';
 import { IoMdClose } from 'react-icons/io';
@@ -8,6 +7,8 @@ import axios from 'axios';
 export default function IngresarCodigo() {
   const [codigo, setCodigo] = useState(['', '', '', '']);
   const [tocado, setTocado] = useState(false);
+  const [modalExitoVisible, setModalExitoVisible] = useState(false);
+  const [modalErrorVisible, setModalErrorVisible] = useState(false);
   const navigate = useNavigate();
   const inputRefs = useRef([]);
 
@@ -19,7 +20,6 @@ export default function IngresarCodigo() {
       nuevo[index] = value;
       setCodigo(nuevo);
 
-      // Enfocar siguiente input
       if (value !== '' && index < 3) {
         inputRefs.current[index + 1]?.focus();
       }
@@ -31,7 +31,7 @@ export default function IngresarCodigo() {
     if (/^\d{4}$/.test(paste)) {
       const nuevoCodigo = paste.split('');
       setCodigo(nuevoCodigo);
-      inputRefs.current[3]?.focus(); // Enfocar último input
+      inputRefs.current[3]?.focus();
     }
   };
 
@@ -45,8 +45,7 @@ export default function IngresarCodigo() {
     const email = localStorage.getItem('correoRecuperacion');
 
     if (!email) {
-      alert('❌ No se encontró el correo. Por favor vuelve a solicitar el código.');
-      navigate('/OlvidoContraseña');
+      setModalErrorVisible(true);
       return;
     }
 
@@ -57,41 +56,73 @@ export default function IngresarCodigo() {
       });
 
       if (response.status === 200) {
-        alert('✅ Código verificado correctamente');
-        navigate('/CambioContraseña');
+        setModalExitoVisible(true);
       }
     } catch (error) {
       console.error('❌ Error al verificar código:', error);
-      alert('❌ Código incorrecto o ya usado');
+      setModalErrorVisible(true);
     }
   };
 
   return (
-    <section className='ContenedorC'>
-      <button className='Salir' onClick={salir}><IoMdClose /></button>
-      <h1 className='TituloAcceso'>Ingresa el código</h1>
-      <p>Ingresa el código enviado a tu correo electrónico</p>
+    <>
+      <section className='ContenedorC'>
+        <button className='Salir' onClick={salir}><IoMdClose /></button>
+        <h1 className='TituloAcceso'>Ingresa el código</h1>
+        <p>Ingresa el código enviado a tu correo electrónico</p>
 
-      <div className="CampoNumero">
-        {codigo.map((valor, i) => (
-          <input
-            key={i}
-            ref={el => inputRefs.current[i] = el}
-            type="text"
-            id={`num-${i}`}
-            value={valor}
-            onChange={e => handleChange(i, e.target.value)}
-            onPaste={i === 0 ? handlePaste : undefined}
-            maxLength="1"
-          />
-        ))}
-      </div>
+        <div className="CampoNumero">
+          {codigo.map((valor, i) => (
+            <input
+              key={i}
+              ref={el => inputRefs.current[i] = el}
+              type="text"
+              value={valor}
+              onChange={e => handleChange(i, e.target.value)}
+              onPaste={i === 0 ? handlePaste : undefined}
+              maxLength="1"
+            />
+          ))}
+        </div>
 
-      {!esCodigoValido && tocado && (
-        <div className="invalid">Completa los 4 dígitos <br /><br /></div>
+        {!esCodigoValido && tocado && (
+          <div className="invalid">Completa los 4 dígitos <br /><br /></div>
+        )}
+
+        <button className='Continuar' onClick={confirmarCodigo}>Confirmar código</button>
+      </section>
+
+      {/* Modal éxito */}
+      {modalExitoVisible && (
+        <div className="modal-bienvenida">
+          <div className="modal-contenido">
+            <h2>✅ Código verificado</h2>
+            <p>Tu código es correcto. Ahora puedes cambiar tu contraseña.</p>
+            <button
+              className="boton-aceptar"
+              onClick={() => navigate('/CambioContraseña')}
+            >
+              Aceptar
+            </button>
+          </div>
+        </div>
       )}
 
-      <button className='Continuar' onClick={confirmarCodigo}>Confirmar código</button>
-    </section>
+      {/* Modal error */}
+      {modalErrorVisible && (
+        <div className="modal-bienvenida">
+          <div className="modal-contenido">
+            <h2>❌ Código incorrecto</h2>
+            <p>El código ingresado es inválido o ya ha sido usado.</p>
+            <button
+              className="boton-aceptar"
+              onClick={() => setModalErrorVisible(false)}
+            >
+              Aceptar
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -278,9 +278,10 @@ def cambiar_password(request):
 
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Formato de datos inválido'}, status=400)
-        except Exception as e:
-            print(f"❌ Error al cambiar contraseña: {str(e)}")
-            return JsonResponse({'error': 'Error interno del servidor'}, status=500)
+        except ValueError as e:
+            print(f"❌ Error de validación de token Google: {str(e)}")
+            return JsonResponse({'error': f'Token de Google inválido: {str(e)}'}, status=401)
+
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
@@ -288,8 +289,9 @@ def cambiar_password(request):
 
 ###################################################################################
 
-
+CLIENT_ID = "tu-client-id.apps.googleusercontent.com"
 @csrf_exempt
+@api_view(['POST'])
 def login_google(request):
     if request.method == 'POST':
         try:
@@ -300,12 +302,17 @@ def login_google(request):
                 return JsonResponse({'error': 'Token de Google no proporcionado'}, status=400)
 
             try:
-                idinfo = id_token.verify_oauth2_token(token, google_requests.Request())
+                # Aquí usamos el CLIENT_ID exacto que pusiste en React
+                idinfo = id_token.verify_oauth2_token(
+                    token,
+                    google_requests.Request(),
+                    settings.GOOGLE_CLIENT_ID
+                )
+
                 email = idinfo['email']
                 nombre = idinfo.get('given_name', '')
                 apellido = idinfo.get('family_name', '')
 
-                # Buscar o crear usuario
                 usuario, creado = Usuario.objects.get_or_create(
                     email=email,
                     defaults={
@@ -319,7 +326,6 @@ def login_google(request):
                     }
                 )
 
-                # Generar los tokens JWT
                 refresh = RefreshToken.for_user(usuario)
 
                 return JsonResponse({
@@ -331,18 +337,18 @@ def login_google(request):
                     'rol': usuario.rol,
                     'id_usuario': usuario.id_usuario,
                     'email': usuario.email
-                }, status=200)
+                })
 
-            except ValueError:
-                return JsonResponse({'error': 'Token de Google inválido'}, status=400)
+            except ValueError as e:
+                print(f"❌ Error validando token Google: {e}")
+                return JsonResponse({'error': f'Token inválido: {e}'}, status=401)
 
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Formato de datos inválido'}, status=400)
         except Exception as e:
-            print(f"❌ Error al verificar el token de Google: {str(e)}")
-            return JsonResponse({'error': 'Error interno del servidor'}, status=500)
+            print(f"❌ Error en login_google: {e}")
+            return JsonResponse({'error': 'Error interno'}, status=500)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
 
 #----------------------------- Vista para actualizar  y obtener los datos del usuario -----------------------------
 

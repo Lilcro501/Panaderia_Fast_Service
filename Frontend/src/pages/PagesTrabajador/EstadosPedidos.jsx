@@ -25,7 +25,7 @@ const EstadosPedidos = () => {
   useEffect(() => {
     const obtenerPedidos = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("access");
         const response = await axios.get("http://localhost:8000/api/trabajador/estados-pedidos/", {
           headers: {
             Authorization: `Bearer ${token}`,

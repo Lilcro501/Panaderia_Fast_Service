@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axiosconfig"
+import BotonCerrarSesion from "./BotonCerrarSesion";
 
 export default function PerfilInformacion() {
   const navegacion = useNavigate();
@@ -101,6 +102,7 @@ export default function PerfilInformacion() {
           Actualizar Datos
         </button>
       </form>
+
     </div>
   );
 }
@@ -165,5 +167,8 @@ export function MostrarInformacion() {
         <button className="boton-actualizar">Actualizar</button>
       </Link>
     </div>
+  
+
+    
   );
 }
