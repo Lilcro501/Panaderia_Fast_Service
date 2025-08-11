@@ -341,3 +341,11 @@ SIMPLE_JWT = {
 # Configuración para HSTS
 #SECURE_HSTS_SECONDS = 3600 
 
+GOOGLE_CLIENT_ID = "809142625017-shc1bn94eni4795cekkssugdjhmikqop.apps.googleusercontent.com"
+
+CORS_ALLOW_CREDENTIALS = True
+
+SESSION_COOKIE_SAMESITE = None
+SESSION_COOKIE_SECURE = False  # True si usas HTTPS
+CSRF_COOKIE_SAMESITE = None
+CSRF_COOKIE_SECURE = False

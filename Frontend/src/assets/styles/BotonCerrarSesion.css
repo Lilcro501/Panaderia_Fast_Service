@@ -1,0 +1,20 @@
+.btn-cerrar-sesion {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-cerrar-sesion:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+.btn-cerrar-sesion:active {
+  transform: scale(0.97);
+}

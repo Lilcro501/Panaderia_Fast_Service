@@ -3,6 +3,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PerfilLogo from "../assets/icons/perfil-negro-2.png";
 import "../assets/styles/InfoCliente.css";
+import BotonCerrarSesion from "./BotonCerrarSesion";
 
 export function MostrarInformacion() {
   const { id } = useParams();

@@ -10,9 +10,9 @@ export default function CarruselCatalogo() {
   const [productos, setProductos] = useState([]);
 
   const idsProductos = [
-    "78", "79", "80", "81", "82",
+    "92", "79", "140", "131", "82",
     "83", "85", "87", "88",
-    "89", "90"
+    "89", "128"
   ];
 
   useEffect(() => {

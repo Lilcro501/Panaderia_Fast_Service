@@ -27,7 +27,7 @@ const ListaPedidos = () => {
         console.log("TOKEN:", localStorage.getItem("token"));
         const response = await axios.get("http://localhost:8000/api/trabajador/listar-pedidos/", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
         });
         setPedidos(response.data);
