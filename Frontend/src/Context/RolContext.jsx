@@ -27,14 +27,12 @@ export const RolProvider = ({ children }) => {
     if (rolesValidos.includes(rolGuardado)) {
       setRol(rolGuardado);
     } else {
-      setRol("sin-registrar"); // Rol por defecto si no es válido
+      setRol("sin-registrar");
     }
 
     setToken(tokenGuardado || null);
 
-    // Simular carga rápida
-    const timer = setTimeout(() => setCargando(false), 100);
-    return () => clearTimeout(timer);
+    setCargando(false);
   }, []);
 
   // Cambiar rol y guardarlo en localStorage

@@ -3,45 +3,46 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
+import { useRol } from "../Context/RolContext"; // Asegúrate que la ruta es correcta
 
 export default function LoginGoogle() {
   const navigate = useNavigate();
-
-  const redirigirPorRol = (rol) => {
-    switch (rol) {
-      case "cliente":
-        navigate("/PerfilUsuario");
-        break;
-      case "trabajador":
-        navigate("/PanelTrabajador");
-        break;
-      case "administrador":
-        navigate("/PanelAdmin");
-        break;
-      default:
-        navigate("/");
-    }
-  };
+  const { cambiarRol } = useRol();
 
   const handleLoginSuccess = async (credentialResponse) => {
     try {
-      const response = await axios.post("http://localhost:8000/api/google-login/", {
-        token: credentialResponse.credential,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/google-login/",
+        { token: credentialResponse.credential }
+      );
 
-      const dataUsuario = {
-        access: response.data.access,
-        refresh: response.data.refresh,
-        nombre: response.data.nombre,
-        rol: response.data.rol,
-        id_usuario: response.data.id_usuario,
-      };
+      // Forzar rol cliente
+      const rolForzado = "cliente";
 
-      // 🔹 Guardar usuario en localStorage
-      localStorage.setItem("usuario", JSON.stringify(dataUsuario));
+      // Guardar en localStorage
+      localStorage.setItem("access", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+      localStorage.setItem("nombre", response.data.nombre);
+      localStorage.setItem("rol", rolForzado);
+      localStorage.setItem("id_usuario", response.data.id_usuario);
+      localStorage.setItem(
+        "usuario",
+        JSON.stringify({
+          access: response.data.access,
+          refresh: response.data.refresh,
+          nombre: response.data.nombre,
+          rol: rolForzado,
+          id_usuario: response.data.id_usuario,
+        })
+      );
 
-      // 🔹 Redirigir según rol
-      redirigirPorRol(response.data.rol);
+      // Actualizar contexto
+      cambiarRol(rolForzado);
+
+      // Redirigir después de un pequeño delay para asegurar actualización
+      setTimeout(() => {
+        navigate("/PerfilUsuario");
+      }, 100);
     } catch (error) {
       console.error("Error en login con Google:", error);
     }

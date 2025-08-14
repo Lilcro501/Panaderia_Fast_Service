@@ -18,7 +18,7 @@ export default function PerfilInformacion() {
     const token = localStorage.getItem("token");
     if (!token) {
       console.warn("Token no encontrado. Redirigiendo a login...");
-      navegacion("/login"); 
+      navegacion("/accedeaqui"); 
       return;
     }
 
@@ -120,7 +120,7 @@ export function MostrarInformacion() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navegacion("/login");
+      navegacion("/accedeaqui");
       return;
     }
 

@@ -1,5 +1,5 @@
 // Dentro de AccedeAqui.jsx
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../../assets/styles/AccedeAqui.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
@@ -23,9 +23,14 @@ export default function AccedeAqui() {
   const [modalVisible, setModalVisible] = useState(false);
   const [usuarioModal, setUsuarioModal] = useState({ nombre: '', rol: '' });
 
+  useEffect(() => {
+    cambiarRol('sin-registrar');
+  }, [cambiarRol]);
+
   const salir = () => {
     window.location.href = '/';
   };
+
 
   const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
@@ -93,29 +98,34 @@ export default function AccedeAqui() {
   };
 
   const handleGoogleSuccess = async (credentialResponse) => {
-    try {
-      const response = await axios.post('http://localhost:8000/api/usuarios/login/google/', {
-        token: credentialResponse.credential,
-      });
+  try {
+    const response = await axios.post(
+      'http://localhost:8000/api/usuarios/login/google/',
+      { token: credentialResponse.credential }
+    );
 
-      const { access, refresh, nombre, rol, id_usuario } = response.data;
-      if (!rol) {
-        setErrorLogin('⚠️ Error: No se recibió el rol del usuario (Google).');
-        return;
-      }
+    const { access, refresh, nombre, id_usuario } = response.data;
 
-      const rolLower = rol.toLowerCase();
-      localStorage.setItem('access', access);
-      localStorage.setItem('refresh', refresh);
-      localStorage.setItem('nombre', nombre);
-      localStorage.setItem('rol', rolLower);
-      localStorage.setItem('id_usuario', id_usuario);
+    // 🔹 Forzar rol cliente
+    const rolLower = 'cliente';
 
-      mostrarModalBienvenida(nombre, rolLower);
-    } catch (error) {
-      setErrorLogin('Error al iniciar sesión con Google');
-    }
-  };
+    // Guardar en localStorage
+    localStorage.setItem('access', access);
+    localStorage.setItem('refresh', refresh);
+    localStorage.setItem('nombre', nombre);
+    localStorage.setItem('rol', rolLower);
+    localStorage.setItem('id_usuario', id_usuario);
+
+    // 🔹 Actualizar contexto
+    cambiarRol(rolLower);
+
+    // Mostrar modal y redirigir
+    mostrarModalBienvenida(nombre, rolLower);
+  } catch (error) {
+    setErrorLogin('Error al iniciar sesión con Google');
+  }
+};
+
 
   return (
     <section className='Cont'>
