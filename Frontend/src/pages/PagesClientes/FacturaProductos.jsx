@@ -1,15 +1,25 @@
-// src/pages/PagesClientes/Factura.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCarrito } from '../../Context/CarritoContext';
 import '../../assets/styles/Factura.css';
 import { MdOutlineAdd, MdOutlineRemove, MdDelete } from 'react-icons/md';
 import ComponenteProcesoPago from '../../components/ComponenteProcesoPago';
 import "../../assets/styles/MetodosPago.css";
+import "../../assets/styles/Global.css";
+import campana from '../../assets/images/campana.png';
+import axios from 'axios';
 
 const Factura = () => {
-  const { carrito, agregarProducto, quitarProducto, vaciarCarrito } = useCarrito();
+  const {
+    carrito,
+    agregarProducto,
+    quitarProducto,
+    eliminarProducto,
+    vaciarCarrito
+  } = useCarrito();
   const navigate = useNavigate();
+
+  const [modalMensaje, setModalMensaje] = useState(null);
 
   const total = carrito.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -17,11 +27,36 @@ const Factura = () => {
   );
 
   const handleContinuar = () => {
-    navigate('/FormularioEntrega'); // 
+    navigate('/FormularioEntrega');
   };
 
   const formatoCOP = (valor) =>
     valor.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
+
+  const mostrarModal = (mensaje) => {
+    setModalMensaje(mensaje);
+  };
+
+  const cerrarModal = () => {
+    setModalMensaje(null);
+  };
+
+  // Función para consultar stock desde backend
+  const obtenerStockActual = async (productoId) => {
+    try {
+      const res = await axios.get(`http://localhost:8000/api/carrito/producto/${productoId}/`);
+      return res.data.stock;
+    } catch (error) {
+      console.error("❌ Error al obtener el stock del producto:", error);
+      return null;
+    }
+  };
+
+  // NUEVA función para vaciar carrito y redirigir al home
+  const handleVaciarYRedirigir = () => {
+    vaciarCarrito();
+    navigate("/home");
+  };
 
   return (
     <>
@@ -52,13 +87,40 @@ const Factura = () => {
                     <td>{formatoCOP(item.price)}</td>
                     <td>{formatoCOP(item.price * item.quantity)}</td>
                     <td>
-                      <button className="btn-control" onClick={() => quitarProducto(item.id)}>
+                      {/* ➖ Disminuir cantidad */}
+                      <button
+                        className="btn-control"
+                        onClick={() => quitarProducto(item.id)}
+                        disabled={item.quantity === 1}
+                      >
                         <MdOutlineRemove />
                       </button>
-                      <button className="btn-control" onClick={() => agregarProducto(item)}>
+
+                      {/* ➕ Aumentar cantidad con validación de stock */}
+                      <button
+                        className="btn-control"
+                        onClick={async () => {
+                          const stockActual = await obtenerStockActual(item.id);
+                          if (stockActual === null) {
+                            mostrarModal("❌ No se pudo verificar el stock del producto.");
+                            return;
+                          }
+
+                          if (item.quantity < stockActual) {
+                            agregarProducto(item);
+                          } else {
+                            mostrarModal(` No puedes agregar más de ${stockActual} unidades de ${item.nameProduct}`);
+                          }
+                        }}
+                      >
                         <MdOutlineAdd />
                       </button>
-                      <button className="btn-delete" onClick={() => quitarProducto(item.id, true)}>
+
+                      {/* 🗑️ Eliminar completamente el producto */}
+                      <button
+                        className="btn-delete"
+                        onClick={() => eliminarProducto(item.id)}
+                      >
                         <MdDelete />
                       </button>
                     </td>
@@ -72,7 +134,7 @@ const Factura = () => {
             </div>
 
             <div className='posicicion-botones'>
-              <button className="btn-vaciar" onClick={vaciarCarrito}>
+              <button className="btn-vaciar" onClick={handleVaciarYRedirigir}>
                 Vaciar carrito
               </button>
 
@@ -85,8 +147,23 @@ const Factura = () => {
           </>
         )}
       </div>
+
+      {/* Modal */}
+      {modalMensaje && (
+        <div className="modal-fondo" onClick={cerrarModal}>
+          <div className="modal-contenido" onClick={e => e.stopPropagation()}>
+            <br /> <br />
+            <img src={campana} alt="alerta" width="20px" />
+            <br /> <br />
+            <p>{modalMensaje}</p>
+            <br /> <br />
+            <button className="boton-moderno" onClick={cerrarModal}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
 
 export default Factura;
+

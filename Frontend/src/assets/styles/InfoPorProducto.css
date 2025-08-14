@@ -1,42 +1,53 @@
 
 .ContenedorProductoInfo {
-    background-color: rgba(172, 143, 111, 0.881);
-    border-radius: 40px;
+    background-color: #f8f8f8;
+    border-radius: 32px;
     max-width: 60%;
     margin-left: 20%;
-    color: black;
+    color: #222;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 32px 40px;
 }
 
 .InfoSuperiorCalificacion {
     display: flex;
-    gap: 20px;
-    margin: 50px;
-    margin-bottom: 20px;
-    padding-top: 25px;
+    gap: 32px;
+    margin: 40px 0 24px 10px;
+    padding-top: 24px;
+    align-items: center;
 }
 
 .TituloProduct{
-    color: black;
+    color: #222;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
 }
 
 .ImagenProducto {
-    background-color: rgba(226, 192, 148, 0.732);
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 10px 10px 15px rgb(91, 68, 54);
+    background-color: #b8875b;
+    padding: 24px;
+    border-radius: 24px;
+    box-shadow: 0 4px 16px rgba(91, 68, 54, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .InfoProducto {
-    background-color: rgba(226, 192, 148, 0.732);
-    padding: 40px;
+    background-color: #fff;
+    padding: 32px;
     border-radius: 20px;
-    box-shadow: 10px 10px 15px rgb(91, 68, 54);
+    box-shadow: 0 2px 12px rgba(91, 68, 54, 0.10);
     text-align: left;
-    padding-top: 15px;
+    color: #222;
+    font-size: 1.1rem;
+    margin-bottom: 24px;
 }
 
 .Heart {
     text-align: right;
+    font-size: 1.5rem;
 }
 
 .BotonComprar {
@@ -45,11 +56,27 @@
 
 .BotonAñadirCarrito {
     border-radius: 20px;
+    background: linear-gradient(90deg, #b8875b 60%, #eb860a 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(41, 128, 185, 0.08);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+.BotonComprar:hover,
+.BotonAñadirCarrito:hover {
+    background: linear-gradient(90deg, #eb860a 60%, #b8875b 100%);
+    transform: translateY(-2px);
 }
 
 .Calificacion {
     margin: 5px;
-    color: black;
+    color: #222;
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
 .ContenedorPanesC {
@@ -57,25 +84,32 @@
 }
 
 .InfoInferiorCalificacion {
-    padding: 25px;
+    padding: 24px;
     display: flex;
-    gap: 25px;
+    gap: 32px;
+    background: #f8f8f8;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .ContenedorComentarios {
-    background-color: rgba(226, 192, 148, 0.732);
+    background-color: #fff;
     margin-left: 5%;
     width: 60%;
     border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(226, 192, 148, 0.15);
+    padding: 24px 32px;
+    margin-top: 32px;
 }
 
 .Comentarios{
     margin: 10px;
-    color: black;
+    color: #222;
+    font-size: 1.1rem;
 }
 
 .MetodosPagoInfo {
-    background-color: rgba(226, 192, 148, 0.732);
+    background-color:  #b8875b;
     padding: 20px;
     border-radius: 20px;
 }
@@ -90,52 +124,123 @@
   flex-direction: column;
   max-width: 60%;
   margin-bottom: 20px;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 16px 20px;
+  border-radius: 14px;
   background-color: #f4f4f4;
+  margin-left: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  font-size: 1rem;
+}
+.ComentarioItem:nth-child(even) {
+  background-color: #e6f0ff;
 }
 
 .ComentarioIzquierda {
   align-self: flex-start;
   background-color: #e6f0ff;
+  border-left: 4px solid #b8875b;
 }
 
 .ComentarioDerecha {
   align-self: flex-end;
-  background-color: #d9fdd3;
+  background-color: rgba(226, 192, 148, 0.732);
   text-align: right;
+  border-right: 4px solid #eb860a;
 }
 
-
-textarea {
-  width: 100%;
+.input-comentario {
+  width: 95%;
   min-height: 60px;
-  padding: 5px;
+  padding: 8px;
   resize: vertical;
-  margin-top: 5px;
-}
-
-select {
-  margin-top: 5px;
-  padding: 4px;
+  margin-top: 8px;
+  border-radius: 10px;
+  margin-left: 0;
+  border: 1px solid #b8875b;
+  font-size: 1rem;
 }
 
 .BotonesEdicion button,
 .BotonesComentario button {
-  margin-right: 5px;
-  margin-top: 5px;
-  padding: 4px 8px;
+  margin-right: 8px;
+  margin-top: 8px;
+  padding: 6px 14px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  background: #b8875b;
+  color: #fff;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
 }
-
+.BotonesEdicion button:hover,
+.BotonesComentario button:hover {
+  background: #eb860a;
+  transform: translateY(-1px);
+}
 .BotonesEdicion button:first-child {
   background-color: #4caf50;
   color: white;
 }
-
 .BotonesEdicion button:last-child {
   background-color: #f44336;
   color: white;
+}
+
+.titulo-comentario {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.sin-comentarios {
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: #fff;
+  color: #222;
+  padding: 28px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.18);
+  position: relative;
+  pointer-events: auto;
+}
+
+.boton-cerrar {
+  background: #ff4d4f;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+.boton-cerrar:hover {
+  background: #d9363e;
+}
+
+
+.formulario.comentario {
+  width: 100%;
 }

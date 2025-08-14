@@ -17,7 +17,7 @@ export const FavoritosProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('access');
 
-      const response = await axios.get('http://localhost:8000/api/favoritos/', {
+      const response = await axios.get('http://localhost:8000/api/carrito/favoritos/', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -50,7 +50,7 @@ export default function AdministrarInven() {
     // Función para obtener los productos desde el backend
     const obtenerProductos = () => {
         // Hacemos una solicitud GET a la API que trae todos los productos
-        axios.get('http://localhost:8000/api/productos/')
+        axios.get('http://localhost:8000/api/administrador/productos/')
             .then(response => {
                 // Guardamos los productos que vienen de la respuesta
                 let productos = response.data;
@@ -121,7 +121,7 @@ export default function AdministrarInven() {
 
         try {
             // Hacemos una petición DELETE a la API para eliminar el producto por su ID
-            await axios.delete(`http://localhost:8000/api/productos/${id}/`);
+            await axios.delete(`http://localhost:8000/api/administrador/productos/${id}/`);
 
             // Mostramos mensaje y volvemos a cargar los productos para actualizar la tabla
             alert("Producto eliminado correctamente.");

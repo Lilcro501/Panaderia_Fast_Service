@@ -1,14 +1,12 @@
-.entrada {
-  background-color: #554949;
-  border-radius: 10px;
-  width: 450px;
-  height: 30px;
-}
-
 .foto-perfil {
   width: 60px;
 }
 
+.entrada-entrada {
+  color: #ccc;
+  
+
+}
 
 .recuadro-perfil {
   max-width: 500px;
@@ -17,6 +15,9 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.793);
   font-family: 'Segoe UI', sans-serif;
   border: 2px solid #301a0d;
+  margin-left: 500px;
+  padding: 20px;  
+
 } 
 
 .foto-perfil {
@@ -30,20 +31,21 @@
 
 .tabla-perfil {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   border-collapse: collapse;
   font-size: 16px;
+  background-color:#cdc0a3 ;
 }
 
 .tabla-perfil th {
   text-align: left;
-  background-color: #f5f5f500;
+  background-color: #cdc0a3;
   width: 40%;
 }
 
 .tabla-perfil td,
 .tabla-perfil th {
-  padding: 12px;
+  padding: 15px;
   border-bottom: 1px solid #ddd;
 }
 

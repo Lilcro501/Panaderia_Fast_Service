@@ -5,6 +5,8 @@ import Corazon from "./Corazon";
 import { useCarrito } from "../Context/CarritoContext";
 import { useFavoritos } from "../Context/FavoritosContext";
 import { Link } from "react-router-dom";
+import campana from '../assets/images/campana.png';
+import "../assets/styles/Global.css";
 
 const Categoria = ({ nombre }) => {
   const { agregarProducto, carrito } = useCarrito();
@@ -12,10 +14,13 @@ const Categoria = ({ nombre }) => {
   const [productos, setProductos] = useState([]);
   const [popup, setPopup] = useState(null);
 
+  // Estado para controlar modal de stock
+  const [modalMensaje, setModalMensaje] = useState(null);
+
   useEffect(() => {
     const nombreFormateado = nombre.trim().toLowerCase();
     axios
-      .get(`http://localhost:8000/api/productos_categoria/${nombreFormateado}/`)
+      .get(`http://localhost:8000/api/carrito/productos_categoria/${nombreFormateado}/`)
       .then((res) => {
         const productosFormateados = res.data.map((producto) => ({
           id: Number(producto.id_producto ?? producto.id), // Forzar número
@@ -29,9 +34,17 @@ const Categoria = ({ nombre }) => {
         setProductos(productosFormateados);
       })
       .catch((error) => {
-        console.error("❌ Error al cargar productos:", error);
+        console.error("Error al cargar productos:", error);
       });
   }, [nombre]);
+
+  const mostrarModal = (mensaje) => {
+    setModalMensaje(mensaje);
+  };
+
+  const cerrarModal = () => {
+    setModalMensaje(null);
+  };
 
   const manejarAgregar = (producto) => {
     const productoEnCarrito = carrito.find((item) => item.id === producto.id);
@@ -42,9 +55,7 @@ const Categoria = ({ nombre }) => {
       setPopup(producto.nameProduct);
       setTimeout(() => setPopup(null), 2000);
     } else {
-      alert(
-        `⚠️ No puedes agregar más de ${producto.stock} unidades de ${producto.nameProduct}`
-      );
+      mostrarModal(`No puedes agregar más de ${producto.stock} unidades de ${producto.nameProduct}`);
     }
   };
 
@@ -56,7 +67,7 @@ const Categoria = ({ nombre }) => {
 
       <div className="categoria-grid">
         {productos.map((producto, index) => {
-          console.log("producto.id:", producto.id, typeof producto.id); // console log aquí
+          console.log("producto.id:", producto.id, typeof producto.id);
 
           return (
             <div key={index} className="producto-tarjeta">
@@ -92,6 +103,19 @@ const Categoria = ({ nombre }) => {
       </div>
 
       {popup && <div className="popup-mini">✅ {popup} añadido al carrito</div>}
+
+      {/* Modal */}
+      {modalMensaje && (
+        <div className="modal-fondo" onClick={cerrarModal}>
+          <div className="modal-contenido" onClick={e => e.stopPropagation()}>
+            <img src={campana} alt="alerta" width="20px" />
+            <br /> <br />
+            <p>{modalMensaje}</p>
+            <br /> <br />
+            <button className="boton-moderno" onClick={cerrarModal}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

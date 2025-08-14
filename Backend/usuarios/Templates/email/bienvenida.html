@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido a Panadería Fast Service</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff7f0;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #ffffff;
+            margin: 40px auto;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-top: 6px solid #ff7a00;
+        }
+        h2 {
+            color: #ff7a00;
+            font-weight: 800;
+            margin-bottom: 15px;
+            font-size: 26px;
+            text-align: center;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 12px 0;
+            text-align: center;
+        }
+        strong {
+            color: #e86d00;
+        }
+        .highlight {
+            display: inline-block;
+            background-color: #ffe4c2;
+            color: #b35400;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 35px;
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        .emoji {
+            font-size: 20px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>¡Hola {{ usuario.nombre }}! <span class="emoji">👋</span></h2>
+        <p>Gracias por registrarte en <strong>Panadería Fast Service</strong> <span class="emoji">🥖🥐</span></p>
+        <p>Ahora puedes descubrir nuestras <span class="highlight">ofertas y productos frescos</span> todos los días.</p>
+        <p>Estamos encantados de tenerte con nosotros.</p>
+        <p>¡Disfruta tu experiencia y déjate tentar por nuestros sabores!</p>
+        <div class="footer">
+            <strong>Equipo Fast Service</strong>
+        </div>
+    </div>
+</body>
+</html>
+

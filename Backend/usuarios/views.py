@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
+from .utils import enviar_correo_bienvenida
 
 # Terceros
 from google.auth.transport import requests as google_requests
@@ -67,6 +68,7 @@ def registrar_usuario(request):
             if Usuario.objects.filter(email=data['email']).exists():
                 return JsonResponse({'error': 'Correo ya registrado'}, status=400)
             #agreamos los campos al modelo de usuario para crearlo
+
             usuario = Usuario.objects.create_user(
                 email=data['email'],
                 password=data['password'],
@@ -76,6 +78,9 @@ def registrar_usuario(request):
                 rol=data.get('rol', 'cliente'),
                 fecha_registro=now()
             )
+            
+            
+            enviar_correo_bienvenida(usuario)
 
             # Emitir JWT
             #generamos tokens para el usuario recien creado utilizando  RefreshToken.for_user
@@ -100,13 +105,6 @@ def registrar_usuario(request):
 
 #Decorador para desactivar la seguridad CRFS
 #------------------------vista para iniciar sesion---------------------------
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth.hashers import check_password
-from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Usuario
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -280,9 +278,10 @@ def cambiar_password(request):
 
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Formato de datos inválido'}, status=400)
-        except Exception as e:
-            print(f"❌ Error al cambiar contraseña: {str(e)}")
-            return JsonResponse({'error': 'Error interno del servidor'}, status=500)
+        except ValueError as e:
+            print(f"❌ Error de validación de token Google: {str(e)}")
+            return JsonResponse({'error': f'Token de Google inválido: {str(e)}'}, status=401)
+
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
@@ -290,8 +289,9 @@ def cambiar_password(request):
 
 ###################################################################################
 
-
+CLIENT_ID = "tu-client-id.apps.googleusercontent.com"
 @csrf_exempt
+@api_view(['POST'])
 def login_google(request):
     if request.method == 'POST':
         try:
@@ -302,12 +302,17 @@ def login_google(request):
                 return JsonResponse({'error': 'Token de Google no proporcionado'}, status=400)
 
             try:
-                idinfo = id_token.verify_oauth2_token(token, google_requests.Request())
+                # Aquí usamos el CLIENT_ID exacto que pusiste en React
+                idinfo = id_token.verify_oauth2_token(
+                    token,
+                    google_requests.Request(),
+                    settings.GOOGLE_CLIENT_ID
+                )
+
                 email = idinfo['email']
                 nombre = idinfo.get('given_name', '')
                 apellido = idinfo.get('family_name', '')
 
-                # Buscar o crear usuario
                 usuario, creado = Usuario.objects.get_or_create(
                     email=email,
                     defaults={
@@ -321,7 +326,6 @@ def login_google(request):
                     }
                 )
 
-                # Generar los tokens JWT
                 refresh = RefreshToken.for_user(usuario)
 
                 return JsonResponse({
@@ -333,18 +337,18 @@ def login_google(request):
                     'rol': usuario.rol,
                     'id_usuario': usuario.id_usuario,
                     'email': usuario.email
-                }, status=200)
+                })
 
-            except ValueError:
-                return JsonResponse({'error': 'Token de Google inválido'}, status=400)
+            except ValueError as e:
+                print(f"❌ Error validando token Google: {e}")
+                return JsonResponse({'error': f'Token inválido: {e}'}, status=401)
 
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Formato de datos inválido'}, status=400)
         except Exception as e:
-            print(f"❌ Error al verificar el token de Google: {str(e)}")
-            return JsonResponse({'error': 'Error interno del servidor'}, status=500)
+            print(f"❌ Error en login_google: {e}")
+            return JsonResponse({'error': 'Error interno'}, status=500)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
 
 #----------------------------- Vista para actualizar  y obtener los datos del usuario -----------------------------
 
@@ -376,3 +380,14 @@ def eliminar_usuario(request, id_usuario):
     except Exception as e:
         print("❌ Error al eliminar usuario:", str(e))
         return Response({'error': 'Error interno del servidor'}, status=500)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout_view(request):
+    try:
+        refresh_token = request.data["refresh"]
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        return Response({"mensaje": "Cierre de sesión exitoso"}, status=status.HTTP_205_RESET_CONTENT)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
