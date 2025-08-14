@@ -4,16 +4,22 @@ import ComponenteProcesoPago from '../../components/ComponenteProcesoPago';
 import VentanaEmergente from '../../components/VentanaEmergente';
 import { enviarFactura } from '../../api/factura';
 import '../../assets/styles/MetodosPago.css';
-import qr from "../../assets/images/qr.png";
+import compras from '../../assets/images/compras.png';
+import CompraQr from '../../assets/images/tienda-online.png';
+import campana from '../../assets/images/campana.png';
 
 const FormularioEntrega = () => {
   const { carrito, vaciarCarrito } = useCarrito();
   const [metodoEntrega, setMetodoEntrega] = useState('');
   const [metodoEnvio, setMetodoEnvio] = useState('domicilio');
+
+  // Modal para mensajes (errores, éxito, info)
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [modalMensaje, setModalMensaje] = useState('');
+  const [modalTitulo, setModalTitulo] = useState('');
+
   const [comprobante, setComprobante] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const [formData, setFormData] = useState({
     direccion_entrega: '',
@@ -60,18 +66,27 @@ const FormularioEntrega = () => {
 
     for (const campo of camposRequeridos) {
       if (campo.condition !== undefined ? campo.condition : !campo.value) {
-        setError(campo.message);
+        // Mostrar error en modal
+        setModalTitulo('Error de validación');
+        setModalMensaje(campo.message);
+        setMostrarModal(true);
         return false;
       }
     }
 
-    setError(null);
     return true;
+  };
+
+  const handleCerrarModal = () => {
+    setMostrarModal(false);
+    setModalMensaje('');
+    setModalTitulo('');
   };
 
   const handleEnviarFactura = async () => {
     if (!validarCampos()) return;
 
+    setLoading(true);
     try {
       const datosFactura = new FormData();
 
@@ -93,14 +108,13 @@ const FormularioEntrega = () => {
         datosFactura.append('comprobante', comprobante);
       }
 
-      for (let [key, value] of datosFactura.entries()) {
-        console.log(key, value);
-      }
-
       const response = await enviarFactura(datosFactura);
 
       if (response.success) {
-        alert('Factura creada exitosamente');
+        setModalTitulo('Factura creada');
+        setModalMensaje('Factura creada exitosamente');
+        setMostrarModal(true);
+
         vaciarCarrito();
         setFormData({
           direccion_entrega: '',
@@ -110,10 +124,18 @@ const FormularioEntrega = () => {
         setMetodoEntrega('');
         setMetodoEnvio('domicilio');
         setComprobante(null);
+      } else {
+        setModalTitulo('Error');
+        setModalMensaje(response.message || 'Error al crear factura');
+        setMostrarModal(true);
       }
     } catch (error) {
       console.error('Error:', error);
-      alert(`Error al crear factura: ${error.message}`);
+      setModalTitulo('Error');
+      setModalMensaje(`Error al crear factura: ${error.message}`);
+      setMostrarModal(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -121,8 +143,6 @@ const FormularioEntrega = () => {
     <>
       <ComponenteProcesoPago />
       <div className='titulo-factura'><h1>Factura de compra</h1></div>  
-
-      {error && <div className="error-message">{error}</div>}
 
       <section className="contenedor-informacion">
         <div className="formulario-columna">
@@ -241,57 +261,99 @@ const FormularioEntrega = () => {
       </section>
 
       <VentanaEmergente
-        visible={mostrarModal}
-        onClose={() => setMostrarModal(false)}
-        title={`Detalles de pago:  (${metodoEntrega === 'qr' ? 'QR' : 'Contra entrega'})`}
-        content={
-          metodoEntrega === 'qr' ? (
-            <>
-              <img
-                src={qr}
-                alt="Código QR"
-                style={{ width: '200px', margin: '0 auto 20px', display: 'block' }}
-              />
-              <p style={{ textAlign: 'center' }}>
-                <strong>Banco:</strong> Nequi<br />
-                <strong>Número:</strong> 3001234567<br />
-                <strong>Valor:</strong> ${total.toFixed(2)}
-              </p>
-              <label style={{ display: 'block', marginTop: '15px' }}>
-                Adjunta tu comprobante*:
-                <input
-                  type="file"
-                  accept="image/*,.pdf"
-                  onChange={(e) => setComprobante(e.target.files[0])}
-                  style={{ marginTop: '5px' }}
-                  required
-                />
-              </label>
-            </>
-          ) : (
-            <>
-              <center><h3 style={{ color: '#4CAF50' }}>Pago contra entrega</h3></center>
-              <br />
-              <p>Total del pedido:</p>
-              <p style={{
-                fontSize: '1.2em',
-                fontWeight: 'bold',
-                margin: '15px 0'
-              }}> ${total.toFixed(2)} en efectivo</p>
-              <p style={{ fontStyle: 'italic' }}>
-                El metodo de pago sera contraentrega!, recuerda tener el dinero exacto para facilitar el proceso de entrega del pedido, la factura de tu compra llegara a tu correo electronico y previamente se confirmara tu pedido
-              </p>
-              <br /> <br />
-              <p>Disfruta de tu pedido</p>
-              <p>Panaderia la orquidea!</p>
-              <button className='estilo-boton'>Aceptar</button>
-            </>
-          )
-        }
+  visible={mostrarModal}
+  onClose={handleCerrarModal}
+  title={
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <img
+        src={campana}
+        alt="Campana"
+        style={{ width: '30px', height: '30px', objectFit: 'contain' }}
       />
+      <span>
+        {modalTitulo || `Detalles de pago:  (${metodoEntrega === 'qr' ? 'QR' : 'Contra entrega'})`}
+      </span>
+    </div>
+  }
+  content={
+    modalMensaje ? (
+      <>
+        <p style={{ fontSize: '1.1em', marginBottom: '20px' }}>{modalMensaje}</p>
+        <button className='boton-moderno' onClick={handleCerrarModal}>Aceptar</button>
+      </>
+    ) : metodoEntrega === 'qr' ? (
+      <>
+        <img
+          src="http://localhost:8000/media/qr.png"
+          alt="Código QR"
+          style={{
+            width: '200px',
+            margin: '0 auto 20px',
+            display: 'block',
+            backgroundColor: '#f0f0f0',
+            padding: '10px',
+            borderRadius: '10px'
+          }}
+        />
+        <img
+          src={CompraQr}
+          alt=""
+          style={{ width: '100px', margin: '0 auto 20px', display: 'block' }}
+        />
+        <p style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '1.1em' }}>
+          <strong>Banco:</strong> Bancolombia<br />
+          <strong>Valor:</strong> ${total.toFixed(2)}
+        </p>
+        <label style={{ display: 'block', marginTop: '15px' }}>
+          Adjunta tu comprobante*:
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            onChange={(e) => setComprobante(e.target.files[0])}
+            style={{ marginTop: '5px' }}
+            required
+          />
+          <button className='boton-moderno' onClick={() => setMostrarModal(false)} style={{ marginTop: '10px' }}>
+            Aceptar
+          </button>
+        </label>
+      </>
+    ) : (
+      <>
+        <center><h3 style={{ color: "black" }}>Pago contra entrega</h3></center>
+        <img src={compras} alt="Compra QR" style={{ width: '200px', display: 'block', margin: '0 auto 20px' }} />
+        <br />
+       <center style={{
+        color: 'black',
+       }
+       }> <p>Total del pedido:</p></center>
+        <center><p style={{
+          fontSize: '1.2em',
+          fontWeight: 'bold',
+          margin: '15px 0',
+          color: 'green',
+        }}> ${total.toFixed(2)} en efectivo</p></center>
+        <p style={{ fontStyle: 'italic', color: 'black' }}>
+          El método de pago será contra entrega, ¡recuerda tener el dinero exacto para facilitar el proceso de entrega del pedido! La factura de tu compra llegará a tu correo electrónico y previamente se confirmará tu pedido.
+        </p>
+        <br /> <br />
+        <center><p style={{
+          color: 'black',
+          fontSize: '1.1em',
+        }}>¡Disfruta de tu pedido!</p></center>
+        <center><p style={{
+          color: 'black',
+          fontSize: '1.1em',
+        }}>Panadería la Orquídea</p></center>
+        <br /> <br />
+        <button className='boton-moderno' onClick={() => setMostrarModal(false)}>Aceptar</button>
+      </>
+    )
+    }
+  />
+
     </>
   );
 };
+
 export default FormularioEntrega;
-
-

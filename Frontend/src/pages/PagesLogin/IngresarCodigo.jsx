@@ -3,6 +3,8 @@ import '../../assets/styles/AccedeAqui.css';
 import { useNavigate } from 'react-router-dom';
 import { IoMdClose } from 'react-icons/io';
 import axios from 'axios';
+import "../../assets/styles/Global.css";
+import campana from '../../assets/images/campana.png';
 
 export default function IngresarCodigo() {
   const [codigo, setCodigo] = useState(['', '', '', '']);
@@ -96,10 +98,12 @@ export default function IngresarCodigo() {
       {modalExitoVisible && (
         <div className="modal-bienvenida">
           <div className="modal-contenido">
+            <br /> <br />
+            <img src={campana} alt="alerta" width="20px" />
             <h2>✅ Código verificado</h2>
             <p>Tu código es correcto. Ahora puedes cambiar tu contraseña.</p>
             <button
-              className="boton-aceptar"
+              className="boton-moderno"
               onClick={() => navigate('/CambioContraseña')}
             >
               Aceptar
