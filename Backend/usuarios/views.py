@@ -50,6 +50,7 @@ Usuario = get_user_model()
 #Decorador para desactivar la seguridad contra el CRFS
 
 #------------------------------------- VISTA DE REGISTRO DE USUARIO ---------------------------------
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def registrar_usuario(request):
@@ -99,82 +100,73 @@ def registrar_usuario(request):
 
 #Decorador para desactivar la seguridad CRFS
 #------------------------vista para iniciar sesion---------------------------
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.hashers import check_password
+from rest_framework_simplejwt.tokens import RefreshToken
+from .models import Usuario
 
-# Decorador para desactivar la seguridad CSRF
-@csrf_exempt
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def login_usuario(request):
-    # Definimos el tipo de solicitud
-    if request.method == 'POST':
+    try:
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        if not email or not password:
+            return Response({'error': 'Por favor, ingrese correo y contraseña'}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            # Cargamos el JSON que se envió desde el front
-            data = json.loads(request.body)
-            # Imprimimos los datos para validar que datos se están ingresando
-            print("Email:", data.get('email'))
-            print(" Password:", data.get('password'))
+            usuario = Usuario.objects.get(email=email)
+        except Usuario.DoesNotExist:
+            return Response({'error': 'Correo no registrado'}, status=status.HTTP_404_NOT_FOUND)
 
-            # Obtenemos el email y la password de la data 
-            email = data.get('email')
-            password = data.get('password')
-            
-            # Validación de que sí se hayan recibido ambos campos
-            if not email or not password:
-                return JsonResponse({'error': 'Faltan datos'}, status=400)
+        if not check_password(password, usuario.password):
+            return Response({'error': 'Contraseña incorrecta'}, status=status.HTTP_401_UNAUTHORIZED)
 
-            try:
-                usuario = Usuario.objects.get(email=email)
-            except Usuario.DoesNotExist:
-                return JsonResponse({'error': 'Correo no registrado'}, status=404)
+        # Generar tokens JWT
+        refresh = RefreshToken.for_user(usuario)
 
-            if check_password(password, usuario.password):
-                # Generamos tokens para el usuario utilizando RefreshToken.for_user
-                refresh = RefreshToken.for_user(usuario)
+        return Response({
+            'mensaje': 'Inicio de sesión exitoso',
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'nombre': usuario.nombre,
+            'apellido': usuario.apellido,
+            'rol': usuario.rol,
+            'id_usuario': usuario.id_usuario,
+            'email': usuario.email
+        }, status=status.HTTP_200_OK)
 
-                # ✅ Retornamos todos los datos necesarios, incluyendo el id del usuario
-                return JsonResponse({
-                    'mensaje': 'Inicio de sesión exitoso',
-                    'access': str(refresh.access_token),
-                    'refresh': str(refresh),
-                    'nombre': usuario.nombre,
-                    'rol': usuario.rol,
-                    'id_usuario': usuario.id_usuario
-                }, status=200)
-            else:
-                return JsonResponse({'error': 'Contraseña incorrecta'}, status=401)
-
-        except Exception as e:
-            print("❌ Error en login_usuario:", e)
-            return JsonResponse({'error': str(e)}, status=500)
-
-    return JsonResponse({'error': 'Método no permitido'}, status=405)
-
-
+    except Exception as e:
+        # ✅ Captura cualquier excepción imprevista y responde
+        return Response({'error': f'Error interno del servidor: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #----------------------------vista para enviar el codigo de verificacion-----------------------------------------
 
-#decorador para desacrtivar la seguiridad
 @csrf_exempt
-#----------------------------------------- vista para enviar el digo de verificacion al usuario ------------------------------
 def enviar_codigo_verificacion(request):
-    #definir el metodo de la respuesta 
     if request.method == 'POST':
         try:
-            #cargar el arrchivo json desde el frot
             data = json.loads(request.body)
-            #obtener el valor de email
             email = data.get('email')
-            #si no se ingresa un email valido
+
             if not email:
-                #retornar un erorr en tal caso de que no se ingrese el correo
                 return JsonResponse({'error': 'El correo es obligatorio'}, status=400)
+
+            # ✅ Validar si el correo está registrado en la base de datos
+            if not Usuario.objects.filter(email=email).exists():
+                return JsonResponse({'error': 'El correo no está registrado'}, status=404)
 
             # Generar código aleatorio de 4 dígitos
             codigo = ''.join([str(random.randint(0, 9)) for _ in range(4)])
             
-            # Guardar en base de datos
+            # Guardar código en base de datos
             CodigoVerificacion.objects.create(email=email, codigo=codigo)
 
-            # Cuerpo HTML del mensaje
-            #estructura del html para enviar el mensaje
+            # HTML del correo
             html_content = f"""
             <html>
                 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
@@ -188,7 +180,6 @@ def enviar_codigo_verificacion(request):
                         <br>
                         <p>Gracias por usar nuestro servicio.</p>
                         <p>— Equipo de Panadería Fast Service</p>
-                        <!-- Imagen centrada al final -->
                         <div style="text-align: center; margin-top: 30px;">
                             <img src="cid:logo_fast_service" alt="Panadería Logo" style="width: 120px;" />
                         </div>
@@ -197,43 +188,39 @@ def enviar_codigo_verificacion(request):
             </html>
             """
 
-            # Crear el correo con HTML embebido
-            #este permite enciar correos electronicos en formato html
+            # Crear y enviar el correo
             correo = EmailMultiAlternatives(
                 subject='Código de Verificación',
                 body='Tu código de verificación está en el mensaje HTML.',
-                from_email='tu_correo@gmail.com',
+                from_email='tu_correo@gmail.com',  # Cambia esto por el correo real del remitente
                 to=[email],
             )
-            #adjuntamos el html al correo electronicp
             correo.attach_alternative(html_content, "text/html")
 
-            # Adjuntar la imagen desde media/logo_header.png
-            #Abrimos la imagen y la adjuntamos en en el html
+            # Adjuntar imagen del logo
             ruta_imagen = os.path.join(settings.MEDIA_ROOT, 'logo_header.png')
             with open(ruta_imagen, 'rb') as img:
                 imagen = MIMEImage(img.read())
-                imagen.add_header('Content-ID', '<logo_fast_service>')  # Usado en el src: cid:...
+                imagen.add_header('Content-ID', '<logo_fast_service>')
                 imagen.add_header("Content-Disposition", "inline", filename="logo_header.png")
                 correo.attach(imagen)
-            #enviamos el correo electronico
+
             correo.send()
-            #retornamos el mensaje de exito al momento de enviar el correo electronico
             return JsonResponse({'mensaje': 'Código enviado'}, status=200)
-        #exepcion en tal caso de mostar un errror al momento de enviar el correo electronico
+
         except Exception as e:
-            #mostrar menaje en la consola
             print("❌ Error al enviar código:", e)
-            #retornar con un mennaje de error en el front
             return JsonResponse({'error': str(e)}, status=500)
-    #retornar en en el front en tal caso de un metdo invalido
+
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
 
 ##################################################################################
 #vista para verificar el codigo
 ##################################################################################
 
-@csrf_exempt
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def verificar_codigo(request):
     if request.method == 'POST':
         try:
@@ -241,28 +228,27 @@ def verificar_codigo(request):
             email = data.get('email')
             codigo = data.get('codigo')
 
-            print("Verificando código:", codigo, "para", email)
-
             if not email or not codigo:
-                return JsonResponse({'error': 'Datos incompletos'}, status=400)
+                return JsonResponse({'error': 'Por favor, ingrese correo y código de verificación'}, status=400)
 
-            verificacion = CodigoVerificacion.objects.get(
-                email=email,
-                codigo=codigo,
-                usado=False
-            )
+            try:
+                verificacion = CodigoVerificacion.objects.get(
+                    email=email,
+                    codigo=codigo,
+                    usado=False
+                )
+                verificacion.usado = True
+                verificacion.save(update_fields=['usado'])
+                return JsonResponse({'mensaje': 'Código verificado correctamente'}, status=200)
 
-            verificacion.usado = True
-            verificacion.save(update_fields=['usado'])
+            except CodigoVerificacion.DoesNotExist:
+                return JsonResponse({'error': 'Código incorrecto o ya usado'}, status=400)
 
-            return JsonResponse({'mensaje': 'Código verificado correctamente'}, status=200)
-
-        except CodigoVerificacion.DoesNotExist:
-            return JsonResponse({'error': 'Código incorrecto o ya usado'}, status=400)
-
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Formato de datos inválido'}, status=400)
         except Exception as e:
-            print("❌ Error en verificación:", e)
-            return JsonResponse({'error': str(e)}, status=500)
+            print(f"❌ Error en verificación: {str(e)}")
+            return JsonResponse({'error': 'Error interno del servidor'}, status=500)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
@@ -278,25 +264,27 @@ def cambiar_password(request):
             nueva_password = data.get('nueva_password')
 
             if not email or not nueva_password:
-                return JsonResponse({'error': 'Datos incompletos'}, status=400)
+                return JsonResponse({'error': 'Por favor, ingrese correo y nueva contraseña'}, status=400)
+
+            if len(nueva_password) < 8:
+                return JsonResponse({'error': 'La contraseña debe tener al menos 8 caracteres'}, status=400)
 
             try:
                 usuario = Usuario.objects.get(email=email)
+                usuario.password = make_password(nueva_password)
+                usuario.save(update_fields=['password'])
+                return JsonResponse({'mensaje': 'Contraseña actualizada correctamente'}, status=200)
+
             except Usuario.DoesNotExist:
                 return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
 
-            # Hashear la nueva contraseña
-            usuario.password = make_password(nueva_password)
-            usuario.save()
-
-            return JsonResponse({'mensaje': 'Contraseña actualizada correctamente'}, status=200)
-
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Formato de datos inválido'}, status=400)
         except Exception as e:
-            print("❌ Error al cambiar contraseña:", e)
-            return JsonResponse({'error': str(e)}, status=500)
+            print(f"❌ Error al cambiar contraseña: {str(e)}")
+            return JsonResponse({'error': 'Error interno del servidor'}, status=500)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
-
 
 ###################################################################################
 
@@ -311,43 +299,50 @@ def login_google(request):
             token = data.get('token')
 
             if not token:
-                return JsonResponse({'error': 'Token no proporcionado'}, status=400)
+                return JsonResponse({'error': 'Token de Google no proporcionado'}, status=400)
 
-            # Verificar el token con Google
-            idinfo = id_token.verify_oauth2_token(token, google_requests.Request())
+            try:
+                idinfo = id_token.verify_oauth2_token(token, google_requests.Request())
+                email = idinfo['email']
+                nombre = idinfo.get('given_name', '')
+                apellido = idinfo.get('family_name', '')
 
-            email = idinfo['email']
-            nombre = idinfo.get('given_name', '')
-            apellido = idinfo.get('family_name', '')
+                # Buscar o crear usuario
+                usuario, creado = Usuario.objects.get_or_create(
+                    email=email,
+                    defaults={
+                        'nombre': nombre,
+                        'apellido': apellido,
+                        'telefono': '',
+                        'rol': 'cliente',
+                        'fecha_registro': now(),
+                        'is_active': True,
+                        'is_staff': False,
+                    }
+                )
 
-            # Buscar o crear usuario
-            usuario, creado = Usuario.objects.get_or_create(
-                email=email,
-                defaults={
-                    'nombre': nombre,
-                    'apellido': apellido,
-                    'telefono': '',
-                    'rol': 'cliente',
-                    'fecha_registro': now(),
-                    'is_active': True,
-                    'is_staff': False,
-                }
-            )
+                # Generar los tokens JWT
+                refresh = RefreshToken.for_user(usuario)
 
-            # Generar los tokens JWT
-            refresh = RefreshToken.for_user(usuario)
+                return JsonResponse({
+                    'mensaje': 'Inicio de sesión con Google exitoso',
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
+                    'nombre': usuario.nombre,
+                    'apellido': usuario.apellido,
+                    'rol': usuario.rol,
+                    'id_usuario': usuario.id_usuario,
+                    'email': usuario.email
+                }, status=200)
 
-            return JsonResponse({
-                'access': str(refresh.access_token),
-                'refresh': str(refresh),
-                'nombre': usuario.nombre,
-                'rol': usuario.rol,
-                'id_usuario': usuario.id_usuario
-            }, status=200)
+            except ValueError:
+                return JsonResponse({'error': 'Token de Google inválido'}, status=400)
 
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Formato de datos inválido'}, status=400)
         except Exception as e:
-            print("❌ Error al verificar el token de Google:", e)
-            return JsonResponse({'error': 'Token inválido o error interno'}, status=400)
+            print(f"❌ Error al verificar el token de Google: {str(e)}")
+            return JsonResponse({'error': 'Error interno del servidor'}, status=500)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
@@ -368,3 +363,16 @@ class UsuarioDetalleView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def eliminar_usuario(request, id_usuario):
+    try:
+        usuario = Usuario.objects.get(pk=id_usuario)
+        usuario.delete()
+        return Response({'mensaje': 'Usuario eliminado correctamente'}, status=200)
+    except Usuario.DoesNotExist:
+        return Response({'error': 'Usuario no encontrado'}, status=404)
+    except Exception as e:
+        print("❌ Error al eliminar usuario:", str(e))
+        return Response({'error': 'Error interno del servidor'}, status=500)

@@ -9,7 +9,7 @@ import eliminar_documento from '../../assets/images/eliminar_documento.png';
 import "../../assets/styles/Global.css";
 
 export default function Cronograma() {
-    const encabezados = ['Nombre trabajador', 'Cargo', 'Actividades', 'Horarios', 'Fecha', 'Acciones'];
+    const encabezados = ['Nombre trabajador', 'Cargo', 'Actividades', 'Horarios', 'Fecha'];
     const [filas, setFilas] = useState([]);
 
     const obtenerCronogramas = () => {

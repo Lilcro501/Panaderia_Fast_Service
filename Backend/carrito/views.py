@@ -74,7 +74,7 @@ def crear_factura(request):
                 fecha_entrega = data.get('fecha_entrega')
                 notas = data.get('informacion_adicional', '')
                 metodo_entrega = data.get('metodo_entrega', 'local')
-                telefono_usuario = data.get('telefono_usuario')  # 👈 nuevo campo
+                telefono_usuario = data.get('telefono_usuario')  
                 productos = data.get('productos', [])
                 comprobante = None
 
@@ -102,8 +102,8 @@ def crear_factura(request):
 
             EstadoFactura.objects.create(
                 factura=factura,
-                estado_pago="pendiente",
-                proceso_pedido="preparando"
+                proceso_pedido="preparando",
+                estado_pedido="por validar"
             )
 
             for producto in productos:
