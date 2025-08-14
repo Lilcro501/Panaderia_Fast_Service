@@ -1,7 +1,8 @@
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from .models import Categorias, Cronograma, Productos, Usuarios, Valoraciones, Facturas
+from .models import Categorias, Cronograma, Productos, Usuarios, Valoraciones, Facturas, Pedido
+from usuarios.models import Usuario
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,28 +21,32 @@ class ProductoSerializer(serializers.ModelSerializer):
         model = Productos
         fields = [
             'id_producto',
+            'id_categoria',       # Para mostrar el objeto completo (GET)
             'nombre',
-            'descripcion',
             'precio',
-            'stock',
+            'descripcion',
             'imagen',
             'fecha_vencimiento',
-            'id_categoria',       # Para mostrar el objeto completo (GET)
+            'stock',
+            'fecha_actualizacion',
+            'imagen_public_id',
             'id_categoria_id'     # Para enviar solo el ID (POST/PUT)
         ]
 
 class UsuarioSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True) 
+
     class Meta:
-        model = Usuarios
-        fields = ['id_usuario', 'email', 'nombre', 'apellido', 'telefono', 'rol']
+        model = Usuario
+        fields = ['id_usuario', 'email', 'nombre', 'apellido', 'telefono', 'rol', 'password']
 
     def create(self, validated_data):
-        validated_data['rol'] = 'trabajador'
-        validated_data['password'] = make_password('clave123')  # contraseña por defecto
+        password = validated_data.pop('password')
+        validated_data['password'] = make_password(password)
         validated_data['fecha_registro'] = timezone.now()
         validated_data['is_active'] = 1
         validated_data['is_staff'] = 1
-        return Usuarios.objects.create(**validated_data)
+        return Usuario.objects.create(**validated_data)
 
 class CronogramaSerializer(serializers.ModelSerializer):
     usuario_detalle = UsuarioSerializer(source='id_usuario', read_only=True)
@@ -80,3 +85,9 @@ class FacturaSerializer(serializers.ModelSerializer):
         model = Facturas
         fields = ['id_factura', 'cliente', 'fecha', 'total']
 
+class PedidoSerializer(serializers.ModelSerializer):
+    id_producto = ProductoSerializer()  # Anida nombre del producto
+
+    class Meta:
+        model = Pedido
+        fields = ['id_producto', 'cantidad', 'subtotal']

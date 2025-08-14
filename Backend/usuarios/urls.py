@@ -5,7 +5,8 @@ from .views import (
     verificar_codigo,
     cambiar_password,
     login_google,
-    CustomTokenObtainPairView 
+    CustomTokenObtainPairView, 
+    eliminar_usuario
 )
 from .views import registrar_usuario
 from .views import UsuarioDetalleView
@@ -31,4 +32,8 @@ urlpatterns = [
 
     # Login con Google
     path('login/google/', login_google),
+
+    #eliminar usuario
+    path('api/usuarios/<int:id_usuario>/', eliminar_usuario, name='eliminar_usuario'),
+
 ]

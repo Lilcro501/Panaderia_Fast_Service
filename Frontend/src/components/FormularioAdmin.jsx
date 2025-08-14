@@ -73,10 +73,11 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valores
               required={campoImagen.requerido}
               accept="image/*"
             />
-            {previewImagen[campoImagen.nombre] && (
+            {/* Mostrar vista previa si hay imagen cargada o imagen actual */}
+            {(previewImagen[campoImagen.nombre] || campoImagen.vistaPrevia) && (
               <div className="preview-imagen">
                 <img
-                  src={previewImagen[campoImagen.nombre]}
+                  src={previewImagen[campoImagen.nombre] || campoImagen.vistaPrevia}
                   alt="Vista previa"
                   className="imagen-preview"
                 />

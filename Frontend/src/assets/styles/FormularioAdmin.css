@@ -67,10 +67,9 @@
 }
 
 .imagen-preview {
-  width: 150px;
-  border-radius: 8px;
+  max-width: 150px;
   border: 1px solid #ccc;
-  object-fit: cover;
+  border-radius: 4px;
 }
 
 /* ====== BOTONES ====== */

@@ -46,7 +46,7 @@ export default function EditarTrabajador() {
 
     const manejarEnvio = async (datos) => {
         try {
-            const response = await axios.put(`http://localhost:8000/api/usuarios/${id}/`, datos);
+            const response = await axios.patch(`http://localhost:8000/api/usuarios/${id}/`, datos);
             console.log("Trabajador actualizado:", response.data);
             alert("Trabajador actualizado con éxito.");
             navigate("/AdministrarTrabajadores");

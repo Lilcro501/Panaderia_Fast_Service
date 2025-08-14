@@ -111,3 +111,29 @@
 .boton-volver button:active {
   transform: translateY(1px);
 }
+.estado-circulo {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s;
+}
+
+.estado-circulo.rojo {
+  background-color: #ff4d4f;
+}
+
+.estado-circulo.amarillo {
+  background-color: #ffc107;
+}
+
+.estado-circulo.verde {
+  background-color: #4caf50;
+}
+
+.estado-circulo.activo {
+  border: 2px solid black;
+  transform: scale(1.2);
+}

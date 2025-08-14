@@ -8,19 +8,23 @@ from .views import (
     UsuarioViewSet,
     ValoracionViewSet,
     EstadisticasView, 
-    listar_facturas
+    listar_facturas,
+    productos_por_categoria,
+    ventas_por_fecha
 )
 
 router = DefaultRouter()
 router.register(r'categorias', CategoriaViewSet)
 router.register(r'productos', ProductoViewSet)
 router.register(r'cronograma', CronogramaViewSet)
-#se comento esta linea de codigo debido a que esta generando una interferencia en la autenticacion y registro
-#router.register(r'usuarios', UsuarioViewSet)
+router.register(r'usuarios', UsuarioViewSet)
 router.register(r'valoraciones', ValoracionViewSet)
 
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('api/estadisticas/', EstadisticasView.as_view(), name='estadisticas'),
-    path('api/facturas/', listar_facturas),]
+    path('', include(router.urls)),
+    path('estadisticas/', EstadisticasView.as_view(), name='estadisticas'),
+    path('facturas/', listar_facturas),
+    path('productos_por_categoria/', productos_por_categoria, name='productos_por_categoria'),
+    path('ventas_por_fecha/', ventas_por_fecha)
+    ]
