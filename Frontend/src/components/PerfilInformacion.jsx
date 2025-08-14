@@ -44,7 +44,7 @@ export default function PerfilInformacion() {
 
   const EnviarDatos = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access");
 
     try {
       await api.put("usuarios/perfil/", usuario, {
@@ -118,7 +118,7 @@ export function MostrarInformacion() {
   const navegacion = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access");
     if (!token) {
       navegacion("/accedeaqui");
       return;
