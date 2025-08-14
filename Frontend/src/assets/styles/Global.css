@@ -6,6 +6,33 @@
 }
 
 body {
-  background-image: url("../images/fondo.jpg");
+  background-image: url("../images/fondo-2.png");
   color: white;
 }
+
+
+
+.boton-moderno-v-2 {
+  width: 50%;
+  background-color: #c59458;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(41, 128, 185, 0.2);
+}
+
+.boton-moderno-v-2:hover {
+  background:#eb860a ;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(41, 128, 185, 0.3);
+}
+
+.boton-moderno-v-2:active {
+  transform: translateY(1px);
+}
+

@@ -166,6 +166,8 @@ export function MostrarInformacion() {
       <Link to="/Actualizar">
         <button className="boton-actualizar">Actualizar</button>
       </Link>
+
+      <BotonCerrarSesion />
     </div>
   
 
