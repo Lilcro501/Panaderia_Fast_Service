@@ -7,7 +7,7 @@ export default function AgregarCrono() {
     const [usuarios, setUsuarios] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/usuarios/')
+        axios.get('http://localhost:8000/api/administrador/usuarios/')
             .then(response => {
                 console.log("🧾 Trabajadores recibidos:", response.data);
                 const trabajadoresFiltrados = response.data.filter(usuario => usuario.rol === "trabajador");
@@ -83,7 +83,7 @@ export default function AgregarCrono() {
 
             console.log("🚀 Enviando datos al backend:", datosAEnviar);
 
-            const response = await axios.post("http://localhost:8000/api/cronograma/", datosAEnviar);
+            const response = await axios.post("http://localhost:8000/api/administrador/cronograma/", datosAEnviar);
             console.log("✅ Cronograma creado:", response.data);
             alert("✅ Cronograma guardado correctamente.");
         } catch (error) {

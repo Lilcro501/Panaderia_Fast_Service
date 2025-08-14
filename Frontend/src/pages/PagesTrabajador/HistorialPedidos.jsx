@@ -14,7 +14,7 @@ export default function HistorialPedidos() {
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/historial-pedidos/");
+        const response = await axios.get("http://localhost:8000/api/trabajador/historial-pedidos/");
         setPedidos(response.data);
       } catch (error) {
         console.error("Error al obtener historial de pedidos:", error);

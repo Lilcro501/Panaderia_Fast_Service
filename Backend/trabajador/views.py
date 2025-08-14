@@ -47,10 +47,11 @@ def obtener_factura(request, id_factura):
         productos = [{
             "nombre": pedido.producto.nombre,
             "cantidad": pedido.cantidad,
-            "precio_unitario": float(pedido.producto.precio),
+            "precio_unitario": float(pedido.precio_unitario),
             "subtotal": float(pedido.subtotal),
             "estado": "comprado"
         } for pedido in pedidos]
+
 
         usuario = factura.usuario  
         datos_usuario = {

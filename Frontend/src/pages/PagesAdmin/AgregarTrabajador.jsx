@@ -46,11 +46,12 @@ export default function AgregarTrabajador() {
             ],
             requerido: true
         }
+        
     ];
 
     const manejarEnvio = async (datos) => {
         try {
-            const response = await axios.post('http://localhost:8000/api/usuarios/', datos);
+            const response = await axios.post('http://localhost:8000/api/administrador/usuarios/', datos);
             console.log("Trabajador creado exitosamente:", response.data);
             alert("Trabajador guardado con éxito.");
         } catch (error) {

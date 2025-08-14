@@ -28,7 +28,7 @@ export default function AgregarInven() {
     // useEffect se ejecuta al cargar el componente
     useEffect(() => {
         // Se hace una solicitud para traer las categorías disponibles desde el backend
-        axios.get("http://localhost:8000/api/categorias/")
+        axios.get("http://localhost:8000/api/administrador/categorias/")
             .then(response => {
                 // Si todo sale bien, guardamos las categorías en el estado
                 setCategorias(response.data);
@@ -135,7 +135,7 @@ export default function AgregarInven() {
             };
 
             // 4. Enviamos los datos al backend de Django
-            await axios.post('http://localhost:8000/api/productos/', datosParaBackend, {
+            await axios.post('http://localhost:8000/api/administrador/productos/', datosParaBackend, {
                 headers: {
                     'Content-Type': 'application/json' // Indicamos que enviamos datos en formato JSON
                 }

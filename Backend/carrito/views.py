@@ -9,6 +9,10 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from django.core.mail import send_mail, EmailMessage
+
 
 from decimal import Decimal
 from datetime import datetime
@@ -32,6 +36,10 @@ from .serializers import ValoracionSerializer
 # Utilidades
 from .utils import enviar_factura_por_correo
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+import traceback
 
 #obtenemos el modelo de usuario que estamos utilzando con django
 User = get_user_model()
@@ -122,17 +130,20 @@ def crear_factura(request):
 
                 Pedido.objects.create(
                     producto=producto_db,
+                    nombre_producto=producto_db.nombre,
+                    precio_unitario=producto_db.precio, 
                     cantidad=cantidad_comprada,
                     subtotal=subtotal,
                     factura=factura
-                )
+                    )
+
 
             enviar_factura_por_correo(factura)
 
             return JsonResponse({
                 'success': True,
                 'factura_id': factura.id,
-                'telefono_usuario': usuario.telefono,  # 👈 incluir el número en la respuesta
+                'telefono_usuario': usuario.telefono,  
                 'message': 'Factura y pedidos registrados correctamente'
             }, status=201)
 
@@ -257,3 +268,72 @@ class ComentarioDetalleView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'pk'
 
 
+from django.contrib.auth.models import User
+
+
+import traceback
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def enviar_encuesta(request):
+    try:
+        usuario = request.user  
+        user_email = usuario.email if usuario.is_authenticated else None
+        
+        data = request.data
+        experiencia = data.get("experiencia", {})
+        calificaciones = experiencia.get("calificaciones", {})
+        respuestas = experiencia.get("respuestas", {})
+        recomendacion = data.get("recomendacion", {})
+
+        # Función para ordenar y formatear preguntas y respuestas
+        def formatear_preguntas(diccionario):
+            # Ordenar por la clave asumiendo formato "pregunta1", "pregunta2", ...
+            items_ordenados = sorted(diccionario.items(), key=lambda x: x[0])
+            html = "<ul>"
+            for clave, valor in items_ordenados:
+                html += f"<li><strong>{clave}:</strong> {valor}</li>"
+            html += "</ul>"
+            return html
+
+        calificaciones_html = formatear_preguntas(calificaciones)
+        respuestas_html = formatear_preguntas(respuestas)
+
+        mensaje_html = f"""
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+            <h2 style="color: #2E86C1;">Nueva Encuesta Recibida</h2>
+            <p><strong>Usuario:</strong> {user_email or 'Anónimo'}</p>
+            <h3>Calificaciones:</h3>
+            {calificaciones_html}
+            <h3>Respuestas:</h3>
+            {respuestas_html}
+            <h3>Recomendación:</h3>
+            <p><strong>Puntuación:</strong> {recomendacion.get('puntuacion')}</p>
+            <p><strong>Comentario:</strong> {recomendacion.get('comentario')}</p>
+            <hr>
+            <footer style="font-size: 0.8em; color: #777;">
+                Enviado automáticamente desde Panadería Fast Service
+            </footer>
+        </body>
+        </html>
+        """
+
+        destinatarios = ["fservice28.076@gmail.com"]  # correo de la panadería
+
+        email = EmailMessage(
+            subject="Nueva encuesta recibida",
+            body=mensaje_html,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=destinatarios,
+            reply_to=[user_email] if user_email else None,
+        )
+        email.content_subtype = "html"
+        email.send(fail_silently=False)
+
+        return Response({"success": True, "message": "Encuesta enviada correctamente"})
+
+    except Exception as e:
+        tb = traceback.format_exc()
+        print("Error en enviar_encuesta:", tb)
+        return Response({"success": False, "error": str(e), "trace": tb}, status=400)

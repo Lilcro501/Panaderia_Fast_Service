@@ -25,9 +25,9 @@ const ListaPedidos = () => {
     const fetchPedidos = async () => {
       try {
         console.log("TOKEN:", localStorage.getItem("token"));
-        const response = await axios.get("http://localhost:8000/api/listar-pedidos/", {
+        const response = await axios.get("http://localhost:8000/api/trabajador/listar-pedidos/", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
         });
         setPedidos(response.data);
@@ -102,7 +102,7 @@ const ListaPedidos = () => {
         accion: modal.tipo
       };
 
-      await axios.post("http://localhost:8000/api/notificar-pedido/", payload, {
+      await axios.post("http://localhost:8000/api/trabajador/notificar-pedido/", payload, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

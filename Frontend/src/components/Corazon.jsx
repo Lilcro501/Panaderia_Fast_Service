@@ -13,7 +13,7 @@ const Corazon = ({ productoId, onFavoritoChange }) => {
       if (!token) return;
 
       try {
-        const res = await axios.get("http://localhost:8000/api/favoritos/", {
+        const res = await axios.get("http://localhost:8000/api/carrito/favoritos/", {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -37,14 +37,14 @@ const Corazon = ({ productoId, onFavoritoChange }) => {
     setCargando(true);
     try {
       if (favorito) {
-        await axios.delete(`http://localhost:8000/api/favoritos/${idFavorito}/`, {
+        await axios.delete(`http://localhost:8000/api/carrito/favoritos/${idFavorito}/`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setFavorito(false);
         setIdFavorito(null);
       } else {
         const res = await axios.post(
-          `http://localhost:8000/api/favoritos/`,
+          `http://localhost:8000/api/carrito/favoritos/`,
           { producto: productoId },
           {
             headers: {
