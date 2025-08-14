@@ -3,20 +3,27 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: stretch;
     width: 100%;
-    max-width: 72%;
+    max-width: 1000px;
     margin: 20px auto;
     border-radius: 40px;
     overflow: hidden;
     background-color: #ffffff;
     box-shadow: 0 0 25px rgba(85, 67, 7, 0.15);
+    gap: 0.6rem;
+    box-sizing: border-box;
+    align-items: stretch; /* Ambos lados igual altura */
+    min-height: 70vh;
+    box-sizing: border-box;
 }
+
 
 .Form {
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     position: relative;
+    box-sizing: border-box;
+    padding: 0;
 }
 
 .Label {
@@ -30,15 +37,12 @@
 .TituloAccesoI {
     color: #4a2d21eb;
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 50px;
-    -webkit-text-stroke: 1px #000000;
+    margin-bottom: 12px;
+    font-size: clamp(18px, 4.5vw, 42px);
+    -webkit-text-stroke: 0.6px #000000;
 }
 
-#correo,
-#password,
-#username,
-#confirmar {
+#correo, #password, #username, #confirmar {
     width: 100%;
     padding: 15px 15px 15px 25px;
     font-size: 17px;
@@ -51,15 +55,16 @@
 /* Botón para continuar */
 .Continua {
     background: linear-gradient(to right, rgb(109, 86, 68), rgb(112, 65, 41));
-    width: 100%;
+    width: calc(100% - 24px);
     color: white;
-    font-size: 18px;
-    padding: 10px;
+    font-size: clamp(14px, 2.2vw, 18px); 
+    padding: 8px;
     border-radius: 12px;
     cursor: pointer;
     border: 1px solid black;
     box-shadow: 2px 2px 6px #888;
     transition: transform 0.3s ease;
+    margin: 6px 12px 0 12px;
 }
 
 .Continua:hover {
@@ -95,9 +100,9 @@
     align-items: center;
     background-color: #9d7a5e;
     border-radius: 10px;
-    padding: 5px 20px;
-    margin: 2px 23px 18px 23px;
-    transition: background 0.3s ease;
+    padding: 4px 10px;
+    margin: 6px 12px;
+    transition: background 0.2s ease;    
 }
 
 .Camp:hover {
@@ -109,9 +114,10 @@
     border: none;
     outline: none;
     color: #000;
-    font-size: 18px;
+    font-size: clamp(12px, 2.2vw, 18px);
     flex: 1;
-    padding: 15px;
+    padding: 8px;
+    font-size: clamp(14px, 2.2vw, 18px); 
 }
 
 .CampoNumero {
@@ -133,9 +139,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 18px;
+    font-size: clamp(10px, 1.8vw, 18px);
     color: #5d5c5c;
-    margin-bottom: 20px;
+    margin: 6px 12px 12px 12px;
+    gap: 8px;
 }
 
 .Opciones a {
@@ -169,11 +176,8 @@
 }
 
 
-/* Cambiar el fondo para que no se vuelva blanco al escribir*/
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active {
+/* Cambia el fondo para que no se vuelva blanco al escribir*/
+input:-webkit-autofill, input:-webkit-autofill:hover,  input:-webkit-autofill:focus,  input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -309,10 +313,9 @@ input:-webkit-autofill:active {
 }
 
 .InfoCookies {
-    color: #343333;
+    color: #2a2929;
 }
 
-/*Estilo cuando hay error */
 input:invalid {
     border-color: #dc3545;
 }
@@ -324,10 +327,9 @@ input:invalid {
 
 .invalid {
     color: #c6414e;
-    font-size: 14px;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    text-align: center;
+    font-size: clamp(10px, 1.8vw, 14px);
+    margin: 4px 12px 8px 12px;
+    text-align: left;
 }
 
 .Bienvenida {
@@ -335,38 +337,67 @@ input:invalid {
 }
 
 .ContenedorIzquierdo {
-    flex: 1;
     background: #705741;
-    padding: 80px;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; 
     align-items: center;
-    font-size: 25px;
+    font-size: clamp(12px, 1.6vw, 25px);
     color: #b7b7b7;
     -webkit-text-stroke: 1px #565656;
+    text-align: center;
+    flex: 1 1 clamp(220px, 45%, 520px);
+    min-width: 140px; 
+    box-sizing: border-box;
+    gap: 1rem;
+    transition: padding 0.2s ease, font-size 0.2s ease;
+}
+
+.ContenedorIzquierdo h1 {
+    margin: 0;
+    font-size: clamp(20px, 3.8vw, 34px);
+    line-height: 1.1;
+    color: #f2e9e1;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+    padding: 0;
     text-align: center;
 }
 
 .ImagenOrquidea {
     width: 100%;
-    height: 300px;
-    margin-top: 20px;
-    border-radius: 20px;
-    display: flex;
+    height: 100%;
+    border-radius: 12px;
     align-items: center;
     justify-content: center;
-    font-style: italic;
+    overflow: hidden;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    margin: 0;
+}
+
+
+.ImagenOrquidea img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 420px;
+    object-fit: cover; /* Rellena sin dejar espacio */
+    border-radius: 0; /* Para que llegue a los bordes */
 }
 
 .ContenedorDerecho {
-    flex: 1;
-    padding: 40px 30px;
     background-color: #ffffff;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
+    flex-direction: column;
+    flex: 1 1 clamp(260px, 50%, 640px);
+    min-width: 220px;
+    padding: clamp(18px, 4.5vw, 40px);
 }
 
 
@@ -374,12 +405,6 @@ input:invalid {
 .google-login {
     margin-top: 20px;
     text-align: center;
-}
-
-
-.ImagenOrquidea img {
-    height: 400px;
-    width: 400px;
 }
 
 svg.LgbsSe-Bz112c {
@@ -400,12 +425,11 @@ svg.LgbsSe-Bz112c {
 }
 
 .IntegracionBotones {
-    padding: 5px 20px;
-    margin: 3px 20px;
+    padding: 4px 12px;
+    margin: 4px 12px;
 }
 
 
-/* Fondo bloqueador al mostrar la ventana de cookies */
 .fondo-bloqueador {
     position: fixed;
     top: 0;
@@ -445,15 +469,51 @@ svg.LgbsSe-Bz112c {
     animation: fadeInUp 0.4s ease;
 }
 
-/* Animación suave */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
+
+@media (max-width: 1000px) {
+    .Cont { 
+        min-height: clamp(360px, 55vh, 640px); gap: 0.8rem; 
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    .ContenedorIzquierdo { 
+        padding: clamp(16px, 5vw, 50px); 
+    }
+
+    .ContenedorDerecho { 
+        padding: clamp(14px, 4vw, 30px); 
+    }
+
+    .ImagenOrquidea { 
+        max-width: 360px; 
+    }
+    .ImagenOrquidea img { 
+        max-height: 300px; 
+    }
+    .TituloAccesoI { 
+        font-size: clamp(22px, 5vw, 36px); 
     }
 }
 
+
+@media (max-width: 750px) {
+    .ContenedorIzquierdo {
+    display: none !important; 
+    }
+
+    .ContenedorDerecho {
+    width: 100% !important; 
+    border-radius: 20px; 
+    justify-content: center;
+    align-items: center;
+    }
+
+    .Cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    }
+}

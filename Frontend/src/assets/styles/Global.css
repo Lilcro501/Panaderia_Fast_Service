@@ -9,3 +9,76 @@ body {
   background-image: url("../images/fondo.jpg");
   color: white;
 }
+
+
+
+/*
+body {
+  background-image: url("../images/fondo.jpg");
+  background-repeat: repeat;
+  background-size: auto;
+  background-attachment: fixed;
+  color: white;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  min-height: 100vh;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+
+main, section, article, aside, .main-content, .container, .contenedor {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 1em;
+}
+
+@media (max-width: 900px) {
+  body {
+    font-size: 16px;
+    padding: 0;
+  }
+  main, section, article, aside, .main-content, .container, .contenedor {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 15px;
+  }
+  main, section, article, aside, .main-content, .container, .contenedor {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+  background-color: #000000; 
+}
+*/
+
+
+
+
+

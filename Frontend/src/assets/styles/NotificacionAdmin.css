@@ -33,43 +33,34 @@
   margin-top: 20px;
 }
 
-
-
-
-
 .dropdown-options {
-    display: none;
-    position: absolute;
-    overflow: auto;
-    top: 30px;
-    background-color:#ffffff;
-    border-radius:5px;
-    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+  display: none;
+  position: absolute;
+  overflow: auto;
+  top: 30px;
+  background-color:#ffffff;
+  border-radius:5px;
+  box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
 }
 
 .dropdown:hover .dropdown-options {
-    display: block;
+  display: block;
 }
 
 .dropdown-options a {
-    display: block;
-    color: #000000;
-    text-decoration: none;
-    padding:10px 50px;
-    font-size: 15px;
+  display: block;
+  color: #000000;
+  text-decoration: none;
+  padding:10px 50px;
+  font-size: 15px;
 }
 
 .dropdown-options a:hover {
-    background-color: #ebb589;
-    border-radius:5px;
+  background-color: #ebb589;
+  border-radius:5px;
 }
 /*~~~~~~~~~~~ Fin dropdown ~~~~~~~~~~~*/
 
-
-/*~~~~~~~~~~ PLANTILLA ~~~~~~~~~~*/
-.shapedividers_com-5996 {
-    position: relative;
-}
 
 .btn-modal:hover {
   background-color: #5e382c; /* Marrón más oscuro al pasar el mouse */
