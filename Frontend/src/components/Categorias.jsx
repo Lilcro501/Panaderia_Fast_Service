@@ -1,6 +1,5 @@
 
-import React from "react"
-
+import React,{useState} from "react";
 /* ~~~~~~ Importar links de la biblioteca react-router-dom ~~~~~~ */
 import { Link } from 'react-router-dom';
 
@@ -12,10 +11,21 @@ import Fritos from "../assets/icons/pollo.png"
 import Pan from  "../assets/icons/pan.png"
 
 export default function Categorias() {
+  const [mostrarMenu, setMostrarMenu] = useState(false);
+
+  const toggleMenu = () => {
+    setMostrarMenu(!mostrarMenu);
+  };
   return (
     <section className="categorias">
-      <div className="recuadro-categoria">
+      
+       {/* Botón de hamburguesa visible solo en pantallas pequeñas */}
+      <button className="hamburguesa" onClick={toggleMenu}>
+        ☰ Categorías
+      </button>
 
+       {/* Categorías visibles solo cuando el menú está abierto en móvil */}
+      <div className={`recuadro-categoria ${mostrarMenu ? 'mostrar' : ''}`}>
         <div className="animacion-categoria">
           <Link to="/categorias/CategoriaPanes" className="categoria" >
           <img src={Pan} alt="Panes" width="60" />

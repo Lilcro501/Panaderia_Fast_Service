@@ -15,7 +15,7 @@ const HeaderSinLogin = () => {
         {/* ~~~~~~~~~~~~~ Logo ~~~~~~~~~~~~~ */}
         <div className="logo-container">
           <Link to='/'>
-            <img className="estilo-logo" src={logo} alt="logo-panaderia" />
+            <img className="estilo-logo" src={logo} alt="Logo Panaderia" />
           </Link>
         </div>
 
