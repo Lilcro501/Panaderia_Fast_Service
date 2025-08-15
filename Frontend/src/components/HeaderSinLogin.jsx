@@ -27,6 +27,7 @@ const HeaderSinLogin = () => {
             <ul className="lista-info">
               <Link className='formato-link' to="/Conocemos">Conocenos</Link>
               <Link className='formato-link' to="/AccedeAqui">Accede aqui</Link>
+
             </ul>
           </nav>
         </div>
