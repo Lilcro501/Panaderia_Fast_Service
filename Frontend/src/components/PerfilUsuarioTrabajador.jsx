@@ -16,10 +16,10 @@ export function PerfilUsuarioTrabajador() {
   const { id } = useParams(); // <- aquí corregido
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access");
     if (!token) {
-      navegacion("/login");
-      return;
+      navegacion("/accedeaqui");
+      return; 
     }
 
     const obtenerUsuarioDeFactura = async () => {

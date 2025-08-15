@@ -15,7 +15,7 @@ const HeaderSinLogin = () => {
         {/* ~~~~~~~~~~~~~ Logo ~~~~~~~~~~~~~ */}
         <div className="logo-container">
           <Link to='/'>
-            <img className="estilo-logo" src={logo} alt="logo-panaderia" />
+            <img className="estilo-logo" src={logo} alt="Logo Panaderia" />
           </Link>
         </div>
 
@@ -25,8 +25,9 @@ const HeaderSinLogin = () => {
           {/* ~~~~~~~~~~~~~~~~ Lista de navegación superior ~~~~~~~~~~~~~~~~ */}
           <nav className="menu-secundario">
             <ul className="lista-info">
-              <li><a href="/Conocenos">Conócenos</a></li>
-              <li><a href="/AccedeAqui">Accede aquí</a></li>
+              <Link className='formato-link' to="/Conocemos">Conocenos</Link>
+              <Link className='formato-link' to="/AccedeAqui">Accede aqui</Link>
+
             </ul>
           </nav>
         </div>

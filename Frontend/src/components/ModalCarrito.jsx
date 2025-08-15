@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../assets/styles/ModalCarrito.css';
 import { MdOutlineDelete } from "react-icons/md";
 import CarritoLleno from "../assets/icons/carrito-lleno.png";
+import "../assets/styles/Global.css";
 
 const ModalCarrito = ({ visible, onClose }) => {
   const { carrito, quitarProducto, vaciarCarrito } = useCarrito();
@@ -60,7 +61,7 @@ const ModalCarrito = ({ visible, onClose }) => {
             <div className="total-carrito">
               <strong>Total:</strong> ${calcularTotal()}
             </div>
-            <button className='bton-ver-carrito' onClick={handleVerCarrito}>Ver carrito</button>
+            <button className='boton-moderno' onClick={handleVerCarrito}>Ver carrito</button>
           </>
         )}
       </div>

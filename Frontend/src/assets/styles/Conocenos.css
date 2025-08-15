@@ -1,11 +1,18 @@
 
-.info h1 {
-    text-align: center;
-    padding-bottom: 30px;
-    font-size: 3rem;
-    color: #2c1810;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    letter-spacing: 1px;
+/* ~~~~~~~~~~ Animación de aparición ~~~~~~~~~~ */
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeSlideUp 0.8s ease-out forwards;
 }
 
 .AcercaDe {
@@ -13,9 +20,9 @@
     max-width: 1200px;
     border-radius: 25px;
     background: linear-gradient(135deg, rgba(147, 113, 93, 0.85), rgba(147, 113, 93, 0.7));
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    padding: 3rem;
+    padding: 1rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -29,17 +36,19 @@
     margin: 0 auto;
 }
 
-.info h2 {
-    font-size: 2.5rem;
+.info h1 {
+    text-align: center;
+    padding-bottom: 15px;
+    font-size: 3rem;
     color: #2c1810;
-    margin-bottom: 1.5rem;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
 }
 
-.info h3 {
-    font-size: 2rem;
+.info h2 {
+    font-size: 2.1rem;
     color: #2c1810;
-    margin: 1rem 0;
+    margin-bottom: 1.5rem;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -49,13 +58,24 @@
     font-size: 1.2rem;
     color: #2c1810;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    font-size: 1.2rem;
+    color: #2c1810;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.ContenedorMision, .ContenedorVision, .ContenedorPagoEntrega, .ContenedorLocacion {
+/* ~~~~~~~~~~ Contenedores ~~~~~~~~~~ */
+.ContenedorMision, 
+.ContenedorVision, 
+.ContenedorPagoEntrega, 
+.ContenedorLocacion {
     display: flex;
-    gap: 2rem;
+    flex-wrap: wrap;
     align-items: center;
-    margin: 3rem 0;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem auto;
     padding: 1.5rem;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
@@ -63,51 +83,56 @@
     transition: transform 0.3s ease;
 }
 
-.ContenedorMision:hover, .ContenedorVision:hover, .ContenedorPagoEntrega:hover, .ContenedorLocacion:hover {
+.ContenedorMision:hover, 
+.ContenedorVision:hover, 
+.ContenedorPagoEntrega:hover, 
+.ContenedorLocacion:hover {
     transform: translateY(-3px);
 }
 
-.VitrinaPanes, .Mostrador, .VitrinaGalletas, .Location {
-    max-width: 400px;
+/* ~~~~~~~~~~ Imagenes ~~~~~~~~~~ */
+.VitrinaPanes, .Mostrador, .VitrinaGalletas {
+    max-width: 250px;
     width: 100%;
+    height: auto;
     border-radius: 15px;
+    object-fit: cover;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    object-fit: cover;
 }
 
-.VitrinaPanes:hover, .Mostrador:hover, .VitrinaGalletas:hover, .Location:hover {
+.VitrinaPanes:hover, .Mostrador:hover, .VitrinaGalletas:hover {
     transform: scale(1.02);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
+/* ~~~~~~~~~~ Información ~~~~~~~~~~ */
 .PMision, .PVision, .PPagoEntrega, .PLocation {
-    padding: 2rem;
+    flex: 1 1 300px;
+    padding: 1.8rem;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 12px;
     backdrop-filter: blur(5px);
 }
 
+@media (max-width: 1024px) {
+    .info h1 { font-size: 2.4rem; }
+    .info h2 { font-size: 1.8rem; }
+    .info p { font-size: 1.05rem; }
+    .VitrinaPanes, .Mostrador, .VitrinaGalletas { max-width: 250px; }
+}
+
 @media (max-width: 768px) {
-    .ContenedorMision, .ContenedorVision, .ContenedorPagoEntrega, .ContenedorLocacion {
-        flex-direction: column;
-        text-align: center;
-    }
+    .AcercaDe { padding: 2rem; }
+    .info h1 { font-size: 2.2rem; }
+    .info h2 { font-size: 1.6rem; }
+    .VitrinaPanes, .Mostrador, .VitrinaGalletas { max-width: 200px; }
+}
 
-    .AcercaDe {
-        margin: 1rem;
-        padding: 1.5rem;
-    }
-
-    .info h1 {
-        font-size: 2.5rem;
-    }
-
-    .info h2 {
-        font-size: 2rem;
-    }
-
-    .info p {
-        font-size: 1.1rem;
-    }
+@media (max-width: 480px) {
+    .AcercaDe { padding: 1rem; }
+    .info h1 { font-size: 1.8rem; }
+    .info h2 { font-size: 1.4rem; }
+    .info p { font-size: 0.95rem; }
+    .VitrinaPanes, .Mostrador, .VitrinaGalletas { max-width: 100%; }
 }

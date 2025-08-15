@@ -6,8 +6,9 @@ import '../assets/styles/Header.css';
 import logo from '../assets/images/logo_header.png';
 import carritoIcon from '../assets/icons/icono-carrito.svg';
 import PerfilLogo from '../assets/icons/logo.png';
-import { FaRegUserCircle } from "react-icons/fa";
 import ModalCarrito from './ModalCarrito'; // 👈 importar el modal
+import { FaUser, FaHeart } from "react-icons/fa";
+import { BsEmojiSmileFill } from "react-icons/bs";
 
 const Header = () => {
   const [mostrarModal, setMostrarModal] = useState(false); // 👈 estado para modal
@@ -23,9 +24,21 @@ const Header = () => {
           
           <nav className="menu-secundario">
             <ul className="lista-info">
-              <Link to="/Conocenos" className='sin-subrayado'><li>Conócenos</li></Link>
-              <Link to="/CalificarExperiencia" className='sin-subrayado'><li>Calificar Experiencia</li></Link>
-              <li onClick={() => (window.location.href = "/Favoritos")}>Favoritos</li>
+              <li>
+                <Link to="/Conocenos" className='sin-subrayado'>
+                  <FaUser style={{ marginRight: '8px' }} /> Conócenos
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/CalificarExperiencia" className='sin-subrayado'>
+                  <BsEmojiSmileFill style={{ marginRight: '8px' }} /> Calificar Experiencia
+                </Link>
+              </li>
+
+              <li onClick={() => (window.location.href = "/Favoritos")}> 
+                <FaHeart style={{ marginRight: '8px' }} /> Favoritos
+              </li>
 
             </ul>
           </nav>

@@ -1,11 +1,8 @@
-// src/components/Header.jsx
 import React from 'react';
 //importar las rutas 
 import { Link } from 'react-router-dom';
 import '../assets/styles/HeaderAdmin.css';  
 import logo from '../assets/images/logo_header.png';
-
-
 
 const HeaderAdmin = () => {
     return (
@@ -15,7 +12,6 @@ const HeaderAdmin = () => {
                 {/* lOGO */}
                 <Link className='logocontainer' to="/PrincipalAdmin">
                     <img src={logo} alt="logo-panaderia"  className="estilologo"/>
-
                 </Link>
             </div>
 

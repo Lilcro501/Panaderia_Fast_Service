@@ -1,30 +1,32 @@
 .ContenedorInfo {
     display: flex;
     flex-direction: column;
-    background-color: #2e2e2e; /* Fondo oscuro elegante */
+    background-color: #2d2727; 
     border-radius: 25px;
-    border: 1px solid #d4af37;
+    border: 1px solid #452818e4;
     padding: 40px;
     margin: 20px 60px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     color: #f0f0f0;
     font-family: 'Segoe UI', sans-serif;
-    border: 4px solid #d4af37;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.6); /* Sombra dorada suave */
+    border: 4px solid #261b15e4;
+    box-shadow: 0 0 15px rgba(52, 25, 12, 0.6); /* Sombra dorada suave */
 }
 
 .Titulo {
     margin-bottom: 30px;
-    color:#d4af37;
+    margin-left: 100px;
+    margin-right: 100px;
+    color:#211107;
     font-size: 42px;
     font-weight: bold;
     text-align: center;
-    border-bottom: 2px solid #888;
+    border-bottom: 2px solid #6d4129e4;
     padding-bottom: 10px;
 }
 
 .Subtitulo {
-    color:#d4af37;
+    color:#b0b0b0e4;
     font-size: 28px;
     font-weight: 600;
     margin-top: 20px;
@@ -41,12 +43,11 @@
 .ContenedorParrafo {
     padding: 10px 20px;
     margin-bottom: 25px;
-    background-color: #3a3a3a;
+    background-color: #3a3a3af2;
     border-radius: 15px;
 }
 
-.Letras,
-.Circulo {
+.Letras, .Circulo {
     margin-left: 40px;
     color: #dddddd;
     font-size: 18px;

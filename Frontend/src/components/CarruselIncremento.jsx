@@ -3,17 +3,20 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "../assets/styles/CarruselIncremento.css";
 import { useCarrito } from "../Context/CarritoContext";
+import { useRol } from "../Context/RolContext"; // <-- Importamos el RolContext
+import campana from '../assets/images/campana.png';
+import "../assets/styles/Global.css";
 
 export default function CarruselCatalogo() {
   const contenedorRef = useRef(null);
   const { carrito, agregarProducto, quitarProducto, eliminarProducto } = useCarrito();
+  const { rol } = useRol(); // <-- Obtenemos el rol
   const [productos, setProductos] = useState([]);
 
-  const idsProductos = [
-    "92", "79", "140", "131", "82",
-    "83", "85", "87", "88",
-    "89", "128"
-  ];
+  // Estado para manejar el modal
+  const [modalMensaje, setModalMensaje] = useState(null);
+
+  const idsProductos = ["92", "79", "140", "131", "82", "83", "85", "87", "88", "89", "128"];
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -27,7 +30,7 @@ export default function CarruselCatalogo() {
           nameProduct: p.nombre,
           price: p.precio,
           description: p.descripcion,
-          stock: p.stock, // ✅ importante
+          stock: p.stock,
           image: p.imagen ? `http://localhost:8000${p.imagen}` : null,
         }));
         setProductos(productosFormateados);
@@ -50,12 +53,20 @@ export default function CarruselCatalogo() {
     }
   };
 
+  const mostrarModal = (mensaje) => setModalMensaje(mensaje);
+  const cerrarModal = () => setModalMensaje(null);
+
   const cambiarCantidadManual = (e, producto) => {
+    if (rol !== "cliente") {
+      mostrarModal("❗ Solo los clientes pueden modificar la cantidad de productos.");
+      return;
+    }
+
     const nuevaCantidad = Math.max(0, parseInt(e.target.value) || 0);
     const actual = obtenerCantidad(producto.id);
 
     if (nuevaCantidad > producto.stock) {
-      alert(`⚠️ Solo hay ${producto.stock} unidades disponibles de ${producto.nameProduct}`);
+      mostrarModal(`⚠️ Solo hay ${producto.stock} unidades disponibles de ${producto.nameProduct}`);
       return;
     }
 
@@ -68,8 +79,12 @@ export default function CarruselCatalogo() {
     if (nuevaCantidad === 0) eliminarProducto(producto.id);
   };
 
-  // ✅ Validar stock antes de agregar
   const manejarAgregar = async (producto) => {
+    if (rol !== "cliente") {
+      mostrarModal("❗ Solo los clientes pueden agregar productos al carrito.");
+      return;
+    }
+
     try {
       const res = await axios.get(`http://localhost:8000/api/carrito/producto/${producto.id}/`);
       const stockActual = res.data.stock;
@@ -78,19 +93,17 @@ export default function CarruselCatalogo() {
       if (cantidadActual < stockActual) {
         agregarProducto(producto);
       } else {
-        alert(`⚠️ No puedes agregar más de ${stockActual} unidades de ${producto.nameProduct}`);
+        mostrarModal(`No puedes agregar más de ${stockActual} unidades de ${producto.nameProduct}`);
       }
     } catch (error) {
       console.error("Error al verificar stock:", error);
-      alert("❌ No se pudo verificar el stock del producto.");
+      mostrarModal("❌ No se pudo verificar el stock del producto.");
     }
   };
 
   return (
     <section className="carrusel-centralizado">
-      <button className="boton-carrusel" onClick={() => scroll(-300)}>
-        &#10094;
-      </button>
+      <button className="boton-carrusel" onClick={() => scroll(-300)}>&#10094;</button>
 
       <div className="catalogo-deslizar" ref={contenedorRef}>
         {productos.map((prod) => {
@@ -109,7 +122,10 @@ export default function CarruselCatalogo() {
               <section className="number-input">
                 <button
                   className="disminucion"
-                  onClick={() => quitarProducto(prod.id)}
+                  onClick={() => {
+                    if (rol === "cliente") quitarProducto(prod.id);
+                    else mostrarModal("❗ Solo los clientes pueden modificar la cantidad de productos.");
+                  }}
                   disabled={cantidad === 0}
                 >
                   −
@@ -124,7 +140,7 @@ export default function CarruselCatalogo() {
 
                 <button
                   className="incremento"
-                  onClick={() => manejarAgregar(prod)} // ✅ stock validado
+                  onClick={() => manejarAgregar(prod)}
                 >
                   +
                 </button>
@@ -134,9 +150,20 @@ export default function CarruselCatalogo() {
         })}
       </div>
 
-      <button className="boton-carrusel" onClick={() => scroll(300)}>
-        &#10095;
-      </button>
+      <button className="boton-carrusel" onClick={() => scroll(300)}>&#10095;</button>
+
+      {/* Modal */}
+      {modalMensaje && (
+        <div className="modal-fondo" onClick={cerrarModal}>
+          <div className="modal-contenido" onClick={e => e.stopPropagation()}>
+            <img src={campana} alt="alerta" width="20px" />
+            <br /><br />
+            <p>{modalMensaje}</p>
+            <br /><br />
+            <button className="boton-moderno" onClick={cerrarModal}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

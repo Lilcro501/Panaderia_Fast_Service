@@ -10,6 +10,7 @@ export default function OlvidoContraseña() {
   const [enviado, setEnviado] = useState(false);
   const [modalErrorVisible, setModalErrorVisible] = useState(false);
   const [modalExitoVisible, setModalExitoVisible] = useState(false);
+  const [modalEnvioFallidoVisible, setModalEnvioFallidoVisible] = useState(false); // Nuevo modal
   const navigate = useNavigate();
 
   const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,13 +28,13 @@ export default function OlvidoContraseña() {
 
       if (response.status === 200) {
         localStorage.setItem('correoRecuperacion', correo);
-        setModalExitoVisible(true); // Mostrar modal de éxito
+        setModalExitoVisible(true);
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        setModalErrorVisible(true); // Mostrar modal si correo no registrado
+        setModalErrorVisible(true);
       } else {
-        alert('❌ No se pudo enviar el código. Intenta más tarde.');
+        setModalEnvioFallidoVisible(true); // Mostrar modal de error de envío
       }
       console.error('Error al enviar código:', error);
     }
@@ -64,7 +65,7 @@ export default function OlvidoContraseña() {
         <button className='Continuar' onClick={enviarCodigo}>Enviar código</button>
       </section>
 
-      {/* Modal de error */}
+      {/* Modal de error - correo no registrado */}
       {modalErrorVisible && (
         <div className="modal-bienvenida">
           <div className="modal-contenido">
@@ -90,7 +91,22 @@ export default function OlvidoContraseña() {
           </div>
         </div>
       )}
+
+      {/* Modal de error en envío */}
+      {modalEnvioFallidoVisible && (
+        <div className="modal-bienvenida">
+          <div className="modal-contenido">
+            <h2>⚠️ Error al enviar el código</h2>
+            <p>No se pudo enviar el código de recuperación. Por favor, intenta más tarde.</p>
+            <button
+              className="boton-aceptar"
+              onClick={() => setModalEnvioFallidoVisible(false)}
+            >
+              Aceptar
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
- 

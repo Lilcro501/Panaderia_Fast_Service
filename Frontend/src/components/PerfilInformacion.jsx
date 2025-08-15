@@ -6,6 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axiosconfig"
 import BotonCerrarSesion from "./BotonCerrarSesion";
 
+
 export default function PerfilInformacion() {
   const navegacion = useNavigate();
   const [usuario, setUsuario] = useState({
@@ -14,20 +15,20 @@ export default function PerfilInformacion() {
     email: "",
   });
 
+  const [modal, setModal] = useState({ visible: false, mensaje: "" });
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access");
     if (!token) {
       console.warn("Token no encontrado. Redirigiendo a login...");
-      navegacion("/login"); 
+      navegacion("/accedeaqui"); 
       return;
     }
 
     const obtenerUsuario = async () => {
       try {
         const response = await api.get("usuarios/perfil/", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
         setUsuario({
           nombre: response.data.nombre,
@@ -36,6 +37,7 @@ export default function PerfilInformacion() {
         });
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
+        setModal({ visible: true, mensaje: "Error al obtener los datos del usuario." });
       }
     };
 
@@ -44,7 +46,7 @@ export default function PerfilInformacion() {
 
   const EnviarDatos = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access");
 
     try {
       await api.put("usuarios/perfil/", usuario, {
@@ -53,13 +55,14 @@ export default function PerfilInformacion() {
           "Content-Type": "application/json"
         }
       });
-      alert("Datos actualizados correctamente");
-      navegacion("/Home");
+      setModal({ visible: true, mensaje: "Datos actualizados correctamente." });
     } catch (error) {
       console.error("Error al actualizar datos:", error);
-      alert("Ocurrió un error al actualizar los datos.");
+      setModal({ visible: true, mensaje: "Ocurrió un error al actualizar los datos." });
     }
   };
+
+  const cerrarModal = () => setModal({ visible: false, mensaje: "" });
 
   return (
     <div>
@@ -103,10 +106,18 @@ export default function PerfilInformacion() {
         </button>
       </form>
 
+      {/* Modal */}
+      {modal.visible && (
+        <div className="modal">
+          <div className="modal-contenido">
+            <p>{modal.mensaje}</p>
+            <button onClick={cerrarModal}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
 
 export function MostrarInformacion() {
   const [usuario, setUsuario] = useState({
@@ -118,9 +129,9 @@ export function MostrarInformacion() {
   const navegacion = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access");
     if (!token) {
-      navegacion("/login");
+      navegacion("/accedeaqui");
       return;
     }
 
@@ -166,6 +177,9 @@ export function MostrarInformacion() {
       <Link to="/Actualizar">
         <button className="boton-actualizar">Actualizar</button>
       </Link>
+      <br />
+
+      <BotonCerrarSesion />
     </div>
   
 

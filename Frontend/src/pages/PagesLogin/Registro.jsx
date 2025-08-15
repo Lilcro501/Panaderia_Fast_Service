@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { FaUser, FaLock, FaUserLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
-import LoginGoogle from '../../components/LoginGoogle';
 import { registrarUsuario } from '../../api/login';
 import '../../assets/styles/Registro.css';
 import orquidea from "../../assets/icons/ImagenOrquidea.png"; 

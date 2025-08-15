@@ -5,12 +5,14 @@ import { FaUnlockAlt, FaUserLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import VentanaConfirmacion from '../../components/VentanaConfirmacion';
 import { cambiarPassword } from '../../api/login';
+import campana from '../../assets/images/campana.png';
 
 export default function CambioContraseña() {
     const [password, setPassword] = useState('');
     const [confirmar, setConfirmar] = useState('');
     const [enviado, setEnviado] = useState(false);
     const [mostrarVentana, setMostrarVentana] = useState(false);
+    const [modalErrorVisible, setModalErrorVisible] = useState(false); // Nuevo modal
     const navigate = useNavigate();
 
     const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
@@ -26,8 +28,7 @@ export default function CambioContraseña() {
 
         const email = localStorage.getItem('correoRecuperacion');
         if (!email) {
-            alert('❌ No se encontró el correo. Por favor vuelve a solicitar el código.');
-            navigate('/OlvidoContraseña');
+            setModalErrorVisible(true);
             return;
         }
 
@@ -36,7 +37,7 @@ export default function CambioContraseña() {
             setMostrarVentana(true);
         } catch (error) {
             console.error('❌ Error al cambiar la contraseña:', error);
-            alert('❌ No se pudo cambiar la contraseña. Inténtalo de nuevo.');
+            setModalErrorVisible(true); // Mostrar modal en error
         }
     };
 
@@ -87,6 +88,23 @@ export default function CambioContraseña() {
                         onClose={() => setMostrarVentana(false)}
                         onExit={() => navigate('/AccedeAqui')}
                     />
+                )}
+
+                {/* Modal de error */}
+                {modalErrorVisible && (
+                    <div className="modal-bienvenida">
+                        <div className="modal-contenido">
+                            <img src={campana} alt="Alerta" style={{ width: "50px", marginBottom: "10px" }} />
+                            <h2>❌ Error</h2>
+                            <p>No se pudo cambiar la contraseña. Por favor, intenta de nuevo.</p>
+                            <button
+                                className="boton-aceptar"
+                                onClick={() => setModalErrorVisible(false)}
+                            >
+                                Aceptar
+                            </button>
+                        </div>
+                    </div>
                 )}
             </form>
         </section>

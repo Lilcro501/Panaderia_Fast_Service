@@ -48,7 +48,6 @@ class ValoracionSerializer(serializers.ModelSerializer):
         fields = [
             'id_valoracion',
             'comentario',
-            'puntuacion',
             'fecha_valoracion',
             'usuario',
             'id_producto',
@@ -69,7 +68,6 @@ class ValoracionSerializer(serializers.ModelSerializer):
             id_usuario=usuario,
             id_producto=producto,
             comentario=validated_data.get('comentario'),
-            puntuacion=validated_data.get('puntuacion')
         )
 
 

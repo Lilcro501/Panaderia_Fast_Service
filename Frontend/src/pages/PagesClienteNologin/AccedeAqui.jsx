@@ -1,5 +1,5 @@
 // Dentro de AccedeAqui.jsx
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../../assets/styles/AccedeAqui.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
@@ -9,6 +9,8 @@ import { FaUser, FaLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 import { iniciarSesion } from '../../api/login';
+import campana from '../../assets/images/campana.png';
+import "../../assets/styles/Global.css"
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
@@ -21,9 +23,14 @@ export default function AccedeAqui() {
   const [modalVisible, setModalVisible] = useState(false);
   const [usuarioModal, setUsuarioModal] = useState({ nombre: '', rol: '' });
 
+  useEffect(() => {
+    cambiarRol('sin-registrar');
+  }, [cambiarRol]);
+
   const salir = () => {
     window.location.href = '/';
   };
+
 
   const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
@@ -53,7 +60,7 @@ export default function AccedeAqui() {
     setTimeout(() => {
       setModalVisible(false);
       redirigirPorRol(rol);
-    }, 2500); // 2.5 segundos y redirige
+    }, 500);
   };
 
   const handleSubmit = async (e) => {
@@ -78,7 +85,8 @@ export default function AccedeAqui() {
         localStorage.setItem('refresh', refresh);
         localStorage.setItem('nombre', nombre);
         localStorage.setItem('rol', rolLower);
-        localStorage.setItem('id_usuario', id_usuario);
+        localStorage.setItem(
+          'id_usuario', id_usuario);
         cambiarRol(rolLower);
 
         mostrarModalBienvenida(nombre, rolLower);
@@ -188,12 +196,15 @@ export default function AccedeAqui() {
       {modalVisible && (
       <div className='modal-bienvenida'>
       <div className='modal-contenido'>
+        <br /> <br />
+        <img src={campana} alt="alerta" width="20px" />
+        <br /> <br />
         <h2>🎉 ¡Bienvenido {usuarioModal.nombre}!</h2>
         <p>Has iniciado sesión como <strong>{usuarioModal.rol}</strong></p>
-      
+          <br /> <br />
       {/* Botón Aceptar */}
         <button
-          className='btn-aceptar'
+          className='boton-moderno'
           onClick={() => {
             setModalVisible(false);
 

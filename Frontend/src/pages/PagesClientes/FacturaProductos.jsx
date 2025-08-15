@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCarrito } from '../../Context/CarritoContext';
 import '../../assets/styles/Factura.css';
 import { MdOutlineAdd, MdOutlineRemove, MdDelete } from 'react-icons/md';
 import ComponenteProcesoPago from '../../components/ComponenteProcesoPago';
 import "../../assets/styles/MetodosPago.css";
-import axios from 'axios'; // ✅ Importamos axios
+import "../../assets/styles/Global.css";
+import campana from '../../assets/images/campana.png';
+import axios from 'axios';
 
 const Factura = () => {
   const {
@@ -16,6 +18,8 @@ const Factura = () => {
     vaciarCarrito
   } = useCarrito();
   const navigate = useNavigate();
+
+  const [modalMensaje, setModalMensaje] = useState(null);
 
   const total = carrito.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -29,15 +33,29 @@ const Factura = () => {
   const formatoCOP = (valor) =>
     valor.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
 
-  // ✅ Función para consultar el stock desde el backend
+  const mostrarModal = (mensaje) => {
+    setModalMensaje(mensaje);
+  };
+
+  const cerrarModal = () => {
+    setModalMensaje(null);
+  };
+
+  // Función para consultar stock desde backend
   const obtenerStockActual = async (productoId) => {
     try {
       const res = await axios.get(`http://localhost:8000/api/carrito/producto/${productoId}/`);
       return res.data.stock;
     } catch (error) {
       console.error("❌ Error al obtener el stock del producto:", error);
-      return null; // Retorna null si falla
+      return null;
     }
+  };
+
+  // NUEVA función para vaciar carrito y redirigir al home
+  const handleVaciarYRedirigir = () => {
+    vaciarCarrito();
+    navigate("/home");
   };
 
   return (
@@ -84,14 +102,14 @@ const Factura = () => {
                         onClick={async () => {
                           const stockActual = await obtenerStockActual(item.id);
                           if (stockActual === null) {
-                            alert("❌ No se pudo verificar el stock del producto.");
+                            mostrarModal("❌ No se pudo verificar el stock del producto.");
                             return;
                           }
 
                           if (item.quantity < stockActual) {
                             agregarProducto(item);
                           } else {
-                            alert(`⚠️ No puedes agregar más de ${stockActual} unidades de ${item.nameProduct}`);
+                            mostrarModal(` No puedes agregar más de ${stockActual} unidades de ${item.nameProduct}`);
                           }
                         }}
                       >
@@ -116,7 +134,7 @@ const Factura = () => {
             </div>
 
             <div className='posicicion-botones'>
-              <button className="btn-vaciar" onClick={vaciarCarrito}>
+              <button className="btn-vaciar" onClick={handleVaciarYRedirigir}>
                 Vaciar carrito
               </button>
 
@@ -129,9 +147,23 @@ const Factura = () => {
           </>
         )}
       </div>
+
+      {/* Modal */}
+      {modalMensaje && (
+        <div className="modal-fondo" onClick={cerrarModal}>
+          <div className="modal-contenido" onClick={e => e.stopPropagation()}>
+            <br /> <br />
+            <img src={campana} alt="alerta" width="20px" />
+            <br /> <br />
+            <p>{modalMensaje}</p>
+            <br /> <br />
+            <button className="boton-moderno" onClick={cerrarModal}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
 
 export default Factura;
-  
+

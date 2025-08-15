@@ -1,57 +1,50 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const RolContext = createContext();
 
+// ✅ Export con nombre
 export const useRol = () => {
   const ctx = useContext(RolContext);
-  if (!ctx) throw new Error('useRol debe usarse dentro de RolProvider');
+  if (!ctx) throw new Error("useRol debe usarse dentro de RolProvider");
   return ctx;
 };
 
-const rolesValidos = ['admin', 'trabajador', 'sin-registrar', 'cliente'];
+const rolesValidos = ["admin", "trabajador", "cliente", "sin-registrar"];
 
 export const RolProvider = ({ children }) => {
-  const [rol, setRol] = useState('sin-registrar');
+  const [rol, setRol] = useState("sin-registrar");
   const [token, setToken] = useState(null);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    // Recuperar datos del localStorage
-    const rolGuardado = (localStorage.getItem('rol') || 'sin-registrar').toLowerCase();
-    const tokenGuardado = localStorage.getItem('access');
+    const rolGuardado = localStorage.getItem("rol")?.trim().toLowerCase() || "sin-registrar";
+    const tokenGuardado = localStorage.getItem("access") || null;
 
-    if (rolesValidos.includes(rolGuardado) && tokenGuardado) {
+    if (rolesValidos.includes(rolGuardado)) {
       setRol(rolGuardado);
-      setToken(tokenGuardado);
     } else {
-      setRol('sin-registrar');
-      setToken(null);
+      setRol("sin-registrar");
     }
 
-    // Simular verificación rápida del token antes de quitar el "cargando"
-    // Aquí podrías llamar a tu backend para verificar que el token sigue siendo válido
-    setTimeout(() => {
-      setCargando(false);
-    }, 100);
+    setToken(tokenGuardado);
+    setCargando(false);
   }, []);
 
   const cambiarRol = (nuevoRol) => {
-    const r = nuevoRol.toLowerCase();
+    const r = nuevoRol?.trim().toLowerCase() || "sin-registrar";
     if (rolesValidos.includes(r)) {
-      localStorage.setItem('rol', r);
       setRol(r);
-    } else {
-      console.warn(`Rol no válido: ${r}`);
+      localStorage.setItem("rol", r);
     }
   };
 
   const guardarToken = (nuevoToken) => {
     if (nuevoToken) {
-      localStorage.setItem('access', nuevoToken);
       setToken(nuevoToken);
+      localStorage.setItem("access", nuevoToken);
     } else {
-      localStorage.removeItem('access');
       setToken(null);
+      localStorage.removeItem("access");
     }
   };
 

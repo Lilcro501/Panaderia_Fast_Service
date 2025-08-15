@@ -163,7 +163,6 @@ class Valoracion(models.Model):
     id_usuario = models.ForeignKey(settings.AUTH_USER_MODEL,db_column='id_usuario',  on_delete=models.CASCADE)
     #defimos el campo de la clave foranea de producto
     id_producto = models.ForeignKey(Producto,db_column='id_producto', on_delete=models.CASCADE) 
-    puntuacion = models.IntegerField()
     comentario = models.TextField()
     fecha_valoracion = models.DateTimeField(auto_now_add=True)
     #conectamos con la base de datos con la tabla valoraciones
