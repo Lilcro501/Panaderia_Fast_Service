@@ -1,73 +1,52 @@
-// src/Context/RolContext.jsx
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useRol } from '../Context/RolContext';
+import ModalAviso from './ModalAviso';
+import '../assets/styles/Loader.css';
 
-// Crear contexto
-const RolContext = createContext();
+const PrivateRoute = ({ children, role }) => {
+  const { rol, cargando } = useRol();
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const navigate = useNavigate();
 
-// Hook personalizado
-export const useRol = () => {
-  const ctx = useContext(RolContext);
-  if (!ctx) throw new Error("useRol debe usarse dentro de RolProvider");
-  return ctx;
-};
-
-// Roles permitidos
-const rolesValidos = ["admin", "trabajador", "cliente", "sin-registrar"];
-
-export const RolProvider = ({ children }) => {
-  const [rol, setRol] = useState("sin-registrar"); // Por defecto
-  const [token, setToken] = useState(null);
-  const [cargando, setCargando] = useState(true);
-
-  // Cargar datos desde localStorage al iniciar
   useEffect(() => {
-    const rolGuardado = (localStorage.getItem("rol") || "").trim().toLowerCase();
-    const tokenGuardado = localStorage.getItem("access");
-
-    if (rolesValidos.includes(rolGuardado)) {
-      setRol(rolGuardado);
-    } else {
-      setRol("sin-registrar");
+    if (!cargando && rol === 'sin-registrar') {
+      setMostrarModal(true);
     }
+  }, [rol, cargando]);
 
-    setToken(tokenGuardado || null);
+  if (cargando) {
+    return (
+      <div className="loader-container">
+        <div className="spinner"></div>
+        <p>Validando acceso...</p>
+      </div>
+    );
+  }
 
-    setCargando(false);
-  }, []);
+  const rolActual = rol?.toLowerCase() || '';
 
-  // Cambiar rol y guardarlo en localStorage
-  const cambiarRol = (nuevoRol) => {
-    const r = (nuevoRol || "").trim().toLowerCase();
-    if (rolesValidos.includes(r)) {
-      setRol(r);
-      localStorage.setItem("rol", r);
-    } else {
-      console.warn(`Rol no válido: ${r}`);
+  if (role) {
+    const rolesPermitidos = Array.isArray(role)
+      ? role.map(r => r.toLowerCase())
+      : [role.toLowerCase()];
+
+    if (!rolesPermitidos.includes(rolActual)) {
+      return <Navigate to="/" replace />;
     }
-  };
+  }
 
-  // Guardar o eliminar token en localStorage
-  const guardarToken = (nuevoToken) => {
-    if (nuevoToken) {
-      setToken(nuevoToken);
-      localStorage.setItem("access", nuevoToken);
-    } else {
-      setToken(null);
-      localStorage.removeItem("access");
-    }
-  };
+  if (mostrarModal) {
+    return (
+      <ModalAviso
+        mensaje="❗ Debes iniciar sesión para acceder a esta página."
+        onClose={() => setMostrarModal(false)}
+        onConfirm={() => navigate('/accedeaqui')}
+      />
+    );
+  }
 
-  return (
-    <RolContext.Provider
-      value={{
-        rol,
-        token,
-        cambiarRol,
-        guardarToken,
-        cargando,
-      }}
-    >
-      {children}
-    </RolContext.Provider>
-  );
+  return children;
 };
+
+export default PrivateRoute;

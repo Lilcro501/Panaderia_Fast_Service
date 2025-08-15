@@ -49,7 +49,7 @@ const EstadosPedidos = () => {
 
   const cambiarEstado = async (idFactura, nuevoProceso) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access");
 
       await axios.post(
         "http://localhost:8000/api/trabajador/actualizar-estado/",
