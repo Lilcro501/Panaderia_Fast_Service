@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from carrito.serializers import FacturaSerializer
 from rest_framework import status
 from carrito.models import Factura, Pedido, Producto
-from .serializers import PedidoSerializer
+from .serializers import PedidoSerializer, CronogramaSerializer #
 from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
@@ -14,8 +14,8 @@ from trabajador.models import EstadoFactura
 from django.db.models.functions import Coalesce
 from rest_framework.decorators import api_view, permission_classes
 from django.core.mail import EmailMultiAlternatives
-
-
+from rest_framework.views import APIView #
+from administrador.models import Cronograma #
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -259,3 +259,16 @@ def actualizar_estado_pedido(request):
 
     return Response({"mensaje": "Estado actualizado correctamente."}, status=status.HTTP_200_OK)
 
+
+#cronograma
+class CronogramaMiUsuarioView(APIView):
+    def get(self, request, id_usuario):
+        try:
+            cronogramas = Cronograma.objects.filter(id_usuario=id_usuario)
+            serializer = CronogramaSerializer(cronogramas, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Cronograma.DoesNotExist:
+            return Response(
+                {"error": "No se encontró cronograma para este usuario"},
+                status=status.HTTP_404_NOT_FOUND
+            )
