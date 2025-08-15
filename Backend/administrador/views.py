@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from django.db.models import Sum, Func
 from django.db.models.functions import TruncMonth,TruncDate
 from .serializers import (CategoriaSerializer, ProductoSerializer, CronogramaSerializer,UsuarioSerializer,ValoracionSerializer,PedidoSerializer)
-from .models import Categorias,Productos,Cronograma,Usuarios,Valoraciones,Facturas,Pedido
+from .models import Categorias,Productos,Cronograma,Usuarios,Valoraciones,Facturas,Pedido, EstadoFactura
 from .serializers import FacturaSerializer
 import cloudinary.uploader
 from cloudinary.uploader import destroy as cloudinary_destroy
@@ -111,6 +111,30 @@ class ProductoViewSet(viewsets.ModelViewSet):
         # Elimina el producto de la base de datos
         self.perform_destroy(instance)
         return Response({"detalle": "Producto eliminado correctamente."}, status=status.HTTP_204_NO_CONTENT)
+    
+    def destroy(self, request, *args, **kwargs):
+        producto = self.get_object()
+
+        pedidos_relacionados = Pedido.objects.filter(id_producto=producto.id_producto)
+
+        if pedidos_relacionados.exists():
+            facturas_ids = pedidos_relacionados.values_list('facturas_id_factura', flat=True)
+
+            fases_bloqueo = ['preparando', 'empaquetando', 'en entrega']
+
+            if EstadoFactura.objects.filter(
+                facturas_id_factura__in=facturas_ids,
+                proceso_pedido__in=fases_bloqueo
+            ).exists():
+                return Response(
+                    {"error": "No se puede eliminar este producto porque está asociado a pedidos en proceso."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+        producto.delete()
+        return Response({"message": "Producto eliminado con éxito"}, status=status.HTTP_200_OK)
+
+    
 
 
 class CategoriaViewSet(viewsets.ModelViewSet):
@@ -118,7 +142,6 @@ class CategoriaViewSet(viewsets.ModelViewSet):
     serializer_class = CategoriaSerializer
 
 class CronogramaViewSet(viewsets.ModelViewSet):
-
     queryset = Cronograma.objects.all()
     serializer_class = CronogramaSerializer
     @action(detail=False, methods=['get'], url_path='trabajadores')
