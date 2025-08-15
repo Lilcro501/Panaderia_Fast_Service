@@ -122,10 +122,13 @@ def crear_factura(request):
 
                 Pedido.objects.create(
                     producto=producto_db,
+                    nombre_producto=producto_db.nombre,
+                    precio_unitario=producto_db.precio, 
                     cantidad=cantidad_comprada,
                     subtotal=subtotal,
                     factura=factura
-                )
+                    )
+
 
             enviar_factura_por_correo(factura)
 
@@ -255,5 +258,6 @@ class ComentarioDetalleView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Valoracion.objects.all()
     serializer_class = ValoracionSerializer
     lookup_field = 'pk'
+
 
 

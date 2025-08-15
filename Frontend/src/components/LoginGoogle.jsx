@@ -1,50 +1,58 @@
-import React from 'react';
-import { GoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
-// import { useNavigate } from 'react-router-dom'; // opcional si quieres redirigir
+// LoginGoogle.jsx
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { GoogleLogin } from "@react-oauth/google";
 
-function LoginGoogle() {
-  // const navigate = useNavigate(); // opcional
+export default function LoginGoogle() {
+  const navigate = useNavigate();
 
-  const handleSuccess = async (credentialResponse) => {
+  const redirigirPorRol = (rol) => {
+    switch (rol) {
+      case "cliente":
+        navigate("/PerfilUsuario");
+        break;
+      case "trabajador":
+        navigate("/PanelTrabajador");
+        break;
+      case "administrador":
+        navigate("/PanelAdmin");
+        break;
+      default:
+        navigate("/");
+    }
+  };
+
+  const handleLoginSuccess = async (credentialResponse) => {
     try {
-      // Enviamos el token de Google al backend
-      const response = await axios.post('http://localhost:8000/api/usuarios/login/google/', {
-        token: credentialResponse.credential
+      const response = await axios.post("http://localhost:8000/api/google-login/", {
+        token: credentialResponse.credential,
       });
 
-      const { access, refresh, nombre, rol, id_usuario } = response.data;
+      const dataUsuario = {
+        access: response.data.access,
+        refresh: response.data.refresh,
+        nombre: response.data.nombre,
+        rol: response.data.rol,
+        id_usuario: response.data.id_usuario,
+      };
 
-      if (access) {
-        // Guardamos los datos en localStorage
-        localStorage.setItem('access', access);
-        localStorage.setItem('refresh', refresh);
-        localStorage.setItem('nombre', nombre);
-        localStorage.setItem('rol', rol);
-        localStorage.setItem('id_usuario', id_usuario);
+      // 🔹 Guardar usuario en localStorage
+      localStorage.setItem("usuario", JSON.stringify(dataUsuario));
 
-        console.log("✅ Usuario autenticado con Google. Token guardado.");
-
-        // Redirigir al usuario (opcional)
-        // navigate('/perfil'); 
-      } else {
-        console.error("❌ El backend no devolvió un token.");
-      }
+      // 🔹 Redirigir según rol
+      redirigirPorRol(response.data.rol);
     } catch (error) {
-      console.error("❌ Error al autenticar con Google:", error.response?.data || error.message);
+      console.error("Error en login con Google:", error);
     }
   };
 
   return (
     <div>
       <GoogleLogin
-        onSuccess={handleSuccess}
-        onError={() => {
-          console.log('❌ Error en el login con Google');
-        }}
+        onSuccess={handleLoginSuccess}
+        onError={() => console.log("Error en autenticación Google")}
       />
     </div>
   );
 }
-
-export default LoginGoogle;

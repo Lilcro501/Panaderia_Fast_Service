@@ -18,6 +18,8 @@ export default function Registro() {
   });
 
   const [errores, setErrores] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
+  const [mensajeErrorGeneral, setMensajeErrorGeneral] = useState("");
   const navigate = useNavigate();
 
   const salir = () => {
@@ -66,6 +68,7 @@ export default function Registro() {
     e.preventDefault();
     const erroresValidados = validar();
     setErrores(erroresValidados);
+    setMensajeErrorGeneral("");
 
     if (Object.keys(erroresValidados).length === 0) {
       try {
@@ -77,15 +80,31 @@ export default function Registro() {
           telefono: '',
           rol: 'cliente'
         });
+
         if (response.status === 201 || response.status === 200) {
-          alert('Usuario registrado con éxito ✅');
-          navigate('/AccedeAqui');
+          setModalVisible(true);
         }
       } catch (error) {
         console.error(error);
-        alert('Error al registrar usuario ❌');
+
+        if (error.response) {
+          if (error.response.status === 400 && error.response.data?.email) {
+            setMensajeErrorGeneral("El correo ya está registrado.");
+          } else {
+            setMensajeErrorGeneral("Error en el registro: " + (error.response.data?.message || "Intenta nuevamente."));
+          }
+        } else if (error.request) {
+          setMensajeErrorGeneral("No se pudo conectar con el servidor.");
+        } else {
+          setMensajeErrorGeneral("Ocurrió un error inesperado.");
+        }
       }
     }
+  };
+
+  const cerrarModal = () => {
+    setModalVisible(false);
+    navigate('/AccedeAqui');
   };
 
   return (
@@ -94,18 +113,19 @@ export default function Registro() {
         <h1>Bienvenido a la sección de registro</h1>
         <br/>
         <div className='ImagenOrquidea'>
-        <img src={orquidea} alt='Registro' />
+          <img src={orquidea} alt='Registro' />
         </div>
       </div> 
 
       <div className='PanelDerecho'>
-
         <button className='Salir' onClick={salir}>
           <IoMdClose />
         </button>
         
         <form className='Form' onSubmit={handleSubmit} noValidate>
           <h1 className='TituloAcceso'>Regístrate</h1>
+          {mensajeErrorGeneral && <p className="mensaje-error">{mensajeErrorGeneral}</p>}
+
           <div className='Campo'>
             <FaUser className='Icono' />
             <input
@@ -119,81 +139,95 @@ export default function Registro() {
           </div>
           {errores.nombres && <p className='mensaje-error'>{errores.nombres}</p>}
 
-        <div className='Campo'>
-          <FaUser className='Icono' />
-          <input
-            type='text'
-            id='apellidos'
-            placeholder='Apellidos'
-            value={form.apellidos}
-            onChange={handleChange}
-            className={errores.apellidos ? 'invalido' : ''}
-          />
-        </div>
-        {errores.apellidos && <p className='mensaje-error'>{errores.apellidos}</p>}
-
-        <div className='Campo'>
-          <FaUser className='Icono' />
-          <input
-            type='email'
-            id='correo'
-            placeholder='Correo'
-            value={form.correo}
-            onChange={handleChange}
-            className={errores.correo ? 'invalido' : ''}
-          />
-        </div>
-        {errores.correo && <p className='mensaje-error'>{errores.correo}</p>}
-
-        <div className='Campo'>
-          <FaLock className='Icono' />
-          <input
-            type='password'
-            id='password'
-            placeholder='Contraseña'
-            value={form.password}
-            onChange={handleChange}
-            className={errores.password ? 'invalido' : ''}
-          />
-        </div>
-        {errores.password && <p className='mensaje-error'>{errores.password}</p>}
-
-        <div className='Campo'>
-          <FaUserLock className='Icono' />
-          <input
-            type='password'
-            id='confirmar'
-            placeholder='Confirmar contraseña'
-            value={form.confirmar}
-            onChange={handleChange}
-            className={errores.confirmar ? 'invalido' : ''}
-          />
-        </div>
-        {errores.confirmar && <p className='mensaje-error'>{errores.confirmar}</p>}
-
-        <div className='EstiloAceptartyc'>
-          <label className='TextoTerminos'>
+          <div className='Campo'>
+            <FaUser className='Icono' />
             <input
-              type='checkbox'
-              id='terminos'
-              checked={form.terminos}
+              type='text'
+              id='apellidos'
+              placeholder='Apellidos'
+              value={form.apellidos}
               onChange={handleChange}
+              className={errores.apellidos ? 'invalido' : ''}
             />
-          <span>Acepto los <strong>Términos y Condiciones</strong></span> 
-          </label>
-          
-        </div>
-        {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
+          </div>
+          {errores.apellidos && <p className='mensaje-error'>{errores.apellidos}</p>}
 
-        <button className='Continuar' type='submit'>
-          Registrarse
-        </button>
-      
-        <p className='Registro'>
-          ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
-        </p>
-      </form>
+          <div className='Campo'>
+            <FaUser className='Icono' />
+            <input
+              type='email'
+              id='correo'
+              placeholder='Correo'
+              value={form.correo}
+              onChange={handleChange}
+              className={errores.correo ? 'invalido' : ''}
+            />
+          </div>
+          {errores.correo && <p className='mensaje-error'>{errores.correo}</p>}
+
+          <div className='Campo'>
+            <FaLock className='Icono' />
+            <input
+              type='password'
+              id='password'
+              placeholder='Contraseña'
+              value={form.password}
+              onChange={handleChange}
+              className={errores.password ? 'invalido' : ''}
+            />
+          </div>
+          {errores.password && <p className='mensaje-error'>{errores.password}</p>}
+
+          <div className='Campo'>
+            <FaUserLock className='Icono' />
+            <input
+              type='password'
+              id='confirmar'
+              placeholder='Confirmar contraseña'
+              value={form.confirmar}
+              onChange={handleChange}
+              className={errores.confirmar ? 'invalido' : ''}
+            />
+          </div>
+          {errores.confirmar && <p className='mensaje-error'>{errores.confirmar}</p>}
+
+          <div className='EstiloAceptartyc'>
+            <label className='TextoTerminos'>
+              <input
+                type='checkbox'
+                id='terminos'
+                checked={form.terminos}
+                onChange={handleChange}
+              />
+              <span>Acepto los <strong>Términos y Condiciones</strong></span> 
+            </label>
+          </div>
+          {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
+
+          <button className='Continuar' type='submit'>
+            Registrarse
+          </button>
+        
+          <p className='Registro'>
+            ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
+          </p>
+        </form>
       </div>
+
+      <br /> <br />
+
+      {/* Modal de éxito */}
+      {modalVisible && (
+        <div className="modal-fondo">
+          <div className="modal-contenido">
+            <h3>¡Registro exitoso! 🎉</h3>
+            <p>Tu cuenta ha sido creada correctamente.</p>
+            <button className="boton-aceptar" onClick={cerrarModal}>
+              Ir a iniciar sesión
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

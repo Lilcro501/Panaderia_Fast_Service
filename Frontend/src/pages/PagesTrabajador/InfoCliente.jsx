@@ -1,8 +1,12 @@
 import React from 'react'
-import PerfilInformacion from '../../components/PerfilInformacion'
+import PerfilUsuarioTrabajador from '../../components/PerfilUsuarioTrabajador'
+
 
 export default function PerfilUsario(){
     return (
-        <PerfilInformacion/>
+        <>
+        <PerfilUsuarioTrabajador></PerfilUsuarioTrabajador>
+        </>
+
     )
 }

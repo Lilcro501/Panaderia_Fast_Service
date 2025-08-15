@@ -28,8 +28,6 @@ class FavoritoSerializer(serializers.ModelSerializer):
         #aca especificamos que el campo de producto es obligatorio
         extra_kwargs = {'producto': {'required': True},}
 
-
-
 #serializador para los usuarios en los  comentarios y calificaciones de los productos en la ap
 class UsuarioComentarioSerializer(serializers.ModelSerializer):
     class Meta:

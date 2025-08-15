@@ -19,7 +19,7 @@ const DetallesPedido = () => {
     const fetchPedido = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:8000/api/facturas/${id}/`, {
+        const response = await axios.get(`http://localhost:8000/api/trabajador/facturas/${id}/`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -37,7 +37,7 @@ const DetallesPedido = () => {
           precioUnitario: parseFloat(p.precio_unitario),
           precioTotal: p.subtotal
         }));
-
+        
         setProductosConInfo(formateados);
         setComprobanteURL(comprobante); 
         setInfoFactura(infoRestante);

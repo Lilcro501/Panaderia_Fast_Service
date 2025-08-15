@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     # proporciona la funcionalidad necesaria para manejar la autenticacion de usuarios a travez de google
     'allauth.socialaccount.providers.google',
 
+
     # mis apps
     # este es el apartado de apps, cada app creada se debe agregar en este apartado 
     #para que django pueda acceder a las carpetas de la aplicacion
@@ -149,7 +150,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 #agrega informacion sobre la autenticacion del usuario, coomo el usuario actual,
                 #y a los grupos que pertenece
-                'django.contrib.auth.context_processors.auth',
+                'django.contrib.auth.context_processors.auth',  
                 #agrega mensajes temporales al contexto, que se pueden utilizar para mostar notificaciones al usuario por ejemplo, mensajes de error o exito
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -179,7 +180,7 @@ DATABASES = {
         #este campo especifica el nombre del usuario que se utilzara para autenticar la conexion con la base de datos
         'USER': "root",
         #este campo especifica la constraseña asociada con el usuario
-        'PASSWORD': '090906',
+        'PASSWORD': 'admin',
         #este campo especifica la direccion del servidor de la base de datos
         'HOST': 'localhost',
         #este campo especifica el puerto en el que se encuentra el servidor de la base de datos
@@ -280,8 +281,8 @@ EMAIL_USE_TLS = True
 #############################################################
 #terminar de confugurar esta apartado para que sea mas seguro
 #############################################################
-EMAIL_HOST_USER = 'crisandresortiz3228@gmail.com'
-EMAIL_HOST_PASSWORD = 'fyuc rias vqws orkq'
+EMAIL_HOST_USER = 'fservice28.076@gmail.com'
+EMAIL_HOST_PASSWORD = 'yabb fihb sqvn vlyu'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 #autenticacion con google
@@ -340,3 +341,11 @@ SIMPLE_JWT = {
 # Configuración para HSTS
 #SECURE_HSTS_SECONDS = 3600 
 
+GOOGLE_CLIENT_ID = "809142625017-shc1bn94eni4795cekkssugdjhmikqop.apps.googleusercontent.com"
+
+CORS_ALLOW_CREDENTIALS = True
+
+SESSION_COOKIE_SAMESITE = None
+SESSION_COOKIE_SECURE = False  # True si usas HTTPS
+CSRF_COOKIE_SAMESITE = None
+CSRF_COOKIE_SECURE = False
