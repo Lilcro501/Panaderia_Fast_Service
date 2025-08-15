@@ -55,10 +55,13 @@ export default function AccedeAqui() {
   };
 
   const mostrarModalBienvenida = (nombre, rol) => {
-  setUsuarioModal({ nombre, rol });
-  setModalVisible(true);
-
-};
+    setUsuarioModal({ nombre, rol });
+    setModalVisible(true);
+    setTimeout(() => {
+      setModalVisible(false);
+      redirigirPorRol(rol);
+    }, 500);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,22 +74,23 @@ export default function AccedeAqui() {
       const response = await iniciarSesion({ email: correo, password });
 
       if (response.status === 200) {
-  const { access, refresh, nombre, rol, id_usuario } = response.data;
-  if (!rol) {
-    setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
-    return;
-  }
+        const { access, refresh, nombre, rol, id_usuario } = response.data;
+        if (!rol) {
+          setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
+          return;
+        }
 
-  const rolLower = rol.toLowerCase();
-  localStorage.setItem('access', access);
-  localStorage.setItem('refresh', refresh);
-  localStorage.setItem('nombre', nombre);
-  localStorage.setItem('rol', rolLower);
-  localStorage.setItem('id_usuario', id_usuario);
+        const rolLower = rol.toLowerCase();
+        localStorage.setItem('access', access);
+        localStorage.setItem('refresh', refresh);
+        localStorage.setItem('nombre', nombre);
+        localStorage.setItem('rol', rolLower);
+        localStorage.setItem(
+          'id_usuario', id_usuario);
+        cambiarRol(rolLower);
 
-  mostrarModalBienvenida(nombre, rolLower);
-}
-
+        mostrarModalBienvenida(nombre, rolLower);
+      }
     } catch (error) {
       const mensaje = error.response?.data?.error || '❌ Error desconocido en el inicio de sesión';
       setErrorLogin(mensaje);
@@ -94,34 +98,29 @@ export default function AccedeAqui() {
   };
 
   const handleGoogleSuccess = async (credentialResponse) => {
-  try {
-    const response = await axios.post(
-      'http://localhost:8000/api/usuarios/login/google/',
-      { token: credentialResponse.credential }
-    );
+    try {
+      const response = await axios.post('http://localhost:8000/api/usuarios/login/google/', {
+        token: credentialResponse.credential,
+      });
 
-    const { access, refresh, nombre, id_usuario } = response.data;
+      const { access, refresh, nombre, rol, id_usuario } = response.data;
+      if (!rol) {
+        setErrorLogin('⚠️ Error: No se recibió el rol del usuario (Google).');
+        return;
+      }
 
-    // 🔹 Forzar rol cliente
-    const rolLower = 'cliente';
+      const rolLower = rol.toLowerCase();
+      localStorage.setItem('access', access);
+      localStorage.setItem('refresh', refresh);
+      localStorage.setItem('nombre', nombre);
+      localStorage.setItem('rol', rolLower);
+      localStorage.setItem('id_usuario', id_usuario);
 
-    // Guardar en localStorage
-    localStorage.setItem('access', access);
-    localStorage.setItem('refresh', refresh);
-    localStorage.setItem('nombre', nombre);
-    localStorage.setItem('rol', rolLower);
-    localStorage.setItem('id_usuario', id_usuario);
-
-    // 🔹 Actualizar contexto
-    cambiarRol(rolLower);
-
-    // Mostrar modal y redirigir
-    mostrarModalBienvenida(nombre, rolLower);
-  } catch (error) {
-    setErrorLogin('Error al iniciar sesión con Google');
-  }
-};
-
+      mostrarModalBienvenida(nombre, rolLower);
+    } catch (error) {
+      setErrorLogin('Error al iniciar sesión con Google');
+    }
+  };
 
   return (
     <section className='Cont'>
@@ -192,6 +191,8 @@ export default function AccedeAqui() {
         </form>
       </div>
 
+      {/* Modal de bienvenida */}
+      {/* Modal de bienvenida */}
       {modalVisible && (
       <div className='modal-bienvenida'>
       <div className='modal-contenido'>
@@ -203,17 +204,14 @@ export default function AccedeAqui() {
           <br /> <br />
       {/* Botón Aceptar */}
         <button
-  className='boton-moderno'
-  onClick={() => {
-    setModalVisible(false);
-    cambiarRol(usuarioModal.rol); // Cambia el rol aquí
-    redirigirPorRol(usuarioModal.rol);
-  }}
->
-  Aceptar
-</button>
+          className='boton-moderno'
+          onClick={() => {
+            setModalVisible(false);
 
-
+          }}
+       >
+         Aceptar
+        </button>
     </div>
   </div>
 )}

@@ -3,12 +3,14 @@ import { useRol } from "../Context/RolContext";
 import ModalAviso from "./ModalAviso";
 import { useNavigate, Link } from "react-router-dom";
 import "../assets/styles/Categorias.css";
-
 import Bebidas from "../assets/icons/bebidas.png";
 import Helados from "../assets/icons/helados.png";
 import Mecato from "../assets/icons/mecato.png";
 import Fritos from "../assets/icons/pollo.png";
 import Pan from "../assets/icons/pan.png";
+
+
+
 
 export default function Categorias() {
   const { rol } = useRol();

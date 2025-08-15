@@ -26,7 +26,11 @@ const Categoria = ({ nombre }) => {
           id: Number(producto.id_producto ?? producto.id), // Forzar número
           nameProduct: producto.nombre,
           price: producto.precio,
-          image: `http://localhost:8000${producto.imagen}`,
+          image: producto.imagen
+            ? (producto.imagen.startsWith('http')
+                ? producto.imagen
+                : `http://localhost:8000${producto.imagen}`)
+            : "https://via.placeholder.com/150", // Imagen por defecto si no hay
           description: producto.descripcion,
           stock: producto.stock,
         }));
@@ -66,11 +70,11 @@ const Categoria = ({ nombre }) => {
       </div>
 
       <div className="categoria-grid">
-        {productos.map((producto, index) => {
+        {productos.map((producto) => {
           console.log("producto.id:", producto.id, typeof producto.id);
 
           return (
-            <div key={index} className="producto-tarjeta">
+            <div key={producto.id} className="producto-tarjeta">
               <Link to={`/producto/${producto.id}`}>
                 <img
                   src={producto.image}
