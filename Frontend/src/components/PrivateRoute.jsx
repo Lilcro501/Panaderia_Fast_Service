@@ -1,55 +1,58 @@
-// PrivateRoute.jsx
-import React, { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useRol } from '../Context/RolContext';
-import ModalAviso from './ModalAviso';
-import '../assets/styles/Loader.css'; // 🔹 Archivo CSS para la animación
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-
-const PrivateRoute = ({ children, role }) => {
-  const { rol, cargando } = useRol();
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!cargando && (!rol || rol === 'sin-registrar')) {
-      setMostrarModal(true);
-    }
-  }, [rol, cargando]);
-
-  // 🔹 Animación mientras carga
-  if (cargando) {
-    return (
-      <div className="loader-container">
-        <div className="spinner"></div>
-        <p>Validando acceso...</p>
-      </div>
-    );
-  }
-
-  const rolActual = (rol || '').toLowerCase();
-
-  const rolesPermitidos = role
-    ? Array.isArray(role)
-      ? role.map(r => r.toLowerCase())
-      : [role.toLowerCase()]
-    : [];
-
-  if (rolesPermitidos.length > 0 && !rolesPermitidos.includes(rolActual)) {
-    return <Navigate to="/" replace />;
-  }
-
-  if (mostrarModal) {
-    return (
-      <ModalAviso
-        mensaje="❗ Debes iniciar sesión para acceder a esta página."
-        onClose={() => setMostrarModal(false)}
-        onConfirm={() => navigate('/accedeaqui')}
-      />
-    );
-  }
-
-  return children;
+const RolContext = createContext();
+export const useRol = () => {
+  const ctx = useContext(RolContext);
+  if (!ctx) throw new Error("useRol debe usarse dentro de RolProvider");
+  return ctx;
 };
 
-export default PrivateRoute;
+const rolesValidos = ["admin", "trabajador", "cliente", "sin-registrar"];
+
+export const RolProvider = ({ children }) => {
+  const [rol, setRol] = useState("sin-registrar");
+  const [token, setToken] = useState(null);
+  const [cargando, setCargando] = useState(true);
+
+  useEffect(() => {
+    const rolGuardado = localStorage.getItem("rol")?.trim().toLowerCase() || "sin-registrar";
+    const tokenGuardado = localStorage.getItem("access") || null;
+
+    if (rolesValidos.includes(rolGuardado)) {
+      setRol(rolGuardado);
+    } else {
+      setRol("sin-registrar");
+    }
+
+    setToken(tokenGuardado);
+    setCargando(false);
+  }, []);
+
+  const cambiarRol = (nuevoRol) => {
+    const r = nuevoRol?.trim().toLowerCase() || "sin-registrar";
+    if (rolesValidos.includes(r)) {
+      setRol(r);
+      localStorage.setItem("rol", r);
+    }
+  };
+
+  const guardarToken = (nuevoToken) => {
+    if (nuevoToken) {
+      setToken(nuevoToken);
+      localStorage.setItem("access", nuevoToken);
+    } else {
+      setToken(null);
+      localStorage.removeItem("access");
+    }
+  };
+
+  return (
+    <RolContext.Provider
+      value={{ rol, token, cambiarRol, guardarToken, cargando }}
+    >
+      {children}
+    </RolContext.Provider>
+  );
+};
+
+

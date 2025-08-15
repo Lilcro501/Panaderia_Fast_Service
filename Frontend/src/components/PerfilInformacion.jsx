@@ -15,7 +15,7 @@ export default function PerfilInformacion() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access");
     if (!token) {
       console.warn("Token no encontrado. Redirigiendo a login...");
       navegacion("/accedeaqui"); 

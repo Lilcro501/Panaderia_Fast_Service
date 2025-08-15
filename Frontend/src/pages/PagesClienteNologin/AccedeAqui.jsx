@@ -55,13 +55,10 @@ export default function AccedeAqui() {
   };
 
   const mostrarModalBienvenida = (nombre, rol) => {
-    setUsuarioModal({ nombre, rol });
-    setModalVisible(true);
-    setTimeout(() => {
-      setModalVisible(false);
-      redirigirPorRol(rol);
-    }, 2500); // 2.5 segundos y redirige
-  };
+  setUsuarioModal({ nombre, rol });
+  setModalVisible(true);
+
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,23 +71,22 @@ export default function AccedeAqui() {
       const response = await iniciarSesion({ email: correo, password });
 
       if (response.status === 200) {
-        const { access, refresh, nombre, rol, id_usuario } = response.data;
-        if (!rol) {
-          setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
-          return;
-        }
+  const { access, refresh, nombre, rol, id_usuario } = response.data;
+  if (!rol) {
+    setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
+    return;
+  }
 
-        const rolLower = rol.toLowerCase();
-        localStorage.setItem('access', access);
-        localStorage.setItem('refresh', refresh);
-        localStorage.setItem('nombre', nombre);
-        localStorage.setItem('rol', rolLower);
-        localStorage.setItem(
-          'id_usuario', id_usuario);
-        cambiarRol(rolLower);
+  const rolLower = rol.toLowerCase();
+  localStorage.setItem('access', access);
+  localStorage.setItem('refresh', refresh);
+  localStorage.setItem('nombre', nombre);
+  localStorage.setItem('rol', rolLower);
+  localStorage.setItem('id_usuario', id_usuario);
 
-        mostrarModalBienvenida(nombre, rolLower);
-      }
+  mostrarModalBienvenida(nombre, rolLower);
+}
+
     } catch (error) {
       const mensaje = error.response?.data?.error || '❌ Error desconocido en el inicio de sesión';
       setErrorLogin(mensaje);
@@ -196,8 +192,6 @@ export default function AccedeAqui() {
         </form>
       </div>
 
-      {/* Modal de bienvenida */}
-      {/* Modal de bienvenida */}
       {modalVisible && (
       <div className='modal-bienvenida'>
       <div className='modal-contenido'>
@@ -209,14 +203,17 @@ export default function AccedeAqui() {
           <br /> <br />
       {/* Botón Aceptar */}
         <button
-          className='boton-moderno'
-          onClick={() => {
-            setModalVisible(false);
+  className='boton-moderno'
+  onClick={() => {
+    setModalVisible(false);
+    cambiarRol(usuarioModal.rol); // Cambia el rol aquí
+    redirigirPorRol(usuarioModal.rol);
+  }}
+>
+  Aceptar
+</button>
 
-          }}
-       >
-         Aceptar
-        </button>
+
     </div>
   </div>
 )}
