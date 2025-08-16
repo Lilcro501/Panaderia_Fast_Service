@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from carrito.serializers import FacturaSerializer
 from rest_framework import status
 from carrito.models import Factura, Pedido, Producto
-from .serializers import PedidoSerializer, CronogramaSerializer #
+from .serializers import PedidoSerializer, CronogramaTrabajadorSerializer #
 from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
@@ -16,6 +16,8 @@ from rest_framework.decorators import api_view, permission_classes
 from django.core.mail import EmailMultiAlternatives
 from rest_framework.views import APIView #
 from administrador.models import Cronograma #
+from usuarios.models import Usuario #
+from rest_framework import status, permissions#
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -263,13 +265,22 @@ def actualizar_estado_pedido(request):
 
 #cronograma
 class CronogramaMiUsuarioView(APIView):
+    permission_classes = [permissions.IsAuthenticated]  # solo usuarios autenticados
+
     def get(self, request, id_usuario):
+        # Validar que el usuario existe y es trabajador
         try:
-            cronogramas = Cronograma.objects.filter(id_usuario=id_usuario)
-            serializer = CronogramaSerializer(cronogramas, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Cronograma.DoesNotExist:
+            usuario = Usuario.objects.get(id_usuario=id_usuario, rol='trabajador')
+        except Usuario.DoesNotExist:
             return Response(
-                {"error": "No se encontró cronograma para este usuario"},
+                {"error": "Usuario no encontrado o no es trabajador"},
                 status=status.HTTP_404_NOT_FOUND
             )
+
+        # Opcional: solo permitir que el trabajador vea su propio cronograma o admins
+        if request.user.id != usuario.id and not request.user.rol == 'admin':
+            return Response({"error": "No autorizado"}, status=status.HTTP_403_FORBIDDEN)
+
+        cronogramas = Cronograma.objects.filter(id_usuario=id_usuario)
+        serializer = CronogramaTrabajadorSerializer(cronogramas, many=True) 
+        return Response(serializer.data, status=status.HTTP_200_OK)
