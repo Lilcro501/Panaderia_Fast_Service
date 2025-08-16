@@ -15,7 +15,7 @@ const Favoritos = () => {
 
     if (cantidadActual < producto.stock) {
       agregarProducto({
-        id: producto.id_producto, // ✅ ID correcto
+        id: producto.id_producto,
         nameProduct: producto.nombre,
         price: producto.precio,
         image: producto.imagen.startsWith("http")

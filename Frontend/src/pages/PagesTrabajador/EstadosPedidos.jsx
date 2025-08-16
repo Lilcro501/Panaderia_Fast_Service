@@ -7,9 +7,9 @@ import axios from "axios";
 
 const EstadosPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
+  const [notificacion, setNotificacion] = useState({ visible: false, mensaje: "", tipo: "" });
   const navigate = useNavigate();
 
-  // Cargar los estados guardados en localStorage
   const cargarEstadosLocales = () => {
     const estadosGuardados = localStorage.getItem("estadosPedidos");
     return estadosGuardados ? JSON.parse(estadosGuardados) : {};
@@ -17,7 +17,6 @@ const EstadosPedidos = () => {
 
   const [estadosLocales, setEstadosLocales] = useState(cargarEstadosLocales);
 
-  // Guardar en localStorage cada vez que cambia el estado local
   useEffect(() => {
     localStorage.setItem("estadosPedidos", JSON.stringify(estadosLocales));
   }, [estadosLocales]);
@@ -32,7 +31,6 @@ const EstadosPedidos = () => {
           },
         });
 
-        // Aplicar estados locales si existen
         const pedidosConEstado = response.data.map((pedido) => {
           const estadoLocal = estadosLocales[pedido.id];
           return estadoLocal ? { ...pedido, proceso_pedido: estadoLocal } : pedido;
@@ -41,11 +39,19 @@ const EstadosPedidos = () => {
         setPedidos(pedidosConEstado);
       } catch (error) {
         console.error("Error al obtener pedidos:", error);
+        mostrarNotificacion("Error al cargar pedidos", "error");
       }
     };
 
     obtenerPedidos();
-  }, [estadosLocales]); // <-- también depende de estadosLocales
+  }, [estadosLocales]);
+
+  const mostrarNotificacion = (mensaje, tipo) => {
+    setNotificacion({ visible: true, mensaje, tipo });
+    setTimeout(() => {
+      setNotificacion({ visible: false, mensaje: "", tipo: "" });
+    }, 2000); // Modal visible por 2 segundos
+  };
 
   const cambiarEstado = async (idFactura, nuevoProceso) => {
     try {
@@ -53,32 +59,23 @@ const EstadosPedidos = () => {
 
       await axios.post(
         "http://localhost:8000/api/trabajador/actualizar-estado/",
-        {
-          id_factura: idFactura,
-          proceso_pedido: nuevoProceso,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { id_factura: idFactura, proceso_pedido: nuevoProceso },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      console.log("Estado actualizado a:", nuevoProceso);
-
-      // Actualizar estado en localStorage y estado React
-      setEstadosLocales((prev) => ({
-        ...prev,
-        [idFactura]: nuevoProceso,
-      }));
+      // Actualizar estado local y React
+      setEstadosLocales((prev) => ({ ...prev, [idFactura]: nuevoProceso }));
 
       setPedidos((prevPedidos) =>
         prevPedidos.map((pedido) =>
           pedido.id === idFactura ? { ...pedido, proceso_pedido: nuevoProceso } : pedido
         )
       );
+
+      mostrarNotificacion("Estado actualizado", "exito");
     } catch (error) {
       console.error("Error al actualizar estado:", error.response?.data || error);
+      mostrarNotificacion("Error al actualizar estado", "error");
     }
   };
 
@@ -89,39 +86,27 @@ const EstadosPedidos = () => {
     "Empaquetando",
     "En entrega",
     "Detalles pedido",
-    "Detalles cliente",
   ];
 
   const datos = pedidos.map((pedido) => [
     pedido.id,
     pedido.fecha,
-
     <span
-      className={`estado-circulo ${
-        pedido.proceso_pedido === "preparando" ? "activo rojo" : "rojo"
-      }`}
+      className={`estado-circulo ${pedido.proceso_pedido === "preparando" ? "activo rojo" : "rojo"}`}
       onClick={() => cambiarEstado(pedido.id, "preparando")}
       title="Preparando"
     ></span>,
-
     <span
-      className={`estado-circulo ${
-        pedido.proceso_pedido === "empaquetando" ? "activo amarillo" : "amarillo"
-      }`}
+      className={`estado-circulo ${pedido.proceso_pedido === "empaquetando" ? "activo amarillo" : "amarillo"}`}
       onClick={() => cambiarEstado(pedido.id, "empaquetando")}
       title="Empaquetando"
     ></span>,
-
     <span
-      className={`estado-circulo ${
-        pedido.proceso_pedido === "en entrega" ? "activo verde" : "verde"
-      }`}
+      className={`estado-circulo ${pedido.proceso_pedido === "en entrega" ? "activo verde" : "verde"}`}
       onClick={() => cambiarEstado(pedido.id, "en entrega")}
       title="En entrega"
     ></span>,
-
     <Boton texto="Ver pedido" onClick={() => navigate(`/DetallesPedido/${pedido.id}`)} />,
-    <Boton texto="Detalles del cliente" onClick={() => navigate(`/InfoCliente/${pedido.cliente_id}`)} />,
   ]);
 
   return (
@@ -134,9 +119,17 @@ const EstadosPedidos = () => {
           Volver
         </button>
       </div>
+
+      {/* Modal de notificación */}
+      {notificacion.visible && (
+        <div className={`modal-fondo modal-${notificacion.tipo}`}>
+          <div className="modal-contenido">
+            <p>{notificacion.mensaje}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default EstadosPedidos;
-
