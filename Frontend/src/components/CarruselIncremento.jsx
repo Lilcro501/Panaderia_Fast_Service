@@ -16,7 +16,7 @@ export default function CarruselCatalogo() {
   // Estado para manejar el modal
   const [modalMensaje, setModalMensaje] = useState(null);
 
-  const idsProductos = ["92", "79", "140", "131", "82", "83", "85", "87", "88", "89", "128"];
+  const idsProductos = ["78", "78", "78", "78", "78", "78", "78", "78", "78", "78", "78"];
 
   useEffect(() => {
     const fetchProductos = async () => {

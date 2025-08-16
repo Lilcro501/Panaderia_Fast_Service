@@ -11,6 +11,7 @@ const ListaPedidos = () => {
   const [modal, setModal] = useState({ visible: false, tipo: "", pedidoId: null });
   const [motivo, setMotivo] = useState("");
   const [motivosSeleccionados, setMotivosSeleccionados] = useState([]);
+  const [notificacion, setNotificacion] = useState({ visible: false, mensaje: "", tipo: "" });
 
   const opcionesMotivo = [
     "Pago incompleto",
@@ -24,7 +25,6 @@ const ListaPedidos = () => {
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
-        console.log("TOKEN:", localStorage.getItem("token"));
         const response = await axios.get("http://localhost:8000/api/trabajador/listar-pedidos/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access")}`,
@@ -33,6 +33,7 @@ const ListaPedidos = () => {
         setPedidos(response.data);
       } catch (error) {
         console.error("Error al obtener pedidos:", error);
+        mostrarNotificacion("Error al cargar pedidos", "error");
       }
     };
     fetchPedidos();
@@ -87,13 +88,23 @@ const ListaPedidos = () => {
     );
   };
 
+  const mostrarNotificacion = (mensaje, tipo) => {
+    setNotificacion({ visible: true, mensaje, tipo });
+    setTimeout(() => {
+      setNotificacion({ visible: false, mensaje: "", tipo: "" });
+    }, 3000);
+  };
+
   const manejarConfirmacion = async () => {
     if (modal.tipo === "rechazar" && motivosSeleccionados.length === 0 && !motivo.trim()) {
-      alert("Debes seleccionar al menos un motivo o escribir uno.");
+      mostrarNotificacion("Debes seleccionar al menos un motivo o escribir uno.", "error");
       return;
     }
 
     const motivoFinal = [...motivosSeleccionados, motivo.trim()].filter(Boolean).join("; ");
+
+    // Cierra el modal inmediatamente
+    cerrarModal();
 
     try {
       const payload = {
@@ -108,11 +119,16 @@ const ListaPedidos = () => {
         },
       });
 
-      alert(`Pedido ${modal.tipo === "aceptar" ? "aceptado" : "rechazado"} correctamente`);
-      cerrarModal();
+      // Actualiza la lista de pedidos para remover el pedido procesado
+      setPedidos((prevPedidos) => prevPedidos.filter(p => p.id !== modal.pedidoId));
+
+      mostrarNotificacion(
+        `Pedido ${modal.tipo === "aceptar" ? "aceptado y despachado" : "rechazado"} correctamente`,
+        "exito"
+      );
     } catch (error) {
       console.error("Error al procesar acción del pedido:", error);
-      alert("Ocurrió un error. Intenta nuevamente.");
+      mostrarNotificacion("Ocurrió un error al procesar el pedido", "error");
     }
   };
 
@@ -128,7 +144,7 @@ const ListaPedidos = () => {
         />
       </div>
 
-      {/* Modal */}
+      {/* Modal de confirmación */}
       {modal.visible && (
         <div className="modal-fondo">
           <div className="modal-contenido">
@@ -173,7 +189,17 @@ const ListaPedidos = () => {
           </div>
         </div>
       )}
+
+      {/* Modal de notificación */}
+      {notificacion.visible && (
+        <div className={`modal-fondo modal-${notificacion.tipo}`}>
+          <div className="modal-contenido">
+            <p>{notificacion.mensaje}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
 export default ListaPedidos;
