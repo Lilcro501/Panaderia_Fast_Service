@@ -1,76 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import TablaAdmin from '../../components/TablaAdmin';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { getAccessToken } from "../../api/authservice";
 
-import agregar_documento from '../../assets/images/agregar_documento.png';
-import editar_documento from '../../assets/images/editar_documento.png';
-import eliminar_documento from '../../assets/images/eliminar_documento.png';
 import "../../assets/styles/Global.css";
+import "../../assets/styles/CronogramaTrabajador.css"; // estilos solo para esta tabla
 
-export default function Cronograma() {
-    const encabezados = ['Nombre trabajador', 'Cargo', 'Actividades', 'Horarios', 'Fecha'];
-    const [filas, setFilas] = useState([]);
+export default function CronogramaTrabajador() {
+    const [cronogramas, setCronogramas] = useState([]);
+    const id_usuario = localStorage.getItem("id_usuario");
 
-    const obtenerCronogramas = () => {
-        axios.get('http://localhost:8000/api/trabajador/cronograma/trabajadores/')
-            .then(response => {
-                const cronogramas = response.data;
+    const obtenerCronogramas = async () => {
+        const token = getAccessToken();
 
-                const filasConvertidas = cronogramas.map(item => {
-                    const usuario = item.usuario_detalle || {};
-                    const nombreCompleto = `${usuario.nombre || ''} ${usuario.apellido || ''}`;
-                    const horario = `${item.hora_inicio} - ${item.hora_fin}`;
-                    const fecha = item.fecha;
-
-                    return [
-                        nombreCompleto,
-                        item.titulo || '—',
-                        item.descripcion || '—',
-                        horario,
-                        fecha,
-                        <div key={`acciones-${item.id_cronograma}`} className="acciones_tabla">
-                            <Link to={`/EditarCrono/${item.id_cronograma}`}>
-                                <img
-                                    src={editar_documento}
-                                    alt="Editar"
-                                    title="Editar cronograma"
-                                    className="icono_tabla"
-                                />
-                            </Link>
-                            <button
-                                onClick={() => manejarEliminar(item.id_cronograma)}
-                                className="boton_eliminar_tabla"
-                                title="Eliminar cronograma"
-                            >
-                                <img
-                                    src={eliminar_documento}
-                                    alt="Eliminar"
-                                    className="icono_tabla"
-                                />
-                            </button>
-                        </div>
-                    ];
-                });
-
-                setFilas(filasConvertidas);
-            })
-            .catch(error => {
-                console.error("Error al cargar cronogramas de trabajadores:", error);
-            });
-    };
-
-    const manejarEliminar = async (id) => {
-        const confirmacion = window.confirm("¿Estás seguro de eliminar este cronograma?");
-        if (!confirmacion) return;
+        if (!token || !id_usuario) {
+            console.error("Token o id de usuario no encontrado, debes iniciar sesión");
+            return;
+        }
 
         try {
-            await axios.delete(`http://localhost:8000/api/trabajador/cronograma/${id}/`);
-            alert("Cronograma eliminado correctamente.");
-            obtenerCronogramas(); // Refrescar lista
+            const response = await axios.get(
+                `http://localhost:8000/api/trabajador/cronograma/${id_usuario}/`,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+            setCronogramas(response.data);
         } catch (error) {
-            console.error("Error al eliminar cronograma:", error);
-            alert("No se pudo eliminar el cronograma.");
+            if (error.response?.status === 401) {
+                console.error("Token expirado o inválido, debe iniciar sesión nuevamente");
+            } else {
+                console.error("Error al obtener cronogramas:", error);
+            }
         }
     };
 
@@ -79,18 +39,32 @@ export default function Cronograma() {
     }, []);
 
     return (
-        <>
-            <div>
-                <h2 className="titulo_seccion">Cronograma Trabajadores</h2>
-                <TablaAdmin encabezados={encabezados} filas={filas} />
-                <br />
+        <main className="cronograma-trabajador">
+            <h2>Mi Cronograma</h2>
+            <div className="tabla-cronograma">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id Usuario</th>
+                            <th>Título</th>
+                            <th>Descripción</th>
+                            <th>Horario</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cronogramas.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.id_usuario}</td>
+                                <td>{item.titulo}</td>
+                                <td>{item.descripcion}</td>
+                                <td>{item.hora_inicio} - {item.hora_fin}</td>
+                                <td>{item.fecha}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
-
-            <div className='iconos_acciones'>
-                <Link to='/AgregarCrono'>
-                    <img src={agregar_documento} alt="Agregar" />
-                </Link>
-            </div>
-        </>
+        </main>
     );
 }

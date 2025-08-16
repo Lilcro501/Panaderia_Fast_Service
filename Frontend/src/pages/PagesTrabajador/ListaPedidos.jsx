@@ -104,7 +104,7 @@ const ListaPedidos = () => {
 
       await axios.post("http://localhost:8000/api/trabajador/notificar-pedido/", payload, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
         },
       });
 

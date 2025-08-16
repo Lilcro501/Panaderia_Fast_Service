@@ -7,6 +7,7 @@ import { useFavoritos } from "../Context/FavoritosContext";
 import { Link } from "react-router-dom";
 import campana from '../assets/images/campana.png';
 import "../assets/styles/Global.css";
+import "../assets/styles/Categorias.css";
 
 const Categoria = ({ nombre }) => {
   const { agregarProducto, carrito } = useCarrito();

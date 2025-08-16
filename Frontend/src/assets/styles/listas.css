@@ -79,10 +79,12 @@ th {
   text-align: center;
 }
 
+
+
+
 td {
   padding: 10px;
   text-align: center;
-  color: #000000;
   border: none;
 }
 
@@ -148,7 +150,6 @@ td {
     width: 100%;
     padding: 0.5rem 0.2rem;
     font-size: 1rem;
-    color: #181818;
     text-align: left;
     gap: 0.5rem;
   }

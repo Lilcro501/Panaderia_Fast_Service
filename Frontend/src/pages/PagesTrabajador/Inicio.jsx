@@ -9,6 +9,7 @@ const Inicio = () => {
   const ListaPedidos = () => navigate('/ListaPedidos');
   const EstadosPedidos = () => navigate('/EstadosPedidos');
   const HistorialPedidos = () => navigate('/HistorialPedidos');
+  const CronogramaTrabajador = () => navigate('/CronogramaTrabajador')
 
   return (
     <div className="inicio-fondo">
@@ -33,9 +34,17 @@ const Inicio = () => {
         {/* Historial de pedidos */}
         <div className="opcion">
           <div className="borde" onClick={HistorialPedidos}>
-            <div className="imagen-panes"></div>
+            <div className="imagen-historial"></div>
           </div>
           <button onClick={HistorialPedidos}>Historial de pedidos</button>
+        </div>
+
+        {/* Cronograma del trabjador */}
+        <div className="opcion">
+          <div className="borde" onClick={CronogramaTrabajador}>
+            <div className="imagen-cronograma"></div>
+          </div>
+          <button onClick={CronogramaTrabajador}>Mi Cronograma</button>
         </div>
 
       </div>

@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import '../../assets/styles/PrincipalAdmin.css';
 import logo_header from '../../assets/images/logo_header.png';
+import BotonCerrarSesion from '../../components/BotonCerrarSesion';
 
 const AdminPage = () => {
     const [productoMasVendido, setProductoMasVendido] = useState(null);
@@ -284,6 +285,7 @@ const AdminPage = () => {
                     </p>
                 )}
             </div>
+            <BotonCerrarSesion></BotonCerrarSesion>
         </div>
     );
 };

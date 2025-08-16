@@ -10,12 +10,12 @@ const Favoritos = () => {
   const { agregarProducto, carrito } = useCarrito();
 
   const manejarAgregar = (producto) => {
-    const productoEnCarrito = carrito.find((item) => item.id === producto.id);
+    const productoEnCarrito = carrito.find((item) => item.id === producto.id_producto);
     const cantidadActual = productoEnCarrito ? productoEnCarrito.quantity : 0;
 
     if (cantidadActual < producto.stock) {
       agregarProducto({
-        id: producto.id,
+        id: producto.id_producto, // ✅ ID correcto
         nameProduct: producto.nombre,
         price: producto.precio,
         image: producto.imagen.startsWith("http")
@@ -70,8 +70,9 @@ const Favoritos = () => {
               : `http://localhost:8000${producto.imagen}`;
 
             return (
-              <div key={`${producto.id}-${index}`} className="producto-tarjeta">
-                <Link to={`/producto/${producto.id}`}>
+              <div key={`${producto.id_producto}-${index}`} className="producto-tarjeta">
+                {/* ✅ Usar id_producto para el enlace */}
+                <Link to={`/producto/${producto.id_producto}`}>
                   <img
                     src={imagenSrc}
                     alt={producto.nombre}
@@ -84,7 +85,7 @@ const Favoritos = () => {
 
                 <div className="producto-info">
                   <Link
-                    to={`/producto/${producto.id}`}
+                    to={`/producto/${producto.id_producto}`}
                     className="link-producto"
                   >
                     <p className="producto-nombre">{producto.nombre}</p>
@@ -102,10 +103,10 @@ const Favoritos = () => {
                       {producto.stock > 0 ? "Añadir" : "Agotado"}
                     </button>
 
-                    {/* ✅ Pasamos onRemove para actualizar la vista local */}
+                    {/* ✅ Mantener id_producto en Corazon */}
                     <Corazon
                       productoId={producto.id_producto}
-                      onRemove={() => eliminarFavoritoLocal(producto.id)}
+                      onRemove={() => eliminarFavoritoLocal(producto.id_producto)}
                     />
                   </div>
                 </div>

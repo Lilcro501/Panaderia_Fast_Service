@@ -32,12 +32,11 @@
   height: auto;
 }
 
-.categoria img {
+.categoria {
   width: 100%;
   max-width: 60px;
   height: auto;
   object-fit: contain;
-
   height: auto;
   display: block;
   height: auto;

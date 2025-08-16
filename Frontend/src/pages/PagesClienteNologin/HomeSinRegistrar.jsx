@@ -51,12 +51,6 @@ export default function HomeSinRegistrar() {
           </div>
         </article>
 
-        <br/> <br/>
-        <br/> <br/>
-        <h2 className="titulo-productos" >Productos destacados</h2>
-        <Carrusel2/>
-        <br/> <br/>
-
         <section className="frase-logo">
           <div className="home-mostrador">
             <img className="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />

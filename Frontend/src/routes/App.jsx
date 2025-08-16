@@ -77,6 +77,7 @@ import CronogramaTrabajador from '../pages/PagesTrabajador/CronogramaTrabajador'
 const AppRouter = () => {
   return (
     <Routes>
+
       {/* Cliente */}
       <Route path='/Home' element={<PrivateRoute role="cliente"><MainLayout><Home></Home></MainLayout></PrivateRoute>} />
       <Route path="/conocenos" element={<PrivateRoute role="cliente"><MainLayout><Conocenos /></MainLayout></PrivateRoute>} />
@@ -98,12 +99,10 @@ const AppRouter = () => {
       <Route path='/PerfilUsuario' element={<PrivateRoute role="cliente"> <MainLayout> <PerfilUsuario></PerfilUsuario> </MainLayout> </PrivateRoute>}></Route>
       <Route path='/Actualizar' element={<PrivateRoute role="cliente"><MainLayout><ActualizarPerfilUsuario></ActualizarPerfilUsuario></MainLayout></PrivateRoute>}></Route>
 
-
-
       {/* Rutas publicas */}
       <Route path='/' element={<PrivateRoute role="sin-registrar"><MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin></PrivateRoute>}/>
       <Route path='/AccedeAqui' element={<PrivateRoute role="sin-registrar"><MainLayoutSinLogin><AccedeAqui /></MainLayoutSinLogin></PrivateRoute>} />
-      
+
       <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña></CambioDeContraseña></MainLayoutSinLogin>}></Route>
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
