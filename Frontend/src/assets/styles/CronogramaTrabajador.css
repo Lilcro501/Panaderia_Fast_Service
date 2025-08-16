@@ -1,0 +1,69 @@
+.cronograma-trabajador {
+    display: flex;
+    flex-direction: column; /* Título arriba, tabla abajo */
+    justify-content: center; /* Centrar vertical */
+    align-items: center;     /* Centrar horizontal */
+    padding: 30px;
+    font-family: Arial, sans-serif;
+    color: #f0f0f0;
+}
+
+.cronograma-trabajador h2 {
+    margin-bottom: 40px; /* 🔥 Más espacio entre el título y la tabla */
+    text-align: center;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.tabla-cronograma {
+    width: 80%;
+    max-width: 1000px;
+    margin: 0 auto;   /* 🔥 Esto centra horizontalmente */
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px #000;
+
+    display: flex;            /* 🔥 Nuevo */
+    justify-content: center;  /* Centra la tabla dentro */
+}
+
+.tabla-cronograma table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-cronograma th,
+.tabla-cronograma td {
+    border: 1px solid #fff;
+    padding: 12px 15px;
+    text-align: center;
+}
+
+.tabla-cronograma th {
+    background-color: #b07a46;
+    color: #000;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tabla-cronograma td {
+    color: #fff;
+}
+
+.tabla-cronograma tr:nth-child(even) {
+    background-color: #000000;
+}
+
+.tabla-cronograma tr:nth-child(odd) {
+    background-color: #000;
+}
+
+.tabla-cronograma tr:hover {
+    background-color: #333;
+    transition: background 0.3s ease-in-out;
+    cursor: pointer;
+}

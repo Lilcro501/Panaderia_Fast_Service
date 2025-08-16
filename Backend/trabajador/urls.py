@@ -9,6 +9,6 @@ urlpatterns = [
     path('historial-pedidos/', historial_pedidos, name='historial_pedidos'),
     path('estados-pedidos/', listar_estados_pedidos),
     path('actualizar-estado/',actualizar_estado_pedido, name="actualizar_estado_pedido"),
-    path('cronograma/<int:id_usuario>/', CronogramaMiUsuarioView.as_view(), name='cronograma_usuario'), # cronograma
+    path('cronograma/<int:id_usuario>/', CronogramaMiUsuarioView.as_view(), name='cronograma-trabajador'), # cronograma
 ]
 
