@@ -19,6 +19,7 @@ from administrador.models import Cronograma #
 from usuarios.models import Usuario #
 from rest_framework import status, permissions#
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listar_pedidos(request):
@@ -107,7 +108,7 @@ def notificar_pedido(request):
     # Definir estado según acción
     if accion == "aceptar":
         estado_pedido = "aceptado"
-        proceso_pedido = "preparando"
+        proceso_pedido = "completado"
         estado_pago = "pago"
         mensaje_texto = "Tu pedido ha sido aceptado. Pronto estará en camino."
         mensaje_html = f"""
@@ -123,7 +124,7 @@ def notificar_pedido(request):
         """
     elif accion == "rechazar":
         estado_pedido = "rechazado"
-        proceso_pedido = "preparando"
+        proceso_pedido = "completado"
         estado_pago = "cancelado"
         mensaje_texto = f"Tu pedido fue rechazado por el siguiente motivo: {motivo}"
         mensaje_html = f"""
@@ -141,12 +142,19 @@ def notificar_pedido(request):
     else:
         return Response({"error": "Acción inválida. Usa 'aceptar' o 'rechazar'."}, status=400)
 
-    # Crear nuevo estado en la base de datos
-    EstadoFactura.objects.create(
+    # 🔹 En lugar de crear un nuevo registro, actualizamos el existente
+    estado_factura, creado = EstadoFactura.objects.get_or_create(
         factura=factura,
-        proceso_pedido=proceso_pedido,
-        estado_pedido=estado_pedido
+        defaults={
+            "proceso_pedido": proceso_pedido,
+            "estado_pedido": estado_pedido
+        }
     )
+
+    if not creado:
+        estado_factura.proceso_pedido = proceso_pedido
+        estado_factura.estado_pedido = estado_pedido
+        estado_factura.save()
 
     # Enviar correo al cliente (texto + HTML)
     asunto = "Actualización de tu pedido"
@@ -166,6 +174,7 @@ def notificar_pedido(request):
             "estado_pedido": estado_pedido
         }
     }, status=200)
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -238,6 +247,8 @@ def listar_estados_pedidos(request):
     
     return Response(data)
 
+
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def actualizar_estado_pedido(request):
@@ -254,13 +265,21 @@ def actualizar_estado_pedido(request):
     except Factura.DoesNotExist:
         return Response({"error": "Factura no encontrada."}, status=status.HTTP_404_NOT_FOUND)
 
-    nuevo_estado = EstadoFactura.objects.create(
+    # 🔹 Buscar si ya existe un estado asociado a esta factura
+    estado_factura, creado = EstadoFactura.objects.update_or_create(
         factura=factura,
-        proceso_pedido=proceso_pedido,
-        estado_pedido="por validar"  # Valor fijo
+        defaults={
+            "proceso_pedido": proceso_pedido,
+            "estado_pedido": "por validar"  # Valor fijo
+        }
     )
 
-    return Response({"mensaje": "Estado actualizado correctamente."}, status=status.HTTP_200_OK)
+    if creado:
+        mensaje = "Estado creado correctamente."
+    else:
+        mensaje = "Estado actualizado correctamente."
+
+    return Response({"mensaje": mensaje}, status=status.HTTP_200_OK)
 
 
 #cronograma
@@ -284,3 +303,4 @@ class CronogramaMiUsuarioView(APIView):
         cronogramas = Cronograma.objects.filter(id_usuario=id_usuario)
         serializer = CronogramaTrabajadorSerializer(cronogramas, many=True) 
         return Response(serializer.data, status=status.HTTP_200_OK)
+

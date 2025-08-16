@@ -88,7 +88,6 @@ class ProductoUpdateView(APIView):
             return Response({'error': 'Producto no encontrado'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
 class ProductoViewSet(viewsets.ModelViewSet):
     serializer_class = ProductoSerializer
     queryset = Productos.objects.all() 
@@ -101,18 +100,6 @@ class ProductoViewSet(viewsets.ModelViewSet):
         return queryset
     
     def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-
-        # Intenta eliminar la imagen de Cloudinary si existe
-        public_id = getattr(instance, 'imagen_public_id', None)
-        if public_id:
-            cloudinary_destroy(public_id)
-
-        # Elimina el producto de la base de datos
-        self.perform_destroy(instance)
-        return Response({"detalle": "Producto eliminado correctamente."}, status=status.HTTP_204_NO_CONTENT)
-    
-    def destroy(self, request, *args, **kwargs):
         producto = self.get_object()
 
         pedidos_relacionados = Pedido.objects.filter(id_producto=producto.id_producto)
@@ -120,8 +107,16 @@ class ProductoViewSet(viewsets.ModelViewSet):
         if pedidos_relacionados.exists():
             facturas_ids = pedidos_relacionados.values_list('facturas_id_factura', flat=True)
 
+            # Traer todos los estados relacionados para depuración
+            estados_facturas = EstadoFactura.objects.filter(
+                facturas_id_factura__in=facturas_ids
+            ).values('proceso_pedido', 'estado_pedido')
+
+            print("DEBUG -> Estados encontrados:", list(estados_facturas))
+
             fases_bloqueo = ['preparando', 'empaquetando', 'en entrega']
 
+            # 🔹 Bloqueo si está en proceso activo
             if EstadoFactura.objects.filter(
                 facturas_id_factura__in=facturas_ids,
                 proceso_pedido__in=fases_bloqueo
@@ -130,6 +125,23 @@ class ProductoViewSet(viewsets.ModelViewSet):
                     {"error": "No se puede eliminar este producto porque está asociado a pedidos en proceso."},
                     status=status.HTTP_400_BAD_REQUEST
                 )
+
+            # 🔹 Bloqueo si algún pedido está aún "por validar"
+            if EstadoFactura.objects.filter(
+                facturas_id_factura__in=facturas_ids,
+                estado_pedido='por validar'
+            ).exists():
+                return Response(
+                    {"error": "No se puede eliminar este producto porque tiene pedidos en estado 'por validar'."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # ✅ Si todos están en 'completado' y estado_pedido es 'aceptado' o 'rechazado', se permite
+
+        # 🔹 Elimina imagen en Cloudinary si existe
+        public_id = getattr(producto, 'imagen_public_id', None)
+        if public_id:
+            cloudinary_destroy(public_id)
 
         producto.delete()
         return Response({"message": "Producto eliminado con éxito"}, status=status.HTTP_200_OK)
