@@ -1,27 +1,96 @@
-  // ProductoDetalle.jsx
-  import React, { useEffect, useState } from 'react';
-  import { useParams } from 'react-router-dom';
-  import '../assets/styles/InfoPorProducto.css';
-  import { AiFillHeart, AiFillEdit, AiFillDelete } from 'react-icons/ai';
-  import axios from 'axios';
-  import { useCarrito } from '../Context/CarritoContext';
+// ProductoDetalle.jsx
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import '../assets/styles/InfoPorProducto.css';
+import { AiFillHeart, AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import axios from 'axios';
+import { useCarrito } from '../Context/CarritoContext';
+import "../assets/styles/Global.css";
+import campana from '../assets/images/campana.png';
 
-  export default function ProductoDetalle() {
-    const { id } = useParams();
-    const [producto, setProducto] = useState(null);
-    const [error, setError] = useState(null);
-    const [popup, setPopup] = useState(null);
+// Modal simple
+// Modal simple, cierra con botón, overlay y tecla ESC
+function ModalAviso({ mensaje, onClose }) {
+  React.useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [onClose]);
 
-    const [comentarios, setComentarios] = useState([]);
-    const [nuevoComentario, setNuevoComentario] = useState('');
-    const [puntuacion, setPuntuacion] = useState(5);
-    const [usuarioId, setUsuarioId] = useState(null);
+  return (
+    <div
+      className="modal-overlay"
+      onClick={onClose}              // clic fuera cierra
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()} // evita que el clic dentro cierre
+      >
+        <h3>⚠ Aviso</h3>
+        <p>{mensaje}</p>
+        <button
+          type="button"
+          className="boton-cerrar"
+          onClick={onClose}
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+  );
+}
 
-    const [comentarioEditando, setComentarioEditando] = useState(null);
-    const [comentarioEditado, setComentarioEditado] = useState('');
-    const [puntuacionEditada, setPuntuacionEditada] = useState(5);
+// Modal de confirmación para eliminar
+function ModalConfirmacion({ mensaje, onConfirm, onCancel }) {
+  React.useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') onCancel();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [onCancel]);
 
-    const { agregarProducto, carrito } = useCarrito();
+  return (
+    <div className="modal-overlay" onClick={onCancel} role="dialog" aria-modal="true">
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <img src={campana} alt="campana" width="20px"/>
+        <h3> Confirmar eliminación</h3>
+        <p>{mensaje}</p>
+        <div className="botones-modal">
+          <br /> <br />
+          <button className="boton-moderno-v-2" onClick={onConfirm}>Sí, eliminar</button>
+          <br /> <br />
+          <button className="boton-moderno-v-2" onClick={onCancel}>Cancelar</button>
+          <br /> <br />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ProductoDetalle() {
+  const { id } = useParams();
+  const [producto, setProducto] = useState(null);
+  const [error, setError] = useState(null);
+  const [popup, setPopup] = useState(null);
+
+  const [comentarios, setComentarios] = useState([]);
+  const [nuevoComentario, setNuevoComentario] = useState('');
+  const [usuarioId, setUsuarioId] = useState(null);
+
+  const [comentarioEditando, setComentarioEditando] = useState(null);
+  const [comentarioEditado, setComentarioEditado] = useState('');
+  const [comentarioAEliminar, setComentarioAEliminar] = useState(null);
+
+
+  const { agregarProducto, carrito } = useCarrito();
+
+  // Estado para modal
+  const [modalMensaje, setModalMensaje] = useState(null);
 
   useEffect(() => {
     const obtenerProducto = async () => {
@@ -70,107 +139,102 @@
     }
   }, [id]);
 
+  const manejarAgregar = (producto) => {
+    if (producto.stock === 0) {
+      setModalMensaje(`El producto "${producto.nameProduct}" no está disponible actualmente.`);
+      return;
+    }
 
-    const manejarAgregar = (producto) => {
-      const productoEnCarrito = carrito.find((item) => item.id === producto.id);
-      const cantidadActual = productoEnCarrito ? productoEnCarrito.quantity : 0;
+    const productoEnCarrito = carrito.find((item) => item.id === producto.id);
+    const cantidadActual = productoEnCarrito ? productoEnCarrito.quantity : 0;
 
-      if (cantidadActual < producto.stock) {
-        agregarProducto(producto);
-        setPopup(producto.nameProduct);
-        setTimeout(() => setPopup(null), 2000);
-      } else {
-        alert(`⚠️ No puedes agregar más de ${producto.stock} unidades de ${producto.nameProduct}`);
-      }
-    };
+    if (cantidadActual < producto.stock) {
+      agregarProducto(producto);
+      setPopup(producto.nameProduct);
+      setTimeout(() => setPopup(null), 2000);
+    } else {
+      setModalMensaje(`No puedes agregar más de ${producto.stock} unidades de "${producto.nameProduct}".`);
+    }
+  };
 
-    const enviarComentario = async () => {
-      if (nuevoComentario.trim() === '') return;
+  const enviarComentario = async () => {
+    if (nuevoComentario.trim() === '') return;
 
-      try {
-        const token = localStorage.getItem("access");
-        if (!token) {
-          alert("Debes iniciar sesión para comentar.");
-          return;
-        }
-
-        const response = await axios.post(
-          'http://localhost:8000/api/carrito/comentarios/',
-          {
-            id_producto: parseInt(id),
-            comentario: nuevoComentario,
-            puntuacion: puntuacion
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
-
-        setComentarios(prev => [response.data, ...prev]);
-        setNuevoComentario('');
-        setPuntuacion(5);
-      } catch (error) {
-        console.error("❌ Error al enviar comentario:", error);
+    try {
+      const token = localStorage.getItem("access");
+      if (!token) {
         alert("Debes iniciar sesión para comentar.");
+        return;
       }
-    };
 
-    const iniciarEdicion = (comentario) => {
-      setComentarioEditando(comentario.id_valoracion);
-      setComentarioEditado(comentario.comentario);
-      setPuntuacionEditada(comentario.puntuacion);
-    };
-
-    const guardarEdicion = async (comentarioId) => {
-      try {
-        const token = localStorage.getItem("access");
-        console.log("🧪 Enviando PUT:", {
-          comentario: comentarioEditado,
-          puntuacion: puntuacionEditada,
-          id_producto: producto.id,
-        });
-
-        const response = await axios.put(`http://localhost:8000/api/carrito/comentarios/${comentarioId}/`, {
-          comentario: comentarioEditado,
-          puntuacion: puntuacionEditada,
-          id_producto: producto.id, // 👈 esto es lo que falta probablemente
-        }, {
+      const response = await axios.post(
+        'http://localhost:8000/api/carrito/comentarios/',
+        {
+          id_producto: parseInt(id),
+          comentario: nuevoComentario,
+        },
+        {
           headers: {
             Authorization: `Bearer ${token}`
           }
-        });
+        }
+      );
 
-        setComentarios(prev =>
-          prev.map(c => c.id_valoracion === comentarioId ? response.data : c)
-        );
-        setComentarioEditando(null);
-      } catch (error) {
-        console.error("❌ Error al editar comentario:", error);
-      }
-    };
+      setComentarios(prev => [response.data, ...prev]);
+      setNuevoComentario('');
+    } catch (error) {
+      console.error(" Error al enviar comentario:", error);
+      alert("Debes iniciar sesión para comentar.");
+    }
+  };
 
-    const eliminarComentario = async (comentarioId) => {
-      const confirmacion = window.confirm("¿Estás seguro de que quieres eliminar este comentario?");
-      if (!confirmacion) return;
+  const iniciarEdicion = (comentario) => {
+    setComentarioEditando(comentario.id_valoracion);
+    setComentarioEditado(comentario.comentario);
+  };
 
-      try {
-        const token = localStorage.getItem("access");
-        await axios.delete(`http://localhost:8000/api/carrito/comentarios/${comentarioId}/`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+  const guardarEdicion = async (comentarioId) => {
+    try {
+      const token = localStorage.getItem("access");
 
-        setComentarios(prev => prev.filter(c => c.id_valoracion !== comentarioId));
-      } catch (error) {
-        console.error("❌ Error al eliminar comentario:", error);
-      }
-    };
+      const response = await axios.put(`http://localhost:8000/api/carrito/comentarios/${comentarioId}/`, {
+        comentario: comentarioEditado,
+        id_producto: producto.id,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-    if (error) return <h2 className="error">{error}</h2>;
-    if (!producto) return <h2 className="loading">Cargando producto...</h2>;
+      setComentarios(prev =>
+        prev.map(c => c.id_valoracion === comentarioId ? response.data : c)
+      );
+      setComentarioEditando(null);
+    } catch (error) {
+      console.error(" Error al editar comentario:", error);
+    }
+  };
 
-    return (
+const eliminarComentario = async (comentarioId) => {
+  try {
+    const token = localStorage.getItem("access");
+    await axios.delete(`http://localhost:8000/api/carrito/comentarios/${comentarioId}/`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    setComentarios(prev => prev.filter(c => c.id_valoracion !== comentarioId));
+    setComentarioAEliminar(null); // cerrar modal después de borrar
+  } catch (error) {
+    console.error(" Error al eliminar comentario:", error);
+  }
+  };
+
+
+  if (error) return <h2 className="error">{error}</h2>;
+  if (!producto) return <h2 className="loading">Cargando producto...</h2>;
+
+  return (
+    <>
       <section className='ContenedorProductoInfo'>
         <div className='InfoSuperiorCalificacion'>
           <div className='ImagenProducto'>
@@ -202,23 +266,25 @@
           </div>
         </div>
 
-        <h2 className='Calificacion'>Calificación</h2>
-        <div className='ContenedorPanesC'>
-          {[...Array(3)].map((_, i) => (
-            <span key={`filled-${i}`} style={{ fontSize: '24px', marginRight: '5px', color: '#D2691E' }}>🍞</span>
-          ))}
-          {[...Array(2)].map((_, i) => (
-            <span key={`gray-${i}`} style={{ fontSize: '24px', marginRight: '5px', color: 'lightgray' }}>🍞</span>
-          ))}
+        <h2 className='titulo-comentario'>Comentarios</h2>
+
+        <div className='FormularioComentario'>
+              <textarea className='input-comentario'
+                placeholder='Escribe tu comentario..!'
+                value={nuevoComentario}
+                onChange={(e) => setNuevoComentario(e.target.value)}
+              />
+              <br /> <br />
+              <button className='boton-moderno' onClick={enviarComentario}>Enviar</button>
+              <br /> <br />
         </div>
 
         <div className='InfoInferiorCalificacion'>
           <div className='ContenedorComentarios'>
-            <h1 className='Comentarios'>Comentarios</h1>
-
+            <br />
             <div className='ListaComentarios'>
               {comentarios.length === 0 ? (
-                <p>No hay comentarios aún.</p>
+                <p className='sin-comentarios'>No hay comentarios aún.</p>
               ) : (
                 comentarios.map((comentario) => {
                   const esComentarioUsuario = Number(usuarioId) === Number(comentario.usuario?.id);
@@ -238,14 +304,6 @@
                             onChange={(e) => setComentarioEditado(e.target.value)}
                             placeholder="Edita tu comentario..."
                           />
-                          <select
-                            value={puntuacionEditada}
-                            onChange={(e) => setPuntuacionEditada(parseInt(e.target.value))}
-                          >
-                            {[1, 2, 3, 4, 5].map(n => (
-                              <option key={n} value={n}>{n}</option>
-                            ))}
-                          </select>
                           <div className="BotonesEdicion">
                             <button onClick={() => guardarEdicion(comentario.id_valoracion)}>💾 Guardar</button>
                             <button onClick={() => setComentarioEditando(null)}>❌ Cancelar</button>
@@ -254,17 +312,17 @@
                       ) : (
                         <>
                           <p>{comentario.comentario}</p>
-                          <span>Puntuación: {comentario.puntuacion}/5</span><br />
                           <small>{new Date(comentario.fecha_valoracion).toLocaleDateString()}</small>
 
                           {esComentarioUsuario && (
                             <div className="BotonesComentario">
-                              <button onClick={() => iniciarEdicion(comentario)}>
+                              <button  onClick={() => iniciarEdicion(comentario)}>
                                 <AiFillEdit size={20} color="orange" />
                               </button>
-                              <button onClick={() => eliminarComentario(comentario.id_valoracion)}>
+                              <button onClick={() => setComentarioAEliminar(comentario.id_valoracion)}>
                                 <AiFillDelete size={20} color="red" />
-                              </button>
+                                </button>
+
                             </div>
                           )}
                         </>
@@ -273,21 +331,9 @@
                   );
                 })
               )}
-            </div>
+            </div>  
+            <br /> <br />
 
-            <div className='FormularioComentario'>
-              <textarea
-                placeholder='Escribe tu comentario...'
-                value={nuevoComentario}
-                onChange={(e) => setNuevoComentario(e.target.value)}
-              />
-              <select value={puntuacion} onChange={(e) => setPuntuacion(parseInt(e.target.value))}>
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <option key={n} value={n}>{n}</option>
-                ))}
-              </select>
-              <button onClick={enviarComentario}>Enviar</button>
-            </div>
           </div>
 
           <div className='MetodosPagoInfo'>
@@ -300,5 +346,25 @@
           </div>
         </div>
       </section>
-    );
-  }
+
+      {/* Modal de aviso */}
+      {modalMensaje && (
+        <ModalAviso
+          mensaje={modalMensaje}
+          onClose={() => setModalMensaje(null)}
+        />
+      )}
+      {/* Modal de confirmación para eliminar */}
+      {comentarioAEliminar && (
+        <ModalConfirmacion
+          
+          mensaje="¿Estás seguro de que quieres eliminar este comentario?"
+          onConfirm={() => eliminarComentario(comentarioAEliminar)} // pasar id del comentario
+          onCancel={() => setComentarioAEliminar(null)}
+        />
+        )}
+     
+    </>
+    
+  );
+}

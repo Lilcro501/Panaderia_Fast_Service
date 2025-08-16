@@ -18,7 +18,7 @@ export default function TextoCircular() {
           </defs>
           <text>
             <textPath href="#circlePath" startOffset="0">
-              La Orquídea • La Orquídea • La Orquídea • 
+              La Orquídea  •  La Orquídea  •  La Orquídea  •  La Orquídea  •  
             </textPath>
           </text>
         </svg>

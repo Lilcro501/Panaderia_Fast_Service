@@ -1,5 +1,5 @@
 // Dentro de AccedeAqui.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../assets/styles/AccedeAqui.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
@@ -9,6 +9,7 @@ import { FaUser, FaLock } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 import { iniciarSesion } from '../../api/login';
+import "../../assets/styles/Global.css";
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
@@ -18,8 +19,10 @@ export default function AccedeAqui() {
   const [password, setPassword] = useState('');
   const [enviado, setEnviado] = useState(false);
   const [errorLogin, setErrorLogin] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [usuarioModal, setUsuarioModal] = useState({ nombre: '', rol: '' });
+
+  useEffect(() => {
+    cambiarRol('sin-registrar');
+  }, [cambiarRol]);
 
   const salir = () => {
     window.location.href = '/';
@@ -32,28 +35,21 @@ export default function AccedeAqui() {
   const PasswordValida = regexPassword.test(password);
 
   const redirigirPorRol = (rol) => {
-    switch (rol) {
-      case 'admin':
-        navigate('/PrincipalAdmin');
-        break;
-      case 'trabajador':
-        navigate('/Inicio');
-        break;
-      case 'cliente':
-        navigate('/home');
-        break;
-      default:
-        navigate('/');
-    }
-  };
-
-  const mostrarModalBienvenida = (nombre, rol) => {
-    setUsuarioModal({ nombre, rol });
-    setModalVisible(true);
     setTimeout(() => {
-      setModalVisible(false);
-      redirigirPorRol(rol);
-    }, 2500); // 2.5 segundos y redirige
+      switch (rol) {
+        case 'admin':
+          navigate('/PrincipalAdmin');
+          break;
+        case 'trabajador':
+          navigate('/Inicio');
+          break;
+        case 'cliente':
+          navigate('/home');
+          break;
+        default:
+          navigate('/');
+      }
+    }, 250);
   };
 
   const handleSubmit = async (e) => {
@@ -79,9 +75,10 @@ export default function AccedeAqui() {
         localStorage.setItem('nombre', nombre);
         localStorage.setItem('rol', rolLower);
         localStorage.setItem('id_usuario', id_usuario);
-        cambiarRol(rolLower);
+        localStorage.setItem('loginMetodo', 'manual');
 
-        mostrarModalBienvenida(nombre, rolLower);
+        cambiarRol(rolLower);
+        redirigirPorRol(rolLower);
       }
     } catch (error) {
       const mensaje = error.response?.data?.error || '❌ Error desconocido en el inicio de sesión';
@@ -107,8 +104,10 @@ export default function AccedeAqui() {
       localStorage.setItem('nombre', nombre);
       localStorage.setItem('rol', rolLower);
       localStorage.setItem('id_usuario', id_usuario);
+      localStorage.setItem('loginMetodo', 'google');
 
-      mostrarModalBienvenida(nombre, rolLower);
+      cambiarRol(rolLower);
+      redirigirPorRol(rolLower);
     } catch (error) {
       setErrorLogin('Error al iniciar sesión con Google');
     }
@@ -182,29 +181,6 @@ export default function AccedeAqui() {
           </p>
         </form>
       </div>
-
-      {/* Modal de bienvenida */}
-      {/* Modal de bienvenida */}
-      {modalVisible && (
-      <div className='modal-bienvenida'>
-      <div className='modal-contenido'>
-        <h2>🎉 ¡Bienvenido {usuarioModal.nombre}!</h2>
-        <p>Has iniciado sesión como <strong>{usuarioModal.rol}</strong></p>
-      
-      {/* Botón Aceptar */}
-        <button
-          className='btn-aceptar'
-          onClick={() => {
-            setModalVisible(false);
-
-          }}
-       >
-         Aceptar
-        </button>
-    </div>
-  </div>
-)}
-
     </section>
   );
 }
