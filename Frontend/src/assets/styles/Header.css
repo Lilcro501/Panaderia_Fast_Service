@@ -60,6 +60,14 @@
   z-index: 5;
 }
 
+.formato-link {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 2.0rem;
+  margin: 10px;
+  }
+
 /* ~~~~~~~~~~~~~~~~ Menú encabezado ~~~~~~~~~~~~~~~~*/
 
 .lista-info {
@@ -269,6 +277,7 @@
   .lista-info li {
     font-size: 1.4rem;
   }
+
 }
 
 @media (max-width: 400px) {
