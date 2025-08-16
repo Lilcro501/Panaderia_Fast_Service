@@ -209,8 +209,8 @@ export default function AccedeAqui() {
             setModalVisible(false);
 
           }}
-       >
-         Aceptar
+        >
+          Aceptar
         </button>
     </div>
   </div>

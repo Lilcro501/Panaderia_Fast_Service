@@ -4,7 +4,6 @@ import '../../assets/styles/HomeSinRegistrar.css'; /* ~~~~~~ Estilo del carrusel
 import mostrador from "../../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del mostrador ~~~~~~ */
 import Categorias from "../../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
 import Carrusel1 from "../../components/CarruselIncremento"; /* ~~~~~~ Componente del carrusel con botones ~~~~~~ */
-import Carrusel2 from "../../components/CarruselCalificacion"; /* ~~~~~~ Componente carrusel con calificaciones ~~~~~~ */ 
 import CookiesControlador from '../../components/CooControlador'; /* ~~~~~~ Componente de cookies inicial ~~~~~~ */ 
 import TextoCircular from '../../components/TextoCircular'; /* ~~~~~~ Componente de imagen con texto circular rotatorio ~~~~~~ */ 
 import { Link } from "react-router-dom";
@@ -52,9 +51,6 @@ export default function HomeSinRegistrar() {
         </article>
 
         <br/> <br/>
-        <br/> <br/>
-        <h2 className="titulo-productos" >Productos destacados</h2>
-        <Carrusel2/>
         <br/> <br/>
 
         <section className="frase-logo">

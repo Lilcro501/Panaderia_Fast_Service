@@ -66,19 +66,18 @@
   display: flex;
   justify-content: center;
   list-style: none;
-  gap: 10px;
+  gap: 25px;
   align-items: center;
   margin: 0;
   padding: 0;
   flex-wrap: wrap;
-  font-size: 20px;
+  font-size: 1.9rem;
 }
 
 .lista-info li {
   text-decoration: none;
   color: #e4e1e1;
   font-weight: bold;
-  font-size: 2rem;
   list-style: none;
   transition: transform 0.3s ease;
 }
@@ -283,10 +282,6 @@
     height: 65px;
   }
 
-  .lista-info li {
-    font-size: 1.2rem;
-  }
-
   .icono-carrito img {
     width: 40px;
     height: 40px;
@@ -294,7 +289,8 @@
 
   .lista-info {
     flex-direction: row;
-    gap: 8px;
+    gap: 10px;
+    font-size: 1.3rem;
   }
 }
 
@@ -314,7 +310,7 @@
 
   .lista-info {
     flex-direction: row;
-    gap: 6px;
+    gap: 16px;
   }
 
   .lista-info li {
@@ -352,7 +348,8 @@
   .lista-info {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
+    font-size: 1.5rem;
   }
 
   .estilo-logo {
@@ -364,8 +361,7 @@
     width: 60px;
   }
 
-  .icono-carrito img {
-    width: 40px;
-    height: 40px;
+  .icono-carrito {
+    order: 3;
   }
 }
