@@ -1,14 +1,13 @@
 .entrada {
-    background-color: #554949;
-    border-radius: 10px;
-    width: 450px;
-    height: 30px;
+  background-color: #554949;
+  border-radius: 10px;
+  width: 450px;
+  height: 30px;
 }
 
 .foto-perfil {
-    width: 60px;
+  width: 60px;
 }
-
 
 .recuadro-perfil {
   max-width: 500px;

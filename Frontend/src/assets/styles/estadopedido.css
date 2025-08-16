@@ -1,139 +1,232 @@
+.boton-volver button {
+  background: linear-gradient(90deg, #eec9a1 0%, #d49e7d 100%);
+  color: #6d3b18;
+  font-weight: bold;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px 0 rgba(212, 158, 125, 0.18);
+  letter-spacing: 0.5px;
+  transition: background 0.3s, color 0.3s, transform 0.3s;
+  outline: none;
+}
+.boton-volver button:hover, .boton-volver button:focus {
+  background: linear-gradient(90deg, #fbeee6 0%, #eec9a1 100%);
+  color: #a05a2c;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px 0 rgba(212, 158, 125, 0.22);
+}
+.boton-personalizado, .boton-volver button {
+  font-size: 0.88rem;
+  padding: 6px 14px;
+  min-width: 70px;
+  max-width: 120px;
+  border-radius: 7px;
+  margin: 0.2rem auto;
+  display: inline-block;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .boton-personalizado, .boton-volver button {
+    font-size: 0.8rem !important;
+    padding: 5px 8px !important;
+    min-width: 50px !important;
+    max-width: 90px !important;
+    border-radius: 6px !important;
+    margin: 0.15rem auto !important;
+  }
+}
+/* Quitar borde de la tabla */
+table, th, td {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Botones más pequeños en responsivo */
+@media (max-width: 700px) {
+  .boton-personalizado, .boton-volver button {
+    font-size: -1rem !important;
+    padding: 7px 0 !important;
+    min-width: 80px !important;
+    max-width: 120px !important;
+    margin: 0.2rem auto !important;
+    border-radius: 7px !important;
+  }
+}
 
 .estados-body {
   max-width: 900px;
   margin: 2rem auto;
-  padding: 2.5rem;
-  border-radius: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
+  color: #181818;
 }
 
 .encabezado {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  padding: 0 15px;
+  margin-bottom: 20px;
 }
 
-.td {
-  color: #2c3e50;
-  font-size: 1rem;
-  line-height: 1.5;
+.td{
+  color: #181818;
+}
+/* Responsive tabla y botones */
+@media (max-width: 700px) {
+  .estados-body {
+    padding: 0.5rem 0.2rem;
+    border-radius: 8px;
+    margin: 0.5rem auto;
+    box-shadow: 0 0 8px rgba(0,0,0,0.08);
+  }
+  .estados-body {
+    max-width: 370px !important;
+    width: 98vw !important;
+  }
+  .titulo {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  table, thead, tbody, tr, th, td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  table {
+    margin: 0 auto 1.2rem auto !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 340px !important;
+  }
+  thead {
+    display: none;
+  }
+  tr {
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 1rem 0.7rem 1rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  td {
+    padding: 0.3rem 0.2rem;
+    text-align: left;
+    position: relative;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+  }
+  td::before {
+    content: attr(data-label) ": ";
+    font-weight: 600;
+    min-width: 0;
+    color: #b08968;
+    font-size: 0.98rem;
+    flex-shrink: 0;
+    display: inline-block;
+    margin-right: 6px;
+    text-align: left;
+    word-break: break-word;
+    white-space: pre-line;
+  }
+  td {
+    justify-content: flex-start;
+    word-break: break-word;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+  }
+  .estado-circulo {
+    margin: 0 8px 0 0;
+    flex-shrink: 0;
+  }
+  .boton-personalizado, .boton-volver button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px 0;
+    margin: 0.3rem 0;
+    border-radius: 8px;
+    text-align: center;
+  }
 }
 
 .logo {
-  width: 80px;
-  height: 80px;
-  margin-left: 0;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.logo:hover {
-  transform: scale(1.05);
+  width: 70px;
+  height: 70px;
+  margin-left: 20px;
 }
 
 .usuario {
-  width: 45px;
-  height: 45px;
-  margin-right: 0;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.usuario:hover {
-  transform: scale(1.1);
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
 }
 
 .estado-circulo {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   display: inline-block;
-  opacity: 0.4;
+  opacity: 0.3;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 0 5px;
-  border: 2px solid transparent;
-}
-
-.estado-circulo:hover {
-  opacity: 0.8;
-  transform: scale(1.1);
+  transition: 0.2s ease;
 }
 
 .estado-circulo.activo {
   opacity: 1;
   transform: scale(1.2);
-  border: 2px solid #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
 }
 
-/* Colores con gradientes */
+/* Colores */
 .rojo {
-  background: linear-gradient(135deg, #ff4d4d, #ff0000);
+  background-color: red;
 }
 
 .amarillo {
-  background: linear-gradient(135deg, #ffd700, #ffa500);
+  background-color: orange;
 }
 
 .verde {
-  background: linear-gradient(135deg, #4CAF50, #45a049);
+  background-color: green;
 }
 
-.boton-volver {
-  margin-top: 30px;
-  text-align: center;
-}
+  .boton-volver {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
 
-.boton-volver button {
-  background: linear-gradient(135deg, #d4a373, #b08968);
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  font-size: 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(212, 163, 115, 0.3);
-}
-
-.boton-volver button:hover {
-  background: linear-gradient(135deg, #b08968, #8b6b4d);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(212, 163, 115, 0.4);
-}
-
-.boton-volver button:active {
-  transform: translateY(1px);
-}
-.estado-circulo {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: inline-block;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: transform 0.2s;
-}
-
-.estado-circulo.rojo {
-  background-color: #ff4d4f;
-}
-
-.estado-circulo.amarillo {
-  background-color: #ffc107;
-}
-
-.estado-circulo.verde {
-  background-color: #4caf50;
-}
-
-.estado-circulo.activo {
-  border: 2px solid black;
-  transform: scale(1.2);
+  .boton-volver button {
+    background: linear-gradient(90deg, #ffb47b 0%, #eec9a1 100%);
+    color: #6d3b18;
+    font-weight: bold;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px 0 rgba(212, 158, 125, 0.18);
+    letter-spacing: 0.5px;
+    transition: background 0.3s, color 0.3s, transform 0.3s;
+    outline: none;
+    padding: 10px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+  }
+.boton-volver button:hover, .boton-volver button:focus {
+  background: linear-gradient(90deg, #fbeee6 0%, #eec9a1 100%);
+  color: #a05a2c;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px 0 rgba(212, 158, 125, 0.22);
 }

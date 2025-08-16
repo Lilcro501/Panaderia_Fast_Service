@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import ListaCrearFavoritos, EliminarFavorito
-from.views import ComentariosPorProductoView, CrearComentarioView, ComentarioDetalleView
+from.views import ComentariosPorProductoView, CrearComentarioView, ComentarioDetalleView, enviar_encuesta
 
 urlpatterns = [
     # Crear factura
@@ -21,4 +21,6 @@ urlpatterns = [
     path('producto/<int:producto_id>/comentarios/', ComentariosPorProductoView.as_view(), name='comentarios-producto'),
     path('comentarios/', CrearComentarioView.as_view(), name='crear-comentario'),
     path('comentarios/<int:pk>/', ComentarioDetalleView.as_view(), name='detalle-comentario'),
+
+    path('encuesta/', enviar_encuesta, name='enviar_encuesta'),
 ]

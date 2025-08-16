@@ -2,68 +2,62 @@
 /* ~~~~~~~~~~~~~~~~ Encabezado ~~~~~~~~~~~~~~~~ */
 .header {
   padding: 70px 20px;
+  position: relative;
   z-index: 1;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  position: relative;
+  z-index: 1000;
 }
 
 .contenido-header {
   display: flex;
-  flex-direction:row ;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  gap: 20px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 50px;
   position: relative;
-  top: -50px;
+  top: 0;
 }
-/* ~~~~~~~~~~~ Plantilla ~~~~~~~~~~~*/
+
 /* ~~~~~~~~~~~ Header estilizado ~~~~~~~~~~~*/
-.shapedividers_com-5996 {
-  overflow: hidden;
-  position: relative;
-}
+/* ~~~~~~~~~~~ Plantilla ~~~~~~~~~~~*/
 
 .shapedividers_com-5996::before {
   content: '';
   position: absolute;
   inset: -1px;
+  left: 0;
+  bottom: 0;
+  width: 100%; 
+  height: var(--sd-wave-h);
+  z-index: -1;
+  transform: translateZ(0);
   pointer-events: none;
   background-repeat: no-repeat;
-  background-size: 100% 140px;
-  background-position: center bottom;
-  background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 35.28 2.17' preserveAspectRatio='none'><path d='M0 .5c3.07.55 9.27-.42 16.14 0 6.88.4 13.75.57 19.14-.11V0H0z' fill='%23fbd8c2'/><path d='M0 1c3.17.8 7.29-.38 10.04-.55 2.75-.17 9.25 1.47 12.67 1.3 3.43-.17 4.65-.84 7.05-.87 2.4-.02 5.52.88 5.52.88V0H0z' opacity='.5' fill='%23fbd8c2'/><path d='M0 1.85c2.56-.83 7.68-.3 11.79-.42 4.1-.12 6.86-.61 9.58-.28 2.73.33 5.61 1.17 8.61 1 3-.19 4.73-.82 5.3-.84V.1H0z' opacity='.5' fill='%23fbd8c2'/></svg>");
-
+  background-size: 100% auto;
+  background-position: left bottom;
+  background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 35.28 2.17' preserveAspectRatio='none'><path d='M0 .5c3.07.55 9.27-.42 16.14 0 6.88.4 13.75.57 19.14-.11V0H0z' fill='%23000000'/><path d='M0 1c3.17.8 7.29-.38 10.04-.55 2.75-.17 9.25 1.47 12.67 1.3 3.43-.17 4.65-.84 7.05-.87 2.4-.02 5.52.88 5.52.88V0H0z' opacity='.5' fill='%23000000'/><path d='M0 1.85c2.56-.83 7.68-.3 11.79-.42 4.1-.12 6.86-.61 9.58-.28 2.73.33 5.61 1.17 8.61 1 3-.19 4.73-.82 5.3-.84V.1H0z' opacity='.5' fill='%23000000'/></svg>");
 }
 
-@media (min-width: 768px) {
-  .shapedividers_com-5996::before {
-    background-size: 100% 180px;
-  }
-}
-
-@media (min-width: 1025px) {
-  .shapedividers_com-5996::before {
-    background-size: 100% 260px;
-    background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'><path fill='%23fbd8c2' d='M0,160 C360,320 1080,0 1440,160 L1440,320 L0,320 Z' /></svg>");
-  }
-}
-
-@media (min-width: 2100px) {
-  .shapedividers_com-5996::before {
-    background-size: 100% calc(2vw + 300px);
-  }
-}
-/* ~~~~~~~~~~~ Fin estilos ~~~~~~~~~~~ */
-
-
-
-/* Fin estilos de la plantilla */
+/* ~~~~~~~~~~~ Fin estilos plantilla~~~~~~~~~~~ */
 /*~~~~~~~~~~~~~~~~ Fin encabezado ~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 
 /* ~~~~~~~~~~~~~ Barra de navegacion ~~~~~~~~~~~~~*/
 .barra-navegacion{
-  width: 100%; /* Ocupa todo el ancho disponible */
-  position: relative; /* Permite posicionar elementos hijos de forma absoluta relativa a este */
-  z-index: 5; /* Asegura que esta barra se muestre por encima de otros elementos si se superponen */
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  position: relative; 
+  z-index: 5;
 }
 
 /* ~~~~~~~~~~~~~~~~ Menú encabezado ~~~~~~~~~~~~~~~~*/
@@ -72,23 +66,31 @@
   display: flex;
   justify-content: center;
   list-style: none;
-  gap: 40px;
-}
-
-.lista-info li:hover{
-  color: #997b6c;
+  gap: 10px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  font-size: 20px;
 }
 
 .lista-info li {
   text-decoration: none;
   color: #e4e1e1;
   font-weight: bold;
-  font-size: 1.8rem;
+  font-size: 2rem;
   list-style: none;
+  transition: transform 0.3s ease;
+}
+
+.lista-info li:hover{
+  color: #997b6c;
 }
 
 .lista-info a{
   color: #ffffff;
+  text-decoration: none;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .lista-info li:hover {
@@ -98,31 +100,37 @@
 /* ~~~~~~~~~~~~~~~~ Fin de la barra de navegación del encabezado ~~~~~~~~~~~~~~~~ */
 
 /* ~~~~~~~~~~~~~~~~ Icono del carrito ~~~~~~~~~~~~~~~~ */
-.icono-carrito {
+.icono-carrito {  
+  position: relative;
   z-index: 5;
-  margin-right: 20px; /*Agrega separación del borde derecho o de otros elementos*/
-  margin-top: 10px; /*Agrega separación del borde superior */
+  padding: 5px;
+  border-radius: 50%;
+  box-shadow: -5px 5px 7px rgb(62, 62, 62);
+  transition: transform 1.4s;
+  margin: 0% 20%;
 }
 
 .icono-carrito img{
-  width: 50px; /*ancho*/
-  height: 50px; /*alto*/
+  width: 55px;
+  height: 55px;
 }
 
-/*validar dos clases que no se encuentran*/
-/*menu-secundario*/
-/*bi bi-search*/
-
 .estilo-logo {
-  border-radius: 50%; /*redondea el logo en forma de circulo*/
-  width: 100px; /*ancho del logo*/
-  height: 100px; /*alto del logo*/
+  border-radius: 50%;
+  width: 100px;
+  height: 100px; 
+  object-fit: cover; 
   box-shadow: -5px 5px 7px rgb(62, 62, 62);
+  transition: transform 1.4s ease;
 }
 
 .estilo-logo:hover{
   transform: rotate(360deg);
   transition-duration: 1.4s ;
+}
+
+.logo-container {
+  flex-shrink: 0;
 }
 
 .logo-container:hover{
@@ -162,10 +170,202 @@
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   padding: 5px;
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .icono-carrito:hover {
   filter: drop-shadow(0 10px 20px rgb(255, 255, 255));
-  transform: scale(1.1); /* efecto de zoom ligero */
+  transform: scale(1.1);
 }
 
+
+.header.shapedividers_com-5996 {
+  position: relative;
+  overflow: hidden;
+  --sd-wave-h: 200px; 
+  padding: 30px 10px; 
+  min-height: 200px; 
+}
+
+.shapedividers_com-5996 {
+  position: relative;
+  overflow: visible;
+  --sd-wave-h: 90px;
+  min-width: 400px; 
+}
+
+.shapedividers_com-5996::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%; 
+  height: var(--sd-wave-h);
+  z-index: -1;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: cover;
+  background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 35.28 2.17' preserveAspectRatio='none'><path d='M0 .5c3.07.55 9.27-.42 16.14 0 6.88.4 13.75.57 19.14-.11V0H0z' fill='%23000000'/><path d='M0 1c3.17.8 7.29-.38 10.04-.55 2.75-.17 9.25 1.47 12.67 1.3 3.43-.17 4.65-.84 7.05-.87 2.4-.02 5.52.88 5.52.88V0H0z' opacity='.5' fill='%23000000'/><path d='M0 1.85c2.56-.83 7.68-.3 11.79-.42 4.1-.12 6.86-.61 9.58-.28 2.73.33 5.61 1.17 8.61 1 3-.19 4.73-.82 5.3-.84V.1H0z' opacity='.5' fill='%23000000'/></svg>");
+  transform: translateZ(0);
+  height: var(--sd-wave-h);
+}
+
+
+/* ===== Diseño responsivo ===== */
+
+@media (max-width: 1024px) {
+  .contenido-header {
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .lista-info {
+    gap: 30px;
+  }
+
+  .lista-info li {
+    font-size: 1.6rem;
+  }
+
+  .estilo-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .icono-carrito img {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 724px) {
+  .contenido-header {
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .barra-navegacion {
+    order: 2; /* Menú debajo del logo */
+  }
+
+  .logo-container {
+    order: 1;
+  }
+
+  .icono-carrito {
+    order: 3;
+  }
+
+  .lista-info {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .lista-info li {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .contenido-header {
+    flex-direction: row;
+    gap: 15px;
+    padding: 5px;
+  }
+
+  .estilo-logo {
+    width: 65px;
+    height: 65px;
+  }
+
+  .lista-info li {
+    font-size: 1.2rem;
+  }
+
+  .icono-carrito img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .lista-info {
+    flex-direction: row;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 320px) {
+  .contenido-header {
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 4px;
+  }
+
+  .estilo-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .lista-info {
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .lista-info li {
+    font-size: 1rem;
+  }
+
+  .icono-carrito img {
+    width: 35px;
+    height: 35px;
+  }
+
+  /* Evita que la ola svg ocupe demasiado espacio en pantallas pequeñas */
+  .shapedividers_com-5996 {
+    --sd-wave-h: 60px;
+  }
+}
+
+
+
+
+
+@media (max-width: 768px) {
+  .contenido-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .barra-navegacion {
+    order: 2;
+    width: 100%;
+  }
+
+  .lista-info {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .estilo-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .estilo-logo-perfil {
+    width: 60px;
+  }
+
+  .icono-carrito img {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -30,7 +30,6 @@ import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
 import PerfilUsuario from '../pages/PagesClientes/PerfilUsuario';
 import PoliticaCo from "../pages/PagesClientes/PoliticaCo";
 import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad";
-import Recomendacion from '../pages/PagesClientes/Recomendacion';
 import TYC from "../pages/PagesClientes/TYC";
 import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
 import ProductoDetalle from '../components/ProductoDetalle';
@@ -38,10 +37,11 @@ import FormularioEntrega from '../pages/PagesClientes/FormularioEntrega';
 import ActualizarPerfilUsuario from '../pages/PagesClientes/ActualizarPerfil';
 
 // ------------------- Páginas Cliente No Login -------------------
+
+
 import AccedeAqui from '../pages/PagesClienteNologin/AccedeAqui';
 import HomeSinRegistrar from '../pages/PagesClienteNologin/HomeSinRegistrar';
 import Conocenos from '../components/Conocenos';
-import Login from '../pages/PagesLogin/Login';
 
 
 // ------------------- Páginas Login -------------------
@@ -77,6 +77,7 @@ import CronogramaTrabajador from '../pages/PagesTrabajador/CronogramaTrabajador'
 const AppRouter = () => {
   return (
     <Routes>
+
       {/* Cliente */}
       <Route path='/Home' element={<PrivateRoute role="cliente"><MainLayout><Home></Home></MainLayout></PrivateRoute>} />
       <Route path="/conocenos" element={<PrivateRoute role="cliente"><MainLayout><Conocenos /></MainLayout></PrivateRoute>} />
@@ -97,17 +98,16 @@ const AppRouter = () => {
       <Route path='/CalificarExperiencia' element={<PrivateRoute role="cliente"><MainLayout> <CalificarExperiencia></CalificarExperiencia> </MainLayout></PrivateRoute>}></Route>
       <Route path='/PerfilUsuario' element={<PrivateRoute role="cliente"> <MainLayout> <PerfilUsuario></PerfilUsuario> </MainLayout> </PrivateRoute>}></Route>
       <Route path='/Actualizar' element={<PrivateRoute role="cliente"><MainLayout><ActualizarPerfilUsuario></ActualizarPerfilUsuario></MainLayout></PrivateRoute>}></Route>
-      <Route path='/Recomendacion' element={<PrivateRoute role="cliente"><MainLayout><Recomendacion></Recomendacion></MainLayout></PrivateRoute>}></Route>
-
 
       {/* Rutas publicas */}
-      <Route path='/' element={<MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin>}/>
+      <Route path='/' element={<PrivateRoute role="sin-registrar"><MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin></PrivateRoute>}/>
+      <Route path='/AccedeAqui' element={<PrivateRoute role="sin-registrar"><MainLayoutSinLogin><AccedeAqui /></MainLayoutSinLogin></PrivateRoute>} />
+
       <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña></CambioDeContraseña></MainLayoutSinLogin>}></Route>
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
       <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
-      <Route path='/AccedeAqui' element={<MainLayoutSinLogin><AccedeAqui /></MainLayoutSinLogin>} />
-      <Route path="/Login" element={<Login />} />
+
 
 
 
