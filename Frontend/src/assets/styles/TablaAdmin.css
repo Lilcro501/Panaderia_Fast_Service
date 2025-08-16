@@ -16,7 +16,7 @@
 
 /* Color del texto del encabezado */
 .Tabla-5c thead th {
-    color: black;
+    color: rgb(255, 255, 255);
     font-weight: bold;
     background-color: #b8875b; /* también podrías mover este aquí */
 }
@@ -24,12 +24,14 @@
 
 /* Estilo para el cuerpo de la tabla */
 .Tabla-5c tbody tr {
-    background-color: rgb(26, 25, 25);
+    background-color: rgb(255, 255, 255);
     transition: background-color 0.3s ease;
+    color: #ccc;
 }
 
 .Tabla-5c tbody tr:hover {
-    background-color: #333;
+    background-color: #979191;
+    color: #000000;
 }
 
 /* Celdas: encabezado y datos */
@@ -37,4 +39,5 @@
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
+    color: #000000;
 }
