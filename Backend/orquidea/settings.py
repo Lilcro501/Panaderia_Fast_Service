@@ -86,7 +86,7 @@ INSTALLED_APPS = [
     # mis apps
     # este es el apartado de apps, cada app creada se debe agregar en este apartado 
     #para que django pueda acceder a las carpetas de la aplicacion
-    'administrador',
+    'administrador.apps.AdministradorConfig',
     'carrito',
     'usuarios',
     'trabajador'
@@ -176,7 +176,7 @@ DATABASES = {
         #este campo le inidca al backend que motor se va a utilzar para conectarse en la base de datos, en este caso es mysql
         'ENGINE': 'django.db.backends.mysql',
         #este campo especifica el nombre de la base de datos 
-        'NAME': "fast_service_",
+        'NAME': "fast_service",
         #este campo especifica el nombre del usuario que se utilzara para autenticar la conexion con la base de datos
         'USER': "root",
         #este campo especifica la constraseña asociada con el usuario

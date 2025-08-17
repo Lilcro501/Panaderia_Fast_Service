@@ -120,17 +120,18 @@ export default function AdministrarInven() {
         if (!confirmacion) return; // Si el usuario cancela, salimos de la función
 
         try {
-            // Hacemos una petición DELETE a la API para eliminar el producto por su ID
-            await axios.delete(`http://localhost:8000/api/administrador/productos/${id}/`);
-
-            // Mostramos mensaje y volvemos a cargar los productos para actualizar la tabla
-            alert("Producto eliminado correctamente.");
-            obtenerProductos();
-        } catch (error) {
-            // Si ocurre un error, lo mostramos en consola y alertamos al usuario
-            console.error("Error al eliminar producto:", error);
-            alert("No se pudo eliminar el producto.");
+        const respuesta = await axios.delete(`http://localhost:8000/api/administrador/productos/${id}/`);
+        alert(respuesta.data.message || "Producto eliminado correctamente.");
+        obtenerProductos();
+    } catch (error) {
+        if (error.response && error.response.data) {
+            const mensaje = error.response.data.error || error.response.data.message || "Ocurrió un error inesperado.";
+            alert(mensaje);
+        } else {
+            alert("No se pudo eliminar el producto. Error de conexión.");
         }
+        console.error("Error al eliminar producto:", error);
+    }
     };
 
     // Lo que se va a mostrar en la pantalla

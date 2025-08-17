@@ -150,18 +150,27 @@
 
 /* Imagen  estado */
 .imagen-estado{
-  width: 170px;
-  height: 170px;
-  background-image: url("../images/EstadosPedidos.png");
+  width: 160px;
+  height: 160px;
+  background-image: url("../images/Estados_trabajadorr.png");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Imagen de historial */
+.imagen-historial {
+  width: 140px;
+  height: 140px;
+  background-image: url("../images/historial_trabajador.png");
   background-size: cover;
   background-position: center;
 }
 
 /* Imagen de panes */
-.imagen-panes {
-  width: 190px;
-  height: 160px;
-  background-image: url("../images/Panes.png");
+.imagen-cronograma {
+  width: 140px;
+  height: 140px;
+  background-image: url("../images/cronograma_trabajador.png");
   background-size: cover;
   background-position: center;
 }

@@ -3,11 +3,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
-import { useRol } from "../Context/RolContext"; // Asegúrate que la ruta es correcta
+import { useRol } from "../Context/RolContext";
 
 export default function LoginGoogle() {
   const navigate = useNavigate();
-  const { cambiarRol } = useRol();
+  const { cambiarRol, guardarToken } = useRol();
 
   const handleLoginSuccess = async (credentialResponse) => {
     try {
@@ -19,11 +19,11 @@ export default function LoginGoogle() {
       // Forzar rol cliente
       const rolForzado = "cliente";
 
-      // Guardar en localStorage
+      // Guardar en localStorage primero (asegura persistencia inmediata)
+      localStorage.setItem("rol", rolForzado);
       localStorage.setItem("access", response.data.access);
       localStorage.setItem("refresh", response.data.refresh);
       localStorage.setItem("nombre", response.data.nombre);
-      localStorage.setItem("rol", rolForzado);
       localStorage.setItem("id_usuario", response.data.id_usuario);
       localStorage.setItem(
         "usuario",
@@ -37,12 +37,12 @@ export default function LoginGoogle() {
       );
 
       // Actualizar contexto
+      guardarToken(response.data.access);
       cambiarRol(rolForzado);
 
-      // Redirigir después de un pequeño delay para asegurar actualización
-      setTimeout(() => {
-        navigate("/PerfilUsuario");
-      }, 100);
+      // Redirigir sin delay
+      navigate("/PerfilUsuario", { replace: true });
+
     } catch (error) {
       console.error("Error en login con Google:", error);
     }
