@@ -31,8 +31,7 @@ export const FavoritosProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-
-  // 🔴 NUEVA FUNCIÓN PARA ELIMINAR DE FAVORITOS LOCALMENTE
+  
   const eliminarFavoritoLocal = (productoId) => {
     setFavoritos((prevFavoritos) =>
       prevFavoritos.filter((fav) => fav.producto_detalle.id !== productoId)

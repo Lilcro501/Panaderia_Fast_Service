@@ -35,7 +35,7 @@ export default function HistorialPedidos() {
     pedido.fecha,
     pedido.estado,
     <Boton texto="Ver pedido" onClick={() => navigate(`/DetallesPedido/${pedido.id}`)} />,
-    <Boton texto="Detalles del cliente" onClick={() => navigate(`/InfoCliente/${pedido.clienteId}`)} />
+    <Boton texto="Detalles del cliente" onClick={() => navigate(`/InfoCliente/${pedido.id}`)} />
   ]);
 
   return (
