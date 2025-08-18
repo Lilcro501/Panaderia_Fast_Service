@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-
 import '../../assets/styles/HomeSinRegistrar.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
 import mostrador from "../../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del mostrador ~~~~~~ */
 import Categorias from "../../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
 import Carrusel1 from "../../components/CarruselIncremento"; /* ~~~~~~ Componente del carrusel con botones ~~~~~~ */
-import Carrusel2 from "../../components/CarruselCalificacion"; /* ~~~~~~ Componente carrusel con calificaciones ~~~~~~ */ 
 import CookiesControlador from '../../components/CooControlador'; /* ~~~~~~ Componente de cookies inicial ~~~~~~ */ 
 import TextoCircular from '../../components/TextoCircular'; /* ~~~~~~ Componente de imagen con texto circular rotatorio ~~~~~~ */ 
-import { Link } from "react-router-dom";
-import { AiFillSun } from "react-icons/ai";
-// Al inicio de tu archivo
-import { useRol } from '../Context/RolContext'; // ajusta la ruta según tu proyecto
+import { Link } from "react-router-dom"; //
+import { AiFillSun } from "react-icons/ai"; // Al inicio de tu archivo  
+import { useRol } from '../../Context/RolContext'; // ajusta la ruta según tu proyecto
+
+
 
 export default function HomeSinRegistrar() {
   const { cambiarRol } = useRol();
