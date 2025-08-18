@@ -200,7 +200,8 @@ export default function Registro() {
                 checked={form.terminos}
                 onChange={handleChange}
               />
-              <span>Acepto los <strong>Términos y Condiciones</strong></span> 
+              P
+              <Link to="TYC"><span>Acepto los <strong>Términos y Condiciones</strong></span> </Link>
             </label>
           </div>
           {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
