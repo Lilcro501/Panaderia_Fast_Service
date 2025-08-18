@@ -1,14 +1,27 @@
-
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../assets/styles/Footer.css'; // ~~~~~~ Estilos del footer ~~~~~~
+import { Link, useNavigate } from 'react-router-dom';
 import logoFooter from '../assets/icons/logo-Fast_Service.png'; // ~~~~~~ Logo de FastService ~~~~~~
 import { BiSolidCookie } from "react-icons/bi";
 import VentanaCookies from '../components/VentanaCookies'; // ~~~~~~ Ventana cookies ~~~~~~
 import { FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
+import '../assets/styles/Footer.css'; // ~~~~~~ Estilos del footer ~~~~~~
+
 
 const Footer = () => {
-  const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado para mostrar u ocultar cookies ~~~~~~
+  const [mostrarCookies, setMostrarCookies] = useState(false); 
+  const [mensajeError, setMensajeError] = useState(""); // 👈 mensaje emergente
+  const navigate = useNavigate();
+
+  // 🔹 Validar rol antes de navegar
+  const handleLinkProtegido = (ruta) => {
+    const rol = localStorage.getItem("rol"); 
+    if (rol === "cliente") {
+      navigate(ruta); 
+    } else {
+      setMensajeError("Inicia sesión como cliente para poder ver este apartado.");
+      setTimeout(() => setMensajeError(""), 3000); // limpiar mensaje en 3s
+    }
+  };
 
   return (
     <>
@@ -22,7 +35,6 @@ const Footer = () => {
         )}
         
         <div className="Cookies">
-          {/* Ícono decorativo o para volver a mostrar las cookies si se ocultan */}
           <BiSolidCookie onClick={() => setMostrarCookies(true)} />
         </div>
     
@@ -42,7 +54,7 @@ const Footer = () => {
           <div>
             <h5>
               <FaEnvelope style={{ marginRight: '8px' }} />
-              Escribenos</h5>
+              Escríbenos</h5>
             <li>fservie28.076@gmail.com</li>
           </div>
         </div>
@@ -51,20 +63,33 @@ const Footer = () => {
 
         <div className="links-agrupar">
           <span className='separar'>
-              <Link to="/InfoLegal">
-                Información Legal
-              </Link>
-            </span>
-            |
-            <span>
-              &nbsp;
-              <Link to="/ManifiestoConsumidor">
-                Manifiesto del consumidor
-              </Link>
-            </span> 
+            <button 
+              className="link-boton" 
+              onClick={() => handleLinkProtegido("/InfoLegal")}
+            >
+              Información Legal
+            </button>
+          </span>
+          |
+          <span>
+            &nbsp;
+            <button 
+              className="link-boton" 
+              onClick={() => handleLinkProtegido("/ManifiestoConsumidor")}
+            >
+              Manifiesto del consumidor
+            </button>
+          </span> 
           <p className='FastService'> © FastService 2025 </p>
         </div>
       </footer>
+
+      {/* 🔹 Ventana emergente */}
+      {mensajeError && (
+        <div className="ventana-emergente">
+          {mensajeError}
+        </div>
+      )}
     </>
   );
 };
