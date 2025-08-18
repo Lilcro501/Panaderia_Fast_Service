@@ -158,7 +158,7 @@ const FormularioEntrega = () => {
       telefono: ''
     });
 
-    navigate('/home'); // ✅ Redirige al home
+    navigate('/home'); 
   };
 
   return (
