@@ -1,14 +1,22 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../assets/styles/Footer.css'; // ~~~~~~ Estilos del footer ~~~~~~
-import logoFooter from '../assets/icons/logo-Fast_Service.png'; // ~~~~~~ Logo de FastService ~~~~~~
+import '../assets/styles/Footer.css';
+import logoFooter from '../assets/icons/logo-Fast_Service.png';
 import { BiSolidCookie } from "react-icons/bi";
-import VentanaCookies from '../components/VentanaCookies'; // ~~~~~~ Ventana cookies ~~~~~~
+import VentanaCookies from '../components/VentanaCookies';
 import { FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
+import { useRol } from '../context/RolContext'; // ✅ Importamos el hook del contexto
 
 const Footer = () => {
-  const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado para mostrar u ocultar cookies ~~~~~~
+  const [mostrarCookies, setMostrarCookies] = useState(false);
+
+  const { rol, cargando } = useRol(); // ✅ Obtenemos rol y estado de carga
+
+  // Roles permitidos para ver los links
+  const rolesValidos = ["cliente", "trabajador", "admin"];
+  const tieneAcceso = rolesValidos.includes(rol);
+
+  if (cargando) return null; // ⏳ Mientras carga el contexto no mostramos nada
 
   return (
     <>
@@ -22,7 +30,6 @@ const Footer = () => {
         )}
         
         <div className="Cookies">
-          {/* Ícono decorativo o para volver a mostrar las cookies si se ocultan */}
           <BiSolidCookie onClick={() => setMostrarCookies(true)} />
         </div>
     
@@ -42,7 +49,7 @@ const Footer = () => {
           <div>
             <h5>
               <FaEnvelope style={{ marginRight: '8px' }} />
-              Escribenos</h5>
+              Escríbenos</h5>
             <li>fservie28.076@gmail.com</li>
           </div>
         </div>
@@ -50,18 +57,19 @@ const Footer = () => {
         <br />
 
         <div className="links-agrupar">
-          <span className='separar'>
-              <Link to="/InfoLegal">
-                Información Legal
-              </Link>
-            </span>
-            |
-            <span>
-              &nbsp;
-              <Link to="/ManifiestoConsumidor">
-                Manifiesto del consumidor
-              </Link>
-            </span> 
+          {/* ✅ Solo mostrar si el rol es válido */}
+          {tieneAcceso && (
+            <>
+              <span className='separar'>
+                <Link to="/InfoLegal">Información Legal</Link>
+              </span>
+              |
+              <span>
+                &nbsp;
+                <Link to="/ManifiestoConsumidor">Manifiesto del consumidor</Link>
+              </span>
+            </>
+          )}
           <p className='FastService'> © FastService 2025 </p>
         </div>
       </footer>
