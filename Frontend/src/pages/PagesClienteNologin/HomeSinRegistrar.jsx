@@ -10,7 +10,7 @@ import TextoCircular from '../../components/TextoCircular'; /* ~~~~~~ Componente
 import { Link } from "react-router-dom";
 import { AiFillSun } from "react-icons/ai";
 // Al inicio de tu archivo
-import { useRol } from '../../Context/RolContext'; // ajusta la ruta según tu proyecto
+import { useRol } from '../Context/RolContext'; // ajusta la ruta según tu proyecto
 
 export default function HomeSinRegistrar() {
   const { cambiarRol } = useRol();
