@@ -60,10 +60,6 @@ export default function Home() {
       <br />
       <br />
 
-        <h2 className='subtitulo-productos'>Productos destacados</h2>
-      <br />
-      <br />
-
       <section className ="frase-logo">
         <div className ="home-mostrador">
           <img className ="imagen-mostrador" src={mostrador} alt="Imagen panes mostrador" width="480px" />

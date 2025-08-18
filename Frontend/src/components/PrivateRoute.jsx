@@ -24,6 +24,11 @@ const PrivateRoute = ({ children, role }) => {
     return <Navigate to="/" replace />;
   }
 
+  // ✅ Si children es una función, se le pasa el rol
+  if (typeof children === "function") {
+    return children({ userRole: rolActual });
+  }
+
   return children;
 };
 

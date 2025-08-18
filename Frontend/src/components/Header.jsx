@@ -23,10 +23,10 @@ const Header = () => {
         <div className="barra-navegacion">
           
           <nav className="menu-secundario">
-            <ul className="lista-info">
+            <ul className="lista-info-c">
               <li>
                 <Link to="/Conocenos" className='sin-subrayado'>
-                  <FaUser style={{ marginRight: '8px' }} /> Conócenos
+                  Conócenos
                 </Link>
               </li>
 

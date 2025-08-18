@@ -327,9 +327,9 @@ input:invalid {
 
 .invalid {
     color: #c6414e;
-    font-size: clamp(10px, 1.8vw, 14px);
-    margin: 4px 12px 8px 12px;
-    text-align: left;
+    font-size: clamp(12px, 1.9vw, 15px);
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .Bienvenida {

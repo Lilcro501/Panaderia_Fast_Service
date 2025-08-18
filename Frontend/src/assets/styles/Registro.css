@@ -1,5 +1,5 @@
 .Contenedor {
-  /*display: flex;*/
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: stretch;
@@ -133,39 +133,6 @@ input::placeholder {
   font-size: 13px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .Campo {
   display: flex;
   align-items: center;
@@ -183,37 +150,15 @@ input::placeholder {
   font-size: 50px;
 }
 
-
-
-
-
-/* estado inválido */
 .invalido .Campo {
   box-shadow: 0 0 0 2px rgba(255, 100, 100, 0.8);
 }
 
-/* mensajes de error */
-.mensaje-error {
-  color: #ffb3b3;
-  font-size: 13px;
-  margin-bottom: 6px;
-  padding-left: 4px;
-}
-
-
-
-
-
-
-
-
-
-/* en registro ya se tiene la cuenta */
 .Registro {
   text-align: center;
   margin-top: 18px;
   font-size: 13px;
-  color: #c4b8aa;
+  color: #c4b8aa;color: #1f1f1f;
 }
 
 .Registro a {
@@ -226,9 +171,6 @@ input::placeholder {
   text-decoration: underline;
 }
 
-.Registro {
-  color: #1f1f1f;
-}
 
 @media (max-width: 1200px) {
   .PanelIzquierdo {
@@ -268,64 +210,4 @@ input::placeholder {
   .Contenedor {
     max-width: 90%;
   }
-}
-
-.boton-aceptar {
-  background: linear-gradient(135deg, #4CAF50, #45A049);
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 12px 28px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.boton-aceptar:hover {
-  background: linear-gradient(135deg, #45A049, #3e8e41);
-  transform: translateY(-2px);
-  box-shadow: 0px 6px 12px rgba(0,0,0,0.25);
-}
-
-.boton-aceptar:active {
-  transform: translateY(1px);
-  box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
-}
-
-.modal-bienvenida {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.modal-contenido {
-  background: white;
-  padding: 25px 40px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.boton-aceptar {
-  background: linear-gradient(135deg, #28a745, #218838);
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 15px;
-}
-
-.boton-aceptar:hover {
-  background: linear-gradient(135deg, #218838, #19692c);
 }

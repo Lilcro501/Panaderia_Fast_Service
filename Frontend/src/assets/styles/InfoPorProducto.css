@@ -1,122 +1,121 @@
 
 .ContenedorProductoInfo {
-    background-color: #f8f8f8;
-    border-radius: 32px;
-    max-width: 60%;
-    margin-left: 20%;
-    color: #222;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    padding: 32px 40px;
+  background-color: #f8f8f8;
+  border-radius: 32px;
+  margin-left: 20%;
+  max-width: 60%;
+  color: #222;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 32px 40px;
 }
 
 .InfoSuperiorCalificacion {
-    display: flex;
-    gap: 32px;
-    margin: 40px 0 24px 10px;
-    padding-top: 24px;
-    align-items: center;
+  display: flex;
+  gap: 32px;
+  margin: 40px 0 24px 10px;
+  padding-top: 24px;
+  align-items: center;
 }
 
 .TituloProduct{
-    color: #222;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 12px;
+  color: #222;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
 .ImagenProducto {
-    background-color: #b8875b;
-    padding: 24px;
-    border-radius: 24px;
-    box-shadow: 0 4px 16px rgba(91, 68, 54, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: #b8875b;
+  padding: 24px;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(91, 68, 54, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .InfoProducto {
-    background-color: #fff;
-    padding: 32px;
-    border-radius: 20px;
-    box-shadow: 0 2px 12px rgba(91, 68, 54, 0.10);
-    text-align: left;
-    color: #222;
-    font-size: 1.1rem;
-    margin-bottom: 24px;
+  background-color: #fff;
+  padding: 32px;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(91, 68, 54, 0.10);
+  text-align: left;
+  color: #222;
+  font-size: 1.1rem;
+  margin-bottom: 24px;
 }
 
 .Heart {
-    text-align: right;
-    font-size: 1.5rem;
+  text-align: right;
+  font-size: 1.5rem;
 }
 
 .BotonComprar {
-    border-radius: 20px;
+  border-radius: 20px;
 }
 
 .BotonAñadirCarrito {
-    border-radius: 20px;
-    background: linear-gradient(90deg, #b8875b 60%, #eb860a 100%);
-    color: #fff;
-    border: none;
-    padding: 12px 32px;
-    font-size: 1rem;
-    font-weight: 600;
-    box-shadow: 0 2px 8px rgba(41, 128, 185, 0.08);
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #b8875b 60%, #eb860a 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(41, 128, 185, 0.08);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
 }
-.BotonComprar:hover,
-.BotonAñadirCarrito:hover {
-    background: linear-gradient(90deg, #eb860a 60%, #b8875b 100%);
-    transform: translateY(-2px);
+
+.BotonComprar:hover, .BotonAñadirCarrito:hover {
+  background: linear-gradient(90deg, #eb860a 60%, #b8875b 100%);
+  transform: translateY(-2px);
 }
 
 .Calificacion {
-    margin: 5px;
-    color: #222;
-    font-size: 1.2rem;
-    font-weight: 500;
+  margin: 5px;
+  color: #222;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .ContenedorPanesC {
-    text-align: center;
+  text-align: center;
 }
 
 .InfoInferiorCalificacion {
-    padding: 24px;
-    display: flex;
-    gap: 32px;
-    background: #f8f8f8;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 25px;
+  display: flex;
+  gap: 80px;
+  background: #f8f8f8;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .ContenedorComentarios {
-    background-color: #fff;
-    margin-left: 5%;
-    width: 60%;
-    border-radius: 20px;
-    box-shadow: 0 2px 12px rgba(226, 192, 148, 0.15);
-    padding: 24px 32px;
-    margin-top: 32px;
+  background-color: #fff;
+  margin-left: 5%;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(226, 192, 148, 0.15);
+  padding: 24px 32px;
+  margin-top: 32px;
 }
 
 .Comentarios{
-    margin: 10px;
-    color: #222;
-    font-size: 1.1rem;
+  margin: 10px;
+  color: #222;
+  font-size: 1.1rem;
 }
 
 .MetodosPagoInfo {
-    background-color:  #b8875b;
-    padding: 20px;
-    border-radius: 20px;
+  background-color:  #b8875b;
+  padding: 20px;
+  border-radius: 20px;
 }
 
 .MetodosPagoInfo .ul .li {
-    text-decoration: none;
-    list-style: none;
+  text-decoration: none;
+  list-style: none;
 }
 
 .ComentarioItem {

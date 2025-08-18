@@ -25,7 +25,7 @@ const HeaderSinLogin = () => {
           {/* ~~~~~~~~~~~~~~~~ Lista de navegación superior ~~~~~~~~~~~~~~~~ */}
           <nav className="menu-secundario">
             <ul className="lista-info">
-              <Link className='formato-link' to="/Conocemos">Conocenos</Link>
+              <Link className='formato-link' to="/Conocenos">Conocenos</Link>
               <Link className='formato-link' to="/AccedeAqui">Accede aqui</Link>
 
             </ul>

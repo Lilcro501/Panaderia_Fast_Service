@@ -25,7 +25,7 @@ const [mostrarCookies, setMostrarCookies] = useState(false); // ~~~~~~ Estado pa
             <BiSolidCookie onClick={() => setMostrarCookies(true)} />
         </div>
 
-        <div className="logo">
+        <div className="Logo">
             <Link to='/Inicio'>
             <img src={logoFooter} alt="Logo Fast Service" />
             </Link>

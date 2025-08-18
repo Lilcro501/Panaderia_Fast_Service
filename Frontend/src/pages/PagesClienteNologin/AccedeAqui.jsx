@@ -11,6 +11,7 @@ import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 import { iniciarSesion } from '../../api/login';
 import "../../assets/styles/Global.css";
 
+
 export default function AccedeAqui() {
   const navigate = useNavigate();
   const { cambiarRol } = useRol();

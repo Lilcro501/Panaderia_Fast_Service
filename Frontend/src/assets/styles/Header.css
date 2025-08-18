@@ -16,7 +16,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 60px;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -74,29 +73,28 @@
   display: flex;
   justify-content: center;
   list-style: none;
-  gap: 10px;
+  gap: 25px;
   align-items: center;
   margin: 0;
   padding: 0;
   flex-wrap: wrap;
-  font-size: 20px;
+  font-size: 1.9rem;
 }
 
-.lista-info li {
+
+.lista-info li{
   text-decoration: none;
   color: #e4e1e1;
   font-weight: bold;
-  font-size: 2rem;
   list-style: none;
   transition: transform 0.3s ease;
 }
 
-.lista-info li:hover{
+.lista-info li:hover {
   color: #997b6c;
 }
 
 .lista-info a{
-  color: #ffffff;
   text-decoration: none;
   transition: transform 0.3s ease, color 0.3s ease;
 }
@@ -104,6 +102,57 @@
 .lista-info li:hover {
   transform: scale(1.12);
 }
+
+.lista-info-c {
+  text-decoration: none;
+  color: #e4e1e1;
+  font-weight: bold;
+  list-style: none;
+  transition: transform 0.3s ease;
+}
+
+
+
+
+
+
+.lista-info-c li {
+  text-decoration: none;
+  color: #e4e1e1;
+  font-weight: bold;
+  list-style: none;
+  transition: transform 0.3s ease;
+}
+
+.lista-info-c li:hover{
+  color: #997b6c;
+}
+
+.lista-info-c a{
+  color: #ffffff;
+  text-decoration: none;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.lista-info-c li:hover {
+  transform: scale(1.12);
+}
+.lista-info-c {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  gap: 2.5rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  font-size: 1.7rem;
+  text-decoration: none;
+  color: #e4e1e1;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
 
 /* ~~~~~~~~~~~~~~~~ Fin de la barra de navegación del encabezado ~~~~~~~~~~~~~~~~ */
 
@@ -222,8 +271,7 @@
 
 
 /* ===== Diseño responsivo ===== */
-
-@media (max-width: 1024px) {
+@media (max-width: 1174px) {
   .contenido-header {
     gap: 30px;
     padding: 0 20px;
@@ -237,9 +285,18 @@
     font-size: 1.6rem;
   }
 
+  .lista-info-c {
+    font-size: 1.6rem;
+  }
+
   .estilo-logo {
     width: 80px;
     height: 80px;
+  }
+
+  .estilo-logo-perfil {
+    margin: 0px;
+    width: 120px;
   }
 
   .icono-carrito img {
@@ -248,7 +305,76 @@
   }
 }
 
-@media (max-width: 724px) {
+
+@media (max-width: 1040px) {
+  .contenido-header {
+    gap: 25px;
+    padding: 0 10px;
+  }
+
+  .lista-info {
+    gap: 20px;
+  }
+
+  .lista-info li {
+    font-size: 1.3rem;
+  }
+
+  .lista-info-c {
+    font-size: 1.3rem;
+  }
+
+  .estilo-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .estilo-logo-perfil {
+    margin: 0px;
+    width: 100px;
+  }
+
+  .icono-carrito img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+@media (max-width: 878px) {
+  .contenido-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .barra-navegacion {
+    width: 100%;
+  }
+
+  .lista-info {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1rem;
+  }
+
+  .lista-info-c {
+    font-size: 1.2rem;
+  }
+
+  .estilo-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .estilo-logo-perfil {
+    width: 60px;
+  }
+}
+
+@media (max-width: 750px) {
   .contenido-header {
     flex-direction: row;
     align-items: center;
@@ -257,28 +383,64 @@
     padding: 10px;
   }
 
-  .barra-navegacion {
-    order: 2; /* Menú debajo del logo */
+  .lista-info {
+    flex-direction: row;
+    gap: 5px;
   }
 
-  .logo-container {
-    order: 1;
+  .lista-info li {
+    font-size: 1.2rem;
   }
 
-  .icono-carrito {
-    order: 3;
+  .lista-info-c {
+    font-size: 1rem;
+  }
+
+  .estilo-logo {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+
+@media (max-width: 700px) {
+  .contenido-header {
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 10px;
   }
 
   .lista-info {
     flex-direction: row;
-    gap: 10px;
+    gap: 7px;
   }
 
-  .lista-info li {
-    font-size: 1.4rem;
+  .formato-link {
+    font-size: 1.5rem;
   }
 
+  .lista-info-c {
+    font-size: 1rem;
+    display: block;
+  }
+
+  .estilo-logo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .estilo-logo-perfil {
+    margin: 0px;
+    width: 50px;
+  }
+
+  .icono-carrito img {
+    width: 35px;
+    height: 35px;
+  }
 }
+
 
 @media (max-width: 400px) {
   .contenido-header {
@@ -292,10 +454,6 @@
     height: 65px;
   }
 
-  .lista-info li {
-    font-size: 1.2rem;
-  }
-
   .icono-carrito img {
     width: 40px;
     height: 40px;
@@ -303,7 +461,15 @@
 
   .lista-info {
     flex-direction: row;
-    gap: 8px;
+    gap: 10px;
+  }
+
+  .formato-link {
+    font-size: 1.2rem;
+  }
+
+  .lista-info-c {
+    font-size: 1.3rem;
   }
 }
 
@@ -323,10 +489,15 @@
 
   .lista-info {
     flex-direction: row;
-    gap: 6px;
+    gap: 10px;
+    font-size: 10px;
   }
 
-  .lista-info li {
+  .formato-link {
+    font-size: 1rem;
+  }
+
+  .lista-info-c {
     font-size: 1rem;
   }
 
@@ -338,43 +509,5 @@
   /* Evita que la ola svg ocupe demasiado espacio en pantallas pequeñas */
   .shapedividers_com-5996 {
     --sd-wave-h: 60px;
-  }
-}
-
-
-
-
-
-@media (max-width: 768px) {
-  .contenido-header {
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-  }
-
-  .barra-navegacion {
-    order: 2;
-    width: 100%;
-  }
-
-  .lista-info {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .estilo-logo {
-    width: 70px;
-    height: 70px;
-  }
-
-  .estilo-logo-perfil {
-    width: 60px;
-  }
-
-  .icono-carrito img {
-    width: 40px;
-    height: 40px;
   }
 }
