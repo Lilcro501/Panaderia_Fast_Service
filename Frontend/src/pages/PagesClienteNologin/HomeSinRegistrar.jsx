@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-
 import '../../assets/styles/HomeSinRegistrar.css'; /* ~~~~~~ Estilo del carrusel ~~~~~~ */
 import mostrador from "../../assets/icons/mostrador.jpg"; /* ~~~~~~ Imagen del mostrador ~~~~~~ */
 import Categorias from "../../components/Categorias"; /* ~~~~~~ Componente de menú con categorías ~~~~~~ */
@@ -9,6 +8,8 @@ import TextoCircular from '../../components/TextoCircular'; /* ~~~~~~ Componente
 import { Link } from "react-router-dom";
 import { AiFillSun } from "react-icons/ai";
 import { useRol } from '../../Context/RolContext';
+
+
 
 export default function HomeSinRegistrar() {
   const { cambiarRol } = useRol();
