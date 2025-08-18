@@ -26,7 +26,7 @@ const Footer = () => {
           <BiSolidCookie onClick={() => setMostrarCookies(true)} />
         </div>
     
-        <div className="logo">
+        <div className="Logo">
           <Link to='/Home'>
             <img className='LogoFS' src={logoFooter} alt="Logo Fast Service" />
           </Link>
