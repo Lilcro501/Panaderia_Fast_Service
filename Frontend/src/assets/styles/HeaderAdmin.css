@@ -33,6 +33,7 @@
     align-items: center;
     gap: 40px; 
     flex-wrap: wrap;
+    padding-top: 50px;
 }
 
 .boton-admin{

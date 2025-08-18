@@ -9,12 +9,14 @@
   transition: background 0.3s, color 0.3s, transform 0.3s;
   outline: none;
 }
+
 .boton-volver button:hover, .boton-volver button:focus {
   background: linear-gradient(90deg, #fbeee6 0%, #eec9a1 100%);
   color: #a05a2c;
   transform: scale(1.05);
   box-shadow: 0 4px 16px 0 rgba(212, 158, 125, 0.22);
 }
+
 .boton-personalizado, .boton-volver button {
   font-size: 0.88rem;
   padding: 6px 14px;
@@ -25,6 +27,7 @@
   display: inline-block;
   text-align: center;
   box-sizing: border-box;
+  background-color: #b38567;
 }
 
 @media (max-width: 700px) {
