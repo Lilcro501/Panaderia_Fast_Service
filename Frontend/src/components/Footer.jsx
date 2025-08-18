@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logoFooter from '../assets/icons/logo-Fast_Service.png'; // ~~~~~~ Logo de FastService ~~~~~~
 import { BiSolidCookie } from "react-icons/bi";
-import VentanaCookies from '../components/VentanaCookies'; // ~~~~~~ Ventana cookies ~~~~~~
+import VentanaCookies from '../components/VentanaCookies';
 import { FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
 import '../assets/styles/Footer.css'; // ~~~~~~ Estilos del footer ~~~~~~
 
@@ -38,7 +38,7 @@ const Footer = () => {
           <BiSolidCookie onClick={() => setMostrarCookies(true)} />
         </div>
     
-        <div className="logo">
+        <div className="Logo">
           <Link to='/Home'>
             <img className='LogoFS' src={logoFooter} alt="Logo Fast Service" />
           </Link>
