@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../assets/styles/Footer.css';
-import logoFooter from '../assets/icons/logo-Fast_Service.png';
+import { Link, useNavigate } from 'react-router-dom';
+import logoFooter from '../assets/icons/logo-Fast_Service.png'; // ~~~~~~ Logo de FastService ~~~~~~
 import { BiSolidCookie } from "react-icons/bi";
 import VentanaCookies from '../components/VentanaCookies';
 import { FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
-import { useRol } from '../context/RolContext'; // ✅ Importamos el hook del contexto
+import '../assets/styles/Footer.css'; // ~~~~~~ Estilos del footer ~~~~~~
+
 
 const Footer = () => {
-  const [mostrarCookies, setMostrarCookies] = useState(false);
+  const [mostrarCookies, setMostrarCookies] = useState(false); 
+  const [mensajeError, setMensajeError] = useState(""); // 👈 mensaje emergente
+  const navigate = useNavigate();
 
-  const { rol, cargando } = useRol(); // ✅ Obtenemos rol y estado de carga
-
-  // Roles permitidos para ver los links
-  const rolesValidos = ["cliente", "trabajador", "admin"];
-  const tieneAcceso = rolesValidos.includes(rol);
-
-  if (cargando) return null; // ⏳ Mientras carga el contexto no mostramos nada
+  // 🔹 Validar rol antes de navegar
+  const handleLinkProtegido = (ruta) => {
+    const rol = localStorage.getItem("rol"); 
+    if (rol === "cliente") {
+      navigate(ruta); 
+    } else {
+      setMensajeError("Inicia sesión como cliente para poder ver este apartado.");
+      setTimeout(() => setMensajeError(""), 3000); // limpiar mensaje en 3s
+    }
+  };
 
   return (
     <>
@@ -57,22 +62,34 @@ const Footer = () => {
         <br />
 
         <div className="links-agrupar">
-          {/* ✅ Solo mostrar si el rol es válido */}
-          {tieneAcceso && (
-            <>
-              <span className='separar'>
-                <Link to="/InfoLegal">Información Legal</Link>
-              </span>
-              |
-              <span>
-                &nbsp;
-                <Link to="/ManifiestoConsumidor">Manifiesto del consumidor</Link>
-              </span>
-            </>
-          )}
+          <span className='separar'>
+            <button 
+              className="link-boton" 
+              onClick={() => handleLinkProtegido("/InfoLegal")}
+            >
+              Información Legal
+            </button>
+          </span>
+          |
+          <span>
+            &nbsp;
+            <button 
+              className="link-boton" 
+              onClick={() => handleLinkProtegido("/ManifiestoConsumidor")}
+            >
+              Manifiesto del consumidor
+            </button>
+          </span> 
           <p className='FastService'> © FastService 2025 </p>
         </div>
       </footer>
+
+      {/* 🔹 Ventana emergente */}
+      {mensajeError && (
+        <div className="ventana-emergente">
+          {mensajeError}
+        </div>
+      )}
     </>
   );
 };

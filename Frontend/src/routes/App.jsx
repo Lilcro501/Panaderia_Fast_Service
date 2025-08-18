@@ -245,14 +245,23 @@ const AppRouter = () => {
   }
 />
 
-      {/* Rutas publicas */}
+      {/* Rutas sin registrar*/}
       <Route path='/' element={<PrivateRoute role="sin-registrar"><MainLayoutSinLogin><HomeSinRegistrar /></MainLayoutSinLogin></PrivateRoute>}/>
       <Route path='/AccedeAqui' element={<PrivateRoute role="sin-registrar"><MainLayoutSinLogin><AccedeAqui /></MainLayoutSinLogin></PrivateRoute>} />
+
+
+
+
+
       <Route path='/CambioContraseña' element={<MainLayoutSinLogin><CambioDeContraseña></CambioDeContraseña></MainLayoutSinLogin>}></Route>
       <Route path='/OlvidoContraseña' element={<MainLayoutSinLogin><OlvidoContraseña /></MainLayoutSinLogin>} />
       <Route path='/IngresarCodigo' element={<MainLayoutSinLogin><IngresarCodigo /></MainLayoutSinLogin>} />
       <Route path='/Registro' element={<MainLayoutSinLogin><Registro /></MainLayoutSinLogin>} />
 
+
+
+
+        {/* Rutas publicas */}
 
         {/* Trabajador */}
         <Route path='/Formulario' element={<PrivateRoute role="trabajador"><LayoutTrabajador><Formulario /></LayoutTrabajador></PrivateRoute>} />
