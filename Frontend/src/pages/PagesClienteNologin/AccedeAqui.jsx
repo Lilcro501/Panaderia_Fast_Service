@@ -11,6 +11,7 @@ import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 import { iniciarSesion } from '../../api/login';
 import "../../assets/styles/Global.css";
 
+
 export default function AccedeAqui() {
   const navigate = useNavigate();
   const { cambiarRol } = useRol();
@@ -181,32 +182,6 @@ export default function AccedeAqui() {
           </p>
         </form>
       </div>
-
-      {/* Modal de bienvenida */}
-      {/* Modal de bienvenida */}
-      {modalVisible && (
-      <div className='modal-bienvenida'>
-      <div className='modal-contenido'>
-        <br /> <br />
-        <img src={campana} alt="alerta" width="20px" />
-        <br /> <br />
-        <h2>🎉 ¡Bienvenido {usuarioModal.nombre}!</h2>
-        <p>Has iniciado sesión como <strong>{usuarioModal.rol}</strong></p>
-          <br /> <br />
-      {/* Botón Aceptar */}
-        <button
-          className='boton-moderno'
-          onClick={() => {
-            setModalVisible(false);
-
-          }}
-        >
-          Aceptar
-        </button>
-    </div>
-  </div>
-)}
-
     </section>
   );
 }
