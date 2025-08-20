@@ -87,10 +87,12 @@ class Producto(models.Model):
     #definimos el campo de imagen del producto
     #definimos el directorio donde se guardaran las imagenes de los productos
     #tener en cuenta que la ruta aun no esta bien definida
-    imagen = models.ImageField(upload_to='productos/')
+    imagen = models.URLField(max_length=255, blank=True, null=True)
     fecha_vencimiento = models.DateField()
     stock = models.IntegerField()
     id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='id_categoria')
+    fecha_actualizacion = models.DateField(blank=True, null=True)
+    imagen_public_id = models.CharField(max_length=255, null=True, blank=True)
 
     #referencia de la calse de metadatos para conectar con la base de datos
     class Meta:

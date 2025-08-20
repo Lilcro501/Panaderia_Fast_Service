@@ -1,11 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 //~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
 import FormularioAdmin from '../../components/FormularioAdmin';
 //~~~~~~~~~~~~~~ Estilo Global ~~~~~~~~~~~~~~
 import "../../assets/styles/Global.css";
 
 export default function AgregarTrabajador() {
+    const navigate = useNavigate();
+
     const camposTrabajador = [
         {
             nombre: 'email',
@@ -35,10 +38,10 @@ export default function AgregarTrabajador() {
             nombre: 'telefono',
             etiqueta: 'Teléfono',
             tipo: 'number',
-            requerido: false
+            requerido: true
         },
         {
-            nombre: 'rol', 
+            nombre: 'rol',
             etiqueta: 'Rol',
             tipo: 'select',
             opciones: [
@@ -46,7 +49,6 @@ export default function AgregarTrabajador() {
             ],
             requerido: true
         }
-        
     ];
 
     const manejarEnvio = async (datos) => {
@@ -71,9 +73,7 @@ export default function AgregarTrabajador() {
             texto: 'Cancelar',
             tipo: 'button',
             clase: 'salir',
-            onClick: () => {
-                console.log("Formulario cancelado");
-            }
+            onClick: () => navigate("/AdministrarTrabajadores")
         }
     ];
 
@@ -83,6 +83,32 @@ export default function AgregarTrabajador() {
                 campos={camposTrabajador} 
                 onSubmit={manejarEnvio} 
                 botonesPersonalizados={botones} 
+                validacionesPersonalizadas={{
+                    email: (valor) => {
+                        if (!valor) return "El correo electrónico es obligatorio";
+                        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        return !regex.test(valor) ? "El correo electrónico no es válido" : null;
+                    },
+                    password: (valor) =>
+                        !valor || valor.trim().length < 6
+                            ? "La contraseña debe tener al menos 6 caracteres"
+                            : null,
+                    nombre: (valor) =>
+                        !valor || valor.trim().length < 2
+                            ? "El nombre debe tener al menos 2 caracteres"
+                            : null,
+                    apellido: (valor) =>
+                        !valor || valor.trim().length < 2
+                            ? "El apellido debe tener al menos 2 caracteres"
+                            : null,
+                    telefono: (valor) => {
+                        if (!valor) return "El teléfono es obligatorio"; // ✅ ahora requerido
+                        const regex = /^[0-9]{10}$/;
+                        return !regex.test(valor)
+                            ? "El teléfono debe contener exactamente 10 dígitos"
+                            : null;
+                    }
+                }}
             />
         </div>
     );

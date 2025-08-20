@@ -11,6 +11,10 @@ export default function EditarInven() {
     const { id } = useParams();
     const navigate = useNavigate();
 
+     // 🔹 Config Cloudinary
+const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
     const [valoresIniciales, setValoresIniciales] = useState({});
     const [categorias, setCategorias] = useState([]);
 
@@ -24,9 +28,10 @@ export default function EditarInven() {
                     precio: producto.precio,
                     stock: producto.stock,
                     fecha_vencimiento: producto.fecha_vencimiento,
-                    id_categoria: producto.id_categoria || '',
-                    imagen_url: producto.imagen, // 👈 añadimos la imagen actual
-                    imagen_public_id: producto.imagen_public_id || null // 👈 si lo tienes
+                    fecha_actualizacion: new Date().toISOString().split('T')[0], // fecha actual
+                    id_categoria: producto.id_categoria?.id_categoria || '',
+                    imagen_url: producto.imagen, 
+                    imagen_public_id: producto.imagen_public_id || null 
                 });
             })
             .catch(error => {
@@ -55,7 +60,7 @@ export default function EditarInven() {
             etiqueta: 'Imagen del producto',
             tipo: 'file',
             requerido: false,
-            vistaPrevia: valoresIniciales.imagen_url || null // 👈 para mostrar imagen actual
+            vistaPrevia: valoresIniciales.imagen_url || null 
         },
         {
             nombre: 'nombre',
@@ -83,7 +88,8 @@ export default function EditarInven() {
             etiqueta: 'Fecha de vencimiento',
             tipo: 'date',
             requerido: false
-        },{
+        },
+        {
             nombre: 'fecha_actualizacion',
             etiqueta: 'Fecha de actualización',
             tipo: 'date',
@@ -102,28 +108,53 @@ export default function EditarInven() {
     ];
 
     const manejarEnvio = async (datos) => {
-        const datosProcesados = {
-            ...datos,
-            id_categoria_id: datos.id_categoria
-        };
-        delete datosProcesados.id_categoria;
-
         try {
-            const formData = new FormData();
-            Object.entries(datosProcesados).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
+            // 1. Buscar la categoría seleccionada para crear la carpeta en Cloudinary
+            const categoriaSeleccionada = categorias.find(
+                cat => cat.id_categoria === parseInt(datos.id_categoria)
+            );
+            const nombreCategoria = categoriaSeleccionada.nombre.toLowerCase();
 
-            await axios.put(`http://localhost:8000/api/administrador/productos/${id}/`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            // 2. Subir imagen a Cloudinary (solo si el usuario seleccionó una nueva)
+            let imagenUrl = valoresIniciales.imagen_url;   // Por defecto, mantenemos la imagen actual
+            let imagenPublicId = valoresIniciales.imagen_public_id;
+
+            if (datos.imagen && datos.imagen instanceof File) {
+                const cloudinaryData = new FormData();
+                cloudinaryData.append("file", datos.imagen);
+                cloudinaryData.append("upload_preset", uploadPreset); // ⚠️ cambia por tu upload preset real
+                cloudinaryData.append("folder", `productos/${nombreCategoria}`);
+
+                const cloudinaryResponse = await axios.post(
+                    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                    cloudinaryData
+                );
+
+                imagenUrl = cloudinaryResponse.data.secure_url;
+                imagenPublicId = cloudinaryResponse.data.public_id;
+            }
+
+            // 3. Preparar datos para el backend
+            const datosParaBackend = {
+                ...datos,
+                id_categoria_id: datos.id_categoria,
+                imagen: imagenUrl,
+                imagen_public_id: imagenPublicId
+            };
+            delete datosParaBackend.id_categoria; // eliminamos duplicado
+
+            // 4. Enviar actualización al backend
+            await axios.put(
+                `http://localhost:8000/api/administrador/productos/${id}/`,
+                datosParaBackend,
+                { headers: { "Content-Type": "application/json" } }
+            );
 
             alert("Producto actualizado correctamente.");
             navigate("/AdministrarInven");
+
         } catch (error) {
-            console.error("Error al actualizar producto:", error.response?.data || error);
+            console.error("Error al actualizar producto:", error.response?.data || error.message);
             alert("No se pudo actualizar el producto.");
         }
     };
@@ -144,19 +175,51 @@ export default function EditarInven() {
     ];
 
     return (
-        <>
-            <div className="contenedor_formulario_inventario">
-                <h2>Editar producto</h2>
-                <div className='fila-campos'>
-                    <FormularioAdmin
-                        campos={camposProducto}
-                        onSubmit={manejarEnvio}
-                        botonesPersonalizados={botones}
-                        valoresIniciales={valoresIniciales}
-                    />
-                </div>
+        <div className="contenedor_formulario_inventario">
+            <h2>Editar producto</h2>
+            <div className='fila-campos'>
+                <FormularioAdmin
+                    campos={camposProducto}
+                    onSubmit={manejarEnvio}
+                    botonesPersonalizados={botones}
+                    valoresIniciales={valoresIniciales}
+                    validacionesPersonalizadas={{
+                        nombre: (valor) =>
+                            !valor || valor.trim().length < 3
+                                ? "El nombre debe tener al menos 3 caracteres"
+                                : null,
+
+                        precio: (valor) => {
+                            if (!valor) return "El precio es obligatorio";
+                            return valor <= 0 ? "El precio debe ser mayor que 0" : null;
+                        },
+
+                        stock: (valor) => {
+                            if (valor === "" || valor === null) return "El stock es obligatorio";
+                            return valor < 0 ? "El stock no puede ser negativo" : null;
+                        },
+
+                        fecha_vencimiento: (valor) => {
+                            if (!valor) return null; // es opcional
+                            const hoy = new Date().toISOString().split("T")[0];
+                            return valor < hoy
+                                ? "La fecha de vencimiento no puede ser anterior a hoy"
+                                : null;
+                        },
+
+                        fecha_actualizacion: (valor) => {
+                            if (!valor) return "La fecha de actualización es obligatoria";
+                            const hoy = new Date().toISOString().split("T")[0];
+                            return valor !== hoy
+                                ? "La fecha de actualización debe ser la de hoy"
+                                : null;
+                        },
+
+                        id_categoria: (valor) =>
+                            !valor ? "Debe seleccionar una categoría" : null,
+                    }}
+                />
             </div>
-        </>
+        </div>
     );
 }
- 
