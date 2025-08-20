@@ -268,7 +268,7 @@ const AppRouter = () => {
 
 
         {/* Admin */}
-        <Route path='/AgregarTrabajador' element={<PrivateRoute role="admin"><AgregarTrabajador></AgregarTrabajador></PrivateRoute>} />
+        <Route path='/AgregarTrabajador' element={<PrivateRoute role="admin"><AdminLayout>   <AgregarTrabajador /> </AdminLayout></PrivateRoute>} />
         <Route path='/EditarTrabajador/:id' element={<PrivateRoute role="admin"><AdminLayout><EditarTrabajador /></AdminLayout></PrivateRoute>} />
         <Route path='/Cronograma' element={<PrivateRoute role="admin"><AdminLayout><Cronograma /></AdminLayout></PrivateRoute>} />
         <Route path='/AgregarCrono' element={<PrivateRoute role="admin"><AdminLayout><AgregarCrono /></AdminLayout></PrivateRoute>} />
