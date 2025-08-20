@@ -176,7 +176,7 @@ DATABASES = {
         #este campo le inidca al backend que motor se va a utilzar para conectarse en la base de datos, en este caso es mysql
         'ENGINE': 'django.db.backends.mysql',
         #este campo especifica el nombre de la base de datos 
-        'NAME': "fast_service",
+        'NAME': "fast_Service",
         #este campo especifica el nombre del usuario que se utilzara para autenticar la conexion con la base de datos
         'USER': "root",
         #este campo especifica la constraseña asociada con el usuario

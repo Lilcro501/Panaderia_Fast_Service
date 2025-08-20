@@ -14,6 +14,19 @@ class ProductoSerializer(serializers.ModelSerializer):
         #organizaos de manera explicita los campos delmodelo que estaran en la serializacion
         fields = ['id_producto', 'nombre', 'precio', 'descripcion', 'imagen', 'stock']
 
+    def get_imagen(self, obj):
+        if obj.imagen:
+            try:
+                # Si es CloudinaryField, .url devuelve la URL Cloudinary
+                return obj.imagen.url  
+            except:
+                # Si es ImageField local, construimos la URL completa
+                request = self.context.get('request')
+                if request is not None:
+                    return request.build_absolute_uri(obj.imagen.url)
+                return obj.imagen.url
+        return None
+    
 #serializador de Favorito
 #En este serializador, estamos utilizando el serializador estamos convirtiendo las instancias de medelo en un json
 class FavoritoSerializer(serializers.ModelSerializer):

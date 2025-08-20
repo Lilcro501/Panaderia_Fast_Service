@@ -1,47 +1,40 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import "../assets/styles/EditCommentsModal.css"; // tus estilos idénticos al modal de imagen 3
+import axios from "axios";
+import "../assets/styles/EditCommentsModal.css"; 
 
-/**
- * Modal para editar comentarios del producto
- *
- * @param {boolean} isOpen - Si el modal está abierto
- * @param {function} onClose - Función para cerrar el modal
- * @param {function} onSave - Función para guardar cambios
- * @param {object} productData - Datos del producto con comentarios
- */
 const EditCommentsModal = ({
     isOpen,
     onClose,
-    onSave,
     productData,
 }) => {
     const [comments, setComments] = useState([]);
 
+    // 👉 Cargar comentarios desde el backend cuando se abra el modal
     useEffect(() => {
-        if (productData?.comments) {
-            setComments(productData.comments);
+        const fetchComments = async () => {
+            if (productData?.id_producto) {
+                try {
+                    const res = await axios.get(
+                        `http://localhost:8000/api/administrador/valoraciones/?producto_id=${productData.id_producto}`
+                    );
+                    setComments(res.data);
+                } catch (err) {
+                    console.error("❌ Error al obtener comentarios:", err);
+                }
+            }
+        };
+        if (isOpen) fetchComments();
+    }, [isOpen, productData]);
+
+    // 👉 Eliminar un comentario
+    const handleDeleteComment = async (id_valoracion) => {
+        try {
+            await axios.delete(`http://localhost:8000/api/administrador/valoraciones/${id_valoracion}/`);
+            setComments(comments.filter(c => c.id_valoracion !== id_valoracion));
+        } catch (err) {
+            console.error("❌ Error al eliminar comentario:", err);
         }
-    }, [productData]);
-
-    const handleCommentChange = (index, value) => {
-        const updated = [...comments];
-        updated[index] = value;
-        setComments(updated);
-    };
-
-    const handleDeleteComment = (index) => {
-        const updated = [...comments];
-        updated.splice(index, 1);
-        setComments(updated);
-    };
-
-    const handleSave = () => {
-        onSave({
-            ...productData,
-            comments,
-        });
-        onClose();
     };
 
     return (
@@ -51,34 +44,27 @@ const EditCommentsModal = ({
             className="edit-comments-modal"
             overlayClassName="edit-comments-modal-overlay"
         >
-            <h2>Editar comentarios del producto</h2>
-            <img
-                src={productData?.image}
-                alt="Producto"
-                className="modal-product-image"
-            />
+            <h2>Comentarios del producto</h2>
+
             <div className="comments-list">
-                {comments.map((comment, idx) => (
-                    <div key={idx} className="comment-row">
-                        <i className="fa fa-user"></i>
-                        <input
-                            value={comment}
-                            onChange={(e) =>
-                                handleCommentChange(idx, e.target.value)
-                            }
-                        />
-                        <button onClick={() => handleDeleteComment(idx)}>
-                            <i className="fa fa-trash"></i>
-                        </button>
-                    </div>
-                ))}
+                {comments.length > 0 ? (
+                    comments.map((c) => (
+                        <div key={c.id_valoracion} className="comment-row">
+                            <i className="fa fa-user"></i>
+                            <span>{c.comentario}</span>
+                            <button onClick={() => handleDeleteComment(c.id_valoracion)}>
+                                <i className="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    ))
+                ) : (
+                    <p>No hay comentarios todavía.</p>
+                )}
             </div>
+
             <div className="modal-buttons">
-                <button onClick={handleSave} className="modal-btn">
-                    Guardar
-                </button>
                 <button onClick={onClose} className="modal-btn cancel">
-                    Cancelar
+                    Cerrar
                 </button>
             </div>
         </Modal>

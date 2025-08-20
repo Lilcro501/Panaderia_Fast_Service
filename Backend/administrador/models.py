@@ -71,8 +71,7 @@ class Productos(models.Model):
 class Valoraciones(models.Model):
     id_valoracion = models.AutoField(primary_key=True)
     id_usuario = models.ForeignKey(Usuarios, models.DO_NOTHING, db_column='id_usuario')
-    id_producto = models.ForeignKey(Productos, models.DO_NOTHING, db_column='id_producto')
-    puntuacion = models.IntegerField(blank=True, null=True)
+    id_producto = models.ForeignKey(Productos, on_delete=models.CASCADE, db_column='id_producto')
     comentario = models.TextField(blank=True, null=True)
     fecha_valoracion = models.DateTimeField(blank=True, null=True)
 
@@ -156,6 +155,8 @@ class EstadoFactura(models.Model):
         managed = False
         db_table = 'estado_factura'
 
+
+
 class DetalleFacturaHistorico(models.Model):
     id_factura_historico = models.AutoField(primary_key=True)
 
@@ -191,3 +192,5 @@ class Favoritos(models.Model):
     class Meta:
         managed = False
         db_table = 'favoritos'
+
+

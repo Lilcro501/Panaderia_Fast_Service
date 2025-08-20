@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import {useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import FormularioAdmin from '../../components/FormularioAdmin';
 import "../../assets/styles/Global.css";
 
 export default function AgregarCrono() {
+    const navigate = useNavigate();
     const [usuarios, setUsuarios] = useState([]);
 
     useEffect(() => {
@@ -58,27 +60,12 @@ export default function AgregarCrono() {
 
     const manejarEnvio = async (datos) => {
         try {
-            console.log("🕵️ Datos recibidos del formulario:", datos);
-
-            const fechaInicio = new Date(datos.fecha_inicio);
-            const fechaFin = new Date(datos.fecha_fin);
-
-            if (isNaN(fechaInicio.getTime())) {
-                alert("⚠️ La fecha de inicio no es válida.");
-                return;
-            }
-
-            if (isNaN(fechaFin.getTime())) {
-                alert("⚠️ La fecha de fin no es válida.");
-                return;
-            }
-
             const datosAEnviar = {
                 id_usuario: parseInt(datos.id_usuario, 10),
                 titulo: datos.titulo,
                 descripcion: datos.descripcion,
-                fecha_inicio: fechaInicio.toISOString(),
-                fecha_fin: fechaFin.toISOString()
+                fecha_inicio: new Date(datos.fecha_inicio).toISOString(),
+                fecha_fin: new Date(datos.fecha_fin).toISOString()
             };
 
             console.log("🚀 Enviando datos al backend:", datosAEnviar);
@@ -102,9 +89,7 @@ export default function AgregarCrono() {
             texto: 'Cancelar',
             tipo: 'button',
             clase: 'salir',
-            onClick: () => {
-                console.log("🛑 Formulario cancelado");
-            }
+            onClick: () => navigate("/Cronograma")
         }
     ];
 
@@ -114,8 +99,34 @@ export default function AgregarCrono() {
                 campos={camposFormulario}
                 onSubmit={manejarEnvio}
                 botonesPersonalizados={botones}
+                validacionesPersonalizadas={{
+                    id_usuario: (valor) =>
+                        !valor ? "Debes seleccionar un trabajador" : null,
+
+                    titulo: (valor) =>
+                        !valor || valor.trim() === "" ? "El cargo es obligatorio" : null,
+
+                    descripcion: (valor) =>
+                        !valor || valor.trim().length < 5
+                            ? "Las actividades deben tener al menos 5 caracteres"
+                            : null,
+
+                    fecha_inicio: (valor, valores) => {
+                        if (!valor) return "La fecha de inicio es obligatoria";
+                        const inicio = new Date(valor);
+                        return isNaN(inicio.getTime()) ? "La fecha de inicio no es válida" : null;
+                    },
+
+                    fecha_fin: (valor, valores) => {
+                        if (!valor) return "La fecha de fin es obligatoria";
+                        const fin = new Date(valor);
+                        const inicio = new Date(valores.fecha_inicio);
+                        if (isNaN(fin.getTime())) return "La fecha de fin no es válida";
+                        if (inicio && fin <= inicio) return "La fecha de fin debe ser posterior a la de inicio";
+                        return null;
+                    }
+                }}
             />
         </div>
     );
 }
-

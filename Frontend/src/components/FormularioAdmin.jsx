@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import '../assets/styles/FormularioAdmin.css';
 
-const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valoresIniciales = {} }) => {
+const FormularioAdmin = ({ 
+  campos, 
+  onSubmit, 
+  botonesPersonalizados = [], 
+  valoresIniciales = {}, 
+  validacionesPersonalizadas = {} // 👈 NUEVO: reglas de validación
+}) => {
   const [valores, setValores] = useState({});
   const [previewImagen, setPreviewImagen] = useState({});
+  const [errores, setErrores] = useState({}); // 👈 NUEVO: manejo de errores
 
-  // Cargar valores iniciales al montar o cambiar valoresIniciales
+  // Cargar valores iniciales
   useEffect(() => {
     if (Object.keys(valoresIniciales).length === 0) return;
 
@@ -26,6 +33,7 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valores
     setValores(valoresFormateados);
   }, [JSON.stringify(valoresIniciales)]);
 
+  // Manejo de cambios
   const manejarCambio = (e) => {
     const { name, type, value, checked, files, multiple, options } = e.target;
 
@@ -45,14 +53,42 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valores
     } else if (type === 'checkbox') {
       setValores({ ...valores, [name]: checked });
     } else {
-      const valorProcesado = (name === 'id_usuario' || name.startsWith('id_')) ? parseInt(value) : value;
+      const valorProcesado = (name === 'id_usuario' || name.startsWith('id_')) 
+        ? parseInt(value) 
+        : value;
       setValores({ ...valores, [name]: valorProcesado });
     }
   };
 
+  // ✅ Validaciones personalizadas
+  const validarCampos = () => {
+    const nuevosErrores = {};
+    for (const campo of campos) {
+      const valor = valores[campo.nombre];
+
+      // 1. Validación requerida
+      if (campo.requerido && (valor === '' || valor === undefined || valor === null)) {
+        nuevosErrores[campo.nombre] = 'Este campo es obligatorio';
+        continue;
+      }
+
+      // 2. Validaciones personalizadas por campo
+      if (validacionesPersonalizadas[campo.nombre]) {
+        const mensajeError = validacionesPersonalizadas[campo.nombre](valor, valores);
+        if (mensajeError) {
+          nuevosErrores[campo.nombre] = mensajeError;
+        }
+      }
+    }
+    setErrores(nuevosErrores);
+    return Object.keys(nuevosErrores).length === 0;
+  };
+
   const manejarSubmit = (e) => {
     e.preventDefault();
-    onSubmit(valores);
+    if (validarCampos()) {
+      onSubmit(valores);
+    }
   };
 
   const campoImagen = campos.find(c => c.tipo === 'file');
@@ -73,7 +109,6 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valores
               required={campoImagen.requerido}
               accept="image/*"
             />
-            {/* Mostrar vista previa si hay imagen cargada o imagen actual */}
             {(previewImagen[campoImagen.nombre] || campoImagen.vistaPrevia) && (
               <div className="preview-imagen">
                 <img
@@ -93,7 +128,7 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valores
           <div className="grupo-campo" key={index}>
             <label className="etiqueta-campo">{campo.etiqueta}:</label>
 
-            {/* Área de texto */}
+            {/* Textarea */}
             {campo.tipo === 'textarea' && (
               <textarea
                 className="input-estilo"
@@ -106,7 +141,7 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valores
               />
             )}
 
-            {/* Campo SELECT modificado aquí 👇 */}
+            {/* Select */}
             {campo.tipo === 'select' && (
               <select
                 className="input-estilo"
@@ -116,13 +151,7 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valores
                 onChange={manejarCambio}
                 multiple={campo.multiple}
               >
-                {!campo.multiple && (
-                  <option value="">
-                    -- Seleccione --
-                  </option>
-                )}
-
-                {/* ✅ CAMBIO IMPORTANTE: se usa 'opcion.etiqueta' en vez de 'label' */}
+                {!campo.multiple && <option value="">-- Seleccione --</option>}
                 {campo.opciones?.map((opcion, i) => (
                   <option key={i} value={opcion.valor}>
                     {opcion.etiqueta}
@@ -169,11 +198,16 @@ const FormularioAdmin = ({ campos, onSubmit, botonesPersonalizados = [], valores
                 onChange={manejarCambio}
               />
             )}
+
+            {/* Mostrar error si existe */}
+            {errores[campo.nombre] && (
+              <p className="mensaje-error">{errores[campo.nombre]}</p>
+            )}
           </div>
         ))}
       </div>
 
-      {/* Botones personalizados */}
+      {/* Botones */}
       {botonesPersonalizados.length > 0 && (
         <div className="formulario-botones">
           {botonesPersonalizados.map((btn, i) => (

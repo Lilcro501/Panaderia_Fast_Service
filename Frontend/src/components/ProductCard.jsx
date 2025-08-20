@@ -36,8 +36,9 @@ const ProductCard = ({
 
       {/* Fila de íconos arriba */}
       <div className="icons-row">
+        
         {/* Botón de comentario */}
-        <button onClick={() => onEditComments(id)} className="icon-btn">
+        <button  className="icon-btn">
           <i className="fa fa-comment"></i>
         </button>
 
@@ -45,22 +46,6 @@ const ProductCard = ({
         <button onClick={() => onEditComments(id)} className="icon-btn">
           <i className="fa fa-pencil"></i>
         </button>
-      </div>
-
-      {/* Fila de switch y botón de editar */}
-      <div className="icons-row">
-        {/* Switch de activado/desactivado */}
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={active}
-            // llamas la función con el nuevo estado invertido
-            onChange={() => onToggleActive(id, !active)}
-          />
-          <span className="slider round"></span>
-        </label>
-
-
       </div>
     </div>
   );

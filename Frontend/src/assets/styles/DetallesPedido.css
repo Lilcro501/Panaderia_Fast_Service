@@ -380,3 +380,131 @@ td:last-child {
     transform: scale(1.05);
 }
 
+/* ---- Contenedor principal ---- */
+.contenedor-detalles {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.titulo-detalles {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ---- Información adicional (tarjeta) ---- */
+.info-adicional {
+  background: #ffffff;
+  padding: 20px;
+  margin-top: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.subtitulo-info {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 8px;
+}
+
+.grid-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+  margin-bottom: 15px;
+}
+
+.grid-info p {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 0;
+}
+
+.grid-info p span {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.seccion-comprobante {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.boton-ver-comprobante {
+  padding: 6px 14px;
+  background: #3498db;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.boton-ver-comprobante:hover {
+  background: #2c80b4;
+}
+
+/* ---- Total general ---- */
+.total-general {
+  margin-top: 20px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* ---- Modal comprobante ---- */
+.modal-comprobante {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-comprobante img {
+  max-height: 80vh;
+  max-width: 80vw;
+  border-radius: 10px;
+  box-shadow: 0 0 10px white;
+}
+
+/* ---- Botón volver ---- */
+.contenedor-volver {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.boton-volver {
+  padding: 8px 16px;
+  background: #95a5a6;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.boton-volver:hover {
+  background: #7f8c8d;
+}

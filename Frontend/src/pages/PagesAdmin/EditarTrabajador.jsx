@@ -48,10 +48,10 @@ export default function EditarTrabajador() {
         try {
             const response = await axios.patch(`http://localhost:8000/api/administrador/usuarios/${id}/`, datos);
             console.log("Trabajador actualizado:", response.data);
-            alert("Trabajador actualizado con éxito.");
+            alert("✅ Trabajador actualizado con éxito.");
             navigate("/AdministrarTrabajadores");
         } catch (error) {
-            console.error("Error al actualizar trabajador:", error.response?.data || error);
+            console.error("❌ Error al actualizar trabajador:", error.response?.data || error);
             alert("Error al actualizar el trabajador.");
         }
     };
@@ -81,6 +81,28 @@ export default function EditarTrabajador() {
                     valoresIniciales={datosIniciales}
                     onSubmit={manejarEnvio}
                     botonesPersonalizados={botones}
+                    validacionesPersonalizadas={{
+                        email: (valor) => {
+                            if (!valor) return "El correo electrónico es obligatorio";
+                            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            return !regex.test(valor) ? "El correo electrónico no es válido" : null;
+                        },
+                        nombre: (valor) =>
+                            !valor || valor.trim().length < 2
+                                ? "El nombre debe tener al menos 2 caracteres"
+                                : null,
+                        apellido: (valor) =>
+                            !valor || valor.trim().length < 2
+                                ? "El apellido debe tener al menos 2 caracteres"
+                                : null,
+                        telefono: (valor) => {
+                            if (!valor) return null; 
+                            const regex = /^[0-9]{10}$/; //^[0-9]{10}$ → Solo números (0-9) y exactamente 10 dígitos.
+                            return !regex.test(valor)
+                                ? "El teléfono debe contener 10 dígitos"
+                                : null;
+                        }
+                    }}
                 />
             ) : (
                 <p>Error al cargar los datos.</p>

@@ -87,10 +87,12 @@ class Producto(models.Model):
     #definimos el campo de imagen del producto
     #definimos el directorio donde se guardaran las imagenes de los productos
     #tener en cuenta que la ruta aun no esta bien definida
-    imagen = models.ImageField(upload_to='productos/')
+    imagen = models.URLField(max_length=255, blank=True, null=True)
     fecha_vencimiento = models.DateField()
     stock = models.IntegerField()
     id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='id_categoria')
+    fecha_actualizacion = models.DateField(blank=True, null=True)
+    imagen_public_id = models.CharField(max_length=255, null=True, blank=True)
 
     #referencia de la calse de metadatos para conectar con la base de datos
     class Meta:
@@ -177,4 +179,24 @@ class Valoracion(models.Model):
 
 #----------------------------------------------------------------------------------#
 
+class DetalleFactura(models.Model):
+    factura = models.ForeignKey(
+        Factura, 
+        on_delete=models.PROTECT,
+        related_name='detalles',
+        db_column='id_factura'  # <--- nombre real de la columna en tu tabla
+    )
+    id_producto = models.IntegerField(db_column='id_producto')
+    nombre_producto = models.CharField(max_length=255, db_column='nombre_producto')
+    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2, db_column='precio_unitario')
+    cantidad = models.IntegerField(db_column='cantidad')
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2, db_column='subtotal')
+    categoria_producto = models.CharField(max_length=100, blank=True, null=True, db_column='categoria_producto')
+
+    def __str__(self):
+        return f"{self.nombre_producto} x{self.cantidad} - Factura {self.factura.id}"
+
+    class Meta:
+        db_table = 'detalle_factura'  # nombre exacto de tu tabla
+        managed = False
 

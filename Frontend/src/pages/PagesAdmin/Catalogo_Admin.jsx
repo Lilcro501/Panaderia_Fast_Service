@@ -32,16 +32,6 @@ function CatalogoPage() {
         obtenerProductos();
     }, [categoriaSeleccionada]);
 
-    const handleStatusChange = (id_producto, newStatus) => {
-        axios.patch(`http://localhost:8000/api/administrador/productos/${id_producto}/`, { activo: newStatus })
-            .then(() => {
-                const updated = products.map(p =>
-                    p.id_producto === id_producto ? { ...p, activo: newStatus } : p
-                );
-                setProducts(updated);
-            })
-            .catch(error => console.error("Error al actualizar estado:", error));
-    };
 
     const handleEditComments = (id_producto) => {
         const product = products.find(p => p.id_producto === id_producto);
@@ -74,9 +64,7 @@ function CatalogoPage() {
                         image={product.imagen}
                         name={product.nombre}
                         description={product.descripcion}
-                        active={product.activo}
                         onEditComments={handleEditComments}
-                        onToggleActive={handleStatusChange}
                         ocultarEditarProducto={true}
                     />
                 ))}

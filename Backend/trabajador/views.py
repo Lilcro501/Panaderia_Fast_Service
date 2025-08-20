@@ -17,7 +17,11 @@ from django.core.mail import EmailMultiAlternatives
 from rest_framework.views import APIView #
 from administrador.models import Cronograma #
 from usuarios.models import Usuario #
-from rest_framework import status, permissions#
+from rest_framework import permissions#
+from administrador.models import DetalleFacturaHistorico
+from decimal import Decimal
+from datetime import datetime
+from carrito.models import DetalleFactura
 
 
 @api_view(['GET'])
@@ -85,17 +89,17 @@ def obtener_factura(request, id_factura):
         return Response({"error": "Factura no encontrada"}, status=status.HTTP_404_NOT_FOUND)
 
 
-
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def notificar_pedido(request):
     """
-    Actualiza el estado de un pedido (aceptar o rechazar) y envía una notificación por correo al cliente.
+    Actualiza el estado de un pedido (aceptar o rechazar), envía correo al cliente
+    y guarda los productos en detalle_factura si el pedido fue aceptado.
     """
     data = request.data
     pedido_id = data.get("id_pedido")
-    motivo = data.get("motivo", "")
     accion = data.get("accion")
+    motivo = data.get("motivo", "")  # Solo se usa si es rechazado
 
     # Validación básica
     if not pedido_id or not accion:
@@ -142,7 +146,7 @@ def notificar_pedido(request):
     else:
         return Response({"error": "Acción inválida. Usa 'aceptar' o 'rechazar'."}, status=400)
 
-    # 🔹 En lugar de crear un nuevo registro, actualizamos el existente
+    # 🔹 Guardamos o actualizamos el estado de la factura
     estado_factura, creado = EstadoFactura.objects.get_or_create(
         factura=factura,
         defaults={
@@ -156,7 +160,29 @@ def notificar_pedido(request):
         estado_factura.estado_pedido = estado_pedido
         estado_factura.save()
 
-    # Enviar correo al cliente (texto + HTML)
+    # 📌 Si el pedido fue aceptado, guardamos los productos en detalle_factura
+    if estado_pedido == "aceptado":
+        pedidos = Pedido.objects.filter(factura=factura)
+        for pedido in pedidos:
+            # Evitar duplicados
+            ya_existe = DetalleFactura.objects.filter(
+                factura=factura,
+                nombre_producto=pedido.nombre_producto
+            ).exists()
+            if not ya_existe:
+                DetalleFactura.objects.create(
+                    factura=factura,
+                    id_producto=pedido.producto.id_producto if pedido.producto else None,
+                    nombre_producto=pedido.nombre_producto,
+                    precio_unitario=Decimal(pedido.precio_unitario),
+                    cantidad=pedido.cantidad,
+                    subtotal=Decimal(pedido.subtotal),
+                    categoria_producto = pedido.producto.id_categoria.nombre if pedido.producto and pedido.producto.id_categoria else None
+
+                )
+
+
+    # Enviar correo al cliente
     asunto = "Actualización de tu pedido"
     email = EmailMultiAlternatives(
         subject=asunto,
@@ -176,10 +202,76 @@ def notificar_pedido(request):
     }, status=200)
 
 
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def actualizar_estado_pedido(request):
+    data = request.data
+    print("📥 Datos recibidos en la request:", data)
+
+    id_factura = data.get("id_factura")
+    estado_pedido = data.get("estado_pedido")
+    proceso_pedido = data.get("proceso_pedido")
+
+    if not id_factura or not estado_pedido or not proceso_pedido:
+        return Response({"error": "Faltan datos obligatorios."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        factura = Factura.objects.get(id=id_factura)
+        print("✅ Factura encontrada:", factura.id, factura.id_usuario)
+    except Factura.DoesNotExist:
+        print("❌ Factura no encontrada:", id_factura)
+        return Response({"error": "Factura no encontrada."}, status=status.HTTP_404_NOT_FOUND)
+
+    # 🔹 Guardamos o actualizamos el estado
+    estado_factura, creado = EstadoFactura.objects.update_or_create(
+        factura=factura,
+        defaults={
+            "proceso_pedido": proceso_pedido,
+            "estado_pedido": estado_pedido
+        }
+    )
+    print(f"✅ EstadoFactura {'creado' if creado else 'actualizado'}: {estado_factura.proceso_pedido}, {estado_factura.estado_pedido}")
+
+    # 📌 Guardar en detalle_factura solo si el pedido fue aceptado o completado
+    if estado_pedido.lower() in ["aceptado", "completado"]:
+        pedidos = Pedido.objects.filter(factura=factura)
+        print(f"📦 Número de pedidos asociados a la factura: {pedidos.count()}")
+
+        for pedido in pedidos:
+            print("🔹 Procesando pedido:", pedido.id, pedido.nombre_producto, pedido.cantidad, pedido.subtotal)
+
+            # Evitar duplicados en detalle_factura
+            ya_existe = DetalleFactura.objects.filter(
+                factura=factura,
+                nombre_producto=pedido.nombre_producto
+            ).exists()
+            print(f"   > Ya existe en detalle_factura?: {ya_existe}")
+
+            if not ya_existe:
+                detalle = DetalleFactura.objects.create(
+                    factura=factura,
+                    id_producto=pedido.id_producto,
+                    nombre_producto=pedido.nombre_producto,
+                    precio_unitario=Decimal(pedido.precio_unitario),
+                    cantidad=pedido.cantidad,
+                    subtotal=Decimal(pedido.subtotal),
+                    categoria_producto=getattr(pedido.producto.id_categoria, 'nombre', None)
+                )
+                print(f"   ✅ Guardado en detalle_factura: {detalle.nombre_producto}")
+
+    mensaje = "Estado creado correctamente." if creado else "Estado actualizado correctamente."
+    print("🏁 Finalizando función:", mensaje)
+    return Response({"mensaje": mensaje}, status=status.HTTP_200_OK)
+
+#cronograma
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def historial_pedidos(request):
-    # Subconsulta: último estado por factura
+    """
+    Retorna las facturas del usuario separadas en aceptadas y rechazadas,
+    según el último estado registrado en EstadoFactura.
+    """
     ultimos_estados = EstadoFactura.objects.filter(
         factura=OuterRef('pk')
     ).order_by('-id_estado')
@@ -198,31 +290,6 @@ def historial_pedidos(request):
         "aceptados": serializer_aceptados.data,
         "rechazados": serializer_rechazados.data
     })
-
-
-@api_view(['GET'])
-def historial_pedidos(request):
-    # Subconsulta: obtener el último estado de cada factura
-    ultimo_estado = EstadoFactura.objects.filter(
-        factura=OuterRef('pk')
-    ).order_by('-id_estado')
-
-    facturas = Factura.objects.annotate(
-        estado_pedido=Subquery(ultimo_estado.values('estado_pedido')[:1]),
-        proceso_pedido=Subquery(ultimo_estado.values('proceso_pedido')[:1]),
-    )
-
-    data = []
-    for factura in facturas:
-        data.append({
-            "id": factura.id,
-            "cliente": f"{factura.usuario.nombre} {factura.usuario.apellido}",
-            "clienteId": factura.usuario.id,
-            "fecha": factura.fecha.strftime("%I:%M:%S %p - %d/%m/%Y"),
-            "estado": factura.estado_pedido
-        })
-    return Response(data)
-
 
 @api_view(['GET'])
 def listar_estados_pedidos(request):
@@ -248,41 +315,6 @@ def listar_estados_pedidos(request):
     return Response(data)
 
 
-
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-def actualizar_estado_pedido(request):
-    data = request.data
-    print("Datos recibidos:", request.data)
-    id_factura = data.get("id_factura")
-    proceso_pedido = data.get("proceso_pedido")
-
-    if not id_factura or not proceso_pedido:
-        return Response({"error": "Faltan datos obligatorios."}, status=status.HTTP_400_BAD_REQUEST)
-
-    try:
-        factura = Factura.objects.get(id=id_factura)
-    except Factura.DoesNotExist:
-        return Response({"error": "Factura no encontrada."}, status=status.HTTP_404_NOT_FOUND)
-
-    # 🔹 Buscar si ya existe un estado asociado a esta factura
-    estado_factura, creado = EstadoFactura.objects.update_or_create(
-        factura=factura,
-        defaults={
-            "proceso_pedido": proceso_pedido,
-            "estado_pedido": "por validar"  # Valor fijo
-        }
-    )
-
-    if creado:
-        mensaje = "Estado creado correctamente."
-    else:
-        mensaje = "Estado actualizado correctamente."
-
-    return Response({"mensaje": mensaje}, status=status.HTTP_200_OK)
-
-
-#cronograma
 class CronogramaMiUsuarioView(APIView):
     permission_classes = [permissions.IsAuthenticated]  # solo usuarios autenticados
 
