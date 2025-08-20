@@ -1,6 +1,6 @@
 #vistas admin
 from django.shortcuts import render
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status,generics
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view 
 from rest_framework.views import APIView
@@ -57,37 +57,38 @@ class ProductoCreateView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-class ProductoUpdateView(APIView):
-    def put(self, request, pk):
-        try:
-            producto = Productos.objects.get(id_producto=pk)
-            data = request.data.copy()
-            
-            # Si hay una nueva imagen
-            if 'file' in request.FILES:
-                file = request.FILES['file']
-                categoria = producto.id_categoria
-                folder_name = f"productos/{categoria.nombre.lower()}"
-                
-                # Subir nueva imagen
-                upload_result = cloudinary.uploader.upload(
-                    file,
-                    folder=folder_name
-                )
-                data['imagen'] = upload_result['secure_url']
+class ProductoUpdateView(generics.UpdateAPIView):
+    queryset = Productos.objects.all()
+    serializer_class = ProductoSerializer
 
-            # Actualizar otros campos
-            for field in ['nombre', 'precio', 'stock', 'fecha_vencimiento', 'imagen', 'id_categoria_id']:
-                if field in data:
-                    setattr(producto, field, data[field])
-            
-            producto.save()
-            return Response({'message': 'Producto actualizado'}, status=status.HTTP_200_OK)
-            
-        except Productos.DoesNotExist:
-            return Response({'error': 'Producto no encontrado'}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    def update(self, request, *args, **kwargs):
+        producto = self.get_object()
+        nueva_imagen = request.FILES.get("imagen")
+
+        if nueva_imagen:
+            # 1️⃣ Eliminar imagen anterior en Cloudinary
+            if producto.imagen_public_id:
+                cloudinary.uploader.destroy(producto.imagen_public_id)
+
+            # 2️⃣ Subir nueva imagen
+            upload_data = cloudinary.uploader.upload(
+                nueva_imagen,
+                folder="productos"
+            )
+
+            producto.imagen = upload_data.get("secure_url")
+            producto.imagen_public_id = upload_data.get("public_id")
+
+        producto.nombre = request.data.get("nombre", producto.nombre)
+        producto.precio = request.data.get("precio", producto.precio)
+        producto.descripcion = request.data.get("descripcion", producto.descripcion)
+
+        producto.save()
+        serializer = self.get_serializer(producto)
+        return Response(serializer.data)
+
+
+
 class ProductoViewSet(viewsets.ModelViewSet):
     serializer_class = ProductoSerializer
     queryset = Productos.objects.all() 
@@ -145,8 +146,6 @@ class ProductoViewSet(viewsets.ModelViewSet):
 
         producto.delete()
         return Response({"message": "Producto eliminado con éxito"}, status=status.HTTP_200_OK)
-
-    
 
 
 class CategoriaViewSet(viewsets.ModelViewSet):
@@ -221,6 +220,12 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 class ValoracionViewSet(viewsets.ModelViewSet):
     queryset = Valoraciones.objects.all()
     serializer_class = ValoracionSerializer
+
+    def get_queryset(self):
+        producto_id = self.request.query_params.get("producto_id")
+        if producto_id:
+            return Valoraciones.objects.filter(id_producto=producto_id)
+        return super().get_queryset()
 
 @api_view(['GET'])
 def listar_facturas(request):

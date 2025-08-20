@@ -100,7 +100,11 @@ export default function ProductoDetalle() {
           id: response.data.id_producto ?? response.data.id,
           nameProduct: response.data.nombre,
           price: response.data.precio,
-          image: `http://localhost:8000${response.data.imagen}`,
+          image: response.data.imagen
+          ? (response.data.imagen.startsWith("http")
+              ? response.data.imagen
+              : `http://localhost:8000${response.data.imagen}`)
+          : "https://via.placeholder.com/150",
           description: response.data.descripcion,
           stock: response.data.stock,
         });

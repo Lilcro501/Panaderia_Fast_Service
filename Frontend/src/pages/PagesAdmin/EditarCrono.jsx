@@ -67,14 +67,13 @@ export default function EditarCrono() {
 
             await axios.put(`http://localhost:8000/api/administrador/cronograma/${id}/`, payload);
 
-            alert("Cronograma actualizado correctamente.");
+            alert("✅ Cronograma actualizado correctamente.");
             navigate('/Cronograma');
         } catch (error) {
-            console.error("Error al actualizar cronograma:", error);
+            console.error("❌ Error al actualizar cronograma:", error);
             alert("Ocurrió un error al actualizar el cronograma.");
         }
     };
-
 
     const botones = [
         {
@@ -87,9 +86,7 @@ export default function EditarCrono() {
             texto: 'Cancelar',
             tipo: 'button',
             clase: 'salir',
-            onClick: () => {
-                navigate('/Cronograma');
-            }
+            onClick: () => navigate("/Cronograma")
         }
     ];
 
@@ -120,6 +117,30 @@ export default function EditarCrono() {
                     onSubmit={manejarEnvio}
                     botonesPersonalizados={botones}
                     valoresIniciales={datosIniciales}
+                    validacionesPersonalizadas={{
+                        titulo: (valor) =>
+                            !valor || valor.trim() === "" ? "El cargo es obligatorio" : null,
+
+                        descripcion: (valor) =>
+                            !valor || valor.trim().length < 5
+                                ? "Las actividades deben tener al menos 5 caracteres"
+                                : null,
+
+                        fecha_inicio: (valor) => {
+                            if (!valor) return "La fecha de inicio es obligatoria";
+                            const inicio = new Date(valor);
+                            return isNaN(inicio.getTime()) ? "La fecha de inicio no es válida" : null;
+                        },
+
+                        fecha_fin: (valor, valores) => {
+                            if (!valor) return "La fecha de fin es obligatoria";
+                            const fin = new Date(valor);
+                            const inicio = new Date(valores.fecha_inicio);
+                            if (isNaN(fin.getTime())) return "La fecha de fin no es válida";
+                            if (inicio && fin <= inicio) return "La fecha de fin debe ser posterior a la de inicio";
+                            return null;
+                        }
+                    }}
                 />
             )}
         </div>

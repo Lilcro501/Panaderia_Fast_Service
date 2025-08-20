@@ -174,7 +174,7 @@ def obtener_productos_por_categoria(request, categoria_nombre):
             'nombre': producto.nombre,
             'precio': float(producto.precio),
             'descripcion': producto.descripcion,
-            'imagen': f'/media/{producto.imagen}',
+            'imagen': producto.imagen,
             'fecha_vencimiento': str(producto.fecha_vencimiento),
             'stock': producto.stock,
         } for producto in productos]
@@ -203,7 +203,7 @@ def obtener_producto_por_id(request, id):
             'nombre': producto.nombre,
             'precio': float(producto.precio),
             'descripcion': producto.descripcion,
-            'imagen': producto.imagen.url if producto.imagen else None,
+            'imagen': producto.imagen if producto.imagen else None,
             'fecha_vencimiento': producto.fecha_vencimiento.isoformat() if producto.fecha_vencimiento else None,
             'stock': producto.stock,
             'categoria': producto.id_categoria.nombre  # Incluye datos relacionados

@@ -178,6 +178,30 @@ export default function AgregarInven() {
                 campos={camposProducto}
                 onSubmit={manejarEnvio}
                 botonesPersonalizados={botones}
+                validacionesPersonalizadas={{
+                    nombre: (valor) =>
+                        !valor || valor.trim() === "" ? "El nombre es obligatorio" : null,
+
+                    precio: (valor) =>
+                        valor <= 0 ? "El precio debe ser mayor a 0" : null,
+
+                    descripcion: (valor) =>
+                        !valor || valor.trim().length < 10
+                            ? "La descripción debe tener al menos 10 caracteres"
+                            : null,
+
+                    stock: (valor) =>
+                        valor < 0 ? "El stock no puede ser negativo" : null,
+
+                    fecha_vencimiento: (valor) => {
+                        if (!valor) return "La fecha de vencimiento es obligatoria";
+                        const hoy = new Date();
+                        const fechaIngresada = new Date(valor);
+                        return fechaIngresada <= hoy
+                            ? "La fecha de vencimiento debe ser posterior a hoy"
+                            : null;
+                    }
+                }}
             />
         </div>
     );

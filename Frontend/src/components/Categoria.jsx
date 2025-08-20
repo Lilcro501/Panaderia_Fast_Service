@@ -27,11 +27,7 @@ const Categoria = ({ nombre }) => {
           id: Number(producto.id_producto ?? producto.id), // Forzar número
           nameProduct: producto.nombre,
           price: producto.precio,
-          image: producto.imagen
-            ? (producto.imagen.startsWith('http')
-                ? producto.imagen
-                : `http://localhost:8000${producto.imagen}`)
-            : "https://via.placeholder.com/150", // Imagen por defecto si no hay
+          image: producto.imagen ,
           description: producto.descripcion,
           stock: producto.stock,
         }));
