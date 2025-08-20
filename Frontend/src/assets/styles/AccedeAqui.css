@@ -122,18 +122,33 @@
 
 .CampoNumero {
     display: flex;
+    justify-content: center;  /* Centra los inputs */
     align-items: center;
-    background-color: rgba(154, 143, 146, 0.15);
+    background-color: rgba(225, 219, 221, 0.15);
     border-radius: 10px;
-    margin: 7px 70px;
-    position: relative;
-    gap: 5px;
+    margin: 20px auto;        /* Centrado horizontal */
+    gap: 10px;                /* Espacio entre inputs */
+    padding: 10px 20px;       /* Espacio dentro del contenedor */
+    max-width: 300px;         /* Evita que crezca demasiado */
 }
 
 .CampoNumero input {
+    width: 50px;              /* Tamaño fijo para cada input */
+    height: 50px;             /* Hace que sean cuadrados */
     font-size: 30px;
     text-align: center;
+    border: 1px solid #e6dadd;
+    border-radius: 8px;
+    outline: none;
+    background-color: white;
+    transition: 0.2s;
 }
+
+.CampoNumero input:focus {
+    border-color: #e7e7e7;
+    box-shadow: 0 0 5px rgba(255,3,70,0.5);
+}
+
 
 .Opciones {
     display: flex;

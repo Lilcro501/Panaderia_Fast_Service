@@ -211,3 +211,23 @@ input::placeholder {
     max-width: 90%;
   }
 }
+
+.Campo {
+  position: relative; /* ya lo tienes, pero es importante */
+}
+
+.Campo .Ojo {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #3f2a1a;
+  font-size: 18px;
+  padding-right: 15px;
+}
+
+.Campo input[type="password"],
+.Campo input[type="text"] {
+  padding-right: 40px; /* espacio para que el ojo no tape el texto */
+}

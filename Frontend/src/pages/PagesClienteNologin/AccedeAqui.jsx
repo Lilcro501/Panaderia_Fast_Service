@@ -30,8 +30,7 @@ export default function AccedeAqui() {
   };
 
   const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-
+  const regexPassword = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
   const CorreoValido = regexCorreo.test(correo);
   const PasswordValida = regexPassword.test(password);
 

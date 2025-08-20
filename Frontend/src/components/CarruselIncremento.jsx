@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../assets/styles/CarruselIncremento.css";
 import { useCarrito } from "../Context/CarritoContext";
-import { useRol } from "../Context/RolContext"; // <-- Importamos el RolContext
+import { useRol } from "../Context/RolContext";
 import campana from "../assets/images/campana.png";
 import "../assets/styles/Global.css";
 
@@ -16,7 +16,7 @@ export default function CarruselCatalogo() {
 
   const navigate = useNavigate();
 
-  const idsProductos = ["78", "78", "78", "78", "78", "78", "78", "78", "78", "78", "78"];
+  const idsProductos = ["78", "80", "82", "83", "84", "85", "86", "87", "91", "90", "105"];
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -25,14 +25,16 @@ export default function CarruselCatalogo() {
           axios.get(`http://localhost:8000/api/carrito/producto/${id}/`).then((res) => res.data)
         );
         const resultados = await Promise.all(peticiones);
+
         const productosFormateados = resultados.map((p) => ({
-          id: p.id_producto,
+          id: Number(p.id_producto ?? p.id),
           nameProduct: p.nombre,
           price: p.precio,
           description: p.descripcion,
           stock: p.stock,
-          image: p.imagen ? `http://localhost:8000${p.imagen}` : null,
+          image: p.imagen, // <-- Aquí la diferencia principal
         }));
+
         setProductos(productosFormateados);
       } catch (error) {
         console.error("Error cargando productos:", error);
@@ -111,9 +113,7 @@ export default function CarruselCatalogo() {
 
   return (
     <section className="carrusel-centralizado">
-      <button className="boton-carrusel" onClick={() => scroll(-300)}>
-        &#10094;
-      </button>
+      <button className="boton-carrusel" onClick={() => scroll(-300)}>&#10094;</button>
 
       <div className="catalogo-deslizar" ref={contenedorRef}>
         {productos.map((prod) => {
@@ -121,7 +121,6 @@ export default function CarruselCatalogo() {
 
           return (
             <div className="recuadro-catalogo" key={prod.id}>
-              {/* ⬇️ Reemplazamos Link por div con validación */}
               <div
                 className="enlace-producto"
                 onClick={() => manejarDetalleProducto(prod.id)}
@@ -142,9 +141,7 @@ export default function CarruselCatalogo() {
                     else mostrarModal("❗ Solo los clientes pueden modificar la cantidad de productos.");
                   }}
                   disabled={cantidad === 0}
-                >
-                  −
-                </button>
+                >−</button>
 
                 <input
                   type="number"
@@ -153,33 +150,21 @@ export default function CarruselCatalogo() {
                   onChange={(e) => cambiarCantidadManual(e, prod)}
                 />
 
-                <button className="incremento" onClick={() => manejarAgregar(prod)}>
-                  +
-                </button>
+                <button className="incremento" onClick={() => manejarAgregar(prod)}>+</button>
               </section>
             </div>
           );
         })}
       </div>
 
-      <button className="boton-carrusel" onClick={() => scroll(300)}>
-        &#10095;
-      </button>
+      <button className="boton-carrusel" onClick={() => scroll(300)}>&#10095;</button>
 
-      {/* Modal */}
       {modalMensaje && (
         <div className="modal-fondo" onClick={cerrarModal}>
           <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
-            <img src={campana} alt="alerta" width="20px" />
-            <br />
-            <br />
-            <p>{modalMensaje}</p>
-            <br />
-            <br />
-            <button className="boton-moderno" onClick={cerrarModal}>
-              Cerrar
-            </button>
-            {/* Botón directo a login */}
+            <img src={campana} alt="alerta" width="20px" /><br /><br />
+            <p>{modalMensaje}</p><br /><br />
+            <button className="boton-moderno" onClick={cerrarModal}>Cerrar</button>
             {rol !== "cliente" && (
               <button
                 className="boton-moderno"
