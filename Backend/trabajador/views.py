@@ -172,13 +172,15 @@ def notificar_pedido(request):
             if not ya_existe:
                 DetalleFactura.objects.create(
                     factura=factura,
-                    id_producto=pedido.id_producto,
+                    id_producto=pedido.producto.id_producto if pedido.producto else None,
                     nombre_producto=pedido.nombre_producto,
                     precio_unitario=Decimal(pedido.precio_unitario),
                     cantidad=pedido.cantidad,
                     subtotal=Decimal(pedido.subtotal),
-                    categoria_producto=getattr(pedido.producto.id_categoria, 'nombre', None)
+                    categoria_producto = pedido.producto.id_categoria.nombre if pedido.producto and pedido.producto.id_categoria else None
+
                 )
+
 
     # Enviar correo al cliente
     asunto = "Actualización de tu pedido"
@@ -288,6 +290,29 @@ def historial_pedidos(request):
         "aceptados": serializer_aceptados.data,
         "rechazados": serializer_rechazados.data
     })
+
+@api_view(['GET'])
+def listar_estados_pedidos(request):
+    ultimos_estados = EstadoFactura.objects.filter(
+        factura=OuterRef('pk')
+    ).order_by('-id_estado')
+
+    facturas_con_estado = Factura.objects.annotate(
+        estado_pedido=Subquery(ultimos_estados.values('estado_pedido')[:1]),
+        proceso_pedido=Subquery(ultimos_estados.values('proceso_pedido')[:1])
+    ).filter(estado_pedido='por validar') 
+
+    data = [
+        {
+            'id': f.id,
+            'fecha': f.fecha.strftime("%I:%M:%S %p - %d/%m/%Y"),
+            'estado': f.estado_pedido,
+            'cliente_id': f.usuario.id
+        }
+        for f in facturas_con_estado
+    ]
+    
+    return Response(data)
 
 
 class CronogramaMiUsuarioView(APIView):
