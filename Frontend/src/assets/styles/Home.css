@@ -243,6 +243,7 @@
 .subtitulo-productos {
   text-align: center;
   font-size: 30px;
+  color: #c29a7a;
 }
 
 @media (max-width: 768px) {

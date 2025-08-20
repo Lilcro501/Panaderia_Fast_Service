@@ -28,6 +28,7 @@ export default function Registro() {
   const validar = () => {
     const nuevosErrores = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
 
     if (!form.nombres.trim()) {
       nuevosErrores.nombres = 'Por favor ingresa tus nombres';
@@ -43,9 +44,10 @@ export default function Registro() {
       nuevosErrores.correo = 'Correo no válido';
     }
 
-    if (form.password.length < 6) {
-      nuevosErrores.password = 'La contraseña debe tener al menos 6 caracteres';
-    }
+    if (!passwordRegex.test(form.password)) {
+    nuevosErrores.password =
+      'La contraseña debe tener al menos 6 caracteres, incluyendo una letra mayúscula, una letra minúscula y un número';
+  }
 
     if (form.confirmar !== form.password) {
       nuevosErrores.confirmar = 'Las contraseñas no coinciden';
@@ -198,7 +200,8 @@ export default function Registro() {
                 checked={form.terminos}
                 onChange={handleChange}
               />
-              <span>Acepto los <strong>Términos y Condiciones</strong></span> 
+              P
+              <Link to="TYC"><span>Acepto los <strong>Términos y Condiciones</strong></span> </Link>
             </label>
           </div>
           {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
