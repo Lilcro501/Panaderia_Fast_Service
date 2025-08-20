@@ -58,7 +58,7 @@
 }
 
 .boton-moderno:hover {
-  background:#eb860a ;
+  background:#996f4a ;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(41, 128, 185, 0.3);
 }
@@ -112,7 +112,7 @@
   background-color: #f8f9fa;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 870px) {
   .contenedor-informacion {
     padding: 20px;
   }
@@ -121,6 +121,26 @@
   .detalle-orden,
   .metodos-pago {
     flex: 1 1 100%;
+  }
+
+  .InfoInferiorCalificacion {
+    flex-direction: column;
+  }
+
+  .InfoSuperiorCalificacion {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 500px){
+  .InfoProducto {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px){
+  .InfoProducto {
+    padding: 10px;
   }
 }
 

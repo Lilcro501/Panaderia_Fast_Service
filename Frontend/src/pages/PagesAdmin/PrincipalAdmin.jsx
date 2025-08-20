@@ -250,20 +250,22 @@ const AdminPage = () => {
                 </div>
             )}
 
-            <div className="grafico-contenedor">
-                <h2>Producto más vendido (General)</h2>
-                <canvas id="graficoProducto" ref={pieChartRef} width="300" height="300"></canvas>
-                {productoMasVendido && (
-                    <p className="texto-info">
-                        {productoMasVendido.nombre} ({productoMasVendido.cantidad} unidades vendidas)
-                    </p>
-                )}
-            </div>
+            <div className='orden'>
+                <div className="grafico-contenedor">
+                    <h2>Producto más vendido (General)</h2>
+                    <canvas id="graficoProducto" ref={pieChartRef} width="300" height="300"></canvas>
+                    {productoMasVendido && (
+                        <p className="texto-info">
+                            {productoMasVendido.nombre} ({productoMasVendido.cantidad} unidades vendidas)
+                        </p>
+                    )}
+                </div>
 
-            <div className="grafico-contenedor">
-                <h2>Ganancias por Mes</h2>
-                <canvas id="graficoGanancias" ref={chartRef} width="500" height="300"></canvas>
-            </div>
+                <div className="grafico-contenedor">
+                    <h2>Ganancias por Mes</h2>
+                    <canvas id="graficoGanancias" ref={chartRef} width="500" height="300"></canvas>
+                </div>
+            </div> 
 
             <div className="filtro-descarga">
                 <h3>Descarga de informes</h3>

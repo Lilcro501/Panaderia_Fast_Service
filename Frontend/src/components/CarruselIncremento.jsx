@@ -1,31 +1,31 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../assets/styles/CarruselIncremento.css";
 import { useCarrito } from "../Context/CarritoContext";
 import { useRol } from "../Context/RolContext"; // <-- Importamos el RolContext
-import campana from '../assets/images/campana.png';
+import campana from "../assets/images/campana.png";
 import "../assets/styles/Global.css";
 
 export default function CarruselCatalogo() {
   const contenedorRef = useRef(null);
   const { carrito, agregarProducto, quitarProducto, eliminarProducto } = useCarrito();
-  const { rol } = useRol(); // <-- Obtenemos el rol
+  const { rol } = useRol();
   const [productos, setProductos] = useState([]);
-
-  // Estado para manejar el modal
   const [modalMensaje, setModalMensaje] = useState(null);
+
+  const navigate = useNavigate();
 
   const idsProductos = ["78", "78", "78", "78", "78", "78", "78", "78", "78", "78", "78"];
 
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const peticiones = idsProductos.map(id =>
-          axios.get(`http://localhost:8000/api/carrito/producto/${id}/`).then(res => res.data)
+        const peticiones = idsProductos.map((id) =>
+          axios.get(`http://localhost:8000/api/carrito/producto/${id}/`).then((res) => res.data)
         );
         const resultados = await Promise.all(peticiones);
-        const productosFormateados = resultados.map(p => ({
+        const productosFormateados = resultados.map((p) => ({
           id: p.id_producto,
           nameProduct: p.nombre,
           price: p.precio,
@@ -43,7 +43,7 @@ export default function CarruselCatalogo() {
   }, []);
 
   const obtenerCantidad = (id) => {
-    const item = carrito.find(p => p.id === id);
+    const item = carrito.find((p) => p.id === id);
     return item ? item.quantity : 0;
   };
 
@@ -101,9 +101,19 @@ export default function CarruselCatalogo() {
     }
   };
 
+  const manejarDetalleProducto = (id) => {
+    if (rol !== "cliente") {
+      mostrarModal("❗ Debes iniciar sesión como cliente para ver el detalle del producto.");
+      return;
+    }
+    navigate(`/producto/${id}`);
+  };
+
   return (
     <section className="carrusel-centralizado">
-      <button className="boton-carrusel" onClick={() => scroll(-300)}>&#10094;</button>
+      <button className="boton-carrusel" onClick={() => scroll(-300)}>
+        &#10094;
+      </button>
 
       <div className="catalogo-deslizar" ref={contenedorRef}>
         {productos.map((prod) => {
@@ -111,13 +121,18 @@ export default function CarruselCatalogo() {
 
           return (
             <div className="recuadro-catalogo" key={prod.id}>
-              <Link to={`/producto/${prod.id}`} className="enlace-producto">
+              {/* ⬇️ Reemplazamos Link por div con validación */}
+              <div
+                className="enlace-producto"
+                onClick={() => manejarDetalleProducto(prod.id)}
+                style={{ cursor: "pointer" }}
+              >
                 <img className="carrusel-catalogo" src={prod.image} alt={prod.nameProduct} />
                 <div className="P">
                   {prod.nameProduct}
                   <br />${prod.price.toLocaleString()}
                 </div>
-              </Link>
+              </div>
 
               <section className="number-input">
                 <button
@@ -138,10 +153,7 @@ export default function CarruselCatalogo() {
                   onChange={(e) => cambiarCantidadManual(e, prod)}
                 />
 
-                <button
-                  className="incremento"
-                  onClick={() => manejarAgregar(prod)}
-                >
+                <button className="incremento" onClick={() => manejarAgregar(prod)}>
                   +
                 </button>
               </section>
@@ -150,17 +162,33 @@ export default function CarruselCatalogo() {
         })}
       </div>
 
-      <button className="boton-carrusel" onClick={() => scroll(300)}>&#10095;</button>
+      <button className="boton-carrusel" onClick={() => scroll(300)}>
+        &#10095;
+      </button>
 
       {/* Modal */}
       {modalMensaje && (
         <div className="modal-fondo" onClick={cerrarModal}>
-          <div className="modal-contenido" onClick={e => e.stopPropagation()}>
+          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
             <img src={campana} alt="alerta" width="20px" />
-            <br /><br />
+            <br />
+            <br />
             <p>{modalMensaje}</p>
-            <br /><br />
-            <button className="boton-moderno" onClick={cerrarModal}>Cerrar</button>
+            <br />
+            <br />
+            <button className="boton-moderno" onClick={cerrarModal}>
+              Cerrar
+            </button>
+            {/* Botón directo a login */}
+            {rol !== "cliente" && (
+              <button
+                className="boton-moderno"
+                style={{ marginLeft: "10px", backgroundColor: "#4CAF50" }}
+                onClick={() => navigate("/AccedeAqui")}
+              >
+                Iniciar Sesión
+              </button>
+            )}
           </div>
         </div>
       )}
