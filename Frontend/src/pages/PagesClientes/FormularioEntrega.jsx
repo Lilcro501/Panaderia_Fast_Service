@@ -30,10 +30,10 @@ const FormularioEntrega = () => {
 
   const [userData, setUserData] = useState({
     id_usuario: null,
-    telefono: ''
+    telefono: '' // ✅ campo de teléfono
   });
 
-  const navigate = useNavigate(); // ✅ Inicializamos navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const id = localStorage.getItem('id_usuario');
@@ -94,6 +94,7 @@ const FormularioEntrega = () => {
       const datosFactura = new FormData();
 
       datosFactura.append('id_usuario', userData.id_usuario);
+      datosFactura.append('telefono', userData.telefono); // ✅ se envía teléfono al backend
       datosFactura.append('metodo_pago', metodoEntrega);
       datosFactura.append('metodo_entrega', metodoEnvio);
       datosFactura.append('total', total.toFixed(2));
@@ -127,6 +128,7 @@ const FormularioEntrega = () => {
         setMetodoEntrega('');
         setMetodoEnvio('domicilio');
         setComprobante(null);
+        setUserData(prev => ({ ...prev, telefono: '' })); // ✅ limpiar teléfono
       } else {
         setModalTitulo('Error');
         setModalMensaje(response.message || 'Error al crear factura');

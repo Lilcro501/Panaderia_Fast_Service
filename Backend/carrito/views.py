@@ -51,19 +51,24 @@ User = get_user_model()
 # Crea una factura
 #en el proceso de la factura se ingresan los productos y se restan de los productos para tener estos al tanto de que se ingresen en la base de datos
 #decorador para deshabilitar la proteccion contra ataques CSRF
-@csrf_exempt
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def crear_factura(request):
     if request.method == 'POST':
         try:
+            # Identificamos el usuario logueado
+            usuario = request.user  
+            # ---- Caso multipart/form-data ----
             if 'multipart/form-data' in request.content_type:
-                usuario_id = request.POST.get('id_usuario')
                 metodo_pago = request.POST.get('metodo_pago')
                 total = request.POST.get('total')
                 direccion_entrega = request.POST.get('direccion_entrega')
                 fecha_entrega = request.POST.get('fecha_entrega')
                 notas = request.POST.get('informacion_adicional', '')
                 metodo_entrega = request.POST.get('metodo_entrega', 'local')
-                telefono_usuario = request.POST.get('telefono_usuario')
+                telefono_usuario = request.POST.get('telefono_usuario') or request.POST.get('telefono')
+
                 productos = []
                 i = 0
                 while f'productos[{i}][id_producto]' in request.POST:
@@ -72,51 +77,67 @@ def crear_factura(request):
                         'cantidad': request.POST[f'productos[{i}][cantidad]'],
                     })
                     i += 1
+
                 comprobante = request.FILES.get('comprobante')
+
+            # ---- Caso JSON ----
             else:
                 data = json.loads(request.body)
-                usuario_id = data.get('id_usuario')
                 metodo_pago = data.get('metodo_pago')
                 total = data.get('total')
                 direccion_entrega = data.get('direccion_entrega')
                 fecha_entrega = data.get('fecha_entrega')
                 notas = data.get('informacion_adicional', '')
                 metodo_entrega = data.get('metodo_entrega', 'local')
-                telefono_usuario = data.get('telefono_usuario')  
+                telefono_usuario = data.get('telefono_usuario') or data.get('telefono')
                 productos = data.get('productos', [])
                 comprobante = None
 
-            if not usuario_id:
-                return JsonResponse({'error': 'ID de usuario no recibido'}, status=400)
+            print("📦 Datos recibidos para factura:")
+            print("Usuario:", usuario.id, usuario.email)
+            print("Teléfono:", telefono_usuario)
+            print("Método pago:", metodo_pago)
+            print("Total:", total)
+            print("Dirección:", direccion_entrega)
+            print("Fecha entrega:", fecha_entrega)
+            print("Notas:", notas)
+            print("Método entrega:", metodo_entrega)
+            print("Productos:", productos)
 
-            usuario = Usuario.objects.get(id_usuario=usuario_id)
 
-            # 👇 Si se recibe el número de teléfono, actualizarlo
+            # ---- Guardar teléfono en el usuario ----
             if telefono_usuario:
                 usuario.telefono = telefono_usuario
                 usuario.save()
 
+                usuario_refrescado = Usuario.objects.get(pk=usuario.pk)
+                print(f"✅ Teléfono guardado en DB: {usuario_refrescado.telefono}")
+
+            # ---- Crear factura ----
             factura = Factura.objects.create(
                 usuario=usuario,
                 fecha=timezone.now(),
                 metodo_pago=metodo_pago,
                 total=Decimal(total),
                 direccion_entrega=direccion_entrega,
-                fecha_entrega=datetime.strptime(fecha_entrega, "%Y-%m-%d").date(),
+                fecha_entrega=datetime.strptime(fecha_entrega, "%Y-%m-%d").date() if fecha_entrega else None,
                 notas=notas,
                 comprobante=comprobante,
                 metodo_entrega=metodo_entrega
             )
 
+            # Estado inicial
             EstadoFactura.objects.create(
                 factura=factura,
                 proceso_pedido="preparando",
                 estado_pedido="por validar"
             )
 
+            # ---- Registrar pedidos y actualizar stock ----
             for producto in productos:
                 id_producto = int(producto['id_producto'])
                 cantidad_comprada = int(producto['cantidad'])
+
                 producto_db = Producto.objects.get(id_producto=id_producto)
 
                 if producto_db.stock < cantidad_comprada:
@@ -126,33 +147,29 @@ def crear_factura(request):
 
                 producto_db.stock -= cantidad_comprada
                 producto_db.save()
-                subtotal = producto_db.precio * cantidad_comprada
 
+                subtotal = producto_db.precio * cantidad_comprada
                 Pedido.objects.create(
                     producto=producto_db,
                     nombre_producto=producto_db.nombre,
-                    precio_unitario=producto_db.precio, 
+                    precio_unitario=producto_db.precio,
                     cantidad=cantidad_comprada,
                     subtotal=subtotal,
                     factura=factura
-                    )
+                )
 
-
+            # Enviar correo
             enviar_factura_por_correo(factura)
 
             return JsonResponse({
                 'success': True,
-                'factura_id': factura.id,
-                'telefono_usuario': usuario.telefono,  
+                'factura_id': getattr(factura, 'id_factura', factura.id),
+                'telefono_usuario': usuario.telefono,
                 'message': 'Factura y pedidos registrados correctamente'
             }, status=201)
 
-        except Usuario.DoesNotExist:
-            return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
-        except Producto.DoesNotExist:
-            return JsonResponse({'error': 'Producto no encontrado'}, status=404)
         except Exception as e:
-            print("⚠️ Error al crear factura:", e)
+            print("Error al crear factura:", e)
             return JsonResponse({'error': str(e)}, status=400)
 
     return JsonResponse({'error': 'Método no permitido'}, status=405)
