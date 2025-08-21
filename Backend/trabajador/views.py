@@ -25,7 +25,7 @@ from carrito.models import DetalleFactura
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def listar_pedidos(request):
     # Subquery: obtener el último estado de cada factura (ordenado por id_estado descendente)
     ultimos_estados = EstadoFactura.objects.filter(
@@ -266,7 +266,7 @@ def actualizar_estado_pedido(request):
 
 #cronograma
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def historial_pedidos(request):
     """
     Retorna las facturas del usuario separadas en aceptadas y rechazadas,
