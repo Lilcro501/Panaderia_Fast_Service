@@ -8,27 +8,41 @@ import { useCarrito } from '../Context/CarritoContext';
 import "../assets/styles/Global.css";
 import campana from '../assets/images/campana.png';
 
-// Modal simple
-// Modal simple, cierra con botón, overlay y tecla ESC
+// Modal de aviso
 function ModalAviso({ mensaje, onClose }) {
   React.useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
   return (
     <div
       className="modal-overlay"
-      onClick={onClose}              // clic fuera cierra
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="dialog"
       aria-modal="true"
+      style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 9999,
+      }}
     >
       <div
         className="modal-content"
-        onClick={(e) => e.stopPropagation()} // evita que el clic dentro cierre
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          padding: '20px',
+          maxWidth: '400px',
+          width: '90%',
+          textAlign: 'center',
+        }}
       >
         <h3>⚠ Aviso</h3>
         <p>{mensaje}</p>
@@ -36,6 +50,14 @@ function ModalAviso({ mensaje, onClose }) {
           type="button"
           className="boton-cerrar"
           onClick={onClose}
+          style={{
+            padding: '10px 20px',
+            borderRadius: '8px',
+            border: 'none',
+            backgroundColor: '#4caf50',
+            color: 'white',
+            cursor: 'pointer'
+          }}
         >
           Cerrar
         </button>
@@ -44,52 +66,97 @@ function ModalAviso({ mensaje, onClose }) {
   );
 }
 
-// Modal de confirmación para eliminar
+// Modal de confirmación corregido
+{/* ModalConfirmacion.jsx */}
 function ModalConfirmacion({ mensaje, onConfirm, onCancel }) {
+  const handleConfirm = () => {
+    onConfirm();       // Ejecuta la acción de eliminación
+    onCancel();        // Cierra el modal después
+  };
+
   React.useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape') onCancel();
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    const handleEsc = (e) => { if (e.key === 'Escape') onCancel(); };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
   }, [onCancel]);
 
   return (
-    <div className="modal-overlay" onClick={onCancel} role="dialog" aria-modal="true">
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <img src={campana} alt="campana" width="20px"/>
-        <h3> Confirmar eliminación</h3>
+    <div
+      className="modal-overlay"
+      onClick={(e) => { if (e.target === e.currentTarget) onCancel(); }}
+      style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 9999,
+      }}
+    >
+      <div
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          padding: '20px',
+          maxWidth: '400px',
+          width: '90%',
+          textAlign: 'center',
+        }}
+      >
+        <img src={campana} alt="campana" width="40px" style={{ marginBottom: '10px' }} />
+        <h3>Confirmar eliminación</h3>
         <p>{mensaje}</p>
-        <div className="botones-modal">
-          <br /> <br />
-          <button className="boton-moderno-v-2" onClick={onConfirm}>Sí, eliminar</button>
-          <br /> <br />
-          <button className="boton-moderno-v-2" onClick={onCancel}>Cancelar</button>
-          <br /> <br />
+        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+          <button
+            type="button"
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#f44336',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer'
+            }}
+            onClick={handleConfirm}
+          >
+            Sí, eliminar
+          </button>
+          <button
+            type="button"
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#ccc',
+              color: 'black',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer'
+            }}
+            onClick={onCancel}
+          >
+            Cancelar
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
+
 export default function ProductoDetalle() {
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
   const [error, setError] = useState(null);
   const [popup, setPopup] = useState(null);
-
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState('');
   const [usuarioId, setUsuarioId] = useState(null);
-
   const [comentarioEditando, setComentarioEditando] = useState(null);
   const [comentarioEditado, setComentarioEditado] = useState('');
   const [comentarioAEliminar, setComentarioAEliminar] = useState(null);
-
-
   const { agregarProducto, carrito } = useCarrito();
-
-  // Estado para modal
   const [modalMensaje, setModalMensaje] = useState(null);
 
   useEffect(() => {
@@ -101,10 +168,10 @@ export default function ProductoDetalle() {
           nameProduct: response.data.nombre,
           price: response.data.precio,
           image: response.data.imagen
-          ? (response.data.imagen.startsWith("http")
-              ? response.data.imagen
-              : `http://localhost:8000${response.data.imagen}`)
-          : "https://via.placeholder.com/150",
+            ? (response.data.imagen.startsWith("http")
+                ? response.data.imagen
+                : `http://localhost:8000${response.data.imagen}`)
+            : "https://via.placeholder.com/150",
           description: response.data.descripcion,
           stock: response.data.stock,
         });
@@ -173,15 +240,8 @@ export default function ProductoDetalle() {
 
       const response = await axios.post(
         'http://localhost:8000/api/carrito/comentarios/',
-        {
-          id_producto: parseInt(id),
-          comentario: nuevoComentario,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+        { id_producto: parseInt(id), comentario: nuevoComentario },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setComentarios(prev => [response.data, ...prev]);
@@ -200,15 +260,10 @@ export default function ProductoDetalle() {
   const guardarEdicion = async (comentarioId) => {
     try {
       const token = localStorage.getItem("access");
-
       const response = await axios.put(`http://localhost:8000/api/carrito/comentarios/${comentarioId}/`, {
         comentario: comentarioEditado,
         id_producto: producto.id,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      }, { headers: { Authorization: `Bearer ${token}` } });
 
       setComentarios(prev =>
         prev.map(c => c.id_valoracion === comentarioId ? response.data : c)
@@ -219,20 +274,19 @@ export default function ProductoDetalle() {
     }
   };
 
-const eliminarComentario = async (comentarioId) => {
-  try {
-    const token = localStorage.getItem("access");
-    await axios.delete(`http://localhost:8000/api/carrito/comentarios/${comentarioId}/`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+  const eliminarComentario = async (comentarioId) => {
+    try {
+      const token = localStorage.getItem("access");
+      await axios.delete(`http://localhost:8000/api/carrito/comentarios/${comentarioId}/`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
-    setComentarios(prev => prev.filter(c => c.id_valoracion !== comentarioId));
-    setComentarioAEliminar(null); // cerrar modal después de borrar
-  } catch (error) {
-    console.error(" Error al eliminar comentario:", error);
-  }
+      setComentarios(prev => prev.filter(c => c.id_valoracion !== comentarioId));
+      setComentarioAEliminar(null);
+    } catch (error) {
+      console.error(" Error al eliminar comentario:", error);
+    }
   };
-
 
   if (error) return <h2 className="error">{error}</h2>;
   if (!producto) return <h2 className="loading">Cargando producto...</h2>;
@@ -242,30 +296,19 @@ const eliminarComentario = async (comentarioId) => {
       <section className='ContenedorProductoInfo'>
         <div className='InfoSuperiorCalificacion'>
           <div className='ImagenProducto'>
-            <img
-              className='ImagenDetalleProducto'
-              src={producto.image}
-              alt={`Imagen de ${producto.nameProduct}`}
-            />
+            <img className='ImagenDetalleProducto' src={producto.image} alt={`Imagen de ${producto.nameProduct}`} />
           </div>
           <div className='InfoProducto'>
             <div className='Heart'>
               <AiFillHeart color="red" size={24} />
             </div>
-
             <h2 className='TituloProduct'>{producto.nameProduct}</h2>
             <p className='DescripcionProducto'>{producto.description}</p>
             <h1 className='Precio'>${producto.price.toLocaleString()}</h1>
-
             <br />
-            <button
-              className="agregar"
-              onClick={() => manejarAgregar(producto)}
-              disabled={producto.stock === 0}
-            >
+            <button className="agregar" onClick={() => manejarAgregar(producto)} disabled={producto.stock === 0}>
               {producto.stock === 0 ? "Agotado" : "Añadir"}
             </button>
-
             {popup && <div className="popup-mini">✅ {popup} añadido al carrito</div>}
           </div>
         </div>
@@ -273,14 +316,10 @@ const eliminarComentario = async (comentarioId) => {
         <h2 className='titulo-comentario'>Comentarios</h2>
 
         <div className='FormularioComentario'>
-              <textarea className='input-comentario'
-                placeholder='Escribe tu comentario..!'
-                value={nuevoComentario}
-                onChange={(e) => setNuevoComentario(e.target.value)}
-              />
-              <br /> <br />
-              <button className='boton-moderno' onClick={enviarComentario}>Enviar</button>
-              <br /> <br />
+          <textarea className='input-comentario' placeholder='Escribe tu comentario..!' value={nuevoComentario} onChange={(e) => setNuevoComentario(e.target.value)} />
+          <br /><br />
+          <button className='boton-moderno' onClick={enviarComentario}>Enviar</button>
+          <br /><br />
         </div>
 
         <div className='InfoInferiorCalificacion'>
@@ -303,11 +342,7 @@ const eliminarComentario = async (comentarioId) => {
 
                       {enEdicion ? (
                         <>
-                          <textarea
-                            value={comentarioEditado}
-                            onChange={(e) => setComentarioEditado(e.target.value)}
-                            placeholder="Edita tu comentario..."
-                          />
+                          <textarea value={comentarioEditado} onChange={(e) => setComentarioEditado(e.target.value)} placeholder="Edita tu comentario..." />
                           <div className="BotonesEdicion">
                             <button onClick={() => guardarEdicion(comentario.id_valoracion)}>💾 Guardar</button>
                             <button onClick={() => setComentarioEditando(null)}>❌ Cancelar</button>
@@ -317,16 +352,14 @@ const eliminarComentario = async (comentarioId) => {
                         <>
                           <p>{comentario.comentario}</p>
                           <small>{new Date(comentario.fecha_valoracion).toLocaleDateString()}</small>
-
                           {esComentarioUsuario && (
                             <div className="BotonesComentario">
-                              <button  onClick={() => iniciarEdicion(comentario)}>
+                              <button onClick={() => iniciarEdicion(comentario)}>
                                 <AiFillEdit size={20} color="orange" />
                               </button>
                               <button onClick={() => setComentarioAEliminar(comentario.id_valoracion)}>
                                 <AiFillDelete size={20} color="red" />
-                                </button>
-
+                              </button>
                             </div>
                           )}
                         </>
@@ -335,9 +368,8 @@ const eliminarComentario = async (comentarioId) => {
                   );
                 })
               )}
-            </div>  
-            <br /> <br />
-
+            </div>
+            <br /><br />
           </div>
 
           <div className='MetodosPagoInfo'>
@@ -352,23 +384,16 @@ const eliminarComentario = async (comentarioId) => {
       </section>
 
       {/* Modal de aviso */}
-      {modalMensaje && (
-        <ModalAviso
-          mensaje={modalMensaje}
-          onClose={() => setModalMensaje(null)}
-        />
-      )}
-      {/* Modal de confirmación para eliminar */}
+      {modalMensaje && <ModalAviso mensaje={modalMensaje} onClose={() => setModalMensaje(null)} />}
+
+      {/* Modal de confirmación */}
       {comentarioAEliminar && (
         <ModalConfirmacion
-          
           mensaje="¿Estás seguro de que quieres eliminar este comentario?"
-          onConfirm={() => eliminarComentario(comentarioAEliminar)} // pasar id del comentario
+          onConfirm={() => eliminarComentario(comentarioAEliminar)}
           onCancel={() => setComentarioAEliminar(null)}
         />
-        )}
-     
+      )}
     </>
-    
   );
 }
