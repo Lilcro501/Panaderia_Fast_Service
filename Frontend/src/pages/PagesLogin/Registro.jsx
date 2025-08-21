@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { FaUser, FaLock, FaUserLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
@@ -15,6 +15,14 @@ export default function Registro() {
     confirmar: '',
     terminos: false,
   });
+
+  useEffect(() => {
+    const datosGuardados = localStorage.getItem('registroForm');
+    if (datosGuardados) {
+      setForm(JSON.parse(datosGuardados));
+    }
+  }, []);
+
 
   const [errores, setErrores] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
@@ -57,9 +65,13 @@ export default function Registro() {
   };
 
   const handleChange = (e) => {
-    const { id, value, type, checked } = e.target;
-    setForm({ ...form, [id]: type === 'checkbox' ? checked : value });
-  };
+  const { id, value, type, checked } = e.target;
+  const nuevoValor = type === 'checkbox' ? checked : value;
+  const nuevoForm = { ...form, [id]: nuevoValor };
+  setForm(nuevoForm);
+  localStorage.setItem('registroForm', JSON.stringify(nuevoForm));
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,10 +108,12 @@ export default function Registro() {
     }
   };
 
-  const cerrarModal = () => {
-    setModalVisible(false);
-    navigate('/AccedeAqui');
-  };
+ const cerrarModal = () => {
+  setModalVisible(false);
+  localStorage.removeItem('registroForm'); // 🔥 limpia los datos
+  navigate('/AccedeAqui');
+};
+
 
   const toggleMostrarPassword = () => setMostrarPassword(!mostrarPassword);
   const toggleMostrarConfirmar = () => setMostrarConfirmar(!mostrarConfirmar);

@@ -15,9 +15,10 @@ from cloudinary.uploader import destroy as cloudinary_destroy
 from usuarios.models import Usuario
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from .utils.decorators import role_required
+from django.utils.decorators import method_decorator
 
-
-
+@method_decorator(role_required(["admin"]), name="dispatch")
 class ProductoCreateView(APIView):
     def post(self, request):
         try:
