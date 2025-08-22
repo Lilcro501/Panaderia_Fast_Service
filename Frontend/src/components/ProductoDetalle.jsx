@@ -304,14 +304,17 @@ const eliminarComentario = async (comentarioId) => {
                       {enEdicion ? (
                         <>
                           <textarea
+                            className='select-pequeño'
                             value={comentarioEditado}
                             onChange={(e) => setComentarioEditado(e.target.value)}
                             placeholder="Edita tu comentario..."
                           />
+                          <br /> 
                           <div className="BotonesEdicion">
-                            <button onClick={() => guardarEdicion(comentario.id_valoracion)}>💾 Guardar</button>
-                            <button onClick={() => setComentarioEditando(null)}>❌ Cancelar</button>
+                            <button className='boton-pequeño' onClick={() => guardarEdicion(comentario.id_valoracion)}>💾 Guardar</button>
+                            <button className='boton-pequeño' onClick={() => setComentarioEditando(null)}>❌ Cancelar</button>
                           </div>
+                          <br /> <br />
                         </>
                       ) : (
                         <>
