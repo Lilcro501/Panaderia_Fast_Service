@@ -10,15 +10,17 @@ export default function ManifiestoConsumidor() {
 
     return (
         <section className='ContenedorInfoM'>
-            <h1 className='Titulo'>Manifiesto del consumidor reclamante</h1>
+            <h1 className='Manifiesto'>Manifiesto del consumidor reclamante</h1>
             <br/>
 
             <div className='ContenedorInput'>
-                <label htmlFor='Nombres'>Nombres y apellidos</label>
-                <input type='text' id='Nombres'/>
+                <span className='NombresCompletos'>
+                    <label htmlFor='Nombres'>Nombres y apellidos</label>
+                    <input type='text' id='Nombres'/>
 
-                <label htmlFor='Telefono'>Teléfono</label>
-                <input type='number' id='Telefono'/>
+                    <label htmlFor='Telefono'>Teléfono</label>
+                    <input type='number' id='Telefono'/>
+                </span>
             </div>
             <br/>
             
