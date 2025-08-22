@@ -96,10 +96,10 @@
   top: 16px;
   left: 50%;
   transform: translateX(-50%);
-  color: #d4af37;
+  color: #4d4017;
   font-size: 18px;
   font-weight: bold;
-  text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+  text-shadow: 0 0 5px rgba(134, 112, 39, 0.5);
   z-index: 2;
 }
 

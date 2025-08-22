@@ -159,7 +159,7 @@ export default function Registro() {
           <div className='EstiloAceptartyc'>
             <label className='TextoTerminos'>
               <input type='checkbox' id='terminos' checked={form.terminos} onChange={handleChange}/>
-              <Link to="/TYC"><span>Acepto los <strong>Términos y Condiciones</strong></span></Link>
+              <span className='TerminosCondiciones'>Acepto los <Link to="/TYC"> <strong>Términos y Condiciones</strong></Link></span>
             </label>
           </div>
           {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
