@@ -109,8 +109,8 @@ td {
   background-color: #b57f60;
 }
 
-/* --- RESPONSIVE: Vista tipo tarjeta para móviles --- */
-@media (max-width: 768px) {
+/* Responsive */
+@media (max-width: 770px) {
   table {
     width: 100vw;
     display: block;
@@ -129,6 +129,11 @@ td {
     width: 100%;
   }
 
+  .Tabla-5c thead th {
+    display: flex;
+    flex-direction: column;
+  }
+
   tr {
     display: flex;
     flex-direction: column;
@@ -137,7 +142,6 @@ td {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     padding: 1rem 0.7rem;
-    gap: 0.5rem;
     width: 95vw;
     max-width: 400px;
     margin-left: auto;

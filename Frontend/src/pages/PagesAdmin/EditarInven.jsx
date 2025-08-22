@@ -122,7 +122,7 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
             if (datos.imagen && datos.imagen instanceof File) {
                 const cloudinaryData = new FormData();
                 cloudinaryData.append("file", datos.imagen);
-                cloudinaryData.append("upload_preset", uploadPreset); // ⚠️ cambia por tu upload preset real
+                cloudinaryData.append("upload_preset", uploadPreset); 
                 cloudinaryData.append("folder", `productos/${nombreCategoria}`);
 
                 const cloudinaryResponse = await axios.post(

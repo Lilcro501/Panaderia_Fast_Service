@@ -80,8 +80,11 @@
   box-sizing: border-box;
 }
 
+
+/*este estilo css hay que cambiarlo*/
 input {
   background-color: #ccc;
+  color: white;
 }
 
 

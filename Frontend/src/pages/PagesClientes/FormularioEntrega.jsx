@@ -3,7 +3,7 @@ import { useCarrito } from '../../Context/CarritoContext';
 import ComponenteProcesoPago from '../../components/ComponenteProcesoPago';
 import VentanaEmergente from '../../components/VentanaEmergente';
 import { enviarFactura } from '../../api/factura';
-import { useNavigate } from 'react-router-dom'; // ✅ Importamos useNavigate
+import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/MetodosPago.css';
 import compras from '../../assets/images/compras.png';
 import CompraQr from '../../assets/images/tienda-online.png';
@@ -13,14 +13,12 @@ const FormularioEntrega = () => {
   const { carrito, vaciarCarrito } = useCarrito();
   const [metodoEntrega, setMetodoEntrega] = useState('');
   const [metodoEnvio, setMetodoEnvio] = useState('domicilio');
-
-  // Modal para mensajes
   const [mostrarModal, setMostrarModal] = useState(false);
   const [modalMensaje, setModalMensaje] = useState('');
   const [modalTitulo, setModalTitulo] = useState('');
-
   const [comprobante, setComprobante] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     direccion_entrega: '',
@@ -30,52 +28,138 @@ const FormularioEntrega = () => {
 
   const [userData, setUserData] = useState({
     id_usuario: null,
-    telefono: '' // ✅ campo de teléfono
+    telefono: ''
   });
 
   const navigate = useNavigate();
 
+  // Cargar datos desde localStorage al montar el componente
   useEffect(() => {
     const id = localStorage.getItem('id_usuario');
     if (id && !isNaN(id)) {
       setUserData(prev => ({ ...prev, id_usuario: parseInt(id, 10) }));
     }
+
+    const savedFormData = localStorage.getItem('formData');
+    if (savedFormData) {
+      setFormData(JSON.parse(savedFormData));
+    }
+
+    const savedUserData = localStorage.getItem('userData');
+    if (savedUserData) {
+      setUserData(prev => ({ ...prev, ...JSON.parse(savedUserData) }));
+    }
+
+    const savedMetodoEntrega = localStorage.getItem('metodoEntrega');
+    if (savedMetodoEntrega) {
+      setMetodoEntrega(savedMetodoEntrega);
+    }
+
+    const savedMetodoEnvio = localStorage.getItem('metodoEnvio');
+    if (savedMetodoEnvio) {
+      setMetodoEnvio(savedMetodoEnvio);
+    }
   }, []);
 
+  // Guardar datos en localStorage cuando cambien
+  useEffect(() => {
+    localStorage.setItem('formData', JSON.stringify(formData));
+  }, [formData]);
+
+  useEffect(() => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }, [userData]);
+
+  useEffect(() => {
+    localStorage.setItem('metodoEntrega', metodoEntrega);
+  }, [metodoEntrega]);
+
+  useEffect(() => {
+    localStorage.setItem('metodoEnvio', metodoEnvio);
+  }, [metodoEnvio]);
+
   const total = carrito.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+  const validateTelefono = (telefono) => {
+    const telefonoRegex = /^\d{10}$/;
+    if (!telefono) return 'El teléfono es requerido';
+    if (!telefonoRegex.test(telefono)) return 'El teléfono debe tener 10 dígitos numéricos';
+    return '';
+  };
+
+  const validateDireccion = (direccion) => {
+    if (!direccion.trim()) return 'La dirección de entrega es requerida';
+    if (direccion.length > 200) return 'La dirección no puede exceder 200 caracteres';
+    return '';
+  };
+
+  const validateFechaEntrega = (fecha) => {
+    if (!fecha) return 'La fecha de entrega es requerida';
+    const today = new Date().toISOString().split('T')[0];
+    if (fecha < today) return 'La fecha de entrega no puede ser anterior a hoy';
+    return '';
+  };
+
+  const validateInformacionAdicional = (info) => {
+    if (info.length > 500) return 'La información adicional no puede exceder 500 caracteres';
+    return '';
+  };
+
+  const validateComprobante = (file) => {
+    if (!file) return 'Debes adjuntar el comprobante de pago QR';
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'];
+    if (!validTypes.includes(file.type)) return 'El archivo debe ser una imagen (PNG, JPG, JPEG) o PDF';
+    if (file.size > 5 * 1024 * 1024) return 'El archivo no puede exceder 5MB';
+    return '';
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    let error = '';
+    if (name === 'direccion_entrega') error = validateDireccion(value);
+    if (name === 'fecha_entrega') error = validateFechaEntrega(value);
+    if (name === 'informacion_adicional') error = validateInformacionAdicional(value);
+    setErrors(prev => ({ ...prev, [name]: error }));
   };
 
   const handleUserChange = (e) => {
     const { name, value } = e.target;
+    console.log('handleUserChange', name, value);
     setUserData(prev => ({ ...prev, [name]: value }));
+    
+    if (name === 'telefono') {
+      const error = validateTelefono(value);
+      setErrors(prev => ({ ...prev, telefono: error }));
+    }
   };
 
-  // ✅ Validación de campos
-  const validarCampos = () => {
-    const camposRequeridos = [
-      { condition: carrito.length === 0, message: 'El carrito está vacío. Agrega productos antes de continuar.' },
-      { condition: !metodoEntrega, message: 'Selecciona un método de pago' },
-      { condition: !metodoEnvio, message: 'Selecciona un método de entrega' },
-      { condition: metodoEnvio === 'domicilio' && !formData.direccion_entrega.trim(), message: 'La dirección de entrega es requerida' },
-      { condition: !formData.fecha_entrega, message: 'La fecha de entrega es requerida' },
-      { condition: !userData.telefono.trim(), message: 'El teléfono es requerido' },
-      {
-        condition: metodoEntrega === 'qr' && !comprobante,
-        message: 'Debes adjuntar el comprobante de pago QR'
-      }
-    ];
+  const handleComprobanteChange = (e) => {
+    const file = e.target.files[0];
+    setComprobante(file);
+    const error = validateComprobante(file);
+    setErrors(prev => ({ ...prev, comprobante: error }));
+  };
 
-    for (const campo of camposRequeridos) {
-      if (campo.condition) {
-        setModalTitulo('Error de validación');
-        setModalMensaje(campo.message);
-        setMostrarModal(true);
-        return false;
-      }
+  const validarCampos = () => {
+    const errors = {};
+    errors.carrito = carrito.length === 0 ? 'El carrito está vacío. Agrega productos antes de continuar.' : '';
+    errors.metodoEntrega = !metodoEntrega ? 'Selecciona un método de pago' : '';
+    errors.metodoEnvio = !metodoEnvio ? 'Selecciona un método de entrega' : '';
+    if (metodoEnvio === 'domicilio') errors.direccion_entrega = validateDireccion(formData.direccion_entrega);
+    errors.fecha_entrega = validateFechaEntrega(formData.fecha_entrega);
+    errors.telefono = validateTelefono(userData.telefono);
+    if (metodoEntrega === 'qr') errors.comprobante = validateComprobante(comprobante);
+    errors.informacion_adicional = validateInformacionAdicional(formData.informacion_adicional);
+
+    setErrors(errors);
+    const hasErrors = Object.values(errors).some(error => error !== '');
+    if (hasErrors) {
+      setModalTitulo('Error de validación');
+      setModalMensaje('Por favor, corrige los errores en el formulario.');
+      setMostrarModal(true);
+      return false;
     }
     return true;
   };
@@ -94,7 +178,7 @@ const FormularioEntrega = () => {
       const datosFactura = new FormData();
 
       datosFactura.append('id_usuario', userData.id_usuario);
-      datosFactura.append('telefono', userData.telefono); // ✅ se envía teléfono al backend
+      datosFactura.append('telefono', userData.telefono);
       datosFactura.append('metodo_pago', metodoEntrega);
       datosFactura.append('metodo_entrega', metodoEnvio);
       datosFactura.append('total', total.toFixed(2));
@@ -119,6 +203,11 @@ const FormularioEntrega = () => {
         setModalMensaje('Factura creada exitosamente');
         setMostrarModal(true);
 
+        localStorage.removeItem('formData');
+        localStorage.removeItem('userData');
+        localStorage.removeItem('metodoEntrega');
+        localStorage.removeItem('metodoEnvio');
+
         vaciarCarrito();
         setFormData({
           direccion_entrega: '',
@@ -128,7 +217,8 @@ const FormularioEntrega = () => {
         setMetodoEntrega('');
         setMetodoEnvio('domicilio');
         setComprobante(null);
-        setUserData(prev => ({ ...prev, telefono: '' })); // ✅ limpiar teléfono
+        setUserData(prev => ({ ...prev, telefono: '' }));
+        setErrors({});
       } else {
         setModalTitulo('Error');
         setModalMensaje(response.message || 'Error al crear factura');
@@ -144,8 +234,12 @@ const FormularioEntrega = () => {
     }
   };
 
-  // ✅ Cancelar limpia y redirige al home
   const handleCancelar = () => {
+    localStorage.removeItem('formData');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('metodoEntrega');
+    localStorage.removeItem('metodoEnvio');
+
     vaciarCarrito();
     setFormData({
       direccion_entrega: '',
@@ -159,8 +253,14 @@ const FormularioEntrega = () => {
       id_usuario: userData.id_usuario,
       telefono: ''
     });
+    setErrors({});
 
-    navigate('/home'); 
+    navigate('/home');
+  };
+
+  const handleMetodoEnvioChange = (e) => {
+    console.log('Cambiando metodoEnvio a:', e.target.value); // Depuración
+    setMetodoEnvio(e.target.value);
   };
 
   return (
@@ -177,24 +277,31 @@ const FormularioEntrega = () => {
             className="input-moderno"
             type="tel"
             name="telefono"
-            value={userData.telefono}
+            value={userData.telefono || ''} // evita undefined
             onChange={handleUserChange}
             required
+            pattern="\d{10}"
+            maxLength="10"
           />
+          <p style={{ color: 'red', fontSize: '0.9em', visibility: errors.telefono ? 'visible' : 'hidden' }}>
+            {errors.telefono || ''}
+          </p>
 
-          {metodoEnvio === 'domicilio' && (
-            <>
-              <label>Dirección de entrega*</label>
-              <input
-                className="input-moderno"
-                type="text"
-                name="direccion_entrega"
-                value={formData.direccion_entrega}
-                onChange={handleChange}
-                required
-              />
-            </>
-          )}
+          <div style={{ display: metodoEnvio === 'domicilio' ? 'block' : 'none' }}>
+            <label>Dirección de entrega*</label>
+            <input
+              className="input-moderno"
+              type="text"
+              name="direccion_entrega"
+              value={formData.direccion_entrega}
+              onChange={handleChange}
+              required={metodoEnvio === 'domicilio'}
+              maxLength="200"
+            />
+            <p style={{ color: 'red', fontSize: '0.9em', visibility: errors.direccion_entrega ? 'visible' : 'hidden' }}>
+              {errors.direccion_entrega || ''}
+            </p>
+          </div>
 
           <label>Fecha de entrega*</label>
           <input
@@ -206,17 +313,22 @@ const FormularioEntrega = () => {
             min={new Date().toISOString().split('T')[0]}
             required
           />
-
+          <p style={{ color: 'red', fontSize: '0.9em', visibility: errors.fecha_entrega ? 'visible' : 'hidden' }}>
+            {errors.fecha_entrega || ''}
+          </p>
           <label>Método de entrega*</label>
           <select
             className="input-moderno"
             value={metodoEnvio}
-            onChange={(e) => setMetodoEnvio(e.target.value)}
+            onChange={handleMetodoEnvioChange}
             required
           >
             <option value="domicilio">Entrega a domicilio</option>
             <option value="local">Recoger en el local</option>
           </select>
+          <p style={{ color: 'red', fontSize: '0.9em', visibility: errors.metodoEnvio ? 'visible' : 'hidden' }}>
+            {errors.metodoEnvio || ''}
+          </p>
 
           <label>Información adicional</label>
           <textarea
@@ -225,18 +337,26 @@ const FormularioEntrega = () => {
             value={formData.informacion_adicional}
             onChange={handleChange}
             rows="3"
+            maxLength="500"
           />
-
-          {/* Botones */}
-          <div style={{ marginTop: "15px" }}>
-            <button
-              className="boton-moderno"
-              onClick={handleEnviarFactura}
-              disabled={loading}
-            >
-              {loading ? 'Enviando...' : 'Enviar Factura'}
-            </button>
-            <br /> <br />
+          <p style={{ color: 'red', fontSize: '0.9em', visibility: errors.informacion_adicional ? 'visible' : 'hidden' }}>
+            {errors.informacion_adicional || ''}
+          </p>
+          <div>
+            <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
+              <button
+                className="boton-moderno-3"
+                onClick={handleEnviarFactura}
+                disabled={loading}
+              >
+                {loading ? 'Enviando...' : 'Enviar Factura'}
+              </button>
+              <br /> <br />
+              <button className='boton-moderno-3' onClick={() => navigate('/home')}>
+                Seguir comprando
+              </button>
+            </div>
+            <br /> 
             <button
               className="boton-moderno"
               onClick={handleCancelar}
@@ -253,7 +373,7 @@ const FormularioEntrega = () => {
             <ul>
               {carrito.map(item => (
                 <li key={item.id}>
-                  {item.nameProduct} - {item.quantity} × ${item.price} = {(item.price * item.quantity).toFixed(2)}
+                  {item.nameProduct} - {item.quantity} × ${item.price} = ${(item.price * item.quantity).toFixed(2)}
                 </li>
               ))}
             </ul>
@@ -282,6 +402,9 @@ const FormularioEntrega = () => {
               />
               Pago contra entrega
             </label>
+            <p style={{ color: 'red', fontSize: '0.9em', visibility: errors.metodoEntrega ? 'visible' : 'hidden' }}>
+              {errors.metodoEntrega || ''}
+            </p>
 
             {metodoEntrega && (
               <button
@@ -306,7 +429,7 @@ const FormularioEntrega = () => {
               style={{ width: '30px', height: '30px', objectFit: 'contain' }}
             />
             <span>
-              {modalTitulo || `Detalles de pago:  (${metodoEntrega === 'qr' ? 'QR' : 'Contra entrega'})`}
+              {modalTitulo || `Detalles de pago: (${metodoEntrega === 'qr' ? 'QR' : 'Contra entrega'})`}
             </span>
           </div>
         }
@@ -343,15 +466,18 @@ const FormularioEntrega = () => {
                 Adjunta tu comprobante*:
                 <input
                   type="file"
-                  accept="image/*,.pdf"
-                  onChange={(e) => setComprobante(e.target.files[0])}
+                  accept="image/png,image/jpeg,image/jpg,application/pdf"
+                  onChange={handleComprobanteChange}
                   style={{ marginTop: '5px' }}
                   required
                 />
-                <button className='boton-moderno' onClick={() => setMostrarModal(false)} style={{ marginTop: '10px' }}>
-                  Aceptar
-                </button>
+                <p style={{ color: 'red', fontSize: '0.9em', visibility: errors.comprobante ? 'visible' : 'hidden' }}>
+                  {errors.comprobante || ''}
+                </p>
               </label>
+              <button className='boton-moderno' onClick={() => setMostrarModal(false)} style={{ marginTop: '10px' }}>
+                Aceptar
+              </button>
             </>
           ) : (
             <>

@@ -9,6 +9,7 @@
   max-width: 800px;
   margin: auto;
   box-sizing: border-box;
+  color: aliceblue;
 
 }
 
@@ -58,7 +59,7 @@
 }
 
 .input-estilo::placeholder {
-  color: #ffffff;
+  color: #fff0f0;
 }
 
 /* ====== IMAGEN ====== */

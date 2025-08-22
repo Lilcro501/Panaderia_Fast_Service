@@ -32,10 +32,12 @@ export default function HomeSinRegistrar() {
       <div className='ContenidoAplicacion'>
         <h2 className='titulo-productos'>Categorias</h2>
         <Categorias/>
+
+        <br/><br/>
         <h2 className="titulo-productos">Nuestros productos</h2>
         <Carrusel1/>
 
-        <br/> <br/>
+        <br/><br/>
 
         <article className="recuadro-informacion">
           <div className="nosotros">

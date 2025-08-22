@@ -3,14 +3,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/HeaderAdmin.css';  
 import logo from '../assets/images/logo_header.png';
+import PerfilLogo from '../assets/icons/logo.png';
 
 const HeaderAdmin = () => {
     return (
         <header className="header shapedividers_com-5996">
+            
             <div className="contenido-header">
-
                 {/* lOGO */}
-                <Link className='logocontainer' to="/PrincipalAdmin">
+                <Link to='/PrincipalAdmin' className='container'>
                     <img src={logo} alt="logo-panaderia"  className="estilologo"/>
                 </Link>
             </div>

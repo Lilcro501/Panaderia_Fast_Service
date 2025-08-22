@@ -1,7 +1,7 @@
 // src/layouts/MainLayout.jsx
 import React from 'react';
 import HeaderAdmin from '../components/HeaderAdmin.jsx';
-import Footer from '../components/Footer.jsx';
+import Footer from '../components/FooterAdmin.jsx';
 
 const AdminLayout = ({ children }) => {
     return (

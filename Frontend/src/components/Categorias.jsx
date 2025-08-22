@@ -10,8 +10,6 @@ import Fritos from "../assets/icons/pollo.png";
 import Pan from "../assets/icons/pan.png";
 
 
-
-
 export default function Categorias() {
   const { rol } = useRol();
   const [mostrarModal, setMostrarModal] = useState(false);

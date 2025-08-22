@@ -11,13 +11,6 @@
   border: 2px solid #3e3b3b;
 }
 
-.TituloAcceso {
-  color: #8c7868;
-  font-size: 35px;
-  margin-bottom: 20px;
-  -webkit-text-stroke: 1px #000000;
-}
-
 .Icono {
   margin-right: 10px;
   color: #ba896b;
