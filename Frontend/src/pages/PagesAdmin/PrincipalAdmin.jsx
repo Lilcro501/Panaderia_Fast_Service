@@ -7,6 +7,10 @@ import autoTable from 'jspdf-autotable';
 import '../../assets/styles/PrincipalAdmin.css';
 import logo_header from '../../assets/images/logo_header.png';
 import BotonCerrarSesion from '../../components/BotonCerrarSesion';
+import hamburger from '../../assets/images/hamburguesa.png';
+
+import catalogo from '../../assets/images/catalogo.png';
+import copeerativa from '../../assets/images/cooperativa.png';
 
 const AdminPage = () => {
     const [productoMasVendido, setProductoMasVendido] = useState(null);
@@ -221,6 +225,70 @@ const AdminPage = () => {
     };
 
     return (
+        <>
+        <div>
+            <h1 className="titulo-principal">
+                Bienvenido admin, que vas a gestionar hoy?
+            </h1>   
+            <br /> <br />
+        </div>
+        <section className='seccion-admin'>
+            <div className='seccion-informacion'>
+                <div className='tarjeta-informacion'>
+                    <img src={hamburger} alt="Menu" className='icon' />
+                    <br /> <br /> <br />
+                    <p style={{
+                        fontSize: '1.2rem',
+                    }}>Recuerda tener tus productos actualizados para que esten frescos y disponibles!!</p>
+                    
+                </div>
+                <br />
+                <div className='posicion-boton'>
+                    <button className='boton-ver-productos'>
+                    Ver productos
+                    </button>
+                </div>
+
+            </div>
+            <div className='seccion-informacion'>
+               <div className='tarjeta-informacion'>
+                    <img src={copeerativa} alt="Menu" className='icon' />
+                    <br /> <br />
+                    <p  style={{
+                        fontSize: '1.2rem',
+                    }}>Gestiona y adminstra tus trabajadores, ten encuenta los horarios de entrada y los trabajadores almacenados!</p>
+               </div>
+                    <br />
+                 <div className='posicion-boton'>
+                    <button className='boton-ver-productos'>
+                    Ver trabajadores
+                    </button>
+                </div>
+            </div>
+            <div className='seccion-informacion'>
+                <div className='tarjeta-informacion'>
+                    <img src={catalogo} alt="Menu" className='icon' />  
+                    <br /> <br /> <br />
+                    <p  style={{
+                        fontSize: '1.2rem',
+                    }}> gestiona el catalogo, ten el control de los productos y las opiniones de este!</p>
+                </div>
+                    <br />
+                    <div className='posicion-boton'>
+                    <button className='boton-ver-productos'>
+                    Ver catalogo
+                    </button>
+                </div>
+
+            </div>
+        </section>
+  
+
+        <h2 className="subtitulo-estadisticas">
+            Estadísticas Generales
+
+        </h2>
+
         <div className="admin-container">
             <h1 className="titulo">Estadísticas del Administrador</h1>
 
@@ -289,6 +357,9 @@ const AdminPage = () => {
             </div>
             <BotonCerrarSesion></BotonCerrarSesion>
         </div>
+        
+    
+        </>
     );
 };
 
