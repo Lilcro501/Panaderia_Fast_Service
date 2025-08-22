@@ -1,16 +1,14 @@
-// Dentro de AccedeAqui.jsx
 import React, { useState, useEffect } from 'react';
 import '../../assets/styles/AccedeAqui.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { useRol } from '../../Context/RolContext';
-import { FaUser, FaLock } from 'react-icons/fa';
+import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 import { iniciarSesion } from '../../api/login';
 import "../../assets/styles/Global.css";
-
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
@@ -18,6 +16,7 @@ export default function AccedeAqui() {
 
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
+  const [mostrarPassword, setMostrarPassword] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const [errorLogin, setErrorLogin] = useState('');
 
@@ -139,17 +138,22 @@ export default function AccedeAqui() {
               required
             />
           </div>
+          <br />
           {!CorreoValido && enviado && <div className='invalid'>Por favor, ingresa un correo válido</div>}
 
           <div className={`Camp form-control ${!PasswordValida && enviado ? 'is-invalid' : ''}`}>
             <FaLock className='Icono' />
             <input
-              type='password'
+              type={mostrarPassword ? 'text' : 'password'}
               placeholder='Contraseña'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            {/* 👁️ Botón para mostrar/ocultar */}
+            <span className="Ojo" onClick={() => setMostrarPassword(!mostrarPassword)}>
+              {mostrarPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
           {!PasswordValida && enviado && (
             <div className='invalid'>
@@ -160,10 +164,6 @@ export default function AccedeAqui() {
           {errorLogin && <div className='invalid'>{errorLogin}</div>}
 
           <div className='Opciones'>
-            <label className='Label'>
-              <input type='checkbox' name='check' />
-              Recordar contraseña
-            </label>
             <Link to='/OlvidoContraseña'>¿Olvidaste tu contraseña?</Link>
           </div>
 

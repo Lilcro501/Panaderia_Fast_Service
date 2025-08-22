@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaUser, FaLock, FaUserLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaUser, FaLock, FaUserLock, FaEye, FaEyeSlash, FaPhone } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import { registrarUsuario } from '../../api/login';
@@ -11,10 +11,16 @@ export default function Registro() {
     nombres: '',
     apellidos: '',
     correo: '',
+    telefono: '',
     password: '',
     confirmar: '',
     terminos: false,
   });
+
+  useEffect(() => {
+    const datosGuardados = localStorage.getItem('registroForm');
+    if (datosGuardados) setForm(JSON.parse(datosGuardados));
+  }, []);
 
   const [errores, setErrores] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,34 +29,44 @@ export default function Registro() {
   const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
   const navigate = useNavigate();
 
-  // Lista de dominios permitidos
+  // Dominios permitidos
   const dominiosValidos = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'example.co', 'example.com'];
 
-  // Función para validar dominio
   const validarDominioCorreo = (correo) => {
     const partes = correo.split('@');
     if (partes.length !== 2) return false;
-    const dominio = partes[1].toLowerCase();
-    return dominiosValidos.includes(dominio);
+    return dominiosValidos.includes(partes[1].toLowerCase());
   };
 
   const salir = () => window.location.href = '/';
 
+  // 🔥 VALIDACIONES COMPLETAS
   const validar = () => {
     const nuevosErrores = {};
+    const nombreRegex = /^[a-zA-ZÀ-ÿ\s]{2,}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+    const telefonoRegex = /^[0-9]{7,15}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._-])[A-Za-z\d@$!%*?&._-]{8,}$/;
 
     if (!form.nombres.trim()) nuevosErrores.nombres = 'Por favor ingresa tus nombres';
+    else if (!nombreRegex.test(form.nombres)) nuevosErrores.nombres = 'Los nombres solo deben contener letras y mínimo 2 caracteres';
+
     if (!form.apellidos.trim()) nuevosErrores.apellidos = 'Por favor ingresa tus apellidos';
+    else if (!nombreRegex.test(form.apellidos)) nuevosErrores.apellidos = 'Los apellidos solo deben contener letras y mínimo 2 caracteres';
 
     if (!form.correo.trim()) nuevosErrores.correo = 'Por favor ingresa tu correo';
-    else if (!emailRegex.test(form.correo)) nuevosErrores.correo = 'Correo no válido';
+    else if (!emailRegex.test(form.correo)) nuevosErrores.correo = 'Formato de correo no válido';
     else if (!validarDominioCorreo(form.correo)) nuevosErrores.correo = 'El dominio del correo no es válido';
 
-    if (!passwordRegex.test(form.password)) nuevosErrores.password =
-      'La contraseña debe tener al menos 6 caracteres, incluyendo letras y números';
+    if (!form.telefono.trim()) nuevosErrores.telefono = 'Por favor ingresa tu número de teléfono';
+    else if (!telefonoRegex.test(form.telefono)) nuevosErrores.telefono = 'El teléfono debe tener entre 7 y 15 dígitos';
+
+    if (!form.password.trim()) nuevosErrores.password = 'Por favor ingresa una contraseña';
+    else if (!passwordRegex.test(form.password)) nuevosErrores.password =
+      'La contraseña debe tener mínimo 8 caracteres, incluir mayúscula, minúscula, número y un carácter especial';
+
     if (form.confirmar !== form.password) nuevosErrores.confirmar = 'Las contraseñas no coinciden';
+
     if (!form.terminos) nuevosErrores.terminos = 'Debes aceptar los Términos y Condiciones';
 
     return nuevosErrores;
@@ -58,51 +74,61 @@ export default function Registro() {
 
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
-    setForm({ ...form, [id]: type === 'checkbox' ? checked : value });
+    const nuevoValor = type === 'checkbox' ? checked : value;
+    const nuevoForm = { ...form, [id]: nuevoValor };
+    setForm(nuevoForm);
+    localStorage.setItem('registroForm', JSON.stringify(nuevoForm));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const erroresValidados = validar();
-    setErrores(erroresValidados);
-    setMensajeErrorGeneral("");
+  e.preventDefault();
+  const erroresValidados = validar();
+  setErrores(erroresValidados);
+  setMensajeErrorGeneral("");
 
-    if (Object.keys(erroresValidados).length === 0) {
-      try {
-        const payload = {
-          email: form.correo,
-          password: form.password,
-          nombre: form.nombres,
-          apellido: form.apellidos,
-          telefono: '',
-          rol: 'cliente'
-        };
+  if (Object.keys(erroresValidados).length === 0) {
+    // ✅ Mostramos el modal inmediatamente
+    setModalVisible(true);
 
-        console.log("Datos a enviar:", payload); // Debug
+    try {
+      const payload = {
+        email: form.correo,
+        password: form.password,
+        nombre: form.nombres,
+        apellido: form.apellidos,
+        telefono: form.telefono,
+        rol: 'cliente'
+      };
 
-        const response = await registrarUsuario(payload);
+      console.log("Datos a enviar:", payload);
 
-        if (response.status === 201 || response.status === 200) setModalVisible(true);
-      } catch (error) {
-        console.error(error.response?.data || error);
-        if (error.response) {
-          // Mostrar errores específicos del backend
-          const data = error.response.data;
-          if (data.email) setMensajeErrorGeneral("El correo ya está registrado.");
-          else setMensajeErrorGeneral(JSON.stringify(data));
-        } else if (error.request) setMensajeErrorGeneral("No se pudo conectar con el servidor.");
-        else setMensajeErrorGeneral("Ocurrió un error inesperado.");
+      const response = await registrarUsuario(payload);
+
+      // Si el servidor devuelve error, cerramos el modal y mostramos el mensaje
+      if (!(response.status === 201 || response.status === 200)) {
+        setModalVisible(false);
+        setMensajeErrorGeneral("Hubo un problema en el registro.");
       }
+
+    } catch (error) {
+      setModalVisible(false);
+      console.error(error.response?.data || error);
+      if (error.response) {
+        const data = error.response.data;
+        if (data.email) setMensajeErrorGeneral("El correo ya está registrado.");
+        else setMensajeErrorGeneral(JSON.stringify(data));
+      } else if (error.request) setMensajeErrorGeneral("No se pudo conectar con el servidor.");
+      else setMensajeErrorGeneral("Ocurrió un error inesperado.");
     }
-  };
+  }
+};
+
 
   const cerrarModal = () => {
     setModalVisible(false);
+    localStorage.removeItem('registroForm');
     navigate('/AccedeAqui');
   };
-
-  const toggleMostrarPassword = () => setMostrarPassword(!mostrarPassword);
-  const toggleMostrarConfirmar = () => setMostrarConfirmar(!mostrarConfirmar);
 
   return (
     <section className='Contenedor'>
@@ -139,9 +165,15 @@ export default function Registro() {
           {errores.correo && <p className='mensaje-error'>{errores.correo}</p>}
 
           <div className='Campo'>
+            <FaPhone className='Icono' />
+            <input type='tel' id='telefono' placeholder='Teléfono' value={form.telefono} onChange={handleChange} className={errores.telefono ? 'invalido' : ''}/>
+          </div>
+          {errores.telefono && <p className='mensaje-error'>{errores.telefono}</p>}
+
+          <div className='Campo'>
             <FaLock className='Icono' />
             <input type={mostrarPassword ? 'text' : 'password'} id='password' placeholder='Contraseña' value={form.password} onChange={handleChange} className={errores.password ? 'invalido' : ''}/>
-            <span className="Ojo" onClick={toggleMostrarPassword}>
+            <span className="Ojo" onClick={() => setMostrarPassword(!mostrarPassword)}>
               {mostrarPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
@@ -150,7 +182,7 @@ export default function Registro() {
           <div className='Campo'>
             <FaUserLock className='Icono' />
             <input type={mostrarConfirmar ? 'text' : 'password'} id='confirmar' placeholder='Confirmar contraseña' value={form.confirmar} onChange={handleChange} className={errores.confirmar ? 'invalido' : ''}/>
-            <span className="Ojo" onClick={toggleMostrarConfirmar}>
+            <span className="Ojo" onClick={() => setMostrarConfirmar(!mostrarConfirmar)}>
               {mostrarConfirmar ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
