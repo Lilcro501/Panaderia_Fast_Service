@@ -1,8 +1,7 @@
 /* ====== Contenedor Principal ====== */
 .admin-container {
-    max-width: 1000px;
+    width: 1750px;
     margin: 0 auto;
-    padding: 2rem;
     font-family: 'Segoe UI', sans-serif;
     color: #333;
     background-color: #fefefe;
@@ -10,6 +9,13 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
+.estadisticas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
 /* ====== Títulos ====== */
 .titulo {
     text-align: center;
@@ -272,19 +278,18 @@ canvas {
 
 
 /* ====== Título Principal ====== */
-.titulo-principal {
-    max-width: 1000px;
-    background-color: rgba(255, 255, 255, 0.488);
-    text-align: center;
-    font-size: 2.5rem;
-    margin: 20px 0;
-    color: #000000;
+.titulo {
+    max-width: 900px;
+    margin: 30px auto; /* centra automáticamente */
+    padding: 20px 30px;
     font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    padding: 15px;
-    margin-left: 420px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #eaa948; /* tono más suave que el negro */
+
 }
+
 
 /* ====== Subtítulo de Estadísticas ====== */
 .subtitulo-estadisticas {
@@ -304,7 +309,7 @@ canvas {
 /* ====== Sección del Carrusel ====== */
 .seccion-admin {
     display: flex;
-    width: 100%;
+    width: 95%;
     height: 600px;
     background-color: rgba(255, 255, 255, 0.577);
     font-size: 1.8rem;
@@ -316,6 +321,7 @@ canvas {
     padding-left: 90px;
     padding-top: 20px;
     gap: 25px;
+    margin-left: 50px;
 }
 
 /* ====== Estilos para pantallas pequeñas ====== */

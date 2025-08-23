@@ -227,7 +227,7 @@ const AdminPage = () => {
     return (
         <>
         <div>
-            <h1 className="titulo-principal">
+            <h1 className="titulo">
                 Bienvenido admin, que vas a gestionar hoy?
             </h1>   
             <br /> <br />
@@ -257,7 +257,7 @@ const AdminPage = () => {
                     <p  style={{
                         fontSize: '1.2rem',
                     }}>Gestiona y adminstra tus trabajadores, ten encuenta los horarios de entrada y los trabajadores almacenados!</p>
-               </div>
+               </div >
                     <br />
                  <div className='posicion-boton'>
                     <button className='boton-ver-productos'>
@@ -282,16 +282,8 @@ const AdminPage = () => {
 
             </div>
         </section>
-  
-
-        <h2 className="subtitulo-estadisticas">
-            Estadísticas Generales
-
-        </h2>
-
+        <h1 className="titulo">Estadísticas del Administrador</h1>
         <div className="admin-container">
-            <h1 className="titulo">Estadísticas del Administrador</h1>
-
             <select onChange={e => setCategoriaSeleccionada(e.target.value)} value={categoriaSeleccionada}>
                 <option value="">Seleccione una categoría</option>
                 {categorias.map(cat => (
@@ -299,7 +291,8 @@ const AdminPage = () => {
                 ))}
             </select>
 
-            {categoriaSeleccionada && (
+            <div className='estadisticas'>
+                {categoriaSeleccionada && (
                 <div className='categoria-estadisticas'>
                     <div className='lista-productos'>
                         <h2>Productos en esta categoría:</h2>
@@ -315,6 +308,7 @@ const AdminPage = () => {
                     <div className="grafico-contenedor">
                         <canvas ref={pieChartCategoriaRef} width="100" height="300"></canvas>
                     </div>
+                    <br />
                 </div>
             )}
 
@@ -334,6 +328,11 @@ const AdminPage = () => {
                     <canvas id="graficoGanancias" ref={chartRef} width="500" height="300"></canvas>
                 </div>
             </div> 
+
+
+            </div>
+
+            
 
             <div className="filtro-descarga">
                 <h3>Descarga de informes</h3>
@@ -355,8 +354,9 @@ const AdminPage = () => {
                     </p>
                 )}
             </div>
-            <BotonCerrarSesion></BotonCerrarSesion>
         </div>
+        <br /> 
+        <BotonCerrarSesion/>
         
     
         </>
