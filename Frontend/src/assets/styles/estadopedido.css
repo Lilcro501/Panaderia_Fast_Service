@@ -233,3 +233,102 @@ table, th, td {
   transform: scale(1.05);
   box-shadow: 0 4px 16px 0 rgba(212, 158, 125, 0.22);
 }
+
+
+.boton-completado {
+  padding: 6px 12px;
+  background-color: #c78455;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.boton-completado:hover {
+  background-color: #e9985e;
+}
+
+.boton-completado.activo {
+  background-color: #c78455; /* Verde más oscuro cuando ya está completado */
+}
+.modal-botones {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.boton-cancelar {
+  padding: 6px 12px;
+  background-color: #d32f2f;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.boton-cancelar:hover {
+  background-color: #b71c1c;
+}
+
+.boton-aceptar {
+  padding: 6px 12px;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.boton-aceptar:hover {
+  background-color: #2e7d32;
+}
+
+/* ====== Botones de navegación (Siguiente / Anterior) ====== */
+.boton-navegacion {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  margin: 0 6px;
+  min-width: 100px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Anterior = gris */
+.boton-anterior {
+  background-color: #7f8c8d;
+  color: #fff;
+}
+
+.boton-anterior:hover {
+  background-color: #626e70;
+  transform: scale(1.05);
+}
+
+/* Siguiente = verde */
+.boton-siguiente {
+  background-color: #27ae60;
+  color: #fff;
+}
+
+.boton-siguiente:hover {
+  background-color: #1f8b4a;
+  transform: scale(1.05);
+}
+
+/* ====== Deshabilitado ====== */
+.boton-navegacion:disabled {
+  background-color: #bdc3c7;
+  color: #eee;
+  cursor: not-allowed;
+  transform: none;
+}

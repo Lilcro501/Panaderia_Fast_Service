@@ -7,7 +7,21 @@ import axios from "axios";
 
 const EstadosPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
-  const [notificacion, setNotificacion] = useState({ visible: false, mensaje: "", tipo: "" });
+  const [notificacion, setNotificacion] = useState({
+    visible: false,
+    mensaje: "",
+    tipo: "",
+  });
+
+  const [modalConfirmacion, setModalConfirmacion] = useState({
+    visible: false,
+    idFactura: null,
+  });
+
+  // 🔥 Paginación
+  const [paginaActual, setPaginaActual] = useState(1);
+  const pedidosPorPagina = 5;
+
   const navigate = useNavigate();
 
   const cargarEstadosLocales = () => {
@@ -25,18 +39,23 @@ const EstadosPedidos = () => {
     const obtenerPedidos = async () => {
       try {
         const token = localStorage.getItem("access");
-        const response = await axios.get("http://localhost:8000/api/trabajador/estados-pedidos/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          "http://localhost:8000/api/trabajador/estados-pedidos/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         const pedidosConEstado = response.data.map((pedido) => {
           const estadoLocal = estadosLocales[pedido.id];
           return estadoLocal ? { ...pedido, proceso_pedido: estadoLocal } : pedido;
         });
 
-        setPedidos(pedidosConEstado);
+        // 🔥 Filtrar los pedidos completados
+        setPedidos(pedidosConEstado.filter((p) => p.proceso_pedido !== "completado"));
+        setPaginaActual(1); // reset a primera página
       } catch (error) {
         console.error("Error al obtener pedidos:", error);
         mostrarNotificacion("Error al cargar pedidos", "error");
@@ -50,7 +69,7 @@ const EstadosPedidos = () => {
     setNotificacion({ visible: true, mensaje, tipo });
     setTimeout(() => {
       setNotificacion({ visible: false, mensaje: "", tipo: "" });
-    }, 2000); // Modal visible por 2 segundos
+    }, 2000);
   };
 
   const cambiarEstado = async (idFactura, nuevoProceso) => {
@@ -63,13 +82,16 @@ const EstadosPedidos = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Actualizar estado local y React
       setEstadosLocales((prev) => ({ ...prev, [idFactura]: nuevoProceso }));
 
       setPedidos((prevPedidos) =>
-        prevPedidos.map((pedido) =>
-          pedido.id === idFactura ? { ...pedido, proceso_pedido: nuevoProceso } : pedido
-        )
+        nuevoProceso === "completado"
+          ? prevPedidos.filter((pedido) => pedido.id !== idFactura)
+          : prevPedidos.map((pedido) =>
+              pedido.id === idFactura
+                ? { ...pedido, proceso_pedido: nuevoProceso }
+                : pedido
+            )
       );
 
       mostrarNotificacion("Estado actualizado", "exito");
@@ -86,27 +108,53 @@ const EstadosPedidos = () => {
     "Empaquetando",
     "En entrega",
     "Detalles pedido",
+    "Completado",
   ];
 
-  const datos = pedidos.map((pedido) => [
+  // 🔥 Lógica de paginado
+  const indiceUltimo = paginaActual * pedidosPorPagina;
+  const indicePrimero = indiceUltimo - pedidosPorPagina;
+  const pedidosPaginados = pedidos.slice(indicePrimero, indiceUltimo);
+  const totalPaginas = Math.ceil(pedidos.length / pedidosPorPagina);
+
+  const datos = pedidosPaginados.map((pedido) => [
     pedido.id,
     pedido.fecha,
     <span
-      className={`estado-circulo ${pedido.proceso_pedido === "preparando" ? "activo rojo" : "rojo"}`}
+      className={`estado-circulo ${
+        pedido.proceso_pedido === "preparando" ? "activo rojo" : "rojo"
+      }`}
       onClick={() => cambiarEstado(pedido.id, "preparando")}
       title="Preparando"
     ></span>,
     <span
-      className={`estado-circulo ${pedido.proceso_pedido === "empaquetando" ? "activo amarillo" : "amarillo"}`}
+      className={`estado-circulo ${
+        pedido.proceso_pedido === "empaquetando" ? "activo amarillo" : "amarillo"
+      }`}
       onClick={() => cambiarEstado(pedido.id, "empaquetando")}
       title="Empaquetando"
     ></span>,
     <span
-      className={`estado-circulo ${pedido.proceso_pedido === "en entrega" ? "activo verde" : "verde"}`}
+      className={`estado-circulo ${
+        pedido.proceso_pedido === "en entrega" ? "activo verde" : "verde"
+      }`}
       onClick={() => cambiarEstado(pedido.id, "en entrega")}
       title="En entrega"
     ></span>,
-    <Boton texto="Ver pedido" onClick={() => navigate(`/DetallesPedido/${pedido.id}`)} />,
+    <Boton
+      texto="Ver pedido"
+      onClick={() => navigate(`/DetallesPedido/${pedido.id}`)}
+    />,
+    <button
+      className={`boton-completado ${
+        pedido.proceso_pedido === "completado" ? "activo" : ""
+      }`}
+      onClick={() =>
+        setModalConfirmacion({ visible: true, idFactura: pedido.id })
+      }
+    >
+      Completado
+    </button>,
   ]);
 
   return (
@@ -114,8 +162,32 @@ const EstadosPedidos = () => {
       <h2 className="titulo">Estados de pedidos</h2>
       <TablaBase columnas={columnas} datos={datos} />
 
+      {/* 🔥 Controles de paginación */}
+      <div className="paginacion">
+        <button
+          className="boton-navegacion boton-anterior"
+          disabled={paginaActual === 1}
+          onClick={() => setPaginaActual(paginaActual - 1)}
+        >
+          ⬅ Anterior
+        </button>
+        <span>
+          Página {paginaActual} de {totalPaginas}
+        </span>
+        <button
+          className="boton-navegacion boton-siguiente"
+          disabled={paginaActual === totalPaginas}
+          onClick={() => setPaginaActual(paginaActual + 1)}
+        >
+          Siguiente ➡
+        </button>
+      </div>
+
       <div className="Volver">
-        <button onClick={() => navigate("/Inicio")} className="boton-personalizado">
+        <button
+          onClick={() => navigate("/Inicio")}
+          className="boton-personalizado"
+        >
           Volver
         </button>
       </div>
@@ -125,6 +197,34 @@ const EstadosPedidos = () => {
         <div className={`modal-fondo modal-${notificacion.tipo}`}>
           <div className="modal-contenido">
             <p>{notificacion.mensaje}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación completado */}
+      {modalConfirmacion.visible && (
+        <div className="modal-fondo">
+          <div className="modal-contenido">
+            <p>¿Pedido completado?</p>
+            <div className="modal-botones">
+              <button
+                className="boton-cancelar"
+                onClick={() =>
+                  setModalConfirmacion({ visible: false, idFactura: null })
+                }
+              >
+                Cancelar
+              </button>
+              <button
+                className="boton-aceptar"
+                onClick={() => {
+                  cambiarEstado(modalConfirmacion.idFactura, "completado");
+                  setModalConfirmacion({ visible: false, idFactura: null });
+                }}
+              >
+                Aceptar
+              </button>
+            </div>
           </div>
         </div>
       )}
