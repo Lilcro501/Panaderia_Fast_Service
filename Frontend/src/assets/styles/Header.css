@@ -96,24 +96,16 @@
 
 .lista-info a{
   text-decoration: none;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.lista-info li:hover {
-  transform: scale(1.12);
-}
-
-.lista-info-c {
-  text-decoration: none;
   color: #e4e1e1;
   font-weight: bold;
   list-style: none;
   transition: transform 0.3s ease;
 }
 
-
-
-
+.lista-info li:hover {
+  transform: scale(1.12);
+  color: #997b6c;
+}
 
 
 .lista-info-c li {
@@ -126,12 +118,17 @@
 
 .lista-info-c li:hover{
   color: #997b6c;
+  cursor: pointer;
 }
 
 .lista-info-c a{
   color: #ffffff;
   text-decoration: none;
   transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.lista-info-c a:hover {
+  color: #997b6c;
 }
 
 .lista-info-c li:hover {
