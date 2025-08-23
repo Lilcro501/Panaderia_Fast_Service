@@ -241,7 +241,7 @@ def actualizar_estado_pedido(request):
     print("🏁 Finalizando función:", mensaje)
     return Response({"mensaje": mensaje}, status=status.HTTP_200_OK)
 
-#cronograma
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def historial_pedidos(request):
@@ -269,6 +269,7 @@ def historial_pedidos(request):
     })
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def listar_estados_pedidos(request):
     ultimos_estados = EstadoFactura.objects.filter(
         factura=OuterRef('pk')
