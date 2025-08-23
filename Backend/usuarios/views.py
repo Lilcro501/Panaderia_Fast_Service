@@ -253,7 +253,7 @@ def verificar_codigo(request):
 ##################################################################################
 #vista para cambiar el password del usuario
 ##################################################################################
-@csrf_exempt
+@permission_classes([AllowAny])
 def cambiar_password(request):
     if request.method == 'POST':
         try:
@@ -352,6 +352,8 @@ def login_google(request):
 
 #----------------------------- Vista para actualizar  y obtener los datos del usuario -----------------------------
 
+
+
 class UsuarioDetalleView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -367,6 +369,8 @@ class UsuarioDetalleView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])

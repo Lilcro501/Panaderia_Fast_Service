@@ -10,7 +10,7 @@ export const FavoritosProvider = ({ children }) => {
   const [favoritos, setFavoritos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { rol } = useRol(); // 👈 obtiene el rol actual
+  const { rol } = useRol();
 
   const fetchFavoritos = async () => {
     setIsLoading(true);

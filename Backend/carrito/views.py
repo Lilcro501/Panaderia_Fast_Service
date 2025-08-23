@@ -39,6 +39,9 @@ from .utils import enviar_factura_por_correo
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
+from .permissions import EsAdmin, EsTrabajador, EsCliente
+
+
 import traceback
 
 #obtenemos el modelo de usuario que estamos utilzando con django
@@ -53,7 +56,7 @@ User = get_user_model()
 #decorador para deshabilitar la proteccion contra ataques CSRF
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, EsCliente])
 def crear_factura(request):
     if request.method == 'POST':
         try:
@@ -111,7 +114,7 @@ def crear_factura(request):
                 usuario.save()
 
                 usuario_refrescado = Usuario.objects.get(pk=usuario.pk)
-                print(f"✅ Teléfono guardado en DB: {usuario_refrescado.telefono}")
+                print(f"Teléfono guardado en DB: {usuario_refrescado.telefono}")
 
             # ---- Crear factura ----
             factura = Factura.objects.create(
@@ -181,6 +184,8 @@ def crear_factura(request):
 #obtenemos los productos segun el parametro del id que se pase de la categoria
 
 
+api_view(['GET'])
+@permission_classes([IsAuthenticated, EsAdmin])
 def obtener_productos_por_categoria(request, categoria_nombre):
     try:
         categoria = Categoria.objects.get(nombre__iexact=categoria_nombre.strip())
@@ -207,8 +212,7 @@ def obtener_productos_por_categoria(request, categoria_nombre):
 #obtenemos lod productos por id
 # Obtenermos el producto por id para poder tener los detalles del producto en el carrito de compras, a difencia de la funcion anterior, que obtiene todos los productos de una categoria en especifico
 #decorador para deshabilitar la proteccion contra ataques CSRF
-@csrf_exempt
-#
+@api_view(['GET'])
 def obtener_producto_por_id(request, id):
     #manejo de exepciones
     try:
