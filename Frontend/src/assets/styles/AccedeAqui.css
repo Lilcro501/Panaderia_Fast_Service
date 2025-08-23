@@ -133,20 +133,22 @@
 }
 
 .CampoNumero input {
-    width: 50px;              /* Tamaño fijo para cada input */
+    width: 50px;              /* Tamaño fijo para cada input */ 
     height: 50px;             /* Hace que sean cuadrados */
     font-size: 30px;
     text-align: center;
-    border: 1px solid #e6dadd;
+    border: 1px solid #050505;
     border-radius: 8px;
     outline: none;
     background-color: white;
     transition: 0.2s;
+    border-color: aqua;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    
 }
 
 .CampoNumero input:focus {
-    border-color: #e7e7e7;
-    box-shadow: 0 0 5px rgba(255,3,70,0.5);
+    box-shadow: 0 0 5px rgba(193, 119, 119, 0.5);
 }
 
 
@@ -324,7 +326,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover,  input:-webkit-autofill:fo
 }
 
 input:invalid {
-    border-color: #dc3545;
+    border-color: #000000;
 }
 
 .invalido {
@@ -565,4 +567,23 @@ svg.LgbsSe-Bz112c {
 
 .btn-aceptar:active {
   transform: scale(0.98);
+}
+
+.Camp {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.Camp input {
+  flex: 1;
+  padding-right: 35px; /* deja espacio para el ojito */
+}
+
+.Ojo {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #555;
+  font-size: 1.1rem;
 }

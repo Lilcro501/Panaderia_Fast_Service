@@ -16,21 +16,20 @@ import PrivateRoute from "../components/PrivateRoute";
 import RutasLayouts from '../components/RutasLayouts';
 
 // ------------------- Páginas Clientes -------------------
+import TYC from "../pages/PagesClientes/TYC";
 import Home from '../pages/PagesClientes/Home';
-import ActualizarPerfil from '../pages/PagesClientes/ActualizarPerfil';
+import Favoritos from "../pages/PagesClientes/Favoritos";
+import InfoLegal from '../pages/PagesClientes/InfoLegal';
 import CalificarExperiencia from '../pages/PagesClientes/CalificarExperiencia';
 import CategoriasBebidas from '../pages/PagesClientes/CategoriasBebidas';
 import CategoriasFritos from "../pages/PagesClientes/CategoriasFritos";
 import CategoriasHelados from "../pages/PagesClientes/CategoriasHelados";
 import CategoriasMecato from "../pages/PagesClientes/CategoriasMecato";
 import CategoriasPanes from '../pages/PagesClientes/CategoriaPanes';
-import Favoritos from "../pages/PagesClientes/Favoritos";
-import InfoLegal from '../pages/PagesClientes/InfoLegal';
 import ManifiestoConsumidor from '../pages/PagesClientes/ManifiestoConsumidor';
 import PerfilUsuario from '../pages/PagesClientes/PerfilUsuario';
 import PoliticaCo from "../pages/PagesClientes/PoliticaCo";
 import PoliticaPrivacidad from "../pages/PagesClientes/PoliticaPrivacidad";
-import TYC from "../pages/PagesClientes/TYC";
 import FacturaProductos from '../pages/PagesClientes/FacturaProductos';
 import ProductoDetalle from '../components/ProductoDetalle';
 import FormularioEntrega from '../pages/PagesClientes/FormularioEntrega';
