@@ -92,3 +92,4 @@ class FacturaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Factura
         fields = ['id', 'clienteId', 'metodo_pago', 'metodo_entrega', 'total']
+    

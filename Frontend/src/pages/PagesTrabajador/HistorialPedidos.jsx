@@ -10,30 +10,47 @@ export default function HistorialPedidos() {
 
   const [filtro, setFiltro] = useState("todos");
   const [pedidos, setPedidos] = useState([]);
+  const [error, setError] = useState(""); // nuevo estado para errores
 
   useEffect(() => {
-  const fetchPedidos = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/api/trabajador/historial-pedidos/");
-      console.log("📦 Datos recibidos:", response.data);
+    const fetchPedidos = async () => {
+      try {
+        const token = localStorage.getItem("access");
+        if (!token) {
+          setError("No estás autorizado. Por favor inicia sesión.");
+          return;
+        }
 
-      // Combina ambos arrays en uno solo
-      const todosPedidos = [
-        ...response.data.aceptados.map(p => ({ ...p, estado: "aceptado" })),
-        ...response.data.rechazados.map(p => ({ ...p, estado: "rechazado" }))
-      ];
+        const response = await axios.get(
+          "http://localhost:8000/api/trabajador/historial-pedidos/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}` // Cambia a "Token" si usas TokenAuthentication
+            }
+          }
+        );
 
-      setPedidos(todosPedidos);
+        const todosPedidos = [
+          ...response.data.aceptados.map(p => ({ ...p, estado: "aceptado" })),
+          ...response.data.rechazados.map(p => ({ ...p, estado: "rechazado" }))
+        ];
 
-    } catch (error) {
-      console.error("Error al obtener historial de pedidos:", error);
-      setPedidos([]);
-    }
-  };
+        setPedidos(todosPedidos);
 
-  fetchPedidos();
-}, []);
+      } catch (error) {
+        if (error.response) {
+          setError(`Error ${error.response.status}: ${error.response.data.detail || "No autorizado"}`);
+        } else if (error.request) {
+          setError("No hubo respuesta del servidor.");
+        } else {
+          setError("Error al configurar la petición.");
+        }
+        setPedidos([]);
+      }
+    };
 
+    fetchPedidos();
+  }, []);
 
   const pedidosFiltrados = pedidos.filter((pedido) => {
     if (filtro === "todos") return true;
@@ -53,7 +70,8 @@ export default function HistorialPedidos() {
     <div className="contenido">
       <h2 className="titulo">Historial de pedidos</h2>
 
-      {/* Filtro de estado */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
       <div style={{ marginBottom: "1rem", display: "flex", gap: "1rem" }}>
         <Boton texto="Todos" onClick={() => setFiltro("todos")} />
         <Boton texto="Aceptados" onClick={() => setFiltro("aceptado")} />
