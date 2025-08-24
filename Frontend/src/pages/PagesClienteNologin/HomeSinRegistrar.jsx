@@ -10,7 +10,6 @@ import { AiFillSun } from "react-icons/ai";
 import { useRol } from '../../Context/RolContext';
 
 
-
 export default function HomeSinRegistrar() {
   const { cambiarRol } = useRol();
 

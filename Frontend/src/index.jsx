@@ -6,6 +6,7 @@ import './assets/styles/Global.css';
 import { CarritoProvider } from './Context/CarritoContext';
 import { FavoritosProvider } from './Context/FavoritosContext';
 import { RolProvider } from './Context/RolContext'; 
+import { SesionProvider } from './Context/SesionProvider'; 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -17,7 +18,9 @@ root.render(
         <RolProvider> 
           <CarritoProvider>
             <FavoritosProvider>
-              <AppRouter />
+              <SesionProvider> 
+                <AppRouter />
+              </SesionProvider>
             </FavoritosProvider>
           </CarritoProvider>
         </RolProvider>

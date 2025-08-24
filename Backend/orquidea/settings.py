@@ -82,6 +82,8 @@ INSTALLED_APPS = [
     # proporciona la funcionalidad necesaria para manejar la autenticacion de usuarios a travez de google
     'allauth.socialaccount.providers.google',
 
+    'rest_framework_simplejwt.token_blacklist',
+
 
     # mis apps
     # este es el apartado de apps, cada app creada se debe agregar en este apartado 
@@ -309,7 +311,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     #define la duracion de vida del token de acceso
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     #define la duraciin de vida del token de actualizacion (refresh token)
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     #indica si se deben rotar los tokens de actualizacion, 

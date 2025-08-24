@@ -25,20 +25,20 @@ const EstadosPedidos = () => {
   const navigate = useNavigate();
 
   const cargarEstadosLocales = () => {
-    const estadosGuardados = localStorage.getItem("estadosPedidos");
+    const estadosGuardados = sessionStorage.getItem("estadosPedidos");
     return estadosGuardados ? JSON.parse(estadosGuardados) : {};
   };
 
   const [estadosLocales, setEstadosLocales] = useState(cargarEstadosLocales);
 
   useEffect(() => {
-    localStorage.setItem("estadosPedidos", JSON.stringify(estadosLocales));
+    sessionStorage.setItem("estadosPedidos", JSON.stringify(estadosLocales));
   }, [estadosLocales]);
 
   useEffect(() => {
     const obtenerPedidos = async () => {
       try {
-        const token = localStorage.getItem("access");
+        const token = sessionStorage.getItem("access");
         const response = await axios.get(
           "http://localhost:8000/api/trabajador/estados-pedidos/",
           {
@@ -74,7 +74,7 @@ const EstadosPedidos = () => {
 
   const cambiarEstado = async (idFactura, nuevoProceso) => {
     try {
-      const token = localStorage.getItem("access");
+      const token = sessionStorage.getItem("access");
 
       await axios.post(
         "http://localhost:8000/api/trabajador/actualizar-estado/",
