@@ -1,31 +1,38 @@
 // src/api/factura.js
-import axios from 'axios';
+import api from './axiosconfig'; // Usar la instancia configurada
 
 export const enviarFactura = async (formData) => {
   try {
-    // 👇 Recuperamos el token guardado al iniciar sesión
-    const token = localStorage.getItem("access");
+    const token = sessionStorage.getItem("access"); // Cambiado de localStorage a sessionStorage
+    if (!token) {
+      throw new Error("Token no encontrado. Por favor, inicia sesión nuevamente.");
+    }
 
-    const response = await axios.post(
-      'http://localhost:8000/api/carrito/crear-factura/',
+    console.log("Datos enviados a POST /api/carrito/crear-factura/:");
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
+    const response = await api.post(
+      'carrito/crear-factura/', // URL relativa, ya que baseURL está en axiosConfig.js
       formData,
       {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
+          // No es necesario agregar Authorization aquí, el interceptor lo maneja
         },
-        withCredentials: true, // Solo si usas cookies de sesión
+        // withCredentials: true, // Comentar si no usas cookies de sesión
       }
     );
 
+    console.log("Respuesta de POST /api/carrito/crear-factura/:", response.data);
     return response.data;
   } catch (error) {
-    // Manejo mejorado de errores
     if (error.response) {
       console.error('Error de servidor:', {
         status: error.response.status,
         data: error.response.data,
-        headers: error.response.headers
+        headers: error.response.headers,
       });
 
       const errorMessage = typeof error.response.data === 'object' 
