@@ -25,6 +25,21 @@ export default function AgregarInven() {
     const navigate = useNavigate(); // Función para navegar entre páginas
     const [categorias, setCategorias] = useState([]); // Estado para guardar las categorías traídas del backend
 
+    // --- Estado y función para manejar notificaciones ---
+    const [notificacion, setNotificacion] = useState({
+        visible: false,
+        mensaje: "",
+        tipo: ""
+    });
+
+    const mostrarNotificacion = (mensaje, tipo) => {
+        setNotificacion({ visible: true, mensaje, tipo });
+        setTimeout(() => {
+            setNotificacion({ visible: false, mensaje: "", tipo: "" });
+        }, 2000); // La notificación se oculta automáticamente en 2 segundos
+    };
+    // -----------------------------------------------------
+
     // useEffect se ejecuta al cargar el componente
     useEffect(() => {
         // Se hace una solicitud para traer las categorías disponibles desde el backend
@@ -34,9 +49,9 @@ export default function AgregarInven() {
                 setCategorias(response.data);
             })
             .catch(error => {
-                // Si hay un error, lo mostramos en consola y al usuario
+                // Si hay un error, lo mostramos en consola y con notificación
                 console.error("Error al cargar categorías:", error);
-                alert("No se pudieron cargar las categorías.");
+                mostrarNotificacion("No se pudieron cargar las categorías.", "error");
             });
     }, []); // Solo se ejecuta una vez al cargar la página
 
@@ -46,10 +61,10 @@ export default function AgregarInven() {
     // Lista de campos que tendrá el formulario
     const camposProducto = [
         {
-            nombre: 'imagen', // Nombre del campo en el objeto
-            etiqueta: 'Imagen del producto', // Lo que verá el usuario
-            tipo: 'file', // Tipo: archivo
-            requerido: true // Obligatorio
+            nombre: 'imagen',
+            etiqueta: 'Imagen del producto',
+            tipo: 'file',
+            requerido: true
         },
         {
             nombre: 'nombre',
@@ -88,7 +103,7 @@ export default function AgregarInven() {
         {
             nombre: 'id_categoria_id',
             etiqueta: 'Categoría',
-            tipo: 'select', // Lista desplegable
+            tipo: 'select',
             opciones: categorias.map(cat => ({
                 valor: cat.id_categoria,
                 etiqueta: cat.nombre
@@ -107,64 +122,62 @@ export default function AgregarInven() {
             const nombreCategoria = categoriaSeleccionada.nombre.toLowerCase();
 
             // 2. Subimos la imagen del producto a Cloudinary
-            let imagenUrl = '';       // Aquí se guardará la URL de la imagen subida
-            let imagenPublicId;       // Aquí se guarda el ID público de Cloudinary
+            let imagenUrl = '';
+            let imagenPublicId;
 
             if (datos.imagen) {
-                const cloudinaryData = new FormData(); // Creamos un objeto tipo formulario para subir archivos
-                cloudinaryData.append('file', datos.imagen); // Añadimos la imagen
-                cloudinaryData.append('upload_preset', uploadPreset); // Preset configurado en Cloudinary
-                cloudinaryData.append('folder', `productos/${nombreCategoria}`); // Carpeta donde se guardará
+                const cloudinaryData = new FormData();
+                cloudinaryData.append('file', datos.imagen);
+                cloudinaryData.append('upload_preset', uploadPreset);
+                cloudinaryData.append('folder', `productos/${nombreCategoria}`);
 
-                // Subimos la imagen a Cloudinary
                 const cloudinaryResponse = await axios.post(
                     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
                     cloudinaryData
                 );
 
-                // Guardamos la URL y el public_id que devuelve Cloudinary
                 imagenUrl = cloudinaryResponse.data.secure_url;
                 imagenPublicId = cloudinaryResponse.data.public_id;
             }
 
             // 3. Preparamos los datos para enviar al backend
             const datosParaBackend = {
-                ...datos, // Copiamos todos los datos del formulario
-                imagen: imagenUrl, // Reemplazamos el archivo con la URL de la imagen
-                imagen_public_id: imagenPublicId // Añadimos el ID público
+                ...datos,
+                imagen: imagenUrl,
+                imagen_public_id: imagenPublicId
             };
 
             // 4. Enviamos los datos al backend de Django
             await axios.post('http://localhost:8000/api/administrador/productos/', datosParaBackend, {
                 headers: {
-                    'Content-Type': 'application/json' // Indicamos que enviamos datos en formato JSON
+                    'Content-Type': 'application/json'
                 }
             });
 
-            // Si todo sale bien, mostramos mensaje y redirigimos al listado de productos
-            alert("Producto agregado exitosamente.");
-            navigate("/AdministrarInven");
+            // Si todo sale bien, mostramos notificación y redirigimos
+            mostrarNotificacion("Producto agregado exitosamente.", "exito");
+            setTimeout(() => navigate("/AdministrarInven"), 2000);
 
         } catch (error) {
             // Si hay algún error al guardar, lo mostramos
             console.error("Error al agregar producto:", error.response?.data || error.message);
-            alert("No se pudo agregar el producto.");
+            mostrarNotificacion("❌ No se pudo agregar el producto.", "error");
         }
     };
 
     // Botones que se muestran al final del formulario
     const botones = [
         {
-            texto: 'Guardar',     // Texto que aparece en el botón
-            tipo: 'submit',       // Envia el formulario
-            clase: 'guardar',     // Clase CSS
-            onClick: null         // No se necesita porque ya se maneja con onSubmit
+            texto: 'Guardar',
+            tipo: 'submit',
+            clase: 'guardar',
+            onClick: null
         },
         {
             texto: 'Salir',
             tipo: 'button',
             clase: 'salir',
-            onClick: () => navigate('/AdministrarInven') // Botón que redirige al listado sin guardar
+            onClick: () => navigate('/AdministrarInven')
         }
     ];
 
@@ -173,7 +186,6 @@ export default function AgregarInven() {
         <div className="contenedor_formulario_inventario">
             <h2>Registrar nuevo producto</h2>
 
-            {/* Componente de formulario que recibe los campos, la función de envío y los botones */}
             <FormularioAdmin
                 campos={camposProducto}
                 onSubmit={manejarEnvio}
@@ -203,6 +215,15 @@ export default function AgregarInven() {
                     }
                 }}
             />
+
+            {/* Renderizado condicional de la notificación */}
+            {notificacion.visible && (
+                <div className={`modal-fondo modal-${notificacion.tipo}`}>
+                    <div className="modal-contenido">
+                        <p>{notificacion.mensaje}</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

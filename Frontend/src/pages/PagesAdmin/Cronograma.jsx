@@ -6,11 +6,35 @@ import TablaAdmin from '../../components/TablaAdmin';
 import agregar_documento from '../../assets/images/agregar_documento.png';
 import editar_documento from '../../assets/images/editar_documento.png';
 import eliminar_documento from '../../assets/images/eliminar_documento.png';
+
 import "../../assets/styles/Global.css";
 
 export default function Cronograma() {
     const encabezados = ['Nombre trabajador', 'Cargo', 'Actividades', 'Horarios', 'Fecha', 'Acciones'];
     const [filas, setFilas] = useState([]);
+
+    // Estado de notificación
+    const [notificacion, setNotificacion] = useState({
+        visible: false,
+        mensaje: "",
+        tipo: ""
+    });
+
+    // Estado del modal de confirmación
+    const [confirmacion, setConfirmacion] = useState({
+        visible: false,
+        mensaje: "",
+        onConfirm: null
+    });
+
+    const mostrarNotificacion = (mensaje, tipo) => {
+        setNotificacion({ visible: true, mensaje, tipo });
+        setTimeout(() => setNotificacion({ visible: false, mensaje: "", tipo: "" }), 2000);
+    };
+
+    const pedirConfirmacion = (mensaje, onConfirm) => {
+        setConfirmacion({ visible: true, mensaje, onConfirm });
+    };
 
     const obtenerCronogramas = () => {
         axios.get('http://localhost:8000/api/administrador/cronograma/trabajadores/')
@@ -39,7 +63,10 @@ export default function Cronograma() {
                                 />
                             </Link>
                             <button
-                                onClick={() => manejarEliminar(item.id_cronograma)}
+                                onClick={() => pedirConfirmacion(
+                                    "¿Estás seguro de eliminar este cronograma?",
+                                    () => manejarEliminar(item.id_cronograma)
+                                )}
                                 className="boton_eliminar_tabla"
                                 title="Eliminar cronograma"
                             >
@@ -57,20 +84,20 @@ export default function Cronograma() {
             })
             .catch(error => {
                 console.error("Error al cargar cronogramas de trabajadores:", error);
+                mostrarNotificacion("❌ Error al cargar los cronogramas.", "error");
             });
     };
 
     const manejarEliminar = async (id) => {
-        const confirmacion = window.confirm("¿Estás seguro de eliminar este cronograma?");
-        if (!confirmacion) return;
-
         try {
             await axios.delete(`http://localhost:8000/api/administrador/cronograma/${id}/`);
-            alert("Cronograma eliminado correctamente.");
+            mostrarNotificacion("✅ Cronograma eliminado correctamente.", "exito");
             obtenerCronogramas(); // Refrescar lista
         } catch (error) {
             console.error("Error al eliminar cronograma:", error);
-            alert("No se pudo eliminar el cronograma.");
+            mostrarNotificacion("❌ No se pudo eliminar el cronograma.", "error");
+        } finally {
+            setConfirmacion({ visible: false, mensaje: "", onConfirm: null });
         }
     };
 
@@ -91,6 +118,38 @@ export default function Cronograma() {
                     <img src={agregar_documento} alt="Agregar" />
                 </Link>
             </div>
+
+            {/* Notificación */}
+            {notificacion.visible && (
+                <div className={`modal-fondo modal-${notificacion.tipo}`}>
+                    <div className="modal-contenido">
+                        <p>{notificacion.mensaje}</p>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Confirmación */}
+            {confirmacion.visible && (
+                <div className="modal-fondo">
+                    <div className="modal-contenido">
+                        <p>{confirmacion.mensaje}</p>
+                        <div style={{ marginTop: "15px" }}>
+                            <button
+                                onClick={confirmacion.onConfirm}
+                                className="btn-confirmar"
+                            >
+                                Sí
+                            </button>
+                            <button
+                                onClick={() => setConfirmacion({ visible: false, mensaje: "", onConfirm: null })}
+                                className="btn-cancelar"
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

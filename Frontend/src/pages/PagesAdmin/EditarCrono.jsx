@@ -5,49 +5,28 @@ import FormularioAdmin from '../../components/FormularioAdmin';
 import "../../assets/styles/Global.css";
 
 export default function EditarCrono() {
-    const { id } = useParams(); // ID del cronograma desde la URL
+    const { id } = useParams();
     const navigate = useNavigate();
-
     const [datosIniciales, setDatosIniciales] = useState(null);
+    const [notificacion, setNotificacion] = useState({ visible: false, mensaje: "", tipo: "" });
+
+    const mostrarNotificacion = (mensaje, tipo) => {
+        setNotificacion({ visible: true, mensaje, tipo });
+        setTimeout(() => setNotificacion({ visible: false, mensaje: "", tipo: "" }), 2000);
+    };
 
     const formatearFecha = (fecha) => {
         if (!fecha) return '';
         const date = new Date(fecha);
-        return date.toISOString().slice(0, 16); // formato para <input type="datetime-local" />
+        return date.toISOString().slice(0, 16);
     };
 
-    const camposProducto = [
-        {
-            nombre: 'nombre',
-            etiqueta: 'Nombre Completo',
-            tipo: 'text',
-            requerido: false,
-            deshabilitado: true
-        },
-        {
-            nombre: 'titulo',
-            etiqueta: 'Cargo',
-            tipo: 'text',
-            requerido: true
-        },
-        {
-            nombre: 'descripcion',
-            etiqueta: 'Actividades',
-            tipo: 'textarea',
-            requerido: true
-        },
-        {
-            nombre: 'fecha_inicio',
-            etiqueta: 'Fecha y hora de inicio',
-            tipo: 'datetime-local',
-            requerido: true
-        },
-        {
-            nombre: 'fecha_fin',
-            etiqueta: 'Fecha y hora de fin',
-            tipo: 'datetime-local',
-            requerido: true
-        }
+    const camposFormulario = [
+        { nombre: 'nombre', etiqueta: 'Nombre Completo', tipo: 'text', requerido: false, deshabilitado: true },
+        { nombre: 'titulo', etiqueta: 'Cargo', tipo: 'text', requerido: true },
+        { nombre: 'descripcion', etiqueta: 'Actividades', tipo: 'textarea', requerido: true },
+        { nombre: 'fecha_inicio', etiqueta: 'Fecha y hora de inicio', tipo: 'datetime-local', requerido: true },
+        { nombre: 'fecha_fin', etiqueta: 'Fecha y hora de fin', tipo: 'datetime-local', requerido: true }
     ];
 
     const manejarEnvio = async (datos) => {
@@ -63,31 +42,19 @@ export default function EditarCrono() {
                 fecha_fin: datos.fecha_fin
             };
 
-            console.log("Datos enviados al backend:", payload);
-
             await axios.put(`http://localhost:8000/api/administrador/cronograma/${id}/`, payload);
 
-            alert("✅ Cronograma actualizado correctamente.");
-            navigate('/Cronograma');
+            mostrarNotificacion("✅ Cronograma actualizado correctamente", "exito");
+            setTimeout(() => navigate('/Cronograma'), 2000);
         } catch (error) {
-            console.error("❌ Error al actualizar cronograma:", error);
-            alert("Ocurrió un error al actualizar el cronograma.");
+            console.error("Error al actualizar cronograma:", error);
+            mostrarNotificacion("❌ Error al actualizar el cronograma", "error");
         }
     };
 
     const botones = [
-        {
-            texto: 'Aceptar',
-            tipo: 'submit',
-            clase: 'guardar',
-            onClick: null
-        },
-        {
-            texto: 'Cancelar',
-            tipo: 'button',
-            clase: 'salir',
-            onClick: () => navigate("/Cronograma")
-        }
+        { texto: 'Actualizar', tipo: 'submit', clase: 'guardar' },
+        { texto: 'Cancelar', tipo: 'button', clase: 'salir', onClick: () => navigate("/Cronograma") }
     ];
 
     useEffect(() => {
@@ -106,32 +73,26 @@ export default function EditarCrono() {
             })
             .catch(error => {
                 console.error("Error al obtener cronograma:", error);
+                mostrarNotificacion("❌ Error al cargar los datos del cronograma", "error");
             });
     }, [id]);
 
     return (
         <div className="contenedor_formulario_inventario">
-            {datosIniciales && (
+            {datosIniciales ? (
                 <FormularioAdmin
-                    campos={camposProducto}
+                    campos={camposFormulario}
                     onSubmit={manejarEnvio}
                     botonesPersonalizados={botones}
                     valoresIniciales={datosIniciales}
                     validacionesPersonalizadas={{
-                        titulo: (valor) =>
-                            !valor || valor.trim() === "" ? "El cargo es obligatorio" : null,
-
-                        descripcion: (valor) =>
-                            !valor || valor.trim().length < 5
-                                ? "Las actividades deben tener al menos 5 caracteres"
-                                : null,
-
+                        titulo: (valor) => !valor || valor.trim() === "" ? "El cargo es obligatorio" : null,
+                        descripcion: (valor) => !valor || valor.trim().length < 5 ? "Las actividades deben tener al menos 5 caracteres" : null,
                         fecha_inicio: (valor) => {
                             if (!valor) return "La fecha de inicio es obligatoria";
                             const inicio = new Date(valor);
                             return isNaN(inicio.getTime()) ? "La fecha de inicio no es válida" : null;
                         },
-
                         fecha_fin: (valor, valores) => {
                             if (!valor) return "La fecha de fin es obligatoria";
                             const fin = new Date(valor);
@@ -142,6 +103,16 @@ export default function EditarCrono() {
                         }
                     }}
                 />
+            ) : (
+                <p>Cargando datos del cronograma...</p>
+            )}
+
+            {notificacion.visible && (
+                <div className={`modal-fondo modal-${notificacion.tipo}`}>
+                    <div className="modal-contenido">
+                        <p>{notificacion.mensaje}</p>
+                    </div>
+                </div>
             )}
         </div>
     );

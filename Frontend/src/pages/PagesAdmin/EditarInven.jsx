@@ -11,12 +11,27 @@ export default function EditarInven() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-     // 🔹 Config Cloudinary
-const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+    // 🔹 Config Cloudinary
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
     const [valoresIniciales, setValoresIniciales] = useState({});
     const [categorias, setCategorias] = useState([]);
+
+    // --- Estado y función para manejar notificaciones ---
+    const [notificacion, setNotificacion] = useState({
+        visible: false,
+        mensaje: "",
+        tipo: ""
+    });
+
+    const mostrarNotificacion = (mensaje, tipo) => {
+        setNotificacion({ visible: true, mensaje, tipo });
+        setTimeout(() => {
+            setNotificacion({ visible: false, mensaje: "", tipo: "" });
+        }, 2000);
+    };
+    // -----------------------------------------------------
 
     // Obtener producto
     useEffect(() => {
@@ -36,7 +51,7 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
             })
             .catch(error => {
                 console.error("Error al cargar producto:", error);
-                alert("No se pudo cargar el producto.");
+                mostrarNotificacion("No se pudo cargar el producto.", "error");
             });
     }, [id]);
 
@@ -48,7 +63,7 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
             })
             .catch(error => {
                 console.error("Error al cargar categorías:", error);
-                alert("No se pudieron cargar las categorías.");
+                mostrarNotificacion("No se pudieron cargar las categorías.", "error");
             });
     }, []);
 
@@ -116,13 +131,13 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
             const nombreCategoria = categoriaSeleccionada.nombre.toLowerCase();
 
             // 2. Subir imagen a Cloudinary (solo si el usuario seleccionó una nueva)
-            let imagenUrl = valoresIniciales.imagen_url;   // Por defecto, mantenemos la imagen actual
+            let imagenUrl = valoresIniciales.imagen_url;   
             let imagenPublicId = valoresIniciales.imagen_public_id;
 
             if (datos.imagen && datos.imagen instanceof File) {
                 const cloudinaryData = new FormData();
                 cloudinaryData.append("file", datos.imagen);
-                cloudinaryData.append("upload_preset", uploadPreset); // ⚠️ cambia por tu upload preset real
+                cloudinaryData.append("upload_preset", uploadPreset);
                 cloudinaryData.append("folder", `productos/${nombreCategoria}`);
 
                 const cloudinaryResponse = await axios.post(
@@ -141,7 +156,7 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
                 imagen: imagenUrl,
                 imagen_public_id: imagenPublicId
             };
-            delete datosParaBackend.id_categoria; // eliminamos duplicado
+            delete datosParaBackend.id_categoria; 
 
             // 4. Enviar actualización al backend
             await axios.put(
@@ -150,12 +165,12 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
                 { headers: { "Content-Type": "application/json" } }
             );
 
-            alert("Producto actualizado correctamente.");
-            navigate("/AdministrarInven");
+            mostrarNotificacion(" ✅ Producto actualizado correctamente.", "exito");
+            setTimeout(() => navigate("/AdministrarInven"), 2000);
 
         } catch (error) {
             console.error("Error al actualizar producto:", error.response?.data || error.message);
-            alert("No se pudo actualizar el producto.");
+            mostrarNotificacion("❌ No se pudo actualizar el producto.", "error");
         }
     };
 
@@ -200,7 +215,7 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
                         },
 
                         fecha_vencimiento: (valor) => {
-                            if (!valor) return null; // es opcional
+                            if (!valor) return null; 
                             const hoy = new Date().toISOString().split("T")[0];
                             return valor < hoy
                                 ? "La fecha de vencimiento no puede ser anterior a hoy"
@@ -220,6 +235,15 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
                     }}
                 />
             </div>
+
+            {/* Renderizado condicional de la notificación */}
+            {notificacion.visible && (
+                <div className={`modal-fondo modal-${notificacion.tipo}`}>
+                    <div className="modal-contenido">
+                        <p>{notificacion.mensaje}</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
