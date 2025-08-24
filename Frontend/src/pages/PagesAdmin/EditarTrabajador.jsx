@@ -15,6 +15,20 @@ export default function EditarTrabajador() {
     const [datosIniciales, setDatosIniciales] = useState(null);
     const [cargando, setCargando] = useState(true);
 
+    // Estado de notificación
+    const [notificacion, setNotificacion] = useState({
+        visible: false,
+        mensaje: "",
+        tipo: ""
+    });
+
+    const mostrarNotificacion = (mensaje, tipo) => {
+        setNotificacion({ visible: true, mensaje, tipo });
+        setTimeout(() => {
+            setNotificacion({ visible: false, mensaje: "", tipo: "" });
+        }, 2000);
+    };
+
     const camposTrabajador = [
         { nombre: 'email', etiqueta: 'Correo Electrónico', tipo: 'email', requerido: true },
         { nombre: 'nombre', etiqueta: 'Nombre', tipo: 'text', requerido: true },
@@ -22,11 +36,11 @@ export default function EditarTrabajador() {
         { nombre: 'telefono', etiqueta: 'Teléfono', tipo: 'text', requerido: false }
     ];
 
-    // Verificación inicial del ID
+    // Verificación inicial del ID y carga de datos
     useEffect(() => {
         if (!id) {
-            alert("ID no válido.");
-            navigate("/AdministrarTrabajadores");
+            mostrarNotificacion("ID no válido.", "error");
+            setTimeout(() => navigate("/AdministrarTrabajadores"), 2000);
             return;
         }
 
@@ -36,23 +50,20 @@ export default function EditarTrabajador() {
             })
             .catch(err => {
                 console.error("Error al cargar trabajador:", err);
-                alert("No se pudo cargar el trabajador.");
-                navigate("/AdministrarTrabajadores");
+                mostrarNotificacion("No se pudo cargar el trabajador.", "error");
+                setTimeout(() => navigate("/AdministrarTrabajadores"), 2000);
             })
-            .finally(() => {
-                setCargando(false);
-            });
+            .finally(() => setCargando(false));
     }, [id, navigate]);
 
     const manejarEnvio = async (datos) => {
         try {
-            const response = await axios.patch(`http://localhost:8000/api/administrador/usuarios/${id}/`, datos);
-            console.log("Trabajador actualizado:", response.data);
-            alert("✅ Trabajador actualizado con éxito.");
-            navigate("/AdministrarTrabajadores");
+            await axios.patch(`http://localhost:8000/api/administrador/usuarios/${id}/`, datos);
+            mostrarNotificacion("✅ Trabajador actualizado con éxito.", "exito");
+            setTimeout(() => navigate("/AdministrarTrabajadores"), 2000);
         } catch (error) {
             console.error("❌ Error al actualizar trabajador:", error.response?.data || error);
-            alert("Error al actualizar el trabajador.");
+            mostrarNotificacion("Error al actualizar el trabajador.", "error");
         }
     };
 
@@ -96,8 +107,8 @@ export default function EditarTrabajador() {
                                 ? "El apellido debe tener al menos 2 caracteres"
                                 : null,
                         telefono: (valor) => {
-                            if (!valor) return null; 
-                            const regex = /^[0-9]{10}$/; //^[0-9]{10}$ → Solo números (0-9) y exactamente 10 dígitos.
+                            if (!valor) return null;
+                            const regex = /^[0-9]{10}$/;
                             return !regex.test(valor)
                                 ? "El teléfono debe contener 10 dígitos"
                                 : null;
@@ -106,6 +117,15 @@ export default function EditarTrabajador() {
                 />
             ) : (
                 <p>Error al cargar los datos.</p>
+            )}
+
+            {/* Renderizado condicional de la notificación */}
+            {notificacion.visible && (
+                <div className={`modal-fondo modal-${notificacion.tipo}`}>
+                    <div className="modal-contenido">
+                        <p>{notificacion.mensaje}</p>
+                    </div>
+                </div>
             )}
         </div>
     );

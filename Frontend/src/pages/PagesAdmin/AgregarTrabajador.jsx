@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-//~~~~~~~~~~~~~~ Componentes ~~~~~~~~~~~~~~
+// Componentes
 import FormularioAdmin from '../../components/FormularioAdmin';
-//~~~~~~~~~~~~~~ Estilo Global ~~~~~~~~~~~~~~
+// Estilos
 import "../../assets/styles/Global.css";
 
 export default function AgregarTrabajador() {
     const navigate = useNavigate();
+
+    // Estado de notificación
+    const [notificacion, setNotificacion] = useState({
+        visible: false,
+        mensaje: "",
+        tipo: ""
+    });
+
+    const mostrarNotificacion = (mensaje, tipo) => {
+        setNotificacion({ visible: true, mensaje, tipo });
+        setTimeout(() => {
+            setNotificacion({ visible: false, mensaje: "", tipo: "" });
+        }, 2000);
+    };
 
     const camposTrabajador = [
         {
@@ -53,12 +67,12 @@ export default function AgregarTrabajador() {
 
     const manejarEnvio = async (datos) => {
         try {
-            const response = await axios.post('http://localhost:8000/api/administrador/usuarios/', datos);
-            console.log("Trabajador creado exitosamente:", response.data);
-            alert("Trabajador guardado con éxito.");
+            await axios.post('http://localhost:8000/api/administrador/usuarios/', datos);
+            mostrarNotificacion("Trabajador guardado con éxito.", "exito");
+            setTimeout(() => navigate("/AdministrarTrabajadores"), 2000);
         } catch (error) {
             console.error("Error al guardar el trabajador:", error.response?.data || error);
-            alert("Error al guardar el trabajador. Verifica los datos.");
+            mostrarNotificacion("❌ Error al guardar el trabajador. Verifica los datos.", "error");
         }
     };
 
@@ -79,6 +93,7 @@ export default function AgregarTrabajador() {
 
     return (
         <div className="contenedor_formulario_inventario">
+            <h2>Registrar nuevo trabajador</h2>
             <FormularioAdmin 
                 campos={camposTrabajador} 
                 onSubmit={manejarEnvio} 
@@ -102,7 +117,7 @@ export default function AgregarTrabajador() {
                             ? "El apellido debe tener al menos 2 caracteres"
                             : null,
                     telefono: (valor) => {
-                        if (!valor) return "El teléfono es obligatorio"; // ✅ ahora requerido
+                        if (!valor) return "El teléfono es obligatorio";
                         const regex = /^[0-9]{10}$/;
                         return !regex.test(valor)
                             ? "El teléfono debe contener exactamente 10 dígitos"
@@ -110,6 +125,15 @@ export default function AgregarTrabajador() {
                     }
                 }}
             />
+
+            {/* Renderizado condicional de la notificación */}
+            {notificacion.visible && (
+                <div className={`modal-fondo modal-${notificacion.tipo}`}>
+                    <div className="modal-contenido">
+                        <p>{notificacion.mensaje}</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
