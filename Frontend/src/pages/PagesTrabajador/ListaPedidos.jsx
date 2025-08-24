@@ -30,7 +30,7 @@ const ListaPedidos = () => {
       try {
         const response = await axios.get("http://localhost:8000/api/trabajador/listar-pedidos/", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("access")}`,
           },
         });
         setPedidos(response.data);
@@ -123,7 +123,7 @@ const ListaPedidos = () => {
 
       await axios.post("http://localhost:8000/api/trabajador/notificar-pedido/", payload, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("access")}`,
         },
       });
 

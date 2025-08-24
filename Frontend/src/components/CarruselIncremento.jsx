@@ -16,32 +16,30 @@ export default function CarruselCatalogo() {
 
   const navigate = useNavigate();
 
-  const idsProductos = ["78", "80", "82", "83", "84", "85", "86", "87", "91", "90", "105"];
-
+  // 🔹 Ahora cargamos productos aleatorios desde el backend
   useEffect(() => {
-    const fetchProductos = async () => {
+    const fetchProductosAleatorios = async () => {
       try {
-        const peticiones = idsProductos.map((id) =>
-          axios.get(`http://localhost:8000/api/carrito/producto/${id}/`).then((res) => res.data)
+        const res = await axios.get(
+          "http://localhost:8000/api/carrito/productos-aleatorios/?cantidad=12"
         );
-        const resultados = await Promise.all(peticiones);
 
-        const productosFormateados = resultados.map((p) => ({
+        const productosFormateados = res.data.map((p) => ({
           id: Number(p.id_producto ?? p.id),
           nameProduct: p.nombre,
-          price: p.precio,
+          price: parseFloat(p.precio),
           description: p.descripcion,
           stock: p.stock,
-          image: p.imagen, // <-- Aquí la diferencia principal
+          image: p.imagen,
         }));
 
         setProductos(productosFormateados);
       } catch (error) {
-        console.error("Error cargando productos:", error);
+        console.error("Error cargando productos aleatorios:", error);
       }
     };
 
-    fetchProductos();
+    fetchProductosAleatorios();
   }, []);
 
   const obtenerCantidad = (id) => {
@@ -113,7 +111,9 @@ export default function CarruselCatalogo() {
 
   return (
     <section className="carrusel-centralizado">
-      <button className="boton-carrusel" onClick={() => scroll(-300)}>&#10094;</button>
+      <button className="boton-carrusel" onClick={() => scroll(-300)}>
+        &#10094;
+      </button>
 
       <div className="catalogo-deslizar" ref={contenedorRef}>
         {productos.map((prod) => {
@@ -141,7 +141,9 @@ export default function CarruselCatalogo() {
                     else mostrarModal("❗ Solo los clientes pueden modificar la cantidad de productos.");
                   }}
                   disabled={cantidad === 0}
-                >−</button>
+                >
+                  −
+                </button>
 
                 <input
                   type="number"
@@ -150,28 +152,38 @@ export default function CarruselCatalogo() {
                   onChange={(e) => cambiarCantidadManual(e, prod)}
                 />
 
-                <button className="incremento" onClick={() => manejarAgregar(prod)}>+</button>
+                <button className="incremento" onClick={() => manejarAgregar(prod)}>
+                  +
+                </button>
               </section>
             </div>
           );
         })}
       </div>
 
-      <button className="boton-carrusel" onClick={() => scroll(300)}>&#10095;</button>
+      <button className="boton-carrusel" onClick={() => scroll(300)}>
+        &#10095;
+      </button>
 
       {modalMensaje && (
         <div className="modal-fondo" onClick={cerrarModal}>
           <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
-            <img src={campana} alt="alerta" width="20px" /><br /><br />
-            <p>{modalMensaje}</p><br /><br />
-            <button className="boton-moderno" onClick={cerrarModal}>Cerrar</button>
+            <img src={campana} alt="alerta" width="20px" />
+            <br />
+            <br />
+            <p>{modalMensaje}</p>
+            <br />
+            <br />
+            <button className="boton-moderno" onClick={cerrarModal}>
+              Cerrar
+            </button>
             {rol !== "cliente" && (
               <button
                 className="boton-moderno"
-                style={{ marginLeft: "10px", backgroundColor: "#4CAF50" }}
+                style={{backgroundColor: "#4CAF50" }}
                 onClick={() => navigate("/AccedeAqui")}
               >
-                Iniciar Sesión
+                Iniciar Sesión  
               </button>
             )}
           </div>
