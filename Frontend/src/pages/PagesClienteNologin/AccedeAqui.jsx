@@ -8,11 +8,11 @@ import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
 import { iniciarSesion } from '../../api/login';
-import "../../assets/styles/Global.css";
+import '../../assets/styles/Global.css';
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
-  const { cambiarRol } = useRol();
+  const { cambiarRol, guardarToken } = useRol();
 
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
@@ -69,14 +69,16 @@ export default function AccedeAqui() {
         }
 
         const rolLower = rol.toLowerCase();
-        localStorage.setItem('access', access);
-        localStorage.setItem('refresh', refresh);
-        localStorage.setItem('nombre', nombre);
-        localStorage.setItem('rol', rolLower);
-        localStorage.setItem('id_usuario', id_usuario);
-        localStorage.setItem('loginMetodo', 'manual');
+        // Almacenar solo datos no sensibles en sessionStorage (opcional)
+        sessionStorage.setItem('nombre', nombre);
+        sessionStorage.setItem('rol', rolLower);
+        sessionStorage.setItem('id_usuario', id_usuario);
+        sessionStorage.setItem('loginMetodo', 'manual');
 
+        // Los tokens se manejan en el servidor (cookies HttpOnly)
+        // El backend debe establecer cookies para access y refresh
         cambiarRol(rolLower);
+        guardarToken(access); // Actualizar el contexto (puede ser opcional)
         redirigirPorRol(rolLower);
       }
     } catch (error) {
@@ -98,14 +100,15 @@ export default function AccedeAqui() {
       }
 
       const rolLower = rol.toLowerCase();
-      localStorage.setItem('access', access);
-      localStorage.setItem('refresh', refresh);
-      localStorage.setItem('nombre', nombre);
-      localStorage.setItem('rol', rolLower);
-      localStorage.setItem('id_usuario', id_usuario);
-      localStorage.setItem('loginMetodo', 'google');
+      // Almacenar solo datos no sensibles en sessionStorage (opcional)
+      sessionStorage.setItem('nombre', nombre);
+      sessionStorage.setItem('rol', rolLower);
+      sessionStorage.setItem('id_usuario', id_usuario);
+      sessionStorage.setItem('loginMetodo', 'google');
 
+      // Los tokens se manejan en el servidor (cookies HttpOnly)
       cambiarRol(rolLower);
+      guardarToken(access); // Actualizar el contexto (puede ser opcional)
       redirigirPorRol(rolLower);
     } catch (error) {
       setErrorLogin('Error al iniciar sesión con Google');
@@ -150,8 +153,7 @@ export default function AccedeAqui() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            {/* 👁️ Botón para mostrar/ocultar */}
-            <span className="Ojo" onClick={() => setMostrarPassword(!mostrarPassword)}>
+            <span className='Ojo' onClick={() => setMostrarPassword(!mostrarPassword)}>
               {mostrarPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>

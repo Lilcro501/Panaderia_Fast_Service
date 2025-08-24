@@ -13,6 +13,9 @@ const ListaPedidos = () => {
   const [motivosSeleccionados, setMotivosSeleccionados] = useState([]);
   const [notificacion, setNotificacion] = useState({ visible: false, mensaje: "", tipo: "" });
 
+  const [paginaActual, setPaginaActual] = useState(1);
+  const pedidosPorPagina = 5;
+
   const opcionesMotivo = [
     "Pago incompleto",
     "Pedidos no disponibles",
@@ -48,7 +51,13 @@ const ListaPedidos = () => {
     "Acciones"
   ];
 
-  const datos = pedidos.map((pedido) => [
+  // Paginación
+  const totalPaginas = Math.ceil(pedidos.length / pedidosPorPagina);
+  const indiceUltimoPedido = paginaActual * pedidosPorPagina;
+  const indicePrimerPedido = indiceUltimoPedido - pedidosPorPagina;
+  const pedidosPaginados = pedidos.slice(indicePrimerPedido, indiceUltimoPedido);
+
+  const datos = pedidosPaginados.map((pedido) => [
     pedido.id,
     pedido.metodo_entrega,
     <Boton
@@ -103,7 +112,6 @@ const ListaPedidos = () => {
 
     const motivoFinal = [...motivosSeleccionados, motivo.trim()].filter(Boolean).join("; ");
 
-    // Cierra el modal inmediatamente
     cerrarModal();
 
     try {
@@ -119,7 +127,7 @@ const ListaPedidos = () => {
         },
       });
 
-      // Actualiza la lista de pedidos para remover el pedido procesado
+      // Actualiza la lista de pedidos
       setPedidos((prevPedidos) => prevPedidos.filter(p => p.id !== modal.pedidoId));
 
       mostrarNotificacion(
@@ -136,6 +144,22 @@ const ListaPedidos = () => {
     <div className="contenido">
       <h2 className="titulo">Lista de pedidos</h2>
       <TablaBase columnas={columnas} datos={datos} />
+
+      {/* Paginación */}
+      <div className="paginacion">
+        <button disabled={paginaActual === 1} onClick={() => setPaginaActual(paginaActual - 1)}>Anterior</button>
+        {[...Array(totalPaginas)].map((_, i) => (
+          <button
+            key={i}
+            className={paginaActual === i + 1 ? "activo" : ""}
+            onClick={() => setPaginaActual(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button disabled={paginaActual === totalPaginas} onClick={() => setPaginaActual(paginaActual + 1)}>Siguiente</button>
+      </div>
+
       <div className="contenedor-volver">
         <Boton
           texto="Volver"
@@ -168,11 +192,7 @@ const ListaPedidos = () => {
             )}
 
             <textarea
-              placeholder={
-                modal.tipo === "aceptar"
-                  ? "Motivo (opcional)"
-                  : "Motivo adicional (opcional)"
-              }
+              placeholder={modal.tipo === "aceptar" ? "Motivo (opcional)" : "Motivo adicional (opcional)"}
               value={motivo}
               onChange={(e) => setMotivo(e.target.value)}
               rows={4}

@@ -21,7 +21,7 @@ from rest_framework import permissions#
 from administrador.models import DetalleFacturaHistorico
 from decimal import Decimal
 from datetime import datetime
-from carrito.models import DetalleFactura
+from carrito.models import DetalleFactura, Pedido,Producto
 
 
 @api_view(['GET'])
@@ -89,31 +89,29 @@ def obtener_factura(request, id_factura):
         return Response({"error": "Factura no encontrada"}, status=status.HTTP_404_NOT_FOUND)
 
 
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def notificar_pedido(request):
     """
-    Actualiza el estado de un pedido (aceptar o rechazar) y guarda esta información en la base de datos.
-    Además, envía un correo al cliente notificando el resultado.
+    Actualiza el estado de un pedido (aceptar o rechazar), guarda en la base de datos
+    y envía un correo al cliente. Además, si se acepta, copia los pedidos a DetalleFactura
+    y si se rechaza, restaura el stock.
     """
     data = request.data
     pedido_id = data.get("id_pedido")
     accion = data.get("accion")
     motivo = data.get("motivo", "")  # Solo aplica si se rechaza
 
-    # Validación básica
     if not pedido_id or not accion:
         return Response({"error": "Faltan datos obligatorios."}, status=400)
 
-    # Validar acción
     if accion not in ["aceptar", "rechazar"]:
         return Response({"error": "Acción inválida. Usa 'aceptar' o 'rechazar'."}, status=400)
 
-    # Buscar la factura y cliente
     factura = get_object_or_404(Factura, id=pedido_id)
-    cliente = factura.usuario  # Ajusta si el campo se llama distinto en tu modelo
+    cliente = factura.usuario
 
-    # Definir estado y mensaje
     if accion == "aceptar":
         estado_pedido = "aceptado"
         mensaje_texto = "Tu pedido ha sido aceptado. Pronto estará en camino."
@@ -148,6 +146,33 @@ def notificar_pedido(request):
     if not creado:
         estado_factura.estado_pedido = estado_pedido
         estado_factura.save()
+
+    # 🔹 Copiar pedidos a DetalleFactura solo si se aceptó
+    if estado_pedido.lower() == "aceptado":
+        pedidos = Pedido.objects.filter(factura=factura)
+        print(f"📦 Copiando pedidos a DetalleFactura: {pedidos.count()} pedidos encontrados")
+        for pedido in pedidos:
+            existe = DetalleFactura.objects.filter(factura=factura, nombre_producto=pedido.nombre_producto).exists()
+            print(f"🔹 Pedido {pedido.nombre_producto} ya existe?: {existe}")
+            if not existe:
+                detalle = DetalleFactura.objects.create(
+                    factura=factura,
+                    id_producto=pedido.producto.id_producto,  # <-- corrección aquí
+                    nombre_producto=pedido.nombre_producto,
+                    precio_unitario=Decimal(pedido.precio_unitario),
+                    cantidad=pedido.cantidad,
+                    subtotal=Decimal(pedido.subtotal),
+                    categoria_producto=getattr(pedido.producto.id_categoria, 'nombre', None)
+                )
+                print(f"✅ Pedido copiado a DetalleFactura: {detalle.nombre_producto}")
+
+    # 🔹 Restaurar stock si se rechazó
+    if estado_pedido.lower() == "rechazado":
+        pedidos = Pedido.objects.filter(factura=factura)
+        for pedido in pedidos:
+            producto_db = pedido.producto
+            producto_db.stock += pedido.cantidad
+            producto_db.save()
 
     # Enviar correo al cliente
     asunto = "Actualización de tu pedido"
@@ -191,14 +216,14 @@ def actualizar_estado_pedido(request):
         print("❌ Factura no encontrada:", id_factura)
         return Response({"error": "Factura no encontrada."}, status=status.HTTP_404_NOT_FOUND)
 
-    # 🔹 Construimos los campos a actualizar según lo que venga en el request
+    # Construimos los campos a actualizar
     defaults = {}
     if estado_pedido:
         defaults["estado_pedido"] = estado_pedido
     if proceso_pedido:
         defaults["proceso_pedido"] = proceso_pedido
 
-    # 🔹 Buscar el último estado de la factura y actualizarlo, o crear uno nuevo si no existe
+    # Actualizar el último estado o crear uno nuevo
     estado_factura = EstadoFactura.objects.filter(factura=factura).last()
     if estado_factura:
         for key, value in defaults.items():
@@ -211,8 +236,8 @@ def actualizar_estado_pedido(request):
 
     print(f"✅ EstadoFactura {'creado' if creado else 'actualizado'}: {estado_factura.proceso_pedido}, {estado_factura.estado_pedido}")
 
-    # 📌 Guardar en detalle_factura solo si el pedido fue aceptado o completado
-    if estado_pedido and estado_pedido.lower() in ["aceptado", "completado"]:
+    # Guardar en detalle_factura solo si el pedido fue aceptado
+    if estado_pedido and estado_pedido.lower() == "aceptado":
         pedidos = Pedido.objects.filter(factura=factura)
         print(f"📦 Número de pedidos asociados a la factura: {pedidos.count()}")
 
@@ -235,7 +260,7 @@ def actualizar_estado_pedido(request):
                     subtotal=Decimal(pedido.subtotal),
                     categoria_producto=getattr(pedido.producto.id_categoria, 'nombre', None)
                 )
-                print(f"   ✅ Guardado en detalle_factura: {detalle.nombre_producto}")
+                print(f" Guardado en detalle_factura: {detalle.nombre_producto}")
 
     mensaje = "Estado creado correctamente." if creado else "Estado actualizado correctamente."
     print("🏁 Finalizando función:", mensaje)
@@ -267,6 +292,8 @@ def historial_pedidos(request):
         "aceptados": serializer_aceptados.data,
         "rechazados": serializer_rechazados.data
     })
+
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
