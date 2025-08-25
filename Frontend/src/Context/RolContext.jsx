@@ -17,8 +17,9 @@ export const RolProvider = ({ children }) => {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    const rolGuardado = localStorage.getItem("rol")?.trim().toLowerCase() || "sin-registrar";
-    const tokenGuardado = localStorage.getItem("access") || null;
+    // Usar sessionStorage en lugar de localStorage
+    const rolGuardado = sessionStorage.getItem("rol")?.trim().toLowerCase() || "sin-registrar";
+    const tokenGuardado = sessionStorage.getItem("access") || null;
 
     if (rolesValidos.includes(rolGuardado)) {
       setRol(rolGuardado);
@@ -34,17 +35,20 @@ export const RolProvider = ({ children }) => {
     const r = nuevoRol?.trim().toLowerCase() || "sin-registrar";
     if (rolesValidos.includes(r)) {
       setRol(r);
-      localStorage.setItem("rol", r);
+      // Guardar en sessionStorage
+      sessionStorage.setItem("rol", r);
     }
   };
 
   const guardarToken = (nuevoToken) => {
     if (nuevoToken) {
       setToken(nuevoToken);
-      localStorage.setItem("access", nuevoToken);
+      // Guardar en sessionStorage
+      sessionStorage.setItem("access", nuevoToken);
     } else {
       setToken(null);
-      localStorage.removeItem("access");
+      // Eliminar de sessionStorage
+      sessionStorage.removeItem("access");
     }
   };
 

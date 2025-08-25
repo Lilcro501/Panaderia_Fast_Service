@@ -293,14 +293,15 @@ table, th, td {
 .boton-navegacion {
   padding: 8px 16px;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px; /* Redondeo un poco más suave */
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: background 0.2s, transform 0.15s;
   margin: 0 6px;
-  min-width: 100px;
+  min-width: 90px; /* Ligero ajuste */
   text-align: center;
   font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15); /* Sutil sombra */
 }
 
 /* Anterior = gris */
@@ -309,7 +310,7 @@ table, th, td {
   color: #fff;
 }
 
-.boton-anterior:hover {
+.boton-anterior:hover:not(:disabled) {
   background-color: #626e70;
   transform: scale(1.05);
 }
@@ -320,7 +321,7 @@ table, th, td {
   color: #fff;
 }
 
-.boton-siguiente:hover {
+.boton-siguiente:hover:not(:disabled) {
   background-color: #1f8b4a;
   transform: scale(1.05);
 }
@@ -331,4 +332,5 @@ table, th, td {
   color: #eee;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
