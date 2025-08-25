@@ -125,7 +125,7 @@ export default function ProductoDetalle() {
 
     const obtenerUsuario = () => {
       try {
-        const token = sessionlStorage.getItem("access");
+        const token = sessionStorage.getItem("access");
         if (token) {
           const payloadBase64 = token.split('.')[1];
           const decoded = JSON.parse(atob(payloadBase64));

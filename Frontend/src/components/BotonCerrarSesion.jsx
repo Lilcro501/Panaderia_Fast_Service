@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useRol } from "../Context/RolContext"; // Importa tu contexto de rol
 import { useCarrito } from "../Context/CarritoContext"; // Opcional: limpiar carrito
 import "../assets/styles/BotonCerrarSesion.css";
+import { RxExit } from "react-icons/rx";
 
 export default function BotonCerrarSesion() {
   const navigate = useNavigate();
@@ -26,7 +27,8 @@ export default function BotonCerrarSesion() {
 
   return (
     <button className="btn-cerrar-sesion" onClick={cerrarSesion}>
-      🚪 Cerrar sesión
+      <RxExit className="tamaño-salir" />
+     
     </button>
   );
 }
