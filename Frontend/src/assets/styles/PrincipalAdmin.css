@@ -1,29 +1,77 @@
 /* ====== Contenedor Principal ====== */
 .admin-container {
-    width: 1750px;
+    max-width: 1750px; /* Changed from width to max-width for responsiveness */
+    width: 95vw; /* Fluid width for smaller screens */
     margin: 0 auto;
     font-family: 'Segoe UI', sans-serif;
     color: #333;
-    background-color: #fefefe;
+    background: linear-gradient(145deg, #d4a06d, #c49162);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 20px;
 }
 
+
+.lista-productos {
+    margin: 10px;
+    padding: 10px;
+    width: 400px;
+    background-color: white;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+/* ====== Estadísticas ====== */
 .estadisticas {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
+    gap: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
+
 /* ====== Títulos ====== */
 .titulo {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px 30px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
     text-align: center;
-    font-size: 2.2rem;
-    margin-bottom: 2rem;
-    color: #222;
+    color: #eaa948;
     border-bottom: 2px solid #ddd;
-    padding-bottom: 0.5rem;
+}
+
+/* ====== Título Principal ====== */
+.titulo-principal {
+    max-width: 1000px;
+    background-color: #fff;
+    text-align: center;
+    font-size: 2.7rem;
+    margin: 32px auto 18px auto;
+    color: #222;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.09);
+    border-radius: 18px;
+    padding: 22px 0;
+    letter-spacing: 1px;
+}
+
+/* ====== Subtítulo de Estadísticas ====== */
+.subtitulo-estadisticas {
+    max-width: 1000px;
+    background-color: rgba(255, 255, 255, 0.488);
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 20px auto; /* Centered, removed margin-left */
+    color: #000000;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 10px;
 }
 
 /* ====== Select de Categorías ====== */
@@ -113,6 +161,7 @@ select:focus {
     margin: 0 auto;
     transition: box-shadow 0.3s;
 }
+
 .grafico-contenedor:hover {
     box-shadow: 0 6px 32px rgba(78, 121, 167, 0.15);
 }
@@ -133,7 +182,7 @@ canvas {
     display: block;
     border-radius: 12px;
     background: #fff;
-    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
 }
 
 .texto-info {
@@ -144,68 +193,7 @@ canvas {
     background: #f3f6fb;
     padding: 0.7rem 1rem;
     border-radius: 8px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.03);
-}
-
-/* ====== Título Principal ====== */
-.titulo-principal {
-    max-width: 1000px;
-    background-color: #fff;
-    text-align: center;
-    font-size: 2.7rem;
-    margin: 32px auto 18px auto;
-    color: #222;
-    font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.09);
-    border-radius: 18px;
-    padding: 22px 0;
-    letter-spacing: 1px;
-}
-
-/* ====== Subtítulo de Estadísticas ====== */
-.subtitulo-estadisticas {
-    max-width: 1000px;
-    background-color: #fff;
-    text-align: center;
-    font-size: 1.6rem;
-    margin: 18px auto 18px auto;
-    color: #4e79a7;
-    font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
-    border-radius: 14px;
-    padding: 12px 0;
-    letter-spacing: 0.5px;
-}
-
-@media (max-width: 1020px) {
-    .orden {
-        flex-direction: column;
-        max-width: 400px;
-        min-width: 200px;
-        padding: 5px 0.8rem;
-    }
-    .admin-container {
-        min-width: 320px;
-    }
-    .titulo-principal, .subtitulo-estadisticas {
-        margin-left: 0;
-        max-width: 98vw;
-    }
-    .grafico-contenedor {
-        min-width: 220px;
-        padding: 1rem;
-    }
-}
-
-@media (max-width: 1400px) {
-    .titulo-principal {
-        font-size: 2.2rem;
-        margin-left: 0;
-    }
-    .subtitulo-estadisticas {
-        font-size: 1.3rem;
-        margin-left: 0;
-    }
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
 }
 
 /* ====== Filtro y descarga de PDF ====== */
@@ -261,97 +249,83 @@ canvas {
     background: #3b5c87;
 }
 
-
-@media (max-width: 1020px) {
-    .orden {
-        flex-direction: column;
-        max-width: 400px;
-        min-width: 200px;
-        padding: 5px 0.8rem;
-    }
-
-    .admin-container {
-        min-width: 498px;
-    }
-
-}
-
-
-/* ====== Título Principal ====== */
-.titulo {
-    max-width: 900px;
-    margin: 30px auto; /* centra automáticamente */
-    padding: 20px 30px;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 600;
-    text-align: center;
-    color: #eaa948; /* tono más suave que el negro */
-
-}
-
-
-/* ====== Subtítulo de Estadísticas ====== */
-.subtitulo-estadisticas {
-    max-width: 1000px;
-    background-color: rgba(255, 255, 255, 0.488);
-    text-align: center;
-    font-size: 1.8rem;
-    margin: 20px 0;
-    color: #000000;
-    font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    padding: 10px;
-    margin-left: 420px;
-}
-
-/* ====== Sección del Carrusel ====== */
+/* ====== Sección Admin ====== */
 .seccion-admin {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     width: 95%;
-    height: 600px;
-    background-color: rgba(255, 255, 255, 0.577);
+    background: linear-gradient(145deg, #d4a06d, #c49162);
     font-size: 1.8rem;
-    margin: 20px 0;
+    margin: 20px auto;
     color: #000000;
     font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    padding-left: 90px;
-    padding-top: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    padding: 20px;
     gap: 25px;
-    margin-left: 50px;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                background 0.6s ease;
+    animation: fadeInUp 0.8s ease;
 }
 
-/* ====== Estilos para pantallas pequeñas ====== */
-@media (max-width: 1400px) {
-    .titulo-principal {
-        font-size: 2rem;
-        margin-left: 300px;
-    }
+.seccion-admin:hover {
+    transform: scale(1.015);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(145deg, #d4a06d7d, #c49162);
+}
 
-    .subtitulo-estadisticas {
-        font-size: 1.5rem;
-        margin-left: 300px;
+.seccion-admin:active {
+    transform: scale(0.98);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ====== Animación de entrada ====== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
+/* ====== Sección Información ====== */
 .seccion-informacion {
-    width: 500px;
-    height: 500px;
-    background-color: #ddd;
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    min-height: 500px;
+    background: linear-gradient(135deg, #ddd, #caa27f);
+    margin: 20px auto;
     font-size: 1rem;
     color: #000000;
     line-height: 1.6;
-    gap: 10px;
-    padding: 15px;
-    border-radius: 12px ;
-
+    gap: 15px;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
 }
 
+.seccion-informacion:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #caa27f, #b8875b);
+    color: #fff;
+}
 
+.seccion-informacion:active {
+    transform: scale(0.98);
+}
+
+/* ====== Iconos ====== */
 .icon {
     padding-left: 100px;
     width: 350px;
@@ -360,6 +334,7 @@ canvas {
     margin-left: 10px;
 }
 
+/* ====== Tarjetas de Información ====== */
 .tarjeta-informacion {
     background-color: #f9f9f9;
     border: 1px solid #ccc;
@@ -374,8 +349,8 @@ canvas {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* ====== Botones ====== */
 .boton-ver-productos {
-    padding-left: 40px;
     background-color: #dea430;
     color: white;
     border: none;
@@ -391,7 +366,488 @@ canvas {
 }
 
 .posicion-boton {
+    display: flex;
     justify-content: center;
     height: 100%;
-    padding-left: 150px;
+}
+
+/* ====== Sección Inventario ====== */
+.seccion-inventario {
+    max-width: 100%;
+    height: auto;
+    background: linear-gradient(135deg, #ded2c0, #caa27f);
+    text-align: center;
+    font-size: 1.5rem;
+    color: #000000;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+}
+
+.seccion-inventario:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, #caa27f, #b8875b);
+    color: #fff;
+}
+
+.seccion-inventario:active {
+    transform: scale(0.98);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ====== Botón Inventario ====== */
+.boton-inventario {
+    width: 225px;
+    background-color: #c59458;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(41, 128, 185, 0.2);
+}
+
+.boton-inventario:hover {
+    background: #eb860a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(41, 128, 185, 0.3);
+}
+
+.boton-inventario:active {
+    transform: translateY(1px);
+}
+
+/* ====== Texto Tarjeta ====== */
+.texto-tarjeta {
+    width: 250px;
+    font-size: 1.35rem;
+    color: #ffffff;
+    font-weight: 500;
+    background-color: #caa27f;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 12px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.texto-tarjeta:hover {
+    background-color: #b8875b;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.3);
+}
+
+.texto-tarjeta:active {
+    transform: scale(0.97);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ====== Formato Imagen ====== */
+.formato-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    background-color: #caa27f;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.formato-img:hover {
+    background-color: #b8875b;
+    transform: scale(1.05);
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.3);
+}
+
+.formato-img img {
+    max-width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.formato-img:hover img {
+    transform: scale(1.08);
+}
+
+/* ====== Media Queries for Responsive Design ====== */
+@media (max-width: 1400px) {
+    .admin-container {
+        max-width: 90vw;
+        padding: 15px;
+    }
+
+    .titulo-principal {
+        font-size: 2.2rem;
+        max-width: 90vw;
+        margin: 25px auto;
+    }
+
+    .subtitulo-estadisticas {
+        font-size: 1.5rem;
+        max-width: 90vw;
+        margin: 15px auto;
+    }
+
+    .titulo {
+        font-size: 2rem;
+        max-width: 90vw;
+    }
+}
+
+@media (max-width: 1024px) {
+    .admin-container {
+        min-width: 320px;
+        padding: 12px;
+    }
+
+    .orden {
+        flex-direction: column;
+        max-width: 400px;
+        min-width: 200px;
+        padding: 5px 0.8rem;
+    }
+
+    .grafico-contenedor {
+        min-width: 220px;
+        padding: 1rem;
+    }
+
+    .seccion-admin {
+        width: 90vw;
+        font-size: 1.5rem;
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .seccion-informacion {
+        width: 80vw;
+        min-height: 400px;
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .seccion-inventario {
+        font-size: 1.3rem;
+        padding: 12px 18px;
+    }
+
+    .filtro-descarga {
+        width: 180px;
+        padding: 15px;
+        top: 150px;
+        right: 20px;
+    }
+
+    .boton-ver-productos {
+        font-size: 15px;
+        padding: 9px 18px;
+    }
+
+    .boton-inventario {
+        width: 110px;
+        font-size: 15px;
+    }
+
+    .texto-tarjeta {
+        width: 220px;
+        font-size: 1.2rem;
+    }
+
+    .formato-img {
+        width: 220px;
+    }
+
+    .icon {
+        width: 250px;
+        padding-left: 0;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        width: 95vw;
+        min-width: 300px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .titulo-principal {
+        font-size: 1.8rem;
+        margin: 20px auto;
+        padding: 15px;
+        max-width: 90vw;
+    }
+
+    .subtitulo-estadisticas {
+        font-size: 1.2rem;
+        margin: 15px auto;
+        padding: 10px;
+        max-width: 90vw;
+    }
+
+    .titulo {
+        font-size: 1.8rem;
+        margin: 20px auto;
+        padding: 10px;
+        max-width: 90vw;
+    }
+
+    .estadisticas {
+        margin-top: 15px;
+        padding: 10px;
+    }
+
+    select {
+        font-size: 14px;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .listapro-categori {
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    .listapro-categori h2 {
+        font-size: 1.3rem;
+    }
+
+    .listapro-categori li {
+        font-size: 14px;
+        padding: 6px 0;
+    }
+
+    .graficos-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .grafico-contenedor {
+        min-width: 280px;
+        padding: 1.5rem;
+        max-width: 90vw;
+    }
+
+    .grafico-contenedor h2 {
+        font-size: 1.1rem;
+    }
+
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .texto-info {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .filtro-descarga {
+        position: static;
+        width: 90vw;
+        margin: 20px auto;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .filtro-descarga h3 {
+        font-size: 14px;
+    }
+
+    .input-fecha {
+        font-size: 13px;
+        padding: 6px;
+    }
+
+    .icono-descarga {
+        font-size: 16px;
+        padding: 6px 10px;
+    }
+
+    .seccion-admin {
+        width: 90vw;
+        font-size: 1.2rem;
+        padding: 15px;
+        gap: 15px;
+        border-radius: 10px;
+    }
+
+    .seccion-admin:hover {
+        transform: none;
+    }
+
+    .seccion-admin:active {
+        transform: scale(0.98);
+    }
+
+    .seccion-informacion {
+        width: 90vw;
+        min-height: 300px;
+        padding: 15px;
+        font-size: 0.95rem;
+        gap: 10px;
+        border-radius: 10px;
+    }
+
+    .seccion-informacion:hover {
+        transform: none;
+    }
+
+    .seccion-inventario {
+        font-size: 1.2rem;
+        padding: 10px 15px;
+        border-radius: 8px;
+    }
+
+    .seccion-inventario:hover {
+        transform: none;
+    }
+
+    .boton-ver-productos {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .posicion-boton {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .boton-inventario {
+        width: 100px;
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 6px;
+    }
+
+    .tarjeta-informacion {
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .texto-tarjeta {
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .formato-img {
+        width: 200px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .formato-img img {
+        max-width: 100%;
+    }
+
+    .icon {
+        width: 200px;
+        padding-left: 0;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-container {
+        min-width: 280px;
+        padding: 8px;
+    }
+
+    .titulo-principal {
+        font-size: 1.5rem;
+        padding: 12px;
+    }
+
+    .subtitulo-estadisticas {
+        font-size: 1rem;
+        padding: 8px;
+    }
+
+    .titulo {
+        font-size: 1.5rem;
+        padding: 8px;
+    }
+
+    .grafico-contenedor {
+        min-width: 260px;
+        padding: 1rem;
+    }
+
+    .seccion-admin {
+        font-size: 1rem;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .seccion-informacion {
+        width: 95vw;
+        min-height: 250px;
+        font-size: 0.85rem;
+        padding: 10px;
+    }
+
+    .seccion-inventario {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+
+    .boton-ver-productos {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .boton-inventario {
+        width: 90px;
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .texto-tarjeta {
+        font-size: 1rem;
+        width: 90%;
+        padding: 8px;
+    }
+
+    .formato-img {
+        width: 180px;
+        padding: 8px;
+    }
+
+    .icon {
+        width: 150px;
+    }
+}
+
+.tarjeta-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    border-radius: 12px;
+    background-color: #f5f5f5;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tarjeta-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
