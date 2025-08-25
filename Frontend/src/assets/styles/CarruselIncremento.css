@@ -65,17 +65,19 @@
 }
 
 .carrusel-catalogo {
-  border-radius: 12px;
-  width: 180px;
-  height: 160px;
-  object-fit: cover;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+  width: 150px;          /* tamaño fijo para todas */
+  height: 150px;         /* mismo alto */
+  object-fit: cover;     /* mantiene proporción y recorta si es necesario */
+  border-radius: 15px;   /* bordes redondeados para estilo moderno */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* sombra sutil */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .carrusel-catalogo:hover {
-  transform: scale(1.05);
+  transform: scale(1.05); /* efecto hover para interacción */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
+
 
 .number-input {
   display: flex;

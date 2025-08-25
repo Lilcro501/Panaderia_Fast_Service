@@ -11,12 +11,18 @@ import hamburger from '../../assets/images/hamburguesa.png';
 
 import catalogo from '../../assets/images/catalogo.png';
 import copeerativa from '../../assets/images/cooperativa.png';
+import factura from "../../assets/images/factura.png"
+import panadero from "../../assets/images/panadero.png"
+import folleto from "../../assets/images/folleto.png"
+import tareas from "../../assets/images/tareas.png"
+
+import { Link } from 'react-router-dom';
 
 const AdminPage = () => {
     const [productoMasVendido, setProductoMasVendido] = useState(null);
     const [gananciasPorMes, setGananciasPorMes] = useState([]);
     const [fechaSeleccionada, setFechaSeleccionada] = useState('');
-    const [ventas, setVentas] = useState([]); // NUEVO
+    const [ventas, setVentas] = useState([]);
 
     const chartRef = useRef(null);
     const pieChartRef = useRef(null);
@@ -72,7 +78,6 @@ const AdminPage = () => {
             if (chartInstanceRef.current) {
                 chartInstanceRef.current.destroy();
             }
-
             const ctx = chartRef.current.getContext('2d');
             chartInstanceRef.current = new Chart(ctx, {
                 type: 'bar',
@@ -88,9 +93,7 @@ const AdminPage = () => {
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: { display: false }
-                    }
+                    plugins: { legend: { display: false } }
                 }
             });
         }
@@ -102,7 +105,6 @@ const AdminPage = () => {
             if (pieChartInstanceRef.current) {
                 pieChartInstanceRef.current.destroy();
             }
-
             const ctx = pieChartRef.current.getContext('2d');
             pieChartInstanceRef.current = new Chart(ctx, {
                 type: 'pie',
@@ -145,20 +147,16 @@ const AdminPage = () => {
                 options: {
                     responsive: true,
                     plugins: {
-                        title: {
-                            display: true,
-                            text: `Producto más vendido en la categoría`
-                        }
+                        title: { display: true, text: `Producto más vendido en la categoría` }
                     }
                 }
             });
         }
     }, [masVendidoCategoria, productosPorCategoria]);
 
-    // 📄 Generar PDF con ventas + gráficos
+    // 📄 Generar PDF
     const generarPDF = async (ventas, fechaSeleccionada, incluirGraficos) => {
         const doc = new jsPDF();
-
         const logo = new Image();
         logo.src = logo_header;
         await new Promise((resolve) => {
@@ -174,7 +172,6 @@ const AdminPage = () => {
         doc.setFontSize(11);
         doc.text(`Fecha del informe: ${fechaSeleccionada || fechaActual}`, 105, 48, { align: 'center' });
 
-        // Tabla de ventas
         const encabezados = [['Producto', 'Cantidad', 'Subtotal']];
         let datos = [];
         if (Array.isArray(ventas)) {
@@ -187,7 +184,6 @@ const AdminPage = () => {
             });
         }
 
-
         autoTable(doc, {
             startY: 55,
             head: encabezados,
@@ -197,11 +193,9 @@ const AdminPage = () => {
         });
 
         const totalGeneral = ventas.reduce((acc, p) => acc + parseFloat(p.total_ganancia || 0), 0);
-
         doc.setFontSize(12);
         doc.text(`Total de todas las ventas: $${totalGeneral}`, 105, doc.lastAutoTable.finalY + 10, { align: 'center' });
 
-        // Gráficos
         if (incluirGraficos) {
             const chart1 = document.getElementById('graficoProducto');
             const chart2 = document.getElementById('graficoGanancias');
@@ -215,7 +209,6 @@ const AdminPage = () => {
                 doc.addPage();
                 doc.setFontSize(14);
                 doc.text('Gráficos de Estadísticas', 105, 20, { align: 'center' });
-
                 doc.addImage(imgData1, 'PNG', 30, 30, 150, 70);
                 doc.addImage(imgData2, 'PNG', 30, 110, 150, 70);
             }
@@ -227,65 +220,52 @@ const AdminPage = () => {
     return (
         <>
         <div>
-            <h1 className="titulo">
-                Bienvenido admin, que vas a gestionar hoy?
-            </h1>   
-            <br /> <br />
+            <h1 className="titulo">Bienvenido admin, ¿qué vas a gestionar hoy?</h1>   
         </div>
+
+        {/* 🔹 Sección de botones con rutas */}
         <section className='seccion-admin'>
-            <div className='seccion-informacion'>
-                <div className='tarjeta-informacion'>
-                    <img src={hamburger} alt="Menu" className='icon' />
-                    <br /> <br /> <br />
-                    <p style={{
-                        fontSize: '1.2rem',
-                    }}>Recuerda tener tus productos actualizados para que esten frescos y disponibles!!</p>
-                    
-                </div>
-                <br />
-                <div className='posicion-boton'>
-                    <button className='boton-ver-productos'>
-                    Ver productos
-                    </button>
-                </div>
+    {/* Inventario */}
+        <Link to="/AdministrarInven" className='seccion-inventario tarjeta-link'>
+            <img src={hamburger} alt="" className='formato-img' />
+            <p className='texto-tarjeta'>Gestiona tus productos</p>
+            <p className='boton-inventario'>Inventario</p>
+        </Link>
 
-            </div>
-            <div className='seccion-informacion'>
-               <div className='tarjeta-informacion'>
-                    <img src={copeerativa} alt="Menu" className='icon' />
-                    <br /> <br />
-                    <p  style={{
-                        fontSize: '1.2rem',
-                    }}>Gestiona y adminstra tus trabajadores, ten encuenta los horarios de entrada y los trabajadores almacenados!</p>
-               </div >
-                    <br />
-                 <div className='posicion-boton'>
-                    <button className='boton-ver-productos'>
-                    Ver trabajadores
-                    </button>
-                </div>
-            </div>
-            <div className='seccion-informacion'>
-                <div className='tarjeta-informacion'>
-                    <img src={catalogo} alt="Menu" className='icon' />  
-                    <br /> <br /> <br />
-                    <p  style={{
-                        fontSize: '1.2rem',
-                    }}> gestiona el catalogo, ten el control de los productos y las opiniones de este!</p>
-                </div>
-                    <br />
-                    <div className='posicion-boton'>
-                    <button className='boton-ver-productos'>
-                    Ver catalogo
-                    </button>
-                </div>
+        {/* Facturas */}
+        <Link to="/HistorialPedido" className='seccion-inventario tarjeta-link'>
+            <img src={factura} alt="" className='formato-img' />
+            <p className='texto-tarjeta'>Facturas realizadas</p>
+            <p className='boton-inventario'>Historial</p>
+        </Link>
 
-            </div>
-        </section>
+        {/* Tareas */}
+        <Link to="/cronograma" className='seccion-inventario tarjeta-link'>
+            <img src={tareas} alt="" className='formato-img' />
+            <p className='texto-tarjeta'>Tareas para trabajadores</p>
+            <p className='boton-inventario'>Cronograma</p>
+        </Link>
+
+        {/* Trabajadores */}
+        <Link to="/AdministrarTrabajadores"      className='seccion-inventario tarjeta-link'>
+            <img src={panadero} alt="" className='formato-img' />
+            <p className='texto-tarjeta'>Gestiona tus trabajadores</p>
+            <p className='boton-inventario'>Trabajador</p>
+        </Link>
+
+        {/* Catálogo */}
+        <Link to="/CatalogoAdmin" className='seccion-inventario tarjeta-link'>
+            <img src={folleto} alt="" className='formato-img' />
+            <p className='texto-tarjeta'>Visualiza el catálogo</p>
+            <p className='boton-inventario'>Catálogo</p>
+        </Link>
+    </section>
+
+
         <h1 className="titulo">Estadísticas del Administrador</h1>
         <div className="admin-container">
             <select onChange={e => setCategoriaSeleccionada(e.target.value)} value={categoriaSeleccionada}>
-                <option value="">Seleccione una categoría</option>
+                <option value="">Categorias</option>
                 {categorias.map(cat => (
                     <option key={cat.id_categoria} value={cat.id_categoria}>{cat.nombre}</option>
                 ))}
@@ -298,12 +278,13 @@ const AdminPage = () => {
                         <h2>Productos en esta categoría:</h2>
                         <ul>
                             {productosPorCategoria.map((prod, idx) => (
-                                <li key={idx}>{prod.nombre} - Vendidos: {prod.cantidad_vendida}</li>
+                                <li style={{listStyle:"none"}} key={idx}>{prod.nombre} - Vendidos: {prod.cantidad_vendida}</li>
                             ))}
                         </ul>
                         {masVendidoCategoria && (
                             <h3>Más vendido: {masVendidoCategoria.nombre} ({masVendidoCategoria.cantidad} unidades)</h3>
                         )}
+                        <br />
                     </div>
                     <div className="grafico-contenedor">
                         <canvas ref={pieChartCategoriaRef} width="100" height="300"></canvas>
@@ -328,11 +309,7 @@ const AdminPage = () => {
                     <canvas id="graficoGanancias" ref={chartRef} width="500" height="300"></canvas>
                 </div>
             </div> 
-
-
             </div>
-
-            
 
             <div className="filtro-descarga">
                 <h3>Descarga de informes</h3>
@@ -356,9 +333,6 @@ const AdminPage = () => {
             </div>
         </div>
         <br /> 
-        <BotonCerrarSesion/>
-        
-    
         </>
     );
 };

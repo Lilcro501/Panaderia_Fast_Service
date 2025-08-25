@@ -42,6 +42,7 @@ export default function VentanaCookies({ onAceptar, onRechazar }) {
         {/* ~~~~~~ Botones de acción ~~~~~~ */}
         <div className="BotonesCookies">
           <button className='Aceptar' onClick={handleAceptar}>Aceptar</button>
+            <button className='Rechazar' onClick={handleAceptar}>Rechazar</button>
         </div>
       </div>
     </div>

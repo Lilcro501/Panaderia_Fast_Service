@@ -4,8 +4,9 @@ from carrito.models import Factura, Pedido
 from administrador.models import Cronograma #
 from administrador.serializers import UsuarioSerializer 
 
+
 class FacturaSerializer(serializers.ModelSerializer):
-    clienteId = serializers.CharField(source='usuario.username', read_only=True)
+    clienteId = serializers.CharField(source='usuario.nombre', read_only=True)
 
     class Meta:
         model = Factura

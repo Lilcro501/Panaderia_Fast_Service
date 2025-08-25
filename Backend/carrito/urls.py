@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
-from .views import ListaCrearFavoritos, EliminarFavorito
-from.views import ComentariosPorProductoView, CrearComentarioView, ComentarioDetalleView, enviar_encuesta
+from .views import ListaCrearFavoritos, EliminarFavorito, productos_aleatorios
+
+from .views import ComentariosPorProductoView, CrearComentarioView, ComentarioDetalleView, enviar_encuesta
 
 urlpatterns = [
     # Crear factura
@@ -9,6 +10,7 @@ urlpatterns = [
 
     # Productos por categoría
     path('productos_categoria/<str:categoria_nombre>/', views.obtener_productos_por_categoria),
+    path("productos-aleatorios/", productos_aleatorios, name="productos_aleatorios"),
 
     # Obtener producto por ID
     path('producto/<int:id>/', views.obtener_producto_por_id, name='obtener_producto_por_id'),

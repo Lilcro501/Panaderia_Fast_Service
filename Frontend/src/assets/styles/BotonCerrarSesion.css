@@ -1,5 +1,5 @@
 .btn-cerrar-sesion {
-  background-color: #e74c3c;
+  background-color: #96929246;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -11,10 +11,17 @@
 }
 
 .btn-cerrar-sesion:hover {
-  background-color: #c0392b;
+  background-color: #b8b0b0b5;
   transform: scale(1.05);
 }
 
 .btn-cerrar-sesion:active {
   transform: scale(0.97);
+}
+
+.tamaño-salir {
+  font-size: 20px;
+  vertical-align: middle;
+  width: 25px;
+  height: auto;
 }

@@ -125,7 +125,7 @@ export default function ProductoDetalle() {
 
     const obtenerUsuario = () => {
       try {
-        const token = localStorage.getItem("access");
+        const token = sessionStorage.getItem("access");
         if (token) {
           const payloadBase64 = token.split('.')[1];
           const decoded = JSON.parse(atob(payloadBase64));
@@ -165,7 +165,7 @@ export default function ProductoDetalle() {
     if (nuevoComentario.trim() === '') return;
 
     try {
-      const token = localStorage.getItem("access");
+      const token = sessionStorage.getItem("access");
       if (!token) {
         alert("Debes iniciar sesión para comentar.");
         return;
@@ -199,7 +199,7 @@ export default function ProductoDetalle() {
 
   const guardarEdicion = async (comentarioId) => {
     try {
-      const token = localStorage.getItem("access");
+      const token = sessionStorage.getItem("access");
 
       const response = await axios.put(`http://localhost:8000/api/carrito/comentarios/${comentarioId}/`, {
         comentario: comentarioEditado,
@@ -221,7 +221,7 @@ export default function ProductoDetalle() {
 
 const eliminarComentario = async (comentarioId) => {
   try {
-    const token = localStorage.getItem("access");
+    const token = sessionStorage.getItem("access");
     await axios.delete(`http://localhost:8000/api/carrito/comentarios/${comentarioId}/`, {
       headers: { Authorization: `Bearer ${token}` }
     });

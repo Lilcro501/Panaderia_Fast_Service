@@ -1,7 +1,4 @@
 import React from "react";
-//importar rutas
-import { Link } from "react-router-dom";
-
 import "../assets/styles/TablaAdmin.css";
 
 const TablaAdmin = ({ encabezados, filas }) => {
@@ -20,7 +17,9 @@ const TablaAdmin = ({ encabezados, filas }) => {
                         {filas.map((fila, i) => (
                             <tr key={i}>
                                 {fila.map((celda, j) => (
-                                    <td key={j}>{celda}</td>
+                                    <td key={j} data-label={encabezados[j]}>
+                                        {celda}
+                                    </td>
                                 ))}
                             </tr>
                         ))}
@@ -30,4 +29,5 @@ const TablaAdmin = ({ encabezados, filas }) => {
         </main>
     );
 };
+
 export default TablaAdmin;

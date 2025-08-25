@@ -5,14 +5,14 @@ export default function CookiesControlador() {
   const [mostrarBanner, setMostrarBanner] = useState(false);
 
   useEffect(() => {
-    const decisionUsuario = localStorage.getItem('cookiesDecision');
+    const decisionUsuario = sessionStorage.getItem('cookiesDecision');
     if (!decisionUsuario) {
       setMostrarBanner(true);
     }
   }, []);
 
   const manejarDecision = (decision) => {
-    localStorage.setItem('cookiesDecision', decision);
+    sessionStorage.setItem('cookiesDecision', decision);
     setMostrarBanner(false);
   };
 

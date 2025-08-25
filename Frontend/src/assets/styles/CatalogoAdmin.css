@@ -4,3 +4,10 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.product-image {
+    width: 200px; /* o el ancho que desees */
+    height: auto; /* mantiene proporción de altura */
+    object-fit: cover; /* recorta la imagen si es necesario para mantener proporción */
+    border-radius: 10px; /* opcional, para bordes redondeados */
+}

@@ -60,7 +60,7 @@ export default function EncuestaCompleta() {
     };
 
     try {
-      const token = localStorage.getItem("access");
+      const token = sessionStorage.getItem("access");
       if (!token) throw new Error("No hay token, usuario no autenticado");
 
       await axios.post("http://localhost:8000/api/carrito/encuesta/", datos, {

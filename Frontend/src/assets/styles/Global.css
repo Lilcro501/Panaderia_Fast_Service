@@ -173,3 +173,47 @@ body {
   width: 90%;
   text-align: center;
 }
+
+/* Fondo oscuro translúcido */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Ventana del modal */
+.ventana {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.ventana h2 {
+  margin-bottom: 1rem;
+  color: #e63946;
+}
+
+.ventana button {
+  margin-top: 1.5rem;
+  padding: 0.5rem 1.5rem;
+  background: #1d3557;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ventana button:hover {
+  background: #457b9d;
+}

@@ -17,8 +17,8 @@ export default function PerfilInformacion() {
   const [loginGoogle, setLoginGoogle] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("access");
-    const metodoLogin = localStorage.getItem("loginMetodo");
+    const token = sessionStorage.getItem("access");
+    const metodoLogin = sessionStorage.getItem("loginMetodo");
 
     if (!token) {
       console.warn("Token no encontrado. Redirigiendo a login...");
@@ -31,16 +31,27 @@ export default function PerfilInformacion() {
       setLoginGoogle(true);
     }
 
+    // Verificar si los datos del usuario ya están en sessionStorage
+    const usuarioGuardado = sessionStorage.getItem("usuario");
+    if (usuarioGuardado) {
+      setUsuario(JSON.parse(usuarioGuardado));
+      return;
+    }
+
+    // Si no están en sessionStorage, obtenerlos de la API
     const obtenerUsuario = async () => {
       try {
         const response = await api.get("usuarios/perfil/", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setUsuario({
+        const datosUsuario = {
           nombre: response.data.nombre,
           apellido: response.data.apellido || "",
           email: response.data.email,
-        });
+        };
+        setUsuario(datosUsuario);
+        // Guardar los datos en sessionStorage
+        sessionStorage.setItem("usuario", JSON.stringify(datosUsuario));
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
         setModal({
@@ -57,7 +68,7 @@ export default function PerfilInformacion() {
     e.preventDefault();
     if (loginGoogle) return; // No permitir enviar si es Google
 
-    const token = localStorage.getItem("access");
+    const token = sessionStorage.getItem("access");
 
     try {
       await api.put("usuarios/perfil/", usuario, {
@@ -66,6 +77,8 @@ export default function PerfilInformacion() {
           "Content-Type": "application/json",
         },
       });
+      // Actualizar sessionStorage con los nuevos datos
+      sessionStorage.setItem("usuario", JSON.stringify(usuario));
       setModal({
         visible: true,
         mensaje: "Datos actualizados correctamente.",
@@ -161,16 +174,28 @@ export function MostrarInformacion() {
   const navegacion = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("access");
+    const token = sessionStorage.getItem("access");
     if (!token) {
       navegacion("/accedeaqui");
       return;
     }
 
+    // Verificar si los datos del usuario ya están en sessionStorage
+    const usuarioGuardado = sessionStorage.getItem("usuario");
+    if (usuarioGuardado) {
+      setUsuario(JSON.parse(usuarioGuardado));
+      return;
+    }
+
+    // Si no están en sessionStorage, obtenerlos de la API
     const obtenerUsuario = async () => {
       try {
-        const response = await api.get("usuarios/perfil/");
+        const response = await api.get("usuarios/perfil/", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUsuario(response.data);
+        // Guardar los datos en sessionStorage
+        sessionStorage.setItem("usuario", JSON.stringify(response.data));
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
       }

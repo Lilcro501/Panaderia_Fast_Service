@@ -1,5 +1,5 @@
 .ContenedorProductoInfo {
-  background-color: #f8f8f8;
+  background-color: #614834e6;
   border-radius: 32px;
   margin-left: 20%;
   max-width: 60%;
@@ -58,6 +58,7 @@
   color: #222;
   font-size: 1.1rem;
   margin-bottom: 24px;
+  border: 1px solid #2d2929;
 }
 
 .Heart {
@@ -100,6 +101,7 @@
 
 .InfoInferiorCalificacion {
   padding: 25px;
+  border: 1px solid #2d2929;
   display: flex;
   gap: 80px;
   background: #f8f8f8;
@@ -114,7 +116,6 @@
   padding: 20px;
   border-radius: 20px;
   align-self: flex-end; /* Empuja el bloque al final de la derecha */
-  min-width: 220px;
   margin-left: auto;    /* Empuja el bloque hacia la derecha */
 }
 
@@ -131,12 +132,6 @@
   margin: 10px;
   color: #222;
   font-size: 1.1rem;
-}
-
-.MetodosPagoInfo {
-  background-color:  #b8875b;
-  padding: 20px;
-  border-radius: 20px;
 }
 
 .MetodosPagoInfo .ul .li {
@@ -302,76 +297,146 @@
 }
 
 .input-comentario {
-    width: 100%; /* ocupa todo el ancho del contenedor */
-    min-height: 60px; /* altura cómoda para escribir */
-    padding: 10px 15px; /* espacio interno */
-    font-size: 16px;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    border: 1px solid #ccc; /* borde ligero */
-    border-radius: 12px; /* esquinas redondeadas */
-    background-color: #f9f9f9;
-    resize: vertical; /* el usuario puede ajustar la altura si es textarea */
-    transition: all 0.3s ease; /* suaviza cambios de borde y sombra */
+  width: 100%; /* ocupa todo el ancho del contenedor */
+  min-height: 60px; /* altura cómoda para escribir */
+  padding: 10px 15px; /* espacio interno */
+  font-size: 16px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  border: 1px solid #2d2929; /* borde ligero */
+  border-radius: 12px; /* esquinas redondeadas */
+  background-color: #f9f9f9;
+  resize: vertical; /* el usuario puede ajustar la altura si es textarea */
+  transition: all 0.3s ease; /* suaviza cambios de borde y sombra */
 }
 
 .input-comentario:focus {
-    outline: none; /* quita el borde azul por defecto */
-    border-color: #ff0360; /* color del borde al enfocar */
-    box-shadow: 0 0 5px rgba(255, 3, 96, 0.5); /* sombra sutil */
-    background-color: #fff; /* resalta fondo al escribir */
+  outline: none; /* quita el borde azul por defecto */
+  border-color: #ff0360; /* color del borde al enfocar */
+  box-shadow: 0 0 5px rgba(255, 3, 96, 0.5); /* sombra sutil */
+  background-color: #fff; /* resalta fondo al escribir */
 }
 
 /* Placeholder estilizado */
 .input-comentario::placeholder {
-    color: #aaa;
-    font-style: italic;
+  color: #aaa;
+  font-style: italic;
 }
 
 .boton-pequeño {
-    padding: 6px 12px; /* tamaño compacto */
-    font-size: 14px;   /* letra pequeña */
-    font-weight: 500;
-    color: #fff;       /* texto blanco */
-    background-color: #e98a3dd0; /* color principal */
-    border: none;      /* sin borde */
-    border-radius: 8px; /* esquinas redondeadas */
-    cursor: pointer;
-    transition: all 0.3s ease; /* suaviza animaciones */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15); /* sombra sutil */
+  padding: 6px 12px; /* tamaño compacto */
+  font-size: 14px;   /* letra pequeña */
+  font-weight: 500;
+  color: #fff;       /* texto blanco */
+  background-color: #e98a3dd0; /* color principal */
+  border: none;      /* sin borde */
+  border-radius: 8px; /* esquinas redondeadas */
+  cursor: pointer;
+  transition: all 0.3s ease; /* suaviza animaciones */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15); /* sombra sutil */
 }
 
 .boton-pequeño:hover {
-    background-color: #e98a3da3; /* color más oscuro al pasar el mouse */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* sombra más marcada */
-    transform: translateY(-1px); /* efecto de elevación */
+  background-color: #e98a3da3; /* color más oscuro al pasar el mouse */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* sombra más marcada */
+  transform: translateY(-1px); /* efecto de elevación */
 }
 
 .boton-pequeño:active {
-    transform: translateY(0); /* vuelve a la posición normal al hacer click */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  transform: translateY(0); /* vuelve a la posición normal al hacer click */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
 .select-pequeño {
-    padding: 5px 10px;           /* tamaño compacto */
-    font-size: 14px;
-    color: #333;
-    background-color: #fff;
-    border: 1px solid #ccc;      /* borde sutil */
-    border-radius: 8px;          /* esquinas redondeadas */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    appearance: none;            /* quita estilo nativo del navegador */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%227%22%20viewBox%3D%220%200%2010%207%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200l5%207%205-7H0z%22%20fill%3D%22%23333%22/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px 7px;
+  padding: 5px 10px;           /* tamaño compacto */
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;      /* borde sutil */
+  border-radius: 8px;          /* esquinas redondeadas */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;            /* quita estilo nativo del navegador */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%227%22%20viewBox%3D%220%200%2010%207%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200l5%207%205-7H0z%22%20fill%3D%22%23333%22/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 7px;
 }
 
 .select-pequeño:focus {
-    outline: none;
-    border-color: #ff0360;
-    box-shadow: 0 0 5px rgba(255, 3, 96, 0.5);
+  outline: none;
+  border-color: #ff0360;
+  box-shadow: 0 0 5px rgba(255, 3, 96, 0.5);
 }
+
+
+@media (max-width: 1610px) {
+  .InfoInferiorCalificacion  {
+    flex-direction: column;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .ImagenProducto  {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+
+
+@media (max-width: 1130px) {
+  .ContenedorComentarios {
+    width: 25rem;
+  }
+
+  .ComentarioItem  {
+    min-width: 1rem;
+    width: 20rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .ContenedorComentarios {
+    width: 20rem;
+  }
+
+  .ComentarioItem  {
+    min-width: 1rem;
+    width: 17rem;
+  }
+}
+
+@media (max-width: 833px) {
+  .ContenedorComentarios {
+    width: 15rem;
+  }
+
+  .ComentarioItem  {
+    min-width: 1rem;
+    width: 11rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .ContenedorComentarios {
+    width: 10rem;
+  }
+
+  .ComentarioItem  {
+    min-width: 1rem;
+    width: 7rem;
+  }
+
+  .BotonesComentario {
+    flex-direction: column;
+  }
+
+  .BotonesComentario button {
+    padding: 2px;
+  }
+}
+

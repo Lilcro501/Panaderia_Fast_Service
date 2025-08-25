@@ -13,11 +13,11 @@ export const iniciarSesion = async ({ email, password }) => {
 
   const { access, refresh, nombre, rol, id_usuario } = response.data;
 
-  localStorage.setItem('access', access);
-  localStorage.setItem('refresh', refresh);
-  localStorage.setItem('nombre', nombre);
-  localStorage.setItem('rol', rol);
-  localStorage.setItem('id_usuario', id_usuario);
+  sessionStorage.setItem('access', access);
+  sessionStorage.setItem('refresh', refresh);
+  sessionStorage.setItem('nombre', nombre);
+  sessionStorage.setItem('rol', rol);
+  sessionStorage.setItem('id_usuario', id_usuario);
 
   return response;
 };

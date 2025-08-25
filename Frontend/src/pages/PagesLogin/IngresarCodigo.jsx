@@ -44,7 +44,7 @@ export default function IngresarCodigo() {
     if (!esCodigoValido) return;
 
     const codigoFinal = codigo.join('');
-    const email = localStorage.getItem('correoRecuperacion');
+    const email = sessionStorage.getItem('correoRecuperacion');
 
     if (!email) {
       setModalErrorVisible(true);

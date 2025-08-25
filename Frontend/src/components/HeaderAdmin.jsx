@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import '../assets/styles/HeaderAdmin.css';  
 import logo from '../assets/images/logo_header.png';
 import PerfilLogo from '../assets/icons/logo.png';
+import { FaUser } from "react-icons/fa";
+import BotonCerrarSesion from './BotonCerrarSesion';
 
 const HeaderAdmin = () => {
     return (
@@ -14,36 +16,17 @@ const HeaderAdmin = () => {
                 <Link to='/PrincipalAdmin' className='container'>
                     <img src={logo} alt="logo-panaderia"  className="estilologo"/>
                 </Link>
+
+                <Link to="/" className="link-comunicacion">Comunicación</Link>
+
+
+
+                <BotonCerrarSesion />
             </div>
 
-                {/*barra de navegacion administrador*/}
-            <div className="barra-admin">
-                <div className="dropdown">
-                    <button className='boton-admin'>Gestión de inventario</button>
-                    <div className="dropdown-options">
-                        <Link to="/AdministrarInven" className='links'>Administrar Inventario</Link>
-                        <Link to="/CatalogoAdmin" className='links'>Cátalogo</Link>
-                    </div>
-                </div>
-
-                <div className="dropdown">
-                    <button className='boton-admin'>Gestión de trabajadores</button>
-                    <div className="dropdown-options">
-                        <Link to="/AdministrarTrabajadores" className='links'>Administrar Trabajadores</Link>
-                        <Link to="/Cronograma" className='links'>Cronograma y actividades</Link>
-                    </div>
-                </div>
-
-                <div className="dropdown">
-                    <button className='boton-admin'>Gestión de cliente </button>
-                    <div className="dropdown-options">
-                        <Link to="/HistorialPedido" className='links'>Historial pedidos</Link>
-                        <Link to="/" className='links'>Comunicación</Link>
-                    </div>
-                </div>
-            </div>        
+      
         </header>
-    );
+    );2
 };
 
 export default HeaderAdmin;

@@ -17,7 +17,7 @@ const DetallesPedido = () => {
   useEffect(() => {
     const fetchPedido = async () => {
       try {
-        const token = localStorage.getItem("access");
+        const token = sessionStorage.getItem("access");
         const response = await axios.get(
           `http://localhost:8000/api/trabajador/facturas/${id}/`,
           {

@@ -1,43 +1,80 @@
 /* Contenedor de la tabla centrado y con margen */
 .Tabla-5c {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  overflow-x: auto; /* Scroll horizontal en móviles */
+  padding: 10px;
 }
 
 /* Tabla principal */
 .Tabla-5c table {
-    width: 70%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Color del texto del encabezado */
+/* Encabezados */
 .Tabla-5c thead th {
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    background-color: #b8875b; /* también podrías mover este aquí */
+  color: #fff;
+  font-weight: bold;
+  background-color: #b8875b;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.95rem;
 }
 
-
-/* Estilo para el cuerpo de la tabla */
+/* Filas del cuerpo */
 .Tabla-5c tbody tr {
-    background-color: rgb(255, 255, 255);
-    transition: background-color 0.3s ease;
-    color: #ccc;
+  background-color: #fff;
+  transition: background-color 0.3s ease;
 }
 
 .Tabla-5c tbody tr:hover {
-    background-color: #979191;
-    color: #000000;
+  background-color: #f1f1f1;
 }
 
-/* Celdas: encabezado y datos */
-.Tabla-5c th, .Tabla-5c td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-    color: #000000;
+/* Celdas */
+.Tabla-5c th,
+.Tabla-5c td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
 }
+
+/* 🔹 Responsive: pantallas pequeñas */
+@media (max-width: 768px) {
+  .Tabla-5c table {
+    font-size: 0.8rem;
+  }
+  .Tabla-5c th,
+  .Tabla-5c td {
+    padding: 8px;
+  }
+}
+
+/* 🔹 Responsive: pantallas muy pequeñas (móvil) */
+@media (max-width: 480px) {
+  .Tabla-5c table {
+    width: max-content; /* Mantener ancho real de la tabla */
+  }
+}
+
+
+
+/* ====== Títulos ====== */
+.titulo_seccion {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px 30px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #eaa948;
+    border-bottom: 2px solid #ddd 
+  }
