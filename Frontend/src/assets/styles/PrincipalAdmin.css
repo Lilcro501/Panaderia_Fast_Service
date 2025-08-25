@@ -1,8 +1,7 @@
 /* ====== Contenedor Principal ====== */
 .admin-container {
-    max-width: 1000px;
+    width: 1750px;
     margin: 0 auto;
-    padding: 2rem;
     font-family: 'Segoe UI', sans-serif;
     color: #333;
     background-color: #fefefe;
@@ -10,6 +9,13 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
+.estadisticas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
 /* ====== Títulos ====== */
 .titulo {
     text-align: center;
@@ -78,52 +84,128 @@ select:focus {
 /* ====== Contenedor de todos los gráficos ====== */
 .graficos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+    padding: 2rem 0;
+    background: #f7f8fa;
+    border-radius: 18px;
+    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.07);
 }
 
 .orden {
     display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
 }
 
 /* ====== Contenedores individuales de gráficos ====== */
 .grafico-contenedor {
-    padding: 1rem;
-    padding-left: 2rem;
-    border: 1px solid #eee;
-    border-radius: 10px;
-    background-color: #fafafa;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.04);
-    text-align: center;
-    max-width: 600px;
-    min-width: 450px;
+    padding: 2rem 2.5rem;
+    border: none;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ffffff 80%, #f3f6fb 100%);
+    box-shadow: 0 2px 18px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    max-width: 520px;
+    min-width: 320px;
+    margin: 0 auto;
+    transition: box-shadow 0.3s;
+}
+.grafico-contenedor:hover {
+    box-shadow: 0 6px 32px rgba(78, 121, 167, 0.15);
 }
 
 .grafico-contenedor h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #444;
+    font-size: 1.25rem;
+    margin-bottom: 14px;
+    color: #2d2d2d;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 /* ====== Gráficos más pequeños ====== */
 canvas {
-    max-width: 90%;
+    max-width: 100%;
     height: auto;
+    margin: 0 auto;
+    display: block;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
 }
 
 .texto-info {
-    font-size: 0.95rem;
-    margin-top: 0.8rem;
+    font-size: 1rem;
+    margin-top: 1rem;
     font-weight: 500;
-    color: #333;
+    color: #4e79a7;
+    background: #f3f6fb;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.03);
 }
 
-element.style {
-    display: block;
-    box-sizing: border-box;
-    width: 800px;
-    height: 800px;
+/* ====== Título Principal ====== */
+.titulo-principal {
+    max-width: 1000px;
+    background-color: #fff;
+    text-align: center;
+    font-size: 2.7rem;
+    margin: 32px auto 18px auto;
+    color: #222;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.09);
+    border-radius: 18px;
+    padding: 22px 0;
+    letter-spacing: 1px;
+}
+
+/* ====== Subtítulo de Estadísticas ====== */
+.subtitulo-estadisticas {
+    max-width: 1000px;
+    background-color: #fff;
+    text-align: center;
+    font-size: 1.6rem;
+    margin: 18px auto 18px auto;
+    color: #4e79a7;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+    border-radius: 14px;
+    padding: 12px 0;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 1020px) {
+    .orden {
+        flex-direction: column;
+        max-width: 400px;
+        min-width: 200px;
+        padding: 5px 0.8rem;
+    }
+    .admin-container {
+        min-width: 320px;
+    }
+    .titulo-principal, .subtitulo-estadisticas {
+        margin-left: 0;
+        max-width: 98vw;
+    }
+    .grafico-contenedor {
+        min-width: 220px;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 1400px) {
+    .titulo-principal {
+        font-size: 2.2rem;
+        margin-left: 0;
+    }
+    .subtitulo-estadisticas {
+        font-size: 1.3rem;
+        margin-left: 0;
+    }
 }
 
 /* ====== Filtro y descarga de PDF ====== */
@@ -192,4 +274,124 @@ element.style {
         min-width: 498px;
     }
 
+}
+
+
+/* ====== Título Principal ====== */
+.titulo {
+    max-width: 900px;
+    margin: 30px auto; /* centra automáticamente */
+    padding: 20px 30px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #eaa948; /* tono más suave que el negro */
+
+}
+
+
+/* ====== Subtítulo de Estadísticas ====== */
+.subtitulo-estadisticas {
+    max-width: 1000px;
+    background-color: rgba(255, 255, 255, 0.488);
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 20px 0;
+    color: #000000;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 10px;
+    margin-left: 420px;
+}
+
+/* ====== Sección del Carrusel ====== */
+.seccion-admin {
+    display: flex;
+    width: 95%;
+    height: 600px;
+    background-color: rgba(255, 255, 255, 0.577);
+    font-size: 1.8rem;
+    margin: 20px 0;
+    color: #000000;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding-left: 90px;
+    padding-top: 20px;
+    gap: 25px;
+    margin-left: 50px;
+}
+
+/* ====== Estilos para pantallas pequeñas ====== */
+@media (max-width: 1400px) {
+    .titulo-principal {
+        font-size: 2rem;
+        margin-left: 300px;
+    }
+
+    .subtitulo-estadisticas {
+        font-size: 1.5rem;
+        margin-left: 300px;
+    }
+}
+
+.seccion-informacion {
+    width: 500px;
+    height: 500px;
+    background-color: #ddd;
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #000000;
+    line-height: 1.6;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 12px ;
+
+}
+
+
+.icon {
+    padding-left: 100px;
+    width: 350px;
+    height: auto;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.tarjeta-informacion {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: left;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta-informacion:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.boton-ver-productos {
+    padding-left: 40px;
+    background-color: #dea430;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.boton-ver-productos:hover {
+    background-color: #ab713d;
+}
+
+.posicion-boton {
+    justify-content: center;
+    height: 100%;
+    padding-left: 150px;
 }
