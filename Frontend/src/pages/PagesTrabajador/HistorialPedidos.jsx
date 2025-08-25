@@ -12,17 +12,28 @@ export default function HistorialPedidos() {
   const [pedidos, setPedidos] = useState([]);
 
   useEffect(() => {
-    const fetchPedidos = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/api/trabajador/historial-pedidos/");
-        setPedidos(response.data);
-      } catch (error) {
-        console.error("Error al obtener historial de pedidos:", error);
-      }
-    };
+  const fetchPedidos = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/trabajador/historial-pedidos/");
+      console.log("📦 Datos recibidos:", response.data);
 
-    fetchPedidos();
-  }, []);
+      // Combina ambos arrays en uno solo
+      const todosPedidos = [
+        ...response.data.aceptados.map(p => ({ ...p, estado: "aceptado" })),
+        ...response.data.rechazados.map(p => ({ ...p, estado: "rechazado" }))
+      ];
+
+      setPedidos(todosPedidos);
+
+    } catch (error) {
+      console.error("Error al obtener historial de pedidos:", error);
+      setPedidos([]);
+    }
+  };
+
+  fetchPedidos();
+}, []);
+
 
   const pedidosFiltrados = pedidos.filter((pedido) => {
     if (filtro === "todos") return true;

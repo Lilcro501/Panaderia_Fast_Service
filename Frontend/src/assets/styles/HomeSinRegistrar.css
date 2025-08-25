@@ -8,14 +8,6 @@
   position: relative;
 }
 
-/* Título */
-.TituloAcceso {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
 /* Botón de cerrar */
 .Salir {
   z-index: 1;
@@ -88,27 +80,6 @@
   align-items: center;
   font-size: 0.95rem;
 }
-
-.TextoTerminos {
-  color: #444;
-}
-
-.TextoTerminos strong {
-  color: #0056b3;
-}
-
-/* Botón principal */
-.Continuar {
-  width: 100%;
-  padding: 0.7rem;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
 
 /* Google login */
 .google-login-container {

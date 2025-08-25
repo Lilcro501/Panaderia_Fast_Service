@@ -185,7 +185,8 @@ export default function AgregarInven() {
     return (
         <div className="contenedor_formulario_inventario">
             <h2>Registrar nuevo producto</h2>
-
+        
+            {/* Componente de formulario que recibe los campos, la función de envío y los botones */}
             <FormularioAdmin
                 campos={camposProducto}
                 onSubmit={manejarEnvio}

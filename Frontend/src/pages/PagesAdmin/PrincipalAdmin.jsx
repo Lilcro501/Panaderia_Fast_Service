@@ -7,6 +7,10 @@ import autoTable from 'jspdf-autotable';
 import '../../assets/styles/PrincipalAdmin.css';
 import logo_header from '../../assets/images/logo_header.png';
 import BotonCerrarSesion from '../../components/BotonCerrarSesion';
+import hamburger from '../../assets/images/hamburguesa.png';
+
+import catalogo from '../../assets/images/catalogo.png';
+import copeerativa from '../../assets/images/cooperativa.png';
 
 const AdminPage = () => {
     const [productoMasVendido, setProductoMasVendido] = useState(null);
@@ -221,9 +225,65 @@ const AdminPage = () => {
     };
 
     return (
-        <div className="admin-container">
-            <h1 className="titulo">Estadísticas del Administrador</h1>
+        <>
+        <div>
+            <h1 className="titulo">
+                Bienvenido admin, que vas a gestionar hoy?
+            </h1>   
+            <br /> <br />
+        </div>
+        <section className='seccion-admin'>
+            <div className='seccion-informacion'>
+                <div className='tarjeta-informacion'>
+                    <img src={hamburger} alt="Menu" className='icon' />
+                    <br /> <br /> <br />
+                    <p style={{
+                        fontSize: '1.2rem',
+                    }}>Recuerda tener tus productos actualizados para que esten frescos y disponibles!!</p>
+                    
+                </div>
+                <br />
+                <div className='posicion-boton'>
+                    <button className='boton-ver-productos'>
+                    Ver productos
+                    </button>
+                </div>
 
+            </div>
+            <div className='seccion-informacion'>
+               <div className='tarjeta-informacion'>
+                    <img src={copeerativa} alt="Menu" className='icon' />
+                    <br /> <br />
+                    <p  style={{
+                        fontSize: '1.2rem',
+                    }}>Gestiona y adminstra tus trabajadores, ten encuenta los horarios de entrada y los trabajadores almacenados!</p>
+               </div >
+                    <br />
+                 <div className='posicion-boton'>
+                    <button className='boton-ver-productos'>
+                    Ver trabajadores
+                    </button>
+                </div>
+            </div>
+            <div className='seccion-informacion'>
+                <div className='tarjeta-informacion'>
+                    <img src={catalogo} alt="Menu" className='icon' />  
+                    <br /> <br /> <br />
+                    <p  style={{
+                        fontSize: '1.2rem',
+                    }}> gestiona el catalogo, ten el control de los productos y las opiniones de este!</p>
+                </div>
+                    <br />
+                    <div className='posicion-boton'>
+                    <button className='boton-ver-productos'>
+                    Ver catalogo
+                    </button>
+                </div>
+
+            </div>
+        </section>
+        <h1 className="titulo">Estadísticas del Administrador</h1>
+        <div className="admin-container">
             <select onChange={e => setCategoriaSeleccionada(e.target.value)} value={categoriaSeleccionada}>
                 <option value="">Seleccione una categoría</option>
                 {categorias.map(cat => (
@@ -231,7 +291,8 @@ const AdminPage = () => {
                 ))}
             </select>
 
-            {categoriaSeleccionada && (
+            <div className='estadisticas'>
+                {categoriaSeleccionada && (
                 <div className='categoria-estadisticas'>
                     <div className='lista-productos'>
                         <h2>Productos en esta categoría:</h2>
@@ -247,6 +308,7 @@ const AdminPage = () => {
                     <div className="grafico-contenedor">
                         <canvas ref={pieChartCategoriaRef} width="100" height="300"></canvas>
                     </div>
+                    <br />
                 </div>
             )}
 
@@ -266,6 +328,11 @@ const AdminPage = () => {
                     <canvas id="graficoGanancias" ref={chartRef} width="500" height="300"></canvas>
                 </div>
             </div> 
+
+
+            </div>
+
+            
 
             <div className="filtro-descarga">
                 <h3>Descarga de informes</h3>
@@ -287,8 +354,12 @@ const AdminPage = () => {
                     </p>
                 )}
             </div>
-            <BotonCerrarSesion></BotonCerrarSesion>
         </div>
+        <br /> 
+        <BotonCerrarSesion/>
+        
+    
+        </>
     );
 };
 

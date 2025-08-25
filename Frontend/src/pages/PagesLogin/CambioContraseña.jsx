@@ -15,7 +15,8 @@ export default function CambioContraseña() {
     const [modalErrorVisible, setModalErrorVisible] = useState(false); // Nuevo modal
     const navigate = useNavigate();
 
-    const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const regexPassword = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/
+;
     const passwordValida = regexPassword.test(password);
     const coincide = password === confirmar;
 

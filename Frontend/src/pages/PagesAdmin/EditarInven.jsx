@@ -137,7 +137,7 @@ export default function EditarInven() {
             if (datos.imagen && datos.imagen instanceof File) {
                 const cloudinaryData = new FormData();
                 cloudinaryData.append("file", datos.imagen);
-                cloudinaryData.append("upload_preset", uploadPreset);
+                cloudinaryData.append("upload_preset", uploadPreset); 
                 cloudinaryData.append("folder", `productos/${nombreCategoria}`);
 
                 const cloudinaryResponse = await axios.post(
