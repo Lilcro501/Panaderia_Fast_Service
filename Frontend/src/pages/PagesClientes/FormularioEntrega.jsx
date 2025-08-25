@@ -33,49 +33,49 @@ const FormularioEntrega = () => {
 
   const navigate = useNavigate();
 
-  // Cargar datos desde localStorage al montar el componente
+  // Cargar datos desde sessionStorage al montar el componente
   useEffect(() => {
-    const id = localStorage.getItem('id_usuario');
+    const id = sessionStorage.getItem('id_usuario'); // Cambiado de localStorage
     if (id && !isNaN(id)) {
       setUserData(prev => ({ ...prev, id_usuario: parseInt(id, 10) }));
     }
 
-    const savedFormData = localStorage.getItem('formData');
+    const savedFormData = sessionStorage.getItem('formData'); // Cambiado de localStorage
     if (savedFormData) {
       setFormData(JSON.parse(savedFormData));
     }
 
-    const savedUserData = localStorage.getItem('userData');
+    const savedUserData = sessionStorage.getItem('userData'); // Cambiado de localStorage
     if (savedUserData) {
       setUserData(prev => ({ ...prev, ...JSON.parse(savedUserData) }));
     }
 
-    const savedMetodoEntrega = localStorage.getItem('metodoEntrega');
+    const savedMetodoEntrega = sessionStorage.getItem('metodoEntrega'); // Cambiado de localStorage
     if (savedMetodoEntrega) {
       setMetodoEntrega(savedMetodoEntrega);
     }
 
-    const savedMetodoEnvio = localStorage.getItem('metodoEnvio');
+    const savedMetodoEnvio = sessionStorage.getItem('metodoEnvio'); // Cambiado de localStorage
     if (savedMetodoEnvio) {
       setMetodoEnvio(savedMetodoEnvio);
     }
   }, []);
 
-  // Guardar datos en localStorage cuando cambien
+  // Guardar datos en sessionStorage cuando cambien
   useEffect(() => {
-    localStorage.setItem('formData', JSON.stringify(formData));
+    sessionStorage.setItem('formData', JSON.stringify(formData)); // Cambiado de localStorage
   }, [formData]);
 
   useEffect(() => {
-    localStorage.setItem('userData', JSON.stringify(userData));
+    sessionStorage.setItem('userData', JSON.stringify(userData)); // Cambiado de localStorage
   }, [userData]);
 
   useEffect(() => {
-    localStorage.setItem('metodoEntrega', metodoEntrega);
+    sessionStorage.setItem('metodoEntrega', metodoEntrega); // Cambiado de localStorage
   }, [metodoEntrega]);
 
   useEffect(() => {
-    localStorage.setItem('metodoEnvio', metodoEnvio);
+    sessionStorage.setItem('metodoEnvio', metodoEnvio); // Cambiado de localStorage
   }, [metodoEnvio]);
 
   const total = carrito.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -196,6 +196,11 @@ const FormularioEntrega = () => {
         datosFactura.append('comprobante', comprobante);
       }
 
+      console.log('Datos enviados en FormData:');
+      for (let pair of datosFactura.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+
       const response = await enviarFactura(datosFactura);
 
       if (response.success) {
@@ -203,10 +208,11 @@ const FormularioEntrega = () => {
         setModalMensaje('Factura creada exitosamente');
         setMostrarModal(true);
 
-        localStorage.removeItem('formData');
-        localStorage.removeItem('userData');
-        localStorage.removeItem('metodoEntrega');
-        localStorage.removeItem('metodoEnvio');
+        // Limpiar sessionStorage
+        sessionStorage.removeItem('formData');
+        sessionStorage.removeItem('userData');
+        sessionStorage.removeItem('metodoEntrega');
+        sessionStorage.removeItem('metodoEnvio');
 
         vaciarCarrito();
         setFormData({
@@ -225,9 +231,9 @@ const FormularioEntrega = () => {
         setMostrarModal(true);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error al enviar factura:', error.response?.data || error);
       setModalTitulo('Error');
-      setModalMensaje(`Error al crear factura: ${error.message}`);
+      setModalMensaje(`Error al crear factura: ${error.response?.data?.detail || error.message || 'Error desconocido'}`);
       setMostrarModal(true);
     } finally {
       setLoading(false);
@@ -235,10 +241,11 @@ const FormularioEntrega = () => {
   };
 
   const handleCancelar = () => {
-    localStorage.removeItem('formData');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('metodoEntrega');
-    localStorage.removeItem('metodoEnvio');
+    // Limpiar sessionStorage
+    sessionStorage.removeItem('formData');
+    sessionStorage.removeItem('userData');
+    sessionStorage.removeItem('metodoEntrega');
+    sessionStorage.removeItem('metodoEnvio');
 
     vaciarCarrito();
     setFormData({
@@ -259,7 +266,7 @@ const FormularioEntrega = () => {
   };
 
   const handleMetodoEnvioChange = (e) => {
-    console.log('Cambiando metodoEnvio a:', e.target.value); // Depuración
+    console.log('Cambiando metodoEnvio a:', e.target.value);
     setMetodoEnvio(e.target.value);
   };
 
@@ -277,7 +284,7 @@ const FormularioEntrega = () => {
             className="input-moderno"
             type="tel"
             name="telefono"
-            value={userData.telefono || ''} // evita undefined
+            value={userData.telefono || ''}
             onChange={handleUserChange}
             required
             pattern="\d{10}"
