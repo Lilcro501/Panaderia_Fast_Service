@@ -31,6 +31,27 @@ export default function AdministrarInven() {
     // Creamos un estado llamado 'filas' para guardar los datos que vamos a mostrar en la tabla
     const [filas, setFilas] = useState([]);
 
+    // Estado para manejar notificaciones (mensaje de éxito o error)
+    const [notificacion, setNotificacion] = useState({
+        visible: false,
+        mensaje: "",
+        tipo: ""
+    });
+
+    // Estado para manejar el modal de confirmación
+    const [confirmacion, setConfirmacion] = useState({
+        visible: false,
+        id: null
+    });
+
+    // Función que muestra una notificación por 2 segundos
+    const mostrarNotificacion = (mensaje, tipo) => {
+        setNotificacion({ visible: true, mensaje, tipo });
+        setTimeout(() => {
+            setNotificacion({ visible: false, mensaje: "", tipo: "" });
+        }, 2000);
+    };
+
     // Llamamos a la función useQuery para poder acceder al parámetro de la categoría
     const query = useQuery();
 
@@ -67,14 +88,14 @@ export default function AdministrarInven() {
                 const filasConvertidas = productos.map(producto => ([
                     producto.id_producto, // ID del producto
                     producto.nombre,      // Nombre del producto
-                    `$${parseFloat(producto.precio).toLocaleString()}`, // Precio con formato de moneda
+                    $${parseFloat(producto.precio).toLocaleString()}, // Precio con formato de moneda
                     producto.stock,       // Cantidad en stock
                     producto.fecha_vencimiento || 'N/A', // Fecha de vencimiento o 'N/A' si no tiene
 
                     // Creamos una celda de acciones con botones para editar y eliminar
-                    <div key={`acciones-${producto.id_producto}`} className="acciones_tabla">
+                    <div key={acciones-${producto.id_producto}} className="acciones_tabla">
                         {/* Botón para editar, que lleva a la ruta /EditarInven con el ID del producto */}
-                        <Link to={`/EditarInven/${producto.id_producto}`}>
+                        <Link to={/EditarInven/${producto.id_producto}}>
                             <img
                                 src={editar_documento}
                                 alt="Editar"
@@ -85,7 +106,7 @@ export default function AdministrarInven() {
 
                         {/* Botón para eliminar el producto */}
                         <button
-                            onClick={() => manejarEliminar(producto.id_producto)} // Al hacer clic se llama a la función para eliminar
+                            onClick={() => setConfirmacion({ visible: true, id: producto.id_producto })} // Mostramos modal
                             className="boton_eliminar_tabla"
                             title="Eliminar producto"
                         >
@@ -102,9 +123,9 @@ export default function AdministrarInven() {
                 setFilas(filasConvertidas);
             })
             .catch(error => {
-                // Si hay un error al traer los productos, lo mostramos en consola y en pantalla
+                // Si hay un error al traer los productos, lo mostramos en consola y con notificación
                 console.error('Error al obtener productos:', error);
-                alert("Error al cargar los productos.");
+                mostrarNotificacion("Error al cargar los productos.", "error");
             });
     };
 
@@ -113,25 +134,28 @@ export default function AdministrarInven() {
         obtenerProductos(); // Llamamos a la función para cargar los productos
     }, [categoriaSeleccionada]); // Se vuelve a ejecutar si cambia la categoría
 
-    // Función para eliminar un producto
-    const manejarEliminar = async (id) => {
-        // Mostramos un mensaje de confirmación al usuario
-        const confirmacion = window.confirm("¿Estás seguro de eliminar este producto?");
-        if (!confirmacion) return; // Si el usuario cancela, salimos de la función
-
+    // Función para confirmar la eliminación de un producto
+    const confirmarEliminar = async () => {
         try {
-        const respuesta = await axios.delete(`http://localhost:8000/api/administrador/productos/${id}/`);
-        alert(respuesta.data.message || "Producto eliminado correctamente.");
-        obtenerProductos();
-    } catch (error) {
-        if (error.response && error.response.data) {
-            const mensaje = error.response.data.error || error.response.data.message || "Ocurrió un error inesperado.";
-            alert(mensaje);
-        } else {
-            alert("No se pudo eliminar el producto. Error de conexión.");
+            // Llamamos a la API para eliminar el producto
+            const respuesta = await axios.delete(http://localhost:8000/api/administrador/productos/${confirmacion.id}/);
+            // Mostramos notificación de éxito
+            mostrarNotificacion(respuesta.data.message || "Producto eliminado correctamente.", "exito");
+            // Recargamos la lista de productos
+            obtenerProductos();
+        } catch (error) {
+            // Si hay un error, mostramos mensaje adecuado
+            if (error.response && error.response.data) {
+                const mensaje = error.response.data.error || error.response.data.message || "Ocurrió un error inesperado.";
+                mostrarNotificacion(mensaje, "error");
+            } else {
+                mostrarNotificacion("No se pudo eliminar el producto. Error de conexión.", "error");
+            }
+            console.error("Error al eliminar producto:", error);
+        } finally {
+            // Cerramos el modal de confirmación
+            setConfirmacion({ visible: false, id: null });
         }
-        console.error("Error al eliminar producto:", error);
-    }
     };
 
     // Lo que se va a mostrar en la pantalla
@@ -152,6 +176,28 @@ export default function AdministrarInven() {
                     <img src={agregar_documento} alt="Agregar" />
                 </Link>
             </div>
+
+            {/* Notificación (se muestra solo si está activa) */}
+            {notificacion.visible && (
+                <div className={modal-fondo modal-${notificacion.tipo}}>
+                    <div className="modal-contenido">
+                        <p>{notificacion.mensaje}</p>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal de confirmación (para reemplazar window.confirm) */}
+            {confirmacion.visible && (
+                <div className="modal-fondo modal-confirmacion">
+                    <div className="modal-contenido">
+                        <p>¿Estás seguro de eliminar este producto?</p>
+                        <div className="modal-botones">
+                            <button onClick={confirmarEliminar} className="btn-confirmar">Sí</button>
+                            <button onClick={() => setConfirmacion({ visible: false, id: null })} className="btn-cancelar">No</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
