@@ -155,6 +155,8 @@ class EstadoFactura(models.Model):
         managed = False
         db_table = 'estado_factura'
 
+
+
 class DetalleFacturaHistorico(models.Model):
     id_factura_historico = models.AutoField(primary_key=True)
 
@@ -190,3 +192,5 @@ class Favoritos(models.Model):
     class Meta:
         managed = False
         db_table = 'favoritos'
+
+

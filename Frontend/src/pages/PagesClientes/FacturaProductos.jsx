@@ -138,7 +138,9 @@ const Factura = () => {
                 Vaciar carrito
               </button>
 
-              <br /><br />
+              <button className='btn-continuar' onClick={() => navigate('/home')}>
+                Seguir comprando
+              </button>
 
               <button className="btn-continuar" onClick={handleContinuar}>
                 Continuar con el pago

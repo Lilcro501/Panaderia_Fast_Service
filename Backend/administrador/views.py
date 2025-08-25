@@ -15,6 +15,15 @@ from cloudinary.uploader import destroy as cloudinary_destroy
 from usuarios.models import Usuario
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from .utils.decorators import role_required
+from django.utils.decorators import method_decorator
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from carrito.models import DetalleFactura
+from django.db.models import F
 
 
 
@@ -56,6 +65,7 @@ class ProductoCreateView(APIView):
             
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ProductoUpdateView(generics.UpdateAPIView):
     queryset = Productos.objects.all()
@@ -233,40 +243,39 @@ def listar_facturas(request):
     serializer = FacturaSerializer(facturas, many=True)
     return Response(serializer.data)
 
+
 class EstadisticasView(APIView):
     def get(self, request):
         try:
-            # Producto más vendido
+            # 🔹 Producto más vendido
             producto_data = (
-                Pedido.objects
-                .values('id_producto__nombre')
+                DetalleFactura.objects
+                .values('nombre_producto')
                 .annotate(total_vendidos=Sum('cantidad'))
                 .order_by('-total_vendidos')
                 .first()
             )
 
             producto_mas_vendido = {
-                'nombre': producto_data['id_producto__nombre'],
+                'nombre': producto_data['nombre_producto'],
                 'cantidad': producto_data['total_vendidos']
-            } if producto_data else {
-                'nombre': 'Sin datos',
-                'cantidad': 0
-            }
+            } if producto_data else {'nombre': 'Sin datos', 'cantidad': 0}
 
-            # Ganancias por mes
+            # 🔹 Ganancias por mes
             ganancias_data = (
-                Facturas.objects
-                .annotate(mes=TruncMonth('fecha'))
+                DetalleFactura.objects
+                .values('factura_id', 'factura__fecha', 'factura__total')
+                .distinct()  # evita duplicar la misma factura
+                .annotate(mes=TruncMonth('factura__fecha'))
                 .values('mes')
-                .annotate(total_mes=Sum('total'))
+                .annotate(total_mes=Sum('factura__total'))
                 .order_by('mes')
             )
 
             ganancias_por_mes = [
                 {
-                    'mes': item['mes'].strftime('%Y-%m'),
+                    'mes': item['mes'].strftime('%Y-%m') if item['mes'] else 'N/A',
                     'total': float(item['total_mes']) if item['total_mes'] else 0
-
                 } for item in ganancias_data
             ]
 
@@ -276,9 +285,9 @@ class EstadisticasView(APIView):
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
 
 @api_view(['GET'])
 def productos_por_categoria(request):

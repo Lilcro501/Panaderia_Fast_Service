@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRol } from './RolContext'; // 👈 importa tu contexto de rol
 
 const FavoritosContext = createContext();
 
@@ -9,6 +10,7 @@ export const FavoritosProvider = ({ children }) => {
   const [favoritos, setFavoritos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { rol } = useRol();
 
   const fetchFavoritos = async () => {
     setIsLoading(true);
@@ -25,8 +27,12 @@ export const FavoritosProvider = ({ children }) => {
 
       setFavoritos(response.data);
     } catch (error) {
-      console.error('Error al obtener favoritos:', error);
-      setError('Error al cargar los favoritos. Asegúrate de estar autenticado.');
+      if (error.response?.status === 401) {
+        console.warn("Acceso no autorizado: esta ruta es solo para clientes.");
+      } else {
+        console.error("Error al obtener favoritos:", error);
+        setError("Error al cargar los favoritos.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -39,8 +45,12 @@ export const FavoritosProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchFavoritos();
-  }, []);
+    if (rol === "cliente") {
+      fetchFavoritos();
+    } else {
+      setIsLoading(false);
+    }
+  }, [rol]);
 
   return (
     <FavoritosContext.Provider

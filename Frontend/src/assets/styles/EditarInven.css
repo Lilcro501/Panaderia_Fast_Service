@@ -22,6 +22,7 @@ Add commentMore actions .contenedor_formulario_inventario {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    color: white;
 }
 
 .contenedor_formulario_inventario h2 {
