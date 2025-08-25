@@ -1,12 +1,13 @@
 /* ====== Contenedor Principal ====== */
 .admin-container {
-    width: 1750px;
+    width: 1000px;
     margin: 0 auto;
     font-family: 'Segoe UI', sans-serif;
     color: #333;
     background-color: #fefefe;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    flex-wrap: wrap;
 }
 
 .estadisticas {
@@ -287,7 +288,6 @@ canvas {
     font-weight: 600;
     text-align: center;
     color: #eaa948; /* tono más suave que el negro */
-
 }
 
 
@@ -338,23 +338,22 @@ canvas {
 }
 
 .seccion-informacion {
-    width: 500px;
-    height: 500px;
+    width: 320px;
+    height: 480px;
     background-color: #ddd;
     margin-top: 20px;
     font-size: 1rem;
     color: #000000;
     line-height: 1.6;
     gap: 10px;
-    padding: 15px;
-    border-radius: 12px ;
-
+    padding: 12px;
+    border-radius: 12px;
 }
 
 
 .icon {
-    padding-left: 100px;
-    width: 350px;
+    padding-left: 8px;
+    width: 180px;
     height: auto;
     cursor: pointer;
     margin-left: 10px;
@@ -364,7 +363,7 @@ canvas {
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 15px;
+    padding: 20px;
     text-align: left;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -393,5 +392,5 @@ canvas {
 .posicion-boton {
     justify-content: center;
     height: 100%;
-    padding-left: 150px;
+    padding-left: 80px;
 }
