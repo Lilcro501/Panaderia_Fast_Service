@@ -18,7 +18,6 @@ from .utils import enviar_correo_bienvenida
 # Terceros
 from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -27,7 +26,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 # Locales
 from .models import CodigoVerificacion, Usuario
 from .serializers import CustomTokenObtainPairSerializer
@@ -114,33 +113,45 @@ def login_usuario(request):
         password = request.data.get('password')
 
         if not email or not password:
-            return Response({'error': 'Por favor, ingrese correo y contraseña'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Por favor, ingrese correo y contraseña'}, status=400)
 
         try:
             usuario = Usuario.objects.get(email=email)
         except Usuario.DoesNotExist:
-            return Response({'error': 'Correo no registrado'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Correo no registrado'}, status=404)
 
         if not check_password(password, usuario.password):
-            return Response({'error': 'Contraseña incorrecta'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'Contraseña incorrecta'}, status=401)
 
         # Generar tokens JWT
         refresh = RefreshToken.for_user(usuario)
+        access_token = str(refresh.access_token)
 
-        return Response({
+        # Enviar refresh token en cookie HttpOnly
+        response = Response({
             'mensaje': 'Inicio de sesión exitoso',
-            'access': str(refresh.access_token),
-            'refresh': str(refresh),
+            'access': access_token,
             'nombre': usuario.nombre,
             'apellido': usuario.apellido,
             'rol': usuario.rol,
             'id_usuario': usuario.id_usuario,
             'email': usuario.email
-        }, status=status.HTTP_200_OK)
+        }, status=200)
+
+        # Cookie HttpOnly
+        response.set_cookie(
+            key='refresh_token',
+            value=str(refresh),
+            httponly=True,
+            secure=True,  # True si es HTTPS
+            samesite='Lax', 
+            max_age=7*24*60*60  # opcional, duración 7 días
+        )
+
+        return response
 
     except Exception as e:
-        # ✅ Captura cualquier excepción imprevista y responde
-        return Response({'error': f'Error interno del servidor: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'error': f'Error interno del servidor: {str(e)}'}, status=500)
 
 #----------------------------vista para enviar el codigo de verificacion-----------------------------------------
 
@@ -395,3 +406,20 @@ def logout_view(request):
         return Response({"mensaje": "Cierre de sesión exitoso"}, status=status.HTTP_205_RESET_CONTENT)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def refresh_token(request):
+    refresh_token = request.COOKIES.get('refresh_token')
+    if not refresh_token:
+        return Response({'error': 'Refresh token no encontrado'}, status=400)
+    try:
+        refresh = RefreshToken(refresh_token)
+        access_token = str(refresh.access_token)
+        return Response({'access': access_token})
+    except TokenError:
+        return Response({'error': 'Refresh token inválido o expirado'}, status=400)
+
+
