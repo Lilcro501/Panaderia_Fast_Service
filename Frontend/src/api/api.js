@@ -31,7 +31,7 @@ export const eliminarSesion = () => {
 // --- API instance ---
 const api = axios.create({
   baseURL: "http://localhost:8000",
-  withCredentials: true, // importante para enviar cookies HttpOnly
+  withCredentials: true, // importante si usas cookies HttpOnly
 });
 
 // --- Interceptor de request ---
@@ -43,62 +43,16 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// --- Queue para evitar múltiples refresh requests ---
-let isRefreshing = false;
-let failedQueue = [];
-
-const processQueue = (error, token = null) => {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (error) reject(error);
-    else resolve(token);
-  });
-  failedQueue = [];
-};
-
 // --- Interceptor de response ---
 api.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+  (error) => {
+    const status = error.response?.status;
+    const url = error.config?.url || "";
 
-    // Si el access token expira
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            originalRequest.headers["Authorization"] = `Bearer ${token}`;
-            return api(originalRequest);
-          })
-          .catch((err) => Promise.reject(err));
-      }
-
-      originalRequest._retry = true;
-      isRefreshing = true;
-
-      try {
-        // Llamada al endpoint que devuelve nuevo access token usando cookie HttpOnly
-        const response = await axios.post(
-          "http://localhost:8000/api/usuarios/refresh_token/",
-          {},
-          { withCredentials: true }
-        );
-
-        const { access } = response.data;
-        if (!access) throw new Error("No se recibió access token");
-
-        guardarToken(access);
-        originalRequest.headers["Authorization"] = `Bearer ${access}`;
-        processQueue(null, access);
-        return api(originalRequest);
-      } catch (refreshError) {
-        processQueue(refreshError, null);
-        eliminarSesion(); // cerrar sesión si falla refresh
-        return Promise.reject(refreshError);
-      } finally {
-        isRefreshing = false;
-      }
+    // Solo disparar "sesión expirada" si el 401 NO viene del login
+    if (status === 401 && !url.includes("/api/usuarios/token/")) {
+      eliminarSesion();
     }
 
     return Promise.reject(error);
