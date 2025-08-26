@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import '../../assets/styles/AccedeAqui.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import api, { guardarToken } from "../../api/api";
 import { useRol } from '../../Context/RolContext';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
-import { iniciarSesion } from '../../api/login';
 import '../../assets/styles/Global.css';
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
-  const { cambiarRol, guardarToken } = useRol();
+  const { cambiarRol } = useRol();
 
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
@@ -24,9 +23,7 @@ export default function AccedeAqui() {
     cambiarRol('sin-registrar');
   }, [cambiarRol]);
 
-  const salir = () => {
-    window.location.href = '/';
-  };
+  const salir = () => window.location.href = '/';
 
   const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const regexPassword = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
@@ -36,17 +33,10 @@ export default function AccedeAqui() {
   const redirigirPorRol = (rol) => {
     setTimeout(() => {
       switch (rol) {
-        case 'admin':
-          navigate('/PrincipalAdmin');
-          break;
-        case 'trabajador':
-          navigate('/Inicio');
-          break;
-        case 'cliente':
-          navigate('/home');
-          break;
-        default:
-          navigate('/');
+        case 'admin': navigate('/PrincipalAdmin'); break;
+        case 'trabajador': navigate('/Inicio'); break;
+        case 'cliente': navigate('/home'); break;
+        default: navigate('/'); 
       }
     }, 250);
   };
@@ -59,28 +49,23 @@ export default function AccedeAqui() {
     if (!CorreoValido || !PasswordValida) return;
 
     try {
-      const response = await iniciarSesion({ email: correo, password });
+      const response = await api.post('/api/usuarios/token/', { email: correo, password }, { withCredentials: true });
+      const { access, nombre, rol, id_usuario } = response.data;
 
-      if (response.status === 200) {
-        const { access, refresh, nombre, rol, id_usuario } = response.data;
-        if (!rol) {
-          setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
-          return;
-        }
-
-        const rolLower = rol.toLowerCase();
-        // Almacenar solo datos no sensibles en sessionStorage (opcional)
-        sessionStorage.setItem('nombre', nombre);
-        sessionStorage.setItem('rol', rolLower);
-        sessionStorage.setItem('id_usuario', id_usuario);
-        sessionStorage.setItem('loginMetodo', 'manual');
-
-        // Los tokens se manejan en el servidor (cookies HttpOnly)
-        // El backend debe establecer cookies para access y refresh
-        cambiarRol(rolLower);
-        guardarToken(access); // Actualizar el contexto (puede ser opcional)
-        redirigirPorRol(rolLower);
+      if (!rol) {
+        setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
+        return;
       }
+
+      const rolLower = rol.toLowerCase();
+      sessionStorage.setItem('nombre', nombre);
+      sessionStorage.setItem('rol', rolLower);
+      sessionStorage.setItem('id_usuario', id_usuario);
+      sessionStorage.setItem('loginMetodo', 'manual');
+      guardarToken(access);
+
+      cambiarRol(rolLower);
+      redirigirPorRol(rolLower);
     } catch (error) {
       const mensaje = error.response?.data?.error || '❌ Error desconocido en el inicio de sesión';
       setErrorLogin(mensaje);
@@ -89,26 +74,27 @@ export default function AccedeAqui() {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/usuarios/login/google/', {
-        token: credentialResponse.credential,
-      });
+      const response = await api.post(
+        '/api/usuarios/login/google/',
+        { token: credentialResponse.credential },
+        { withCredentials: true }
+      );
 
-      const { access, refresh, nombre, rol, id_usuario } = response.data;
+      const { access, nombre, rol, id_usuario } = response.data;
+
       if (!rol) {
         setErrorLogin('⚠️ Error: No se recibió el rol del usuario (Google).');
         return;
       }
 
       const rolLower = rol.toLowerCase();
-      // Almacenar solo datos no sensibles en sessionStorage (opcional)
       sessionStorage.setItem('nombre', nombre);
       sessionStorage.setItem('rol', rolLower);
       sessionStorage.setItem('id_usuario', id_usuario);
       sessionStorage.setItem('loginMetodo', 'google');
+      guardarToken(access);
 
-      // Los tokens se manejan en el servidor (cookies HttpOnly)
       cambiarRol(rolLower);
-      guardarToken(access); // Actualizar el contexto (puede ser opcional)
       redirigirPorRol(rolLower);
     } catch (error) {
       setErrorLogin('Error al iniciar sesión con Google');
@@ -141,7 +127,6 @@ export default function AccedeAqui() {
               required
             />
           </div>
-          <br />
           {!CorreoValido && enviado && <div className='invalid'>Por favor, ingresa un correo válido</div>}
 
           <div className={`Camp form-control ${!PasswordValida && enviado ? 'is-invalid' : ''}`}>
@@ -186,3 +171,4 @@ export default function AccedeAqui() {
     </section>
   );
 }
+

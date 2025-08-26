@@ -82,7 +82,7 @@ export default function AdministrarTrabajadores() {
 
     return (
         <div className="contenedor_principal">
-            <h2 className="titulo_seccion">Administrar Trabajadores</h2>
+            <h2 className="titulo">Administrar Trabajadores</h2>
             <TablaAdmin encabezados={encabezados} filas={filas} />
 
             <div className="iconos_acciones">

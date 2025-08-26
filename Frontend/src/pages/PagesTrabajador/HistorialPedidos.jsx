@@ -18,7 +18,7 @@ export default function HistorialPedidos() {
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
-        const token = localStorage.getItem("access");
+        const token = sessionStorage.getItem("access");
         if (!token) {
           setError("No estás autorizado. Por favor inicia sesión.");
           return;

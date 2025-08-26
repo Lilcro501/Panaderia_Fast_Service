@@ -12,14 +12,13 @@
 }
 
 .contenido-header {
+  flex-wrap: nowrap;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 50px;
   position: relative;
   top: 0;
 }
@@ -82,6 +81,7 @@
 }
 
 
+
 .lista-info li{
   text-decoration: none;
   color: #e4e1e1;
@@ -96,24 +96,12 @@
 
 .lista-info a{
   text-decoration: none;
-  color: #e4e1e1;
-  font-weight: bold;
-  list-style: none;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .lista-info li:hover {
   transform: scale(1.12);
   color: #997b6c;
-}
-
-
-.lista-info-c li {
-  text-decoration: none;
-  color: #e4e1e1;
-  font-weight: bold;
-  list-style: none;
-  transition: transform 0.3s ease;
 }
 
 .lista-info-c li:hover{
@@ -138,16 +126,17 @@
   display: flex;
   justify-content: center;
   list-style: none;
-  gap: 2.5rem;
+  gap: 6.5rem;
   align-items: center;
   margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
+  padding: 2px ;
   font-size: 1.7rem;
   text-decoration: none;
   color: #e4e1e1;
   font-weight: bold;
   transition: transform 0.3s ease;
+  padding-left: 90px;
+
 }
 
 
@@ -267,6 +256,13 @@
 }
 
 
+.iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 50px;
+  height: auto;
+}
+
 /* ===== Diseño responsivo ===== */
 @media (max-width: 1174px) {
   .contenido-header {
@@ -284,6 +280,8 @@
 
   .lista-info-c {
     font-size: 1.6rem;
+    padding-left: 10px;
+    gap: 30px;
   }
 
   .estilo-logo {
@@ -300,6 +298,13 @@
     width: 45px;
     height: 45px;
   }
+
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 40px;
+  height: auto;
+}
 }
 
 
@@ -319,6 +324,7 @@
 
   .lista-info-c {
     font-size: 1.3rem;
+    gap: 30px;
   }
 
   .estilo-logo {
@@ -348,10 +354,11 @@
 
   .barra-navegacion {
     width: 100%;
+    display: flex;
   }
 
   .lista-info {
-    flex-wrap: wrap;
+    flex-direction: row;
     justify-content: center;
     gap: 10px;
     font-size: 1rem;
@@ -369,19 +376,24 @@
   .estilo-logo-perfil {
     width: 60px;
   }
+
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 30px;
+  height: auto;
+}
 }
 
 @media (max-width: 750px) {
   .contenido-header {
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
+
     gap: 20px;
     padding: 10px;
+
   }
 
   .lista-info {
-    flex-direction: row;
     gap: 5px;
   }
 
@@ -397,6 +409,13 @@
     width: 50px;
     height: 50px;
   }
+
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 20px;
+  height: auto;
+}
 }
 
 
@@ -406,10 +425,11 @@
     text-align: center;
     gap: 20px;
     padding: 10px;
+    flex-direction: row;
+
   }
 
   .lista-info {
-    flex-direction: row;
     gap: 7px;
   }
 
@@ -419,7 +439,6 @@
 
   .lista-info-c {
     font-size: 1rem;
-    display: block;
   }
 
   .estilo-logo {
@@ -436,12 +455,19 @@
     width: 35px;
     height: 35px;
   }
+
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 20px;
+  height: auto;
+}
 }
 
 
 @media (max-width: 400px) {
   .contenido-header {
-    flex-direction: row;
+
     gap: 15px;
     padding: 5px;
   }
@@ -466,13 +492,19 @@
   }
 
   .lista-info-c {
+    flex-direction: row;
     font-size: 1.3rem;
   }
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 20px;
+  height: auto;
+}
 }
 
 @media (max-width: 320px) {
   .contenido-header {
-    flex-direction: row;
     align-items: center;
     text-align: center;
     gap: 10px;
@@ -485,7 +517,6 @@
   }
 
   .lista-info {
-    flex-direction: row;
     gap: 10px;
     font-size: 10px;
   }
@@ -494,9 +525,7 @@
     font-size: 1rem;
   }
 
-  .lista-info-c {
-    font-size: 1rem;
-  }
+ 
 
   .icono-carrito img {
     width: 35px;
@@ -507,4 +536,12 @@
   .shapedividers_com-5996 {
     --sd-wave-h: 60px;
   }
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 20px;
+  height: auto;
 }
+}
+
+

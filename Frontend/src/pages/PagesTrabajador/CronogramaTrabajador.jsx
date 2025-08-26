@@ -7,7 +7,7 @@ import "../../assets/styles/CronogramaTrabajador.css"; // estilos solo para esta
 
 export default function CronogramaTrabajador() {
     const [cronogramas, setCronogramas] = useState([]);
-    const id_usuario = localStorage.getItem("id_usuario");
+    const id_usuario = sessionStorage.getItem("id_usuario");
 
     const obtenerCronogramas = async () => {
         const token = getAccessToken();
