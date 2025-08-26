@@ -8,6 +8,10 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.factura-container h1 {
+  font-weight: bold;
+}
+
 .factura-tabla {
   width: 100%;
   border-collapse: separate;
@@ -97,7 +101,7 @@
   margin-top: 2rem;
   background: linear-gradient(135deg, #b02a2a, #7a1a1a);
   color: white;
-  padding: 14px 30px;
+  padding: 30px;
   border: none;
   border-radius: 15px;
   cursor: pointer;
@@ -165,17 +169,17 @@
 }
 
 .circulo-rojo {
-  background: linear-gradient(135deg, #ff6b6b, #c0392b);
+  background: linear-gradient(135deg, #ff7f7f, #9d362a);
   border: 5px solid rgba(255, 255, 255, 0.85);
 }
 
 .circulo-verde {
-  background: linear-gradient(135deg, #45b649, #1e7e34);
+  background: linear-gradient(135deg, #67c56a, #266e37);
   border: 5px solid rgba(255, 255, 255, 0.85);
 }
 
 .circulo-amarillo {
-  background: linear-gradient(135deg, #ffca28, #d39e00);
+  background: linear-gradient(135deg, #fed354, #cba01d);
   border: 5px solid rgba(255, 255, 255, 0.85);
 }
 
@@ -204,8 +208,14 @@
 .posicicion-botones {
   display: flex;
   justify-content: space-between;
-  margin-top: 3rem;
+  margin-top: 2rem;
   padding: 0 20px;
+}
+
+.Facturaimg {
+  width: 4rem;
+  height: auto;
+  align-items: center;
 }
 
 
