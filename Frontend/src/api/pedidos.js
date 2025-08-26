@@ -1,6 +1,6 @@
 export const obtenerPedidosPorFactura = async (idFactura) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const response = await fetch(`http://localhost:8000/api/facturas/${idFactura}/pedidos/`, {
       headers: {
         "Authorization": `Bearer ${token}`,

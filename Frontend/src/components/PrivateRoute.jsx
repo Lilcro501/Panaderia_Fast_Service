@@ -6,11 +6,11 @@ const PrivateRoute = ({ children, role }) => {
   const { rol, cargando } = useRol();
 
   if (cargando) {
-    return <div>Cargando...</div>; 
+    return <div>Cargando...</div>;
   }
 
-  // Tomar primero del localStorage si el contexto aún no está actualizado
-  const rolActual = (localStorage.getItem("rol") || rol || "").toLowerCase();
+  // Usar el rol del contexto en lugar de leer directamente de sessionStorage
+  const rolActual = rol.toLowerCase();
 
   // Normalizar rolesPermitidos como array en minúsculas
   const rolesPermitidos = role
@@ -25,7 +25,7 @@ const PrivateRoute = ({ children, role }) => {
   }
 
   // ✅ Si children es una función, se le pasa el rol
-  if (typeof children === "function") {
+  if (typeof children === 'function') {
     return children({ userRole: rolActual });
   }
 

@@ -12,14 +12,13 @@
 }
 
 .contenido-header {
+  flex-wrap: nowrap;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 50px;
   position: relative;
   top: 0;
 }
@@ -82,6 +81,7 @@
 }
 
 
+
 .lista-info li{
   text-decoration: none;
   color: #e4e1e1;
@@ -102,17 +102,6 @@
 .lista-info li:hover {
   transform: scale(1.12);
 }
-
-.lista-info-c {
-  text-decoration: none;
-  color: #e4e1e1;
-  font-weight: bold;
-  list-style: none;
-  transition: transform 0.3s ease;
-}
-
-
-
 
 
 
@@ -141,16 +130,17 @@
   display: flex;
   justify-content: center;
   list-style: none;
-  gap: 2.5rem;
+  gap: 6.5rem;
   align-items: center;
   margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
+  padding: 2px ;
   font-size: 1.7rem;
   text-decoration: none;
   color: #e4e1e1;
   font-weight: bold;
   transition: transform 0.3s ease;
+  padding-left: 90px;
+
 }
 
 
@@ -196,9 +186,9 @@
 }
 
 .estilo-logo-perfil {
-  margin-right: 25px;
+  margin-right: 15px;
   border-radius: 50%; /*redondea el logo en forma de circulo*/
-  width: 130px; /*ancho del logo*/
+  width: 110px; /*ancho del logo*/
   height: auto; /*alto del logo*/
 }
 
@@ -270,6 +260,13 @@
 }
 
 
+.iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 50px;
+  height: auto;
+}
+
 /* ===== Diseño responsivo ===== */
 @media (max-width: 1174px) {
   .contenido-header {
@@ -287,6 +284,8 @@
 
   .lista-info-c {
     font-size: 1.6rem;
+    padding-left: 10px;
+    gap: 30px;
   }
 
   .estilo-logo {
@@ -303,6 +302,13 @@
     width: 45px;
     height: 45px;
   }
+
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 40px;
+  height: auto;
+}
 }
 
 
@@ -322,6 +328,7 @@
 
   .lista-info-c {
     font-size: 1.3rem;
+    gap: 30px;
   }
 
   .estilo-logo {
@@ -351,10 +358,11 @@
 
   .barra-navegacion {
     width: 100%;
+    display: flex;
   }
 
   .lista-info {
-    flex-wrap: wrap;
+    flex-direction: row;
     justify-content: center;
     gap: 10px;
     font-size: 1rem;
@@ -372,19 +380,24 @@
   .estilo-logo-perfil {
     width: 60px;
   }
+
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 30px;
+  height: auto;
+}
 }
 
 @media (max-width: 750px) {
   .contenido-header {
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
+
     gap: 20px;
     padding: 10px;
+
   }
 
   .lista-info {
-    flex-direction: row;
     gap: 5px;
   }
 
@@ -400,6 +413,13 @@
     width: 50px;
     height: 50px;
   }
+
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 20px;
+  height: auto;
+}
 }
 
 
@@ -409,10 +429,11 @@
     text-align: center;
     gap: 20px;
     padding: 10px;
+    flex-direction: row;
+
   }
 
   .lista-info {
-    flex-direction: row;
     gap: 7px;
   }
 
@@ -422,7 +443,6 @@
 
   .lista-info-c {
     font-size: 1rem;
-    display: block;
   }
 
   .estilo-logo {
@@ -439,12 +459,19 @@
     width: 35px;
     height: 35px;
   }
+
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 20px;
+  height: auto;
+}
 }
 
 
 @media (max-width: 400px) {
   .contenido-header {
-    flex-direction: row;
+
     gap: 15px;
     padding: 5px;
   }
@@ -469,13 +496,19 @@
   }
 
   .lista-info-c {
+    flex-direction: row;
     font-size: 1.3rem;
   }
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 20px;
+  height: auto;
+}
 }
 
 @media (max-width: 320px) {
   .contenido-header {
-    flex-direction: row;
     align-items: center;
     text-align: center;
     gap: 10px;
@@ -488,7 +521,6 @@
   }
 
   .lista-info {
-    flex-direction: row;
     gap: 10px;
     font-size: 10px;
   }
@@ -497,9 +529,7 @@
     font-size: 1rem;
   }
 
-  .lista-info-c {
-    font-size: 1rem;
-  }
+ 
 
   .icono-carrito img {
     width: 35px;
@@ -510,4 +540,211 @@
   .shapedividers_com-5996 {
     --sd-wave-h: 60px;
   }
+  .iconos-info {
+  font-size: 1.5em; /* Ajusta el tamaño del icono según sea necesario */
+  vertical-align: middle; /* Alinea el icono con el texto */
+  width: 20px;
+  height: auto;
 }
+}
+
+/* Estilo para los tooltips */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  width: max-content;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  padding: 5px 8px;
+  border-radius: 6px;
+
+  /* posición abajo */
+  position: absolute;
+  top: 120%;   /* un poco más abajo del icono */
+  left: 50%;
+  transform: translateX(-50%);
+
+  transition: opacity 0.3s;
+  z-index: 100;
+  white-space: nowrap;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
+/* Asegúrate de que .icono-carrito tenga position: relative */
+.icono-carrito {
+  position: relative;
+  display: inline-block;
+}
+
+/* Badge (numerito del carrito) */
+.badge-carrito {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e69a2f;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 4px 7px;
+  min-width: 20px;
+  height: 20px; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transform-origin: center;
+  transition: transform 150ms ease;
+}
+
+/* animación breve tipo "bump" al cambiar la cantidad */
+.badge-carrito.bump {
+  animation: bump 300ms ease-out;
+}
+
+@keyframes bump {
+  0% { transform: scale(1); }
+  10% { transform: scale(1.2); }
+  30% { transform: scale(0.95); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* 🔹 Ajustes responsive para el carrito */
+.icono-carrito img {
+  width: 55px;
+  height: 55px;
+}
+
+.badge-carrito {
+  font-size: 12px;
+  padding: 4px 7px;
+  top: -6px;
+  right: -8px;
+}
+
+/* ====== Ajustes según tamaño de pantalla ====== */
+@media (max-width: 1040px) {
+  .icono-carrito img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .badge-carrito {
+    font-size: 11px;
+    padding: 3px 6px;
+    top: -5px;
+    right: -6px;
+  }
+}
+
+@media (max-width: 878px) {
+  .icono-carrito img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .badge-carrito {
+    font-size: 10px;
+    padding: 2px 5px;
+    top: -4px;
+    right: -5px;
+  }
+}
+
+@media (max-width: 700px) {
+  .icono-carrito img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .badge-carrito {
+    font-size: 9px;
+    padding: 2px 4px;
+    top: -3px;
+    right: -4px;
+  }
+}
+
+@media (max-width: 400px) {
+  .icono-carrito img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .badge-carrito {
+    font-size: 8px;
+    padding: 1px 4px;
+    top: -2px;
+    right: -3px;
+  }
+}
+
+@media (max-width: 320px) {
+  .icono-carrito img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .badge-carrito {
+    font-size: 7px;
+    padding: 1px 3px;
+    top: -2px;
+    right: -2px;
+  }
+}
+
+
+.estilo-trabajador {
+  font-family: 'Arial', sans-serif;
+  font-size: 2.2rem;
+  color: #ffffff;
+  text-align: center;
+  padding: 1.2rem 2rem;
+  border-radius: 12px;
+  background:  rgba(255, 255, 255, 0.169);;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Efecto "shine" animado */
+.estilo-trabajador::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background:  rgba(255, 255, 255, 0.169);
+  transform: skewX(-25deg);
+}
+
+/* Hover: brilla y se eleva */
+.estilo-trabajador:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  background:  rgba(255, 255, 255, 0.258);
+}
+
+/* Animación del shine en hover */
+.estilo-trabajador:hover::before {
+  left: 125%;
+  transition: left 0.7s ease;
+}
+

@@ -18,7 +18,6 @@ from .utils import enviar_correo_bienvenida
 # Terceros
 from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -27,8 +26,9 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-import traceback
+from rest_framework_simplejwt.tokens import RefreshToken, TokenErrorimport traceback
 
+import traceback
 # Locales
 from .models import CodigoVerificacion, Usuario
 from .serializers import CustomTokenObtainPairSerializer
@@ -115,33 +115,45 @@ def login_usuario(request):
         password = request.data.get('password')
 
         if not email or not password:
-            return Response({'error': 'Por favor, ingrese correo y contraseña'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Por favor, ingrese correo y contraseña'}, status=400)
 
         try:
             usuario = Usuario.objects.get(email=email)
         except Usuario.DoesNotExist:
-            return Response({'error': 'Correo no registrado'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Correo no registrado'}, status=404)
 
         if not check_password(password, usuario.password):
-            return Response({'error': 'Contraseña incorrecta'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'Contraseña incorrecta'}, status=401)
 
         # Generar tokens JWT
         refresh = RefreshToken.for_user(usuario)
+        access_token = str(refresh.access_token)
 
-        return Response({
+        # Enviar refresh token en cookie HttpOnly
+        response = Response({
             'mensaje': 'Inicio de sesión exitoso',
-            'access': str(refresh.access_token),
-            'refresh': str(refresh),
+            'access': access_token,
             'nombre': usuario.nombre,
             'apellido': usuario.apellido,
             'rol': usuario.rol,
             'id_usuario': usuario.id_usuario,
             'email': usuario.email
-        }, status=status.HTTP_200_OK)
+        }, status=200)
+
+        # Cookie HttpOnly
+        response.set_cookie(
+            key='refresh_token',
+            value=str(refresh),
+            httponly=True,
+            secure=True,  # True si es HTTPS
+            samesite='Lax', 
+            max_age=7*24*60*60  # opcional, duración 7 días
+        )
+
+        return response
 
     except Exception as e:
-        # ✅ Captura cualquier excepción imprevista y responde
-        return Response({'error': f'Error interno del servidor: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'error': f'Error interno del servidor: {str(e)}'}, status=500)
 
 #----------------------------vista para enviar el codigo de verificacion-----------------------------------------
 
@@ -396,107 +408,3 @@ def logout_view(request):
         return Response({"mensaje": "Cierre de sesión exitoso"}, status=status.HTTP_205_RESET_CONTENT)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-###################################################################################
-# formulario de reclamo /manifiesto consumidor/
-###################################################################################
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def enviar_manifiesto_consumidor(request):
-    try:
-        usuario = request.user  
-        user_email = usuario.email if usuario.is_authenticated else None
-
-        data = request.data
-        nombres = data.get("Nombres")
-        telefono = data.get("telefono")
-        tipo_documento = data.get("tipo_documento")
-        numero_documento = data.get("numero_documento")
-        email = data.get("email")
-        direccion = data.get("direccion")
-        descripcion = data.get("descripcion")
-        solucion = data.get("solucion")
-        comprobante = request.FILES.get("comprobante")  # archivo adjunto
-
-        mensaje_html = f"""
-        <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Manifiesto del consumidor</title>
-</head>
-<body style="margin:0; padding:0; background-color:#f3e5d7; font-family: Arial, sans-serif;">
-
-  <table align="center" width="600" cellpadding="0" cellspacing="0" style="border:1px solid #ddd; background-color:#ffffff; border-radius:10px; overflow:hidden;">
-    
-    <!-- Encabezado con logo -->
-    <tr style="background-color:#5c4033; color:white;">
-      <td align="center" style="padding:20px;">
-        <h2 style="margin:0;">Panadería La Orquídea</h2>
-      </td>
-    </tr>
-
-    <!-- Título -->
-    <tr>
-      <td align="center" style="padding:20px; background-color:#d7ccc8;">
-        <h3 style="margin:0; color:#3e2723;">📋 Manifiesto del consumidor reclamante</h3>
-      </td>
-    </tr>
-
-    <!-- Contenido -->
-    <tr>
-      <td style="padding:20px; color:#3e2723; font-size:14px; line-height:1.6;">
-        <p><strong>Nombre y Apellidos:</strong> {nombres}</p>
-        <p><strong>Teléfono:</strong> {telefono}</p>
-        <p><strong>Tipo de Documento:</strong> {tipo_documento}</p>
-        <p><strong>N° Documento:</strong> {numero_documento}</p>
-        <p><strong>Correo:</strong> {email}</p>
-        <p><strong>Dirección:</strong> {direccion}</p>
-
-        <hr style="border:none; border-top:1px solid #ddd; margin:20px 0;">
-
-        <p><strong>Descripción del problema:</strong></p>
-        <p style="background:#f9f5f0; padding:10px; border-left:4px solid #8d6e63;">{descripcion}</p>
-
-        <p><strong>Solución esperada:</strong></p>
-        <p style="background:#f9f5f0; padding:10px; border-left:4px solid #5c4033;">{solucion}</p>
-      </td>
-    </tr>
-
-    <!-- Pie -->
-    <tr>
-      <td align="center" style="background-color:#8d6e63; color:white; padding:15px; font-size:12px;">
-        © 2025 Panadería La Orquídea - Todos los derechos reservados
-      </td>
-    </tr>
-  </table>
-
-</body>
-</html>
-
-        """
-
-        destinatarios = ["fservice28.076@gmail.com"]
-
-        email_obj = EmailMessage(
-            subject="Nuevo Manifiesto del Consumidor",
-            body=mensaje_html,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=destinatarios,
-            reply_to=[user_email] if user_email else None,
-        )
-        email_obj.content_subtype = "html"
-
-        # Adjuntar comprobante si lo hay
-        if comprobante:
-            email_obj.attach(comprobante.name, comprobante.read(), comprobante.content_type)
-
-        email_obj.send(fail_silently=False)
-
-        return Response({"success": True, "message": "Manifiesto enviado correctamente"})
-
-    except Exception as e:
-        tb = traceback.format_exc()
-        print("Error en enviar_manifiesto_consumidor:", tb)
-        return Response({"success": False, "error": str(e), "trace": tb}, status=400)

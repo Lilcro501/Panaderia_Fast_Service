@@ -14,7 +14,7 @@ from .views import UsuarioDetalleView
 
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
-    TokenBlacklistView,  # Opcional: para cerrar sesión
+    TokenBlacklistView, 
 )
 
 urlpatterns = [
@@ -29,9 +29,8 @@ urlpatterns = [
 
     # Autenticación con JWT personalizada
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('token/logout/', TokenBlacklistView.as_view(), name='token_blacklist'),  # Opcional
-
+    #path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/logout/', TokenBlacklistView.as_view(), name='token_blacklist'),
     # Login con Google
     path('login/google/', login_google),
 

@@ -3,7 +3,7 @@ import { FaUser, FaLock, FaUserLock, FaEye, FaEyeSlash, FaPhone } from 'react-ic
 import { IoMdClose } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import { registrarUsuario } from '../../api/login';
-import orquidea from "../../assets/icons/ImagenOrquidea.png"; 
+import orquidea from '../../assets/icons/ImagenOrquidea.png';
 import '../../assets/styles/Registro.css';
 
 export default function Registro() {
@@ -18,13 +18,24 @@ export default function Registro() {
   });
 
   useEffect(() => {
-    const datosGuardados = localStorage.getItem('registroForm');
-    if (datosGuardados) setForm(JSON.parse(datosGuardados));
+    // Cargar datos no sensibles desde sessionStorage
+    const datosGuardados = sessionStorage.getItem('registroForm');
+    if (datosGuardados) {
+      const parsedData = JSON.parse(datosGuardados);
+      setForm((prev) => ({
+        ...prev,
+        nombres: parsedData.nombres || '',
+        apellidos: parsedData.apellidos || '',
+        correo: parsedData.correo || '',
+        telefono: parsedData.telefono || '',
+        terminos: parsedData.terminos || false,
+      }));
+    }
   }, []);
 
   const [errores, setErrores] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [mensajeErrorGeneral, setMensajeErrorGeneral] = useState("");
+  const [mensajeErrorGeneral, setMensajeErrorGeneral] = useState('');
   const [mostrarPassword, setMostrarPassword] = useState(false);
   const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
   const navigate = useNavigate();
@@ -38,7 +49,9 @@ export default function Registro() {
     return dominiosValidos.includes(partes[1].toLowerCase());
   };
 
-  const salir = () => window.location.href = '/';
+  const salir = () => {
+    window.location.href = '/';
+  };
 
   // 🔥 VALIDACIONES COMPLETAS
   const validar = () => {
@@ -62,8 +75,9 @@ export default function Registro() {
     else if (!telefonoRegex.test(form.telefono)) nuevosErrores.telefono = 'El teléfono debe tener entre 7 y 15 dígitos';
 
     if (!form.password.trim()) nuevosErrores.password = 'Por favor ingresa una contraseña';
-    else if (!passwordRegex.test(form.password)) nuevosErrores.password =
-      'La contraseña debe tener mínimo 8 caracteres, incluir mayúscula, minúscula, número y un carácter especial';
+    else if (!passwordRegex.test(form.password))
+      nuevosErrores.password =
+        'La contraseña debe tener mínimo 8 caracteres, incluir mayúscula, minúscula, número y un carácter especial';
 
     if (form.confirmar !== form.password) nuevosErrores.confirmar = 'Las contraseñas no coinciden';
 
@@ -77,56 +91,61 @@ export default function Registro() {
     const nuevoValor = type === 'checkbox' ? checked : value;
     const nuevoForm = { ...form, [id]: nuevoValor };
     setForm(nuevoForm);
-    localStorage.setItem('registroForm', JSON.stringify(nuevoForm));
+
+    // Almacenar solo datos no sensibles en sessionStorage
+    const datosParaGuardar = {
+      nombres: nuevoForm.nombres,
+      apellidos: nuevoForm.apellidos,
+      correo: nuevoForm.correo,
+      telefono: nuevoForm.telefono,
+      terminos: nuevoForm.terminos,
+    };
+    sessionStorage.setItem('registroForm', JSON.stringify(datosParaGuardar));
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  const erroresValidados = validar();
-  setErrores(erroresValidados);
-  setMensajeErrorGeneral("");
+    e.preventDefault();
+    const erroresValidados = validar();
+    setErrores(erroresValidados);
+    setMensajeErrorGeneral('');
 
-  if (Object.keys(erroresValidados).length === 0) {
-    // ✅ Mostramos el modal inmediatamente
-    setModalVisible(true);
+    if (Object.keys(erroresValidados).length === 0) {
+      setModalVisible(true);
 
-    try {
-      const payload = {
-        email: form.correo,
-        password: form.password,
-        nombre: form.nombres,
-        apellido: form.apellidos,
-        telefono: form.telefono,
-        rol: 'cliente'
-      };
+      try {
+        const payload = {
+          email: form.correo,
+          password: form.password,
+          nombre: form.nombres,
+          apellido: form.apellidos,
+          telefono: form.telefono,
+          rol: 'cliente',
+        };
 
-      console.log("Datos a enviar:", payload);
+        console.log('Datos a enviar:', payload);
 
-      const response = await registrarUsuario(payload);
+        const response = await registrarUsuario(payload);
 
-      // Si el servidor devuelve error, cerramos el modal y mostramos el mensaje
-      if (!(response.status === 201 || response.status === 200)) {
+        if (!(response.status === 201 || response.status === 200)) {
+          setModalVisible(false);
+          setMensajeErrorGeneral('Hubo un problema en el registro.');
+        }
+      } catch (error) {
         setModalVisible(false);
-        setMensajeErrorGeneral("Hubo un problema en el registro.");
+        console.error(error.response?.data || error);
+        if (error.response) {
+          const data = error.response.data;
+          if (data.email) setMensajeErrorGeneral('El correo ya está registrado.');
+          else setMensajeErrorGeneral(JSON.stringify(data));
+        } else if (error.request) setMensajeErrorGeneral('No se pudo conectar con el servidor.');
+        else setMensajeErrorGeneral('Ocurrió un error inesperado.');
       }
-
-    } catch (error) {
-      setModalVisible(false);
-      console.error(error.response?.data || error);
-      if (error.response) {
-        const data = error.response.data;
-        if (data.email) setMensajeErrorGeneral("El correo ya está registrado.");
-        else setMensajeErrorGeneral(JSON.stringify(data));
-      } else if (error.request) setMensajeErrorGeneral("No se pudo conectar con el servidor.");
-      else setMensajeErrorGeneral("Ocurrió un error inesperado.");
     }
-  }
-};
-
+  };
 
   const cerrarModal = () => {
     setModalVisible(false);
-    localStorage.removeItem('registroForm');
+    sessionStorage.removeItem('registroForm');
     navigate('/AccedeAqui');
   };
 
@@ -137,43 +156,80 @@ export default function Registro() {
         <div className='ImagenOrquidea'>
           <img src={orquidea} alt='Registro' />
         </div>
-      </div> 
+      </div>
 
       <div className='PanelDerecho'>
-        <button className='Salir' onClick={salir}><IoMdClose /></button>
-        
+        <button className='Salir' onClick={salir}>
+          <IoMdClose />
+        </button>
+
         <form className='Form' onSubmit={handleSubmit} noValidate>
           <h1 className='TituloAcceso'>Regístrate</h1>
-          {mensajeErrorGeneral && <p className="mensaje-error">{mensajeErrorGeneral}</p>}
+          {mensajeErrorGeneral && <p className='mensaje-error'>{mensajeErrorGeneral}</p>}
 
           <div className='Campo'>
             <FaUser className='Icono' />
-            <input type='text' id='nombres' placeholder='Nombres' value={form.nombres} onChange={handleChange} className={errores.nombres ? 'invalido' : ''}/>
+            <input
+              type='text'
+              id='nombres'
+              placeholder='Nombres'
+              value={form.nombres}
+              onChange={handleChange}
+              className={errores.nombres ? 'invalido' : ''}
+            />
           </div>
           {errores.nombres && <p className='mensaje-error'>{errores.nombres}</p>}
 
           <div className='Campo'>
             <FaUser className='Icono' />
-            <input type='text' id='apellidos' placeholder='Apellidos' value={form.apellidos} onChange={handleChange} className={errores.apellidos ? 'invalido' : ''}/>
+            <input
+              type='text'
+              id='apellidos'
+              placeholder='Apellidos'
+              value={form.apellidos}
+              onChange={handleChange}
+              className={errores.apellidos ? 'invalido' : ''}
+            />
           </div>
           {errores.apellidos && <p className='mensaje-error'>{errores.apellidos}</p>}
 
           <div className='Campo'>
             <FaUser className='Icono' />
-            <input type='email' id='correo' placeholder='Correo' value={form.correo} onChange={handleChange} className={errores.correo ? 'invalido' : ''}/>
+            <input
+              type='email'
+              id='correo'
+              placeholder='Correo'
+              value={form.correo}
+              onChange={handleChange}
+              className={errores.correo ? 'invalido' : ''}
+            />
           </div>
           {errores.correo && <p className='mensaje-error'>{errores.correo}</p>}
 
           <div className='Campo'>
             <FaPhone className='Icono' />
-            <input type='tel' id='telefono' placeholder='Teléfono' value={form.telefono} onChange={handleChange} className={errores.telefono ? 'invalido' : ''}/>
+            <input
+              type='tel'
+              id='telefono'
+              placeholder='Teléfono'
+              value={form.telefono}
+              onChange={handleChange}
+              className={errores.telefono ? 'invalido' : ''}
+            />
           </div>
           {errores.telefono && <p className='mensaje-error'>{errores.telefono}</p>}
 
           <div className='Campo'>
             <FaLock className='Icono' />
-            <input type={mostrarPassword ? 'text' : 'password'} id='password' placeholder='Contraseña' value={form.password} onChange={handleChange} className={errores.password ? 'invalido' : ''}/>
-            <span className="Ojo" onClick={() => setMostrarPassword(!mostrarPassword)}>
+            <input
+              type={mostrarPassword ? 'text' : 'password'}
+              id='password'
+              placeholder='Contraseña'
+              value={form.password}
+              onChange={handleChange}
+              className={errores.password ? 'invalido' : ''}
+            />
+            <span className='Ojo' onClick={() => setMostrarPassword(!mostrarPassword)}>
               {mostrarPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
@@ -181,8 +237,15 @@ export default function Registro() {
 
           <div className='Campo'>
             <FaUserLock className='Icono' />
-            <input type={mostrarConfirmar ? 'text' : 'password'} id='confirmar' placeholder='Confirmar contraseña' value={form.confirmar} onChange={handleChange} className={errores.confirmar ? 'invalido' : ''}/>
-            <span className="Ojo" onClick={() => setMostrarConfirmar(!mostrarConfirmar)}>
+            <input
+              type={mostrarConfirmar ? 'text' : 'password'}
+              id='confirmar'
+              placeholder='Confirmar contraseña'
+              value={form.confirmar}
+              onChange={handleChange}
+              className={errores.confirmar ? 'invalido' : ''}
+            />
+            <span className='Ojo' onClick={() => setMostrarConfirmar(!mostrarConfirmar)}>
               {mostrarConfirmar ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
@@ -190,24 +253,32 @@ export default function Registro() {
 
           <div className='EstiloAceptartyc'>
             <label className='TextoTerminos'>
-              <input type='checkbox' id='terminos' checked={form.terminos} onChange={handleChange}/>
-              <span className='TerminosCondiciones'>Acepto los <Link to="/TYC"> <strong>Términos y Condiciones</strong></Link></span>
+              <input type='checkbox' id='terminos' checked={form.terminos} onChange={handleChange} />
+              <span className='TerminosCondiciones'>
+                Acepto los <Link to='/TYC'> <strong>Términos y Condiciones</strong></Link>
+              </span>
             </label>
           </div>
           {errores.terminos && <p className='mensaje-error'>{errores.terminos}</p>}
 
-          <button className='Continuar' type='submit'>Registrarse</button>
-        
-          <p className='Registro'>¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link></p>
+          <button className='Continuar' type='submit'>
+            Registrarse
+          </button>
+
+          <p className='Registro'>
+            ¿Ya estás registrado? <Link to='/AccedeAqui'>Accede aquí</Link>
+          </p>
         </form>
       </div>
 
       {modalVisible && (
-        <div className="modal-fondo">
-          <div className="modal-contenido">
+        <div className='modal-fondo'>
+          <div className='modal-contenido'>
             <h3>¡Registro exitoso! 🎉</h3>
             <p>Tu cuenta ha sido creada correctamente.</p>
-            <button className="boton-aceptar" onClick={cerrarModal}>Ir a iniciar sesión</button>
+            <button className='boton-aceptar' onClick={cerrarModal}>
+              Ir a iniciar sesión
+            </button>
           </div>
         </div>
       )}
