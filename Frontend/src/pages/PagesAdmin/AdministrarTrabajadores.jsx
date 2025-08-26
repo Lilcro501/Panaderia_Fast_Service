@@ -117,7 +117,7 @@ export default function AdministrarTrabajadores() {
     // Renderizado del componente
     return (
         <div className="contenedor_principal">
-            <h2 className="titulo_seccion">Administrar Trabajadores</h2>
+            <h2 className="titulo">Administrar Trabajadores</h2>
 
             {/* Tabla de trabajadores */}
             <TablaAdmin encabezados={encabezados} filas={filas} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../assets/styles/AccedeAqui.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
-import api, { guardarToken } from "../../api/api";
+import api from "../../api/api"
 import { useRol } from '../../Context/RolContext';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
@@ -11,7 +11,7 @@ import '../../assets/styles/Global.css';
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
-  const { cambiarRol } = useRol();
+  const { cambiarRol, guardarToken } = useRol();
 
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +23,9 @@ export default function AccedeAqui() {
     cambiarRol('sin-registrar');
   }, [cambiarRol]);
 
-  const salir = () => window.location.href = '/';
+  const salir = () => {
+    window.location.href = '/';
+  };
 
   const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const regexPassword = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
@@ -33,10 +35,17 @@ export default function AccedeAqui() {
   const redirigirPorRol = (rol) => {
     setTimeout(() => {
       switch (rol) {
-        case 'admin': navigate('/PrincipalAdmin'); break;
-        case 'trabajador': navigate('/Inicio'); break;
-        case 'cliente': navigate('/home'); break;
-        default: navigate('/'); 
+        case 'admin':
+          navigate('/PrincipalAdmin');
+          break;
+        case 'trabajador':
+          navigate('/Inicio');
+          break;
+        case 'cliente':
+          navigate('/home');
+          break;
+        default:
+          navigate('/');
       }
     }, 250);
   };
@@ -49,23 +58,28 @@ export default function AccedeAqui() {
     if (!CorreoValido || !PasswordValida) return;
 
     try {
-      const response = await api.post('/api/usuarios/token/', { email: correo, password }, { withCredentials: true });
-      const { access, nombre, rol, id_usuario } = response.data;
+      const response = await api.post('api/usuarios/token/', { email: correo, password }, { withCredentials: true });
 
-      if (!rol) {
-        setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
-        return;
+      if (response.status === 200) {
+        const { access, nombre, rol, id_usuario } = response.data;
+        if (!rol) {
+          setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
+          return;
+        }
+
+        const rolLower = rol.toLowerCase();
+        // Almacenar datos no sensibles en sessionStorage
+        sessionStorage.setItem('nombre', nombre);
+        sessionStorage.setItem('rol', rolLower);
+        sessionStorage.setItem('id_usuario', id_usuario);
+        sessionStorage.setItem('loginMetodo', 'manual');
+        sessionStorage.setItem('accessToken', access);
+
+        // Actualizar el contexto
+        cambiarRol(rolLower);
+        guardarToken(access);
+        redirigirPorRol(rolLower);
       }
-
-      const rolLower = rol.toLowerCase();
-      sessionStorage.setItem('nombre', nombre);
-      sessionStorage.setItem('rol', rolLower);
-      sessionStorage.setItem('id_usuario', id_usuario);
-      sessionStorage.setItem('loginMetodo', 'manual');
-      guardarToken(access);
-
-      cambiarRol(rolLower);
-      redirigirPorRol(rolLower);
     } catch (error) {
       const mensaje = error.response?.data?.error || '❌ Error desconocido en el inicio de sesión';
       setErrorLogin(mensaje);
@@ -81,7 +95,6 @@ export default function AccedeAqui() {
       );
 
       const { access, nombre, rol, id_usuario } = response.data;
-
       if (!rol) {
         setErrorLogin('⚠️ Error: No se recibió el rol del usuario (Google).');
         return;
@@ -92,9 +105,10 @@ export default function AccedeAqui() {
       sessionStorage.setItem('rol', rolLower);
       sessionStorage.setItem('id_usuario', id_usuario);
       sessionStorage.setItem('loginMetodo', 'google');
-      guardarToken(access);
+      sessionStorage.setItem('accessToken', access); // Almacenar access_token
 
       cambiarRol(rolLower);
+      guardarToken(access);
       redirigirPorRol(rolLower);
     } catch (error) {
       setErrorLogin('Error al iniciar sesión con Google');
@@ -127,6 +141,7 @@ export default function AccedeAqui() {
               required
             />
           </div>
+          <br />
           {!CorreoValido && enviado && <div className='invalid'>Por favor, ingresa un correo válido</div>}
 
           <div className={`Camp form-control ${!PasswordValida && enviado ? 'is-invalid' : ''}`}>
@@ -171,4 +186,3 @@ export default function AccedeAqui() {
     </section>
   );
 }
-
