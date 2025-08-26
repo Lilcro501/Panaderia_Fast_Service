@@ -333,18 +333,8 @@ export default function PoliticaPrivacidad() {
                 ))}
 
                 {!mostrarTodo && secciones.length > limiteInicial && (
-                    <button
-                        onClick={() => setMostrarTodo(true)}
-                        style={{
-                            backgroundColor: '#4a3939',
-                            color: '#fff',
-                            padding: '10px 20px',
-                            borderRadius: '10px',
-                            fontSize: '1rem',
-                            cursor: 'pointer',
-                            marginTop: '10px'
-                        }}
-                    >
+                    <button className='bntVerMas'
+                        onClick={() => setMostrarTodo(true)}>
                         Ver más
                     </button>
                 )}
