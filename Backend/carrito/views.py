@@ -14,9 +14,12 @@ from rest_framework.response import Response
 from django.core.mail import send_mail, EmailMessage
 
 
+from .models import Producto
+
 from decimal import Decimal
 from datetime import datetime
 import json
+import random
 
 # Django REST Framework
 from rest_framework import generics
@@ -32,6 +35,7 @@ from trabajador.models import EstadoFactura
 # Serializadores
 from .serializers import FavoritoSerializer
 from .serializers import ValoracionSerializer
+from .serializers import ProductoSerializer
 
 # Utilidades
 from .utils import enviar_factura_por_correo
@@ -241,7 +245,7 @@ def obtener_producto_por_id(request, id):
 # Vista para listar y crear favoritos
 class ListaCrearFavoritos(generics.ListCreateAPIView):
     serializer_class = FavoritoSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]  
 
     def get_queryset(self):
         return Favorito.objects.filter(usuario=self.request.user)
@@ -434,3 +438,25 @@ def enviar_encuesta(request):
         tb = traceback.format_exc()
         print("Error en enviar_encuesta:", tb)
         return Response({"success": False, "error": str(e), "trace": tb}, status=400)
+
+
+
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def productos_aleatorios(request):
+    """
+    Retorna N productos aleatorios de la base de datos,
+    excluyendo los que tienen stock = 0
+    """
+    cantidad = int(request.GET.get("cantidad", 10))  # cantidad opcional en query param
+    
+    # ✅ Filtramos solo productos disponibles
+    productos = list(Producto.objects.filter(stock__gt=0))
+
+    # ✅ Tomamos aleatoriamente la cantidad solicitada o el máximo disponible
+    seleccionados = random.sample(productos, min(cantidad, len(productos)))
+
+    serializer = ProductoSerializer(seleccionados, many=True)
+    return Response(serializer.data)

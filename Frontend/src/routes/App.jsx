@@ -65,7 +65,7 @@ import PrincipalAdmin from '../pages/PagesAdmin/PrincipalAdmin';
 
 // ------------------- Páginas Trabajador -------------------
 import DetallesPedido from '../pages/PagesTrabajador/DetallesPedido';
-import Formulario from '../pages/PagesTrabajador/Formulario';
+
 import EstadosPedidos from '../pages/PagesTrabajador/EstadosPedidos';
 import HistorialPedidos from '../pages/PagesTrabajador/HistorialPedidos';
 import InfoCliente from '../pages/PagesTrabajador/InfoCliente';
@@ -254,7 +254,6 @@ const AppRouter = () => {
 
 
         {/* Trabajador */}
-        <Route path='/Formulario' element={<PrivateRoute role="trabajador"><LayoutTrabajador><Formulario /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/EstadosPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><EstadosPedidos /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/HistorialPedidos' element={<PrivateRoute role="trabajador"><LayoutTrabajador><HistorialPedidos /></LayoutTrabajador></PrivateRoute>} />
         <Route path='/InfoCliente/:id' element={<PrivateRoute role="trabajador"><LayoutTrabajador><InfoCliente /></LayoutTrabajador></PrivateRoute>} />

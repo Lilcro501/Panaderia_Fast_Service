@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import '../../assets/styles/AccedeAqui.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import api from "../../api/api"
 import { useRol } from '../../Context/RolContext';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import ImagenOrquidea from '../../assets/icons/ImagenOrquidea.png';
-import { iniciarSesion } from '../../api/login';
-import "../../assets/styles/Global.css";
+import '../../assets/styles/Global.css';
 
 export default function AccedeAqui() {
   const navigate = useNavigate();
-  const { cambiarRol } = useRol();
+  const { cambiarRol, guardarToken } = useRol();
 
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
@@ -59,24 +58,26 @@ export default function AccedeAqui() {
     if (!CorreoValido || !PasswordValida) return;
 
     try {
-      const response = await iniciarSesion({ email: correo, password });
+      const response = await api.post('api/usuarios/token/', { email: correo, password }, { withCredentials: true });
 
       if (response.status === 200) {
-        const { access, refresh, nombre, rol, id_usuario } = response.data;
+        const { access, nombre, rol, id_usuario } = response.data;
         if (!rol) {
           setErrorLogin('⚠️ Error: No se recibió el rol del usuario.');
           return;
         }
 
         const rolLower = rol.toLowerCase();
-        localStorage.setItem('access', access);
-        localStorage.setItem('refresh', refresh);
-        localStorage.setItem('nombre', nombre);
-        localStorage.setItem('rol', rolLower);
-        localStorage.setItem('id_usuario', id_usuario);
-        localStorage.setItem('loginMetodo', 'manual');
+        // Almacenar datos no sensibles en sessionStorage
+        sessionStorage.setItem('nombre', nombre);
+        sessionStorage.setItem('rol', rolLower);
+        sessionStorage.setItem('id_usuario', id_usuario);
+        sessionStorage.setItem('loginMetodo', 'manual');
+        sessionStorage.setItem('accessToken', access);
 
+        // Actualizar el contexto
         cambiarRol(rolLower);
+        guardarToken(access);
         redirigirPorRol(rolLower);
       }
     } catch (error) {
@@ -87,25 +88,27 @@ export default function AccedeAqui() {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/usuarios/login/google/', {
-        token: credentialResponse.credential,
-      });
+      const response = await api.post(
+        '/api/usuarios/login/google/',
+        { token: credentialResponse.credential },
+        { withCredentials: true }
+      );
 
-      const { access, refresh, nombre, rol, id_usuario } = response.data;
+      const { access, nombre, rol, id_usuario } = response.data;
       if (!rol) {
         setErrorLogin('⚠️ Error: No se recibió el rol del usuario (Google).');
         return;
       }
 
       const rolLower = rol.toLowerCase();
-      localStorage.setItem('access', access);
-      localStorage.setItem('refresh', refresh);
-      localStorage.setItem('nombre', nombre);
-      localStorage.setItem('rol', rolLower);
-      localStorage.setItem('id_usuario', id_usuario);
-      localStorage.setItem('loginMetodo', 'google');
+      sessionStorage.setItem('nombre', nombre);
+      sessionStorage.setItem('rol', rolLower);
+      sessionStorage.setItem('id_usuario', id_usuario);
+      sessionStorage.setItem('loginMetodo', 'google');
+      sessionStorage.setItem('accessToken', access); // Almacenar access_token
 
       cambiarRol(rolLower);
+      guardarToken(access);
       redirigirPorRol(rolLower);
     } catch (error) {
       setErrorLogin('Error al iniciar sesión con Google');
@@ -150,8 +153,7 @@ export default function AccedeAqui() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            {/* 👁️ Botón para mostrar/ocultar */}
-            <span className="Ojo" onClick={() => setMostrarPassword(!mostrarPassword)}>
+            <span className='Ojo' onClick={() => setMostrarPassword(!mostrarPassword)}>
               {mostrarPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>

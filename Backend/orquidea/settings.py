@@ -41,7 +41,9 @@ DEBUG = True
 
 #configuracion de los dominios que se van a utilizar en la aplicacion
 # esto es una medida de segirdad para que no se pueda acceder a la aplicacion desde otro dominio
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.ngrok-free.app']
+
 
 # Application definition
 #Esto indicara que aplicaciones se van a utilizar en el proyecto
@@ -81,6 +83,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # proporciona la funcionalidad necesaria para manejar la autenticacion de usuarios a travez de google
     'allauth.socialaccount.providers.google',
+
+    'rest_framework_simplejwt.token_blacklist',
 
 
     # mis apps
@@ -243,7 +247,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #esta configuracion permite que cualquier dominio realice solicitudes a la API o a los recuros de la aplicacion de django, esta hace parte de la configuracion de CORS
 #Valor: significa que se permitiran todas las solicitudes de origen a la API
-CORS_ALLOW_ALL_ORIGINS = True
+#CORS_ALLOW_ALL_ORIGINS = True
 
 #este campo define la URL base para accede a loa archivos multimedia en la aplicacion de dango
 #cuando se suben los archivos, se pueden acceder mediane esta URL
@@ -262,12 +266,19 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://localhost:3000",
+    "https://abcd1234.ngrok-free.app",  # la URL pública de React
 ]
+
 
 #este campo define una lista de origenes de confianza para las solicitudes que incluyen un token CSRF, al especificar ,ss permite que las solicitudes desde este origen se consideren seguras para la proteccion contra CSRF
 CSRF_TRUSTED_ORIGINS = [
+    "https://*.ngrok-free.app",
     "http://localhost:5173",
 ]
+
+
+
 
 #configuracion de correo para el registro de usuarios
 #define el motor de envuo de correos
@@ -309,7 +320,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     #define la duracion de vida del token de acceso
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     #define la duraciin de vida del token de actualizacion (refresh token)
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     #indica si se deben rotar los tokens de actualizacion, 
@@ -346,6 +357,6 @@ GOOGLE_CLIENT_ID = "809142625017-shc1bn94eni4795cekkssugdjhmikqop.apps.googleuse
 CORS_ALLOW_CREDENTIALS = True
 
 SESSION_COOKIE_SAMESITE = None
-SESSION_COOKIE_SECURE = False  # True si usas HTTPS
+SESSION_COOKIE_SECURE = False  
 CSRF_COOKIE_SAMESITE = None
 CSRF_COOKIE_SECURE = False
