@@ -6,12 +6,13 @@ import '../assets/styles/Header.css';
 import logo from '../assets/images/logo_header.png';
 import carritoIcon from '../assets/icons/icono-carrito.svg';
 import PerfilLogo from '../assets/icons/logo.png';
-import ModalCarrito from './ModalCarrito'; // 👈 importar el modal
+import ModalCarrito from './ModalCarrito'; 
 import { FaUser, FaHeart } from "react-icons/fa";
 import { BsEmojiSmileFill } from "react-icons/bs";
+import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 const Header = () => {
-  const [mostrarModal, setMostrarModal] = useState(false); // 👈 estado para modal
+  const [mostrarModal, setMostrarModal] = useState(false);
 
   return (
     <header className="header shapedividers_com-5996">
@@ -21,23 +22,22 @@ const Header = () => {
         </div>
 
         <div className="barra-navegacion">
-          
           <nav className="menu-secundario">
             <ul className="lista-info-c">
               <li>
-                <Link to="/Conocenos" className='sin-subrayado'>
-                  Conócenos
+                <Link to="/CalificarExperiencia" className='sin-subrayado'>
+                  <BsEmojiSmileFill className='iconos-info' />
                 </Link>
               </li>
 
-              <li>
-                <Link to="/CalificarExperiencia" className='sin-subrayado'>
-                  <BsEmojiSmileFill style={{ marginRight: '8px' }} /> Calificar Experiencia
+                <li>
+                <Link to="/Conocenos" className='sin-subrayado'>
+                <AiOutlineQuestionCircle  className='iconos-info'/>
                 </Link>
               </li>
 
               <li onClick={() => (window.location.href = "/Favoritos")}> 
-                <FaHeart style={{ marginRight: '8px' }} /> Favoritos
+                <FaHeart className='iconos-info' />
               </li>
 
             </ul>
@@ -54,7 +54,7 @@ const Header = () => {
           <img
             src={carritoIcon}
             alt="Carrito"
-            onClick={() => setMostrarModal(true)} // 👈 mostrar modal
+            onClick={() => setMostrarModal(true)} 
             style={{ cursor: 'pointer' }}
           />
         </div>

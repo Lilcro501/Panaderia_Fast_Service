@@ -87,7 +87,7 @@ export default function PoliticaCo() {
                     al hacerle clic podrá tener visualización de las respectivas configuraciones.
                     <br/><br/>
                     Si son rechazadas se podrá seguir usando este sitio web, aunque el uso de algunos de sus 
-                    servicios podrá ser limitado y por tanto la experiencia del usuario puede ser menos satisfactoria.
+                    servicios podrá ser limitado y por tanto la experiencia del usuario puede ser menos satisfactoria.www
                 </p>
             )
         }

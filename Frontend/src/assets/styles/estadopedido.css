@@ -291,7 +291,6 @@ table, th, td {
 
 /* ====== Botones de navegación (Siguiente / Anterior) ====== */
 .boton-navegacion {
-  padding: 8px 16px;
   border: none;
   border-radius: 8px; /* Redondeo un poco más suave */
   font-size: 0.95rem;
@@ -306,6 +305,8 @@ table, th, td {
 
 /* Anterior = gris */
 .boton-anterior {
+  width: 20px;
+  height: auto;
   background-color: #7f8c8d;
   color: #fff;
 }
@@ -317,6 +318,7 @@ table, th, td {
 
 /* Siguiente = verde */
 .boton-siguiente {
+  width: 20px;
   background-color: #27ae60;
   color: #fff;
 }

@@ -11,6 +11,8 @@
 }
 
 .iconos_acciones img {
+    background-color: aliceblue;
+    border-radius: 20%;
     width: 50px;
     height: 50px;
     cursor: pointer;

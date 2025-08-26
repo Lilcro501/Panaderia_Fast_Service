@@ -5,7 +5,7 @@ const CarritoContext = createContext();
 
 export const CarritoProvider = ({ children }) => {
   // 🔹 Obtener datos del usuario logueado (ajusta según tu app)
-  const usuario = JSON.parse(sessionStorage.getItem("usuario")) || JSON.parse(localStorage.getItem("usuario"));
+  const usuario = JSON.parse(sessionStorage.getItem("usuario")) || JSON.parse(sessionStorage.getItem("usuario"));
   const userId = usuario?.id || "anonimo";
 
   // 🔹 Clave dinámica para el carrito de este usuario
