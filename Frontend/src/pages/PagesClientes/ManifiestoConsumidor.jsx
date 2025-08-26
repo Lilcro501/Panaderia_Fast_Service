@@ -1,7 +1,6 @@
 
 import React from 'react';
 import '../../assets/styles/Legalidades.css';
-import Book from '../../assets/images/Book.png'
 
 import { useNavigate } from 'react-router-dom';
 
@@ -60,14 +59,17 @@ export default function ManifiestoConsumidor() {
 
             <div className='ContenedorInput'>
                 <label htmlFor='comprobante'>Comprobante de pago:</label>
-                <input type='file' id='comprobante'/>
+                <input className='ComprobanteInput' type='file' id='comprobante'/>
             </div>
             <br/>
 
             <div className='Opciones'>
-                <label>
-                    <input type='checkbox' id='check'/>Declaro ser el titular del contenido del presente formulario, 
-                    manifestando bajo declaración jurada los hechos descritos en él.
+                <label className='CheckR'>
+                    <span>
+                        <input type='checkbox' id='check'/> Declaro ser el titular del contenido del presente formulario, 
+                        manifestando bajo declaración jurada los hechos descritos en él.
+                    </span>
+                    
                 </label>
             </div>
 
