@@ -73,7 +73,7 @@ const Categoria = ({ nombre }) => {
           return (
             <div key={producto.id} className="producto-tarjeta">
               <Link to={`/producto/${producto.id}`}>
-                <img
+                <img 
                   src={producto.image}
                   alt={producto.nameProduct}
                   className="producto-imagen"
