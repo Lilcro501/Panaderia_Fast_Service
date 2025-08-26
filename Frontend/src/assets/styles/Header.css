@@ -101,7 +101,16 @@
 
 .lista-info li:hover {
   transform: scale(1.12);
-  color: #997b6c;
+}
+
+
+
+.lista-info-c li {
+  text-decoration: none;
+  color: #e4e1e1;
+  font-weight: bold;
+  list-style: none;
+  transition: transform 0.3s ease;
 }
 
 .lista-info-c li:hover{
