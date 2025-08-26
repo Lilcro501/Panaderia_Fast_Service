@@ -284,6 +284,16 @@ const eliminarComentario = async (comentarioId) => {
         </div>
 
         <div className='InfoInferiorCalificacion'>
+
+          <div className='MetodosPagoInfo'>
+            <h1>Medios de pago</h1>
+            <ul>
+              <li>🧺 En la panadería</li>
+              <li>🏠 Contra-entrega</li>
+              <li>📱 Código QR</li>
+            </ul>
+          </div>
+          
           <div className='ContenedorComentarios'>
             <br />
             <div className='ListaComentarios'>
@@ -303,6 +313,7 @@ const eliminarComentario = async (comentarioId) => {
 
                       {enEdicion ? (
                         <>
+                        
                           <textarea
                             className='select-pequeño'
                             value={comentarioEditado}
@@ -343,14 +354,6 @@ const eliminarComentario = async (comentarioId) => {
 
           </div>
 
-          <div className='MetodosPagoInfo'>
-            <h1>Medios de pago</h1>
-            <ul>
-              <li>🧺 En la panadería</li>
-              <li>🏠 Contra-entrega</li>
-              <li>📱 Código QR</li>
-            </ul>
-          </div>
         </div>
       </section>
 

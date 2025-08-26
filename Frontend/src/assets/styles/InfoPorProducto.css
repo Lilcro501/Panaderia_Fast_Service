@@ -1,26 +1,30 @@
 .ContenedorProductoInfo {
   background-color: #614834e6;
   border-radius: 32px;
-  margin-left: 20%;
-  max-width: 60%;
-  color: #222;
+  margin: 20px auto;
+  max-width: 1200px;
+  width: 90%;
+  color: #222; 
   box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-  padding: 32px 40px;
+  padding: 24px;
 }
 
 .InfoSuperiorCalificacion {
   display: flex;
-  gap: 32px;
-  margin: 40px 0 24px 10px;
+  flex-wrap: wrap; 
+  gap: 24px; 
+  margin: 20px 0; 
   padding-top: 24px;
   align-items: center;
+  justify-content: center; 
 }
 
 .TituloProduct{
   color: #222;
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: 12px;
+  text-align: center;   
 }
 
 .ImagenProducto {
@@ -31,34 +35,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: 300px;
+  width: 280px; 
+  height: 280px; 
+  max-width: 100%; 
   overflow: hidden;
 }
 
 .ImagenProducto img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* recorta la imagen manteniendo proporción */
+  object-fit: cover;
 }
 
 .imagenDetalleProducto {
-  max-width: 100%;   /* la imagen no será más ancha que su contenedor */
-  height: auto;      /* mantiene la proporción */
-  display: block;    /* elimina espacios raros debajo de la imagen */
+  max-width: 100%;   
+  height: auto;      
+  display: block;  
   object-fit: cover;
 }
 
 .InfoProducto {
   background-color: #fff;
-  padding: 32px;
+  padding: 20px;
   border-radius: 20px;
   box-shadow: 0 2px 12px rgba(91, 68, 54, 0.10);
   text-align: left;
   color: #222;
-  font-size: 1.1rem;
-  margin-bottom: 24px;
+  font-size: 1rem;
+  margin-bottom: 20px;
   border: 1px solid #2d2929;
+  flex: 1 1 300px;  
 }
 
 .Heart {
@@ -100,10 +106,11 @@
 }
 
 .InfoInferiorCalificacion {
-  padding: 25px;
+  padding: 20px;
   border: 1px solid #2d2929;
   display: flex;
-  gap: 80px;
+  flex-wrap: wrap; 
+  gap: 20px;
   background: #f8f8f8;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -113,10 +120,13 @@
 
 .MetodosPagoInfo {
   background-color:  #b8875b;
-  padding: 20px;
+  padding: 16px;
   border-radius: 20px;
   align-self: flex-end; /* Empuja el bloque al final de la derecha */
   margin-left: auto;    /* Empuja el bloque hacia la derecha */
+  min-width: 200px;  
+  text-align: center;
+  color: #fff;
 }
 
 .ContenedorComentarios {
@@ -124,8 +134,10 @@
   margin-left: 5%;
   border-radius: 20px;
   box-shadow: 0 2px 12px rgba(226, 192, 148, 0.15);
-  padding: 24px 32px;
-  margin-top: 32px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 90%;   
+  max-width: 800px; 
 }
 
 .Comentarios{
@@ -142,15 +154,15 @@
 .ComentarioItem {
   display: flex;
   flex-direction: column;
-  width: 50%;                  /* Ocupa el 50% del ancho del contenedor */
+  width: 100%;                  /* Ocupa el 50% del ancho del contenedor */
   min-width: 400px;            /* Opcional: asegura que no sea muy angosto en pantallas grandes */
-  margin-bottom: 36px;
-  padding: 48px 40px;          /* Más largo (alto) */
-  border-radius: 28px;
+  margin-bottom: 20px;
+  padding: 20px;         /* Más largo (alto) */
+  border-radius: 20px;
   background: linear-gradient(90deg, #f4f4f4 60%, #e6f0ff 100%);
   margin-left: 0;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
-  font-size: 1.35rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  font-size: 1rem;
   transition: box-shadow 0.3s, transform 0.2s;
   border: 2px solid #b8875b;
 }
@@ -195,21 +207,23 @@
 
 .BotonesComentario {
   display: flex;
+  flex-wrap: wrap;      
+  gap: 8px;
+  margin-top: 10px;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 8px;
 }
 
 .BotonesComentario button {
-  background: #fff;
-  border: 2px solid #b8875b;
-  color: #b8875b;
+  font-size: 0.9rem;
+  padding: 6px 12px;
   border-radius: 8px;
-  padding: 6px 14px;
-  font-size: 1.1rem;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s, border 0.3s;
+  border: 2px solid #b8875b;
+  background: #fff;
+  color: #b8875b;
+  transition: all 0.3s ease;
 }
+
 .BotonesComentario button:hover {
   background: #b8875b;
   color: #fff;
@@ -387,7 +401,6 @@
 }
 
 
-
 @media (max-width: 1130px) {
   .ContenedorComentarios {
     width: 25rem;
@@ -440,3 +453,40 @@
   }
 }
 
+@media (max-width: 900px) {
+  .TituloProduct {
+    font-size: 1.6rem;
+  }
+  .ImagenProducto {
+    width: 220px;
+    height: 220px;
+  }
+  .InfoProducto {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ContenedorProductoInfo {
+    padding: 15px;
+    border-radius: 20px;
+  }
+  .TituloProduct {
+    font-size: 1.4rem;
+  }
+  .ImagenProducto {
+    width: 180px;
+    height: 180px;
+  }
+  .InfoProducto {
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+  .ComentarioItem {
+    font-size: 0.9rem;
+    padding: 15px;
+  }
+  .BotonesComentario {
+    justify-content: center;
+  }
+}
