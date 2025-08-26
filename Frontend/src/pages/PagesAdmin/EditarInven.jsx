@@ -40,6 +40,7 @@ export default function EditarInven() {
                 const producto = response.data;
                 setValoresIniciales({
                     nombre: producto.nombre,
+                    descripcion:producto.descripcion,
                     precio: producto.precio,
                     stock: producto.stock,
                     fecha_vencimiento: producto.fecha_vencimiento,
@@ -83,6 +84,14 @@ export default function EditarInven() {
             tipo: 'text',
             placeholder: 'Ej: Pan integral',
             requerido: true
+        },
+        {
+            nombre: 'descripcion',
+            etiqueta: 'Descripcion',
+            tipo: 'text',
+            placeholder: 'Ej: Pan hecho con harina integral 100%',
+            requerido: true
+        
         },
         {
             nombre: 'precio',
@@ -202,6 +211,11 @@ export default function EditarInven() {
                         nombre: (valor) =>
                             !valor || valor.trim().length < 3
                                 ? "El nombre debe tener al menos 3 caracteres"
+                                : null,
+                        
+                        descripcion: (valor) =>
+                            !valor || valor.trim().length < 10
+                                ? "La descripción debe tener al menos 10 caracteres"
                                 : null,
 
                         precio: (valor) => {

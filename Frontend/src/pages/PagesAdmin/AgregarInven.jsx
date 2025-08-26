@@ -12,7 +12,7 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 import axios from 'axios';
 
 // Estilos CSS para esta página
-import '../../assets/styles/AgregarInven.css';
+import '../../assets/styles/FormularioAdmin.css';
 import '../../assets/styles/Global.css';
 
 // Componente de formulario reutilizable para mostrar los campos

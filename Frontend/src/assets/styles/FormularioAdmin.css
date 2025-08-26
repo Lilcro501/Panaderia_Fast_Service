@@ -3,14 +3,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr; /* Dos columnas */
   gap: 30px;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
   padding: 20px;
   border-radius: 12px;
   max-width: 800px;
   margin: auto;
   box-sizing: border-box;
   color: aliceblue;
-
+}
+.formulario-grid {
+  background-color: #b8875b8c !important;
 }
 
 /* En pantallas pequeñas, cambia a una sola columna */
@@ -42,15 +43,15 @@
 
 /* ====== ETIQUETAS E INPUTS ====== */
 .etiqueta-campo {
-  color: white;
+  color: rgb(0, 0, 0);
   font-weight: bold;
   margin-bottom: 5px;
   font-size: 25px;
 }
 
 .input-estilo {
-  background-color: #000;
-  color: #ffffff;
+  background-color: #fafafa;
+  color: #0a0a0a;
   padding: 8px;
   border-radius: 6px;
   border: 1px solid #444;
@@ -59,7 +60,7 @@
 }
 
 .input-estilo::placeholder {
-  color: #fff0f0;
+  color: #000000;
 }
 
 /* ====== IMAGEN ====== */
@@ -104,9 +105,9 @@
   height: auto;
   min-height: 120px;
   padding: 8px;
-  color: #ffffff;
+  color: #000000;
   font-size: 18px;
-  background-color: #1c1c1c; /* Fondo oscuro pero visible */
+  background-color: #000000; /* Fondo oscuro pero visible */
   border: 1px solid #555;
   overflow-y: auto;
   appearance: listbox;
