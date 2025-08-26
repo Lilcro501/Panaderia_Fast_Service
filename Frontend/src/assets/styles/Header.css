@@ -115,12 +115,17 @@
 
 .lista-info-c li:hover{
   color: #997b6c;
+  cursor: pointer;
 }
 
 .lista-info-c a{
   color: #ffffff;
   text-decoration: none;
   transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.lista-info-c a:hover {
+  color: #997b6c;
 }
 
 .lista-info-c li:hover {
@@ -529,7 +534,6 @@
     font-size: 1rem;
   }
 
- 
 
   .icono-carrito img {
     width: 35px;

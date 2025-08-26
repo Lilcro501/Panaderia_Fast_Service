@@ -70,10 +70,8 @@ export default function AdministrarInven() {
 
     // Función para obtener los productos desde el backend
     const obtenerProductos = () => {
-        // Hacemos una solicitud GET a la API que trae todos los productos
         axios.get('http://localhost:8000/api/administrador/productos/')
             .then(response => {
-                // Guardamos los productos que vienen de la respuesta
                 let productos = response.data;
 
                 // Si hay una categoría seleccionada, filtramos solo los productos de esa categoría
@@ -88,7 +86,7 @@ export default function AdministrarInven() {
                 const filasConvertidas = productos.map(producto => ([
                     producto.id_producto, // ID del producto
                     producto.nombre,      // Nombre del producto
-                    `$${parseFloat(producto.precio).toLocaleString()}`, // Precio con formato de moneda
+                    `$${Number(producto.precio).toLocaleString()}`, // Precio con formato de moneda
                     producto.stock,       // Cantidad en stock
                     producto.fecha_vencimiento || 'N/A', // Fecha de vencimiento o 'N/A' si no tiene
 
@@ -119,11 +117,9 @@ export default function AdministrarInven() {
                     </div>
                 ]));
 
-                // Guardamos las filas convertidas en el estado para mostrarlas en la tabla
                 setFilas(filasConvertidas);
             })
             .catch(error => {
-                // Si hay un error al traer los productos, lo mostramos en consola y con notificación
                 console.error('Error al obtener productos:', error);
                 mostrarNotificacion("Error al cargar los productos.", "error");
             });
@@ -131,20 +127,18 @@ export default function AdministrarInven() {
 
     // useEffect se ejecuta automáticamente cuando el componente se monta o cuando cambia la categoría seleccionada
     useEffect(() => {
-        obtenerProductos(); // Llamamos a la función para cargar los productos
-    }, [categoriaSeleccionada]); // Se vuelve a ejecutar si cambia la categoría
+        obtenerProductos();
+    }, [categoriaSeleccionada]);
 
     // Función para confirmar la eliminación de un producto
     const confirmarEliminar = async () => {
         try {
-            // Llamamos a la API para eliminar el producto
-            const respuesta = await axios.delete(`http://localhost:8000/api/administrador/productos/${confirmacion.id}/`);
-            // Mostramos notificación de éxito
+            const respuesta = await axios.delete(
+                `http://localhost:8000/api/administrador/productos/${confirmacion.id}/`
+            );
             mostrarNotificacion(respuesta.data.message || "Producto eliminado correctamente.", "exito");
-            // Recargamos la lista de productos
             obtenerProductos();
         } catch (error) {
-            // Si hay un error, mostramos mensaje adecuado
             if (error.response && error.response.data) {
                 const mensaje = error.response.data.error || error.response.data.message || "Ocurrió un error inesperado.";
                 mostrarNotificacion(mensaje, "error");
@@ -153,7 +147,6 @@ export default function AdministrarInven() {
             }
             console.error("Error al eliminar producto:", error);
         } finally {
-            // Cerramos el modal de confirmación
             setConfirmacion({ visible: false, id: null });
         }
     };
