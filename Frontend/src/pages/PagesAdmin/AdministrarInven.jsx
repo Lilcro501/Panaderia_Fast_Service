@@ -165,16 +165,16 @@ export default function AdministrarInven() {
             <CategoriasAdmin />
 
             {/* Contenedor de la tabla de productos */}
-            <div className='admintabla'>
-                <TablaAdmin encabezados={encabezados} filas={filas} />
-                <br />
-            </div>
-
-            {/* Botón (ícono) para agregar un nuevo producto */}
+              {/* Botón (ícono) para agregar un nuevo producto */}
             <div className='iconos_acciones'>
                 <Link to='/AgregarInven' title="Agregar producto">
                     <img src={agregar_documento} alt="Agregar" />
                 </Link>
+            </div>
+            
+            <div className='admintabla'>
+                <TablaAdmin encabezados={encabezados} filas={filas} />
+                <br />
             </div>
 
             {/* Notificación (se muestra solo si está activa) */}

@@ -3,30 +3,47 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from .models import Usuario  # Asegúrate de que este sea el modelo de usuario personalizado
+from django.contrib.auth import authenticate
+
 
 #heredamos el tokenobtainpairserializer, para perzonalizar el comportamiento del serializador para la obtencion de tokens
-#creamos un serializador para
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    #decorador para indicar que es un metodo de la clase
-    @classmethod
-    #obtenemos el toquen JWT basico para el usuario autenticado
-    def get_token(cls, user):
-        token = super().get_token(user)
 
-        # Agregamos campós personalizados al toquen
-        token['rol'] = user.rol
-        token['id_usuario'] = user.id_usuario
-        #devolvemos el token pero con los campos perzonalizados
-        return token
-    #este metodo lo utilzamos para validar las credenciales del usuario
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = 'email'
+
     def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        if not email or not password:
+            raise serializers.ValidationError({'error': 'Debe ingresar email y contraseña'})
+
+        user = authenticate(email=email, password=password)
+
+        if user is None:
+            raise serializers.ValidationError({'error': 'Email o contraseña incorrectos'})
+        if not user.is_active:
+            raise serializers.ValidationError({'error': 'La cuenta está inactiva. Contacte al administrador'})
+
+        # Obtenemos el token estándar
         data = super().validate(attrs)
 
-        # Incluir también los campos en la respuesta que se le enviara al cliente
-        data['rol'] = self.user.rol
-        data['id_usuario'] = self.user.id_usuario
-        #retornamos data, en el cual ahira incluimos los campos perzonalizados junsto con el token de acceso y refresco
+        # Añadimos información adicional
+        data['rol'] = user.rol
+        data['id_usuario'] = user.id_usuario
+        data['nombre'] = f"{user.nombre} {user.apellido}"  # <-- usamos los campos directamente
+
         return data
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['rol'] = user.rol
+        token['id_usuario'] = user.id_usuario
+        token['nombre'] = f"{user.nombre} {user.apellido}"  # <-- opcional para el token
+        return token
+
+
 
 
 class UsuarioSerializer(serializers.ModelSerializer):

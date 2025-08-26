@@ -409,17 +409,3 @@ def logout_view(request):
 
 
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def refresh_token(request):
-    refresh_token = request.COOKIES.get('refresh_token')
-    if not refresh_token:
-        return Response({'error': 'Refresh token no encontrado'}, status=400)
-    try:
-        refresh = RefreshToken(refresh_token)
-        access_token = str(refresh.access_token)
-        return Response({'access': access_token})
-    except TokenError:
-        return Response({'error': 'Refresh token inválido o expirado'}, status=400)
-
-

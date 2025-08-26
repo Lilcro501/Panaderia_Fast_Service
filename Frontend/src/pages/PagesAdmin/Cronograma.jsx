@@ -108,7 +108,7 @@ export default function Cronograma() {
     return (
         <>
             <div>
-                <h2 className="titulo_seccion">Cronograma Trabajadores</h2>
+                <h2 className="titulo">Cronograma Trabajadores</h2>
                 <TablaAdmin encabezados={encabezados} filas={filas} />
                 <br />
             </div>

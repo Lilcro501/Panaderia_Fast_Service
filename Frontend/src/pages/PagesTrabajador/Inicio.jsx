@@ -12,7 +12,11 @@ const Inicio = () => {
   const CronogramaTrabajador = () => navigate('/CronogramaTrabajador')
 
   return (
+    <>
+    <h1 className='titulo'>Bienvenido trabajador, gestiona las compras !</h1>
+    <br />
     <div className="inicio-fondo">
+
       <div className="opciones-inicio">
 
         {/* Pedidos en espera */}
@@ -48,7 +52,10 @@ const Inicio = () => {
         </div>
 
       </div>
+      <br /> <br /> <br />  <br />
     </div>
+    
+    </>
   );
 };
 
