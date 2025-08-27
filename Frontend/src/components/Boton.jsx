@@ -1,6 +1,6 @@
 
 import React from "react";
-import "../assets/styles/EstadoPedido.css";
+import "../assets/styles/estadopedido.css";
 
 const Boton = ({ texto, onClick }) => {
   return (
