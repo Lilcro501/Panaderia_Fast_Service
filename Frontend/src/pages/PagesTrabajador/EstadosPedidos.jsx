@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TablaBase from "../../components/TablaBase";
-import "../../assets/styles/EstadoPedido.css";
+import "../../assets/styles/estadosPedidos.css"
 import Boton from "../../components/Boton";
-import axios from "axios";
+import axios from "axios";  
 
 const EstadosPedidos = () => {
   const [pedidos, setPedidos] = useState([]);
