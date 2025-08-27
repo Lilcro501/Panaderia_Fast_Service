@@ -3,30 +3,30 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/HeaderAdmin.css';  
 import logo from '../assets/images/logo_header.png';
-import PerfilLogo from '../assets/icons/logo.png';
-import { FaUser } from "react-icons/fa";
 import BotonCerrarSesion from './BotonCerrarSesion';
 
 const HeaderAdmin = () => {
+    const numeroWhatsApp = "573001234567"; // Cambia al número que quieras
+    const mensaje = "Hola, necesito asistencia"; // Mensaje por defecto
+    const linkWhatsApp = `https://wa.me/${3126945009}?text=${encodeURIComponent(mensaje)}`;
+
     return (
         <header className="header shapedividers_com-5996">
-            
             <div className="contenido-header">
-                {/* lOGO */}
+                {/* LOGO */}
                 <Link to='/PrincipalAdmin' className='container'>
                     <img src={logo} alt="logo-panaderia"  className="estilologo"/>
                 </Link>
 
-                <Link to="/" className="link-comunicacion">Comunicación</Link>
-
-
+                {/* Enlace a WhatsApp */}
+                <a href={linkWhatsApp} target="_blank" rel="noopener noreferrer" className="link-comunicacion">
+                    Comunicación
+                </a>
 
                 <BotonCerrarSesion />
             </div>
-
-      
         </header>
-    );2
+    );
 };
 
 export default HeaderAdmin;

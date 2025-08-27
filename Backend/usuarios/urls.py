@@ -6,7 +6,8 @@ from .views import (
     cambiar_password,
     login_google,
     CustomTokenObtainPairView, 
-    eliminar_usuario
+    eliminar_usuario,
+    enviar_manifiesto_consumidor
 )
 from .views import registrar_usuario
 from .views import UsuarioDetalleView
@@ -24,6 +25,7 @@ urlpatterns = [
     path('verificar-codigo/', verificar_codigo),
     path('cambiar-password/', cambiar_password),
     path('perfil/', UsuarioDetalleView.as_view(), name='usuario-detalle'),
+    path("enviar-manifiesto/", enviar_manifiesto_consumidor, name="enviar-manifiesto"),
 
     # Autenticación con JWT personalizada
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),  

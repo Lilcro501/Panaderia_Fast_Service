@@ -81,7 +81,7 @@ export default function HistorialPedidos() {
 
       {error && <div style={{ color: "red", marginBottom: "1rem" }}>{error}</div>}
 
-      <div style={{ marginBottom: "1rem", display: "flex", gap: "1rem" }}>
+      <div style={{ marginBottom: "1rem", display: "flex", gap: "1rem", justifyContent:"center" }}>
         <Boton texto="Todos" onClick={() => { setFiltro("todos"); setPaginaActual(1); }} />
         <Boton texto="Aceptados" onClick={() => { setFiltro("aceptado"); setPaginaActual(1); }} />
         <Boton texto="Rechazados" onClick={() => { setFiltro("rechazado"); setPaginaActual(1); }} />

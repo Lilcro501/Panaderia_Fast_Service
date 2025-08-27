@@ -40,7 +40,7 @@ export default function CronogramaTrabajador() {
 
     return (
         <main className="cronograma-trabajador">
-            <h2>Mi Cronograma</h2>
+            <h1 className="titulo" >Mi Cronograma</h1>
             <div className="tabla-cronograma">
                 <table>
                     <thead>

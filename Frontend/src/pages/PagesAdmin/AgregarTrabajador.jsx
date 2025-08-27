@@ -59,10 +59,11 @@ export default function AgregarTrabajador() {
             etiqueta: 'Rol',
             tipo: 'select',
             opciones: [
-                { valor: 'trabajador', texto: 'Trabajador' }
+                { valor: 'trabajador', etiqueta: 'Trabajador' }
             ],
             requerido: true
         }
+
     ];
 
     const manejarEnvio = async (datos) => {

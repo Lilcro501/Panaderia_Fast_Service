@@ -723,6 +723,19 @@
   cursor: pointer;
 }
 
+/* Contenedor base del efecto */
+.estilo-trabajador {
+  position: relative;
+  display: inline-block;
+  padding: 1.5rem 2rem;
+  font-size: 2.5rem;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
 /* Efecto "shine" animado */
 .estilo-trabajador::before {
   content: "";
@@ -731,15 +744,16 @@
   left: -75%;
   width: 50%;
   height: 100%;
-  background:  rgba(255, 255, 255, 0.169);
+  background: rgba(255, 255, 255, 0.17);
   transform: skewX(-25deg);
+  pointer-events: none;
 }
 
 /* Hover: brilla y se eleva */
 .estilo-trabajador:hover {
   transform: translateY(-5px) scale(1.03);
   box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-  background:  rgba(255, 255, 255, 0.258);
+  background: rgba(255, 255, 255, 0.26);
 }
 
 /* Animación del shine en hover */
@@ -748,3 +762,39 @@
   transition: left 0.7s ease;
 }
 
+/* ===== RESPONSIVE ===== */
+
+/* Pantallas medianas (<900px) */
+@media (max-width: 900px) {
+  .estilo-trabajador {
+    font-size: 2rem;
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+  }
+}
+
+/* Pantallas pequeñas (<600px) */
+@media (max-width: 600px) {
+  .estilo-trabajador {
+    font-size: 1.6rem;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+  }
+
+  .estilo-trabajador::before {
+    width: 60%; /* un poco más ancho para que el shine se note */
+  }
+}
+
+/* Pantallas muy pequeñas (<400px) */
+@media (max-width: 400px) {
+  .estilo-trabajador {
+    font-size: 1.3rem;
+    padding: 0.8rem 1rem;
+    border-radius: 5px;
+  }
+
+  .estilo-trabajador::before {
+    width: 70%;
+  }
+}

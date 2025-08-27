@@ -47,6 +47,7 @@
   border-radius: 10px;
   background: #fafafa;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex-wrap: wrap; /* permite que se ajusten elementos en móvil */
 }
 
 .pedido-item:hover {
@@ -65,6 +66,7 @@
   flex: 1;
   margin-left: 8px;
   font-size: 1rem;
+  min-width: 120px; /* evita que se comprima demasiado en móvil */
 }
 
 .fecha-pedido {
@@ -76,6 +78,8 @@
 .total-pedido {
   font-weight: bold;
   color: #27ae60;
+  min-width: 60px;
+  text-align: right;
 }
 
 /* Paginación */
@@ -85,10 +89,11 @@
   align-items: center;
   margin-top: 20px;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .paginacion button {
-  background: #3498db;
+  background: #e4822b;
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -99,7 +104,7 @@
 }
 
 .paginacion button:hover {
-  background: #2980b9;
+  background: #f1f3f592;
   transform: scale(1.05);
 }
 
@@ -110,7 +115,7 @@
 }
 
 .paginacion button.activo {
-  background: #4caf50;
+  background: #496203;
   border-color: #4caf50;
   color: #fff;
 }
@@ -119,4 +124,49 @@
   font-size: 0.95rem;
   font-weight: bold;
   color: #333;
+}
+
+/* ======= MEDIA QUERIES ======= */
+
+/* Móvil pequeño (<480px) */
+@media (max-width: 480px) {
+  .panel {
+    padding: 15px;
+  }
+
+  .titulo-panel {
+    font-size: 1.2rem;
+  }
+
+  .pedido-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .fecha-pedido, .total-pedido {
+    margin: 5px 0 0 0;
+  }
+}
+
+/* Tablet (<768px) */
+@media (max-width: 768px) {
+  .panel {
+    padding: 18px;
+  }
+
+  .titulo-panel {
+    font-size: 1.3rem;
+  }
+
+  .pedido-item {
+    padding: 10px 12px;
+  }
+}
+
+/* Ajuste general para pantallas grandes (>1200px) */
+@media (min-width: 1200px) {
+  .panel {
+    max-width: 900px;
+  }
 }

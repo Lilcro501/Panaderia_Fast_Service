@@ -171,11 +171,11 @@ const EstadosPedidos = () => {
         >
           ⬅ Anterior
         </button>
-        <span>
+        <span style={{color:"white"}}>
           Página {paginaActual} de {totalPaginas}
         </span>
         <button
-          className="boton-navegacion boton-siguiente"
+          className="boton-navegacion"
           disabled={paginaActual === totalPaginas}
           onClick={() => setPaginaActual(paginaActual + 1)}
         >

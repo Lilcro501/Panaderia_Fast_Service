@@ -5,23 +5,22 @@ import logoFooter from '../assets/icons/logo-Fast_Service.png';
 import { BiSolidCookie } from "react-icons/bi";
 import VentanaCookies from '../components/VentanaCookies';
 import { FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
-import { useRol } from '../context/RolContext'; // ✅ Importamos el hook del contexto
+import { useRol } from '../context/RolContext'; // Hook del contexto
 
 const Footer = () => {
   const [mostrarCookies, setMostrarCookies] = useState(false);
 
-  const { rol, cargando } = useRol(); // ✅ Obtenemos rol y estado de carga
+  const { rol, cargando } = useRol(); // Obtenemos rol y estado de carga
 
-  // Roles permitidos para ver los links
   const rolesValidos = ["cliente", "trabajador", "admin"];
   const tieneAcceso = rolesValidos.includes(rol);
 
-  if (cargando) return null; // ⏳ Mientras carga el contexto no mostramos nada
+  if (cargando) return null; // Mientras carga el contexto no mostramos nada
 
   return (
     <>
       <footer className="footer shapedividers_com-9705">
-        {/* ~~~~~~ Banner de cookies abajo de todo ~~~~~~ */}
+        {/* Banner de cookies */}
         {mostrarCookies && (
           <VentanaCookies
             onAceptar={() => setMostrarCookies(false)}
@@ -43,21 +42,27 @@ const Footer = () => {
           <div>
             <h5 style={{ textAlign: 'center' }}>
               <FaPhoneAlt style={{ marginRight: '8px' }} />
-              Llámanos</h5>
-            <li>+57 3589271058</li>
+              Llámanos
+            </h5>
+            <li>
+              <a href="tel:+573589271058">+57 3589271058</a>
+            </li>
           </div>
           <div>
             <h5>
               <FaEnvelope style={{ marginRight: '8px' }} />
-              Escríbenos</h5>
-            <li>fservie28.076@gmail.com</li>
+              Escríbenos
+            </h5>
+            <li>
+              <a href="mailto:fservie28.076@gmail.com">fservie28.076@gmail.com</a>
+            </li>
           </div>
         </div>
 
         <br />
 
         <div className="links-agrupar">
-          {/* ✅ Solo mostrar si el rol es válido */}
+          {/* Solo mostrar si el rol es válido */}
           {tieneAcceso && (
             <>
               <span className='separar'>

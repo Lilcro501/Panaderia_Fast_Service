@@ -1,4 +1,4 @@
-/* Título decorativo para lista de pedidos */
+/* ======= TÍTULO DECORATIVO ======= */
 .titulo {
   background: linear-gradient(90deg, #fbeee6 0%, #eec9a1 100%);
   color: #6d3b18;
@@ -9,7 +9,7 @@
   margin: 2.5rem auto 2rem auto;
   border: 4px double #b08968;
   box-shadow: 0 6px 24px 0 rgba(212, 158, 125, 0.18);
-  font-family: 'Georgia', 'serif';
+  font-family: 'Georgia', serif;
   letter-spacing: 1px;
   position: relative;
   z-index: 2;
@@ -19,16 +19,56 @@
   max-width: 98vw;
 }
 
+/* ======= TABLA ======= */
 table {
+  width: 70%;
+  border-collapse: collapse;
+  background-color: #f0e6dd;
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: sans-serif;
+  margin: 20px auto;
   font-size: 1.08rem;
-  word-break: break-word;
-}
-th, td {
-  font-size: 1.08rem;
-  word-break: break-word;
 }
 
+th {
+  background-color: #d49e7d;
+  color: white;
+  padding: 0.8rem;
+  text-align: center;
+}
 
+td {
+  padding: 10px;
+  text-align: center;
+  border: none;
+  font-size: 1.08rem;
+}
+
+.numero_pedido {
+  font-weight: bold;
+  color: #000000;
+}
+
+/* Botones */
+.boton-ver,
+.boton-detalle {
+  background-color: #d1a58a;
+  border: none;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.boton-ver:hover,
+.boton-detalle:hover {
+  background-color: #b57f60;
+  transform: scale(1.03);
+}
+
+/* ======= RESPONSIVE TITULO ======= */
 @media (max-width: 1100px) {
   .titulo {
     font-size: 1.45rem;
@@ -61,58 +101,11 @@ th, td {
     font-size: 0.93rem;
   }
 }
-/* --- ESTILO BASE (pantallas grandes) --- */
-table {
-  width: 70%;
-  border-collapse: collapse;
-  background-color: #f0e6dd;
-  border-radius: 12px;
-  overflow: hidden;
-  font-family: sans-serif;
-  margin: 20px auto;
-}
 
-th {
-  background-color: #d49e7d;
-  color: white;
-  padding: 0.8rem;
-  text-align: center;
-}
-
-
-
-
-td {
-  padding: 10px;
-  text-align: center;
-  border: none;
-}
-
-.numero_pedido {
-  font-weight: bold;
-  color: #000000;
-}
-
-.boton-ver,
-.boton-detalle {
-  background-color: #d1a58a;
-  border: none;
-  color: white;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.boton-ver:hover,
-.boton-detalle:hover {
-  background-color: #b57f60;
-}
-
-/* Responsive */
+/* ======= RESPONSIVE TABLA MOVIL ======= */
 @media (max-width: 770px) {
   table {
-    width: 100vw;
+    width: 100%;
     display: block;
     overflow-x: auto;
     background: none;
@@ -129,20 +122,15 @@ td {
     width: 100%;
   }
 
-  .Tabla-5c thead th {
-    display: flex;
-    flex-direction: column;
-  }
-
   tr {
     display: flex;
     flex-direction: column;
     background: #fcfbfb;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    padding: 1rem 0.7rem;
-    width: 95vw;
+    padding: 0.8rem;
+    width: 95%;
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
@@ -152,10 +140,11 @@ td {
     display: flex;
     align-items: flex-start;
     width: 100%;
-    padding: 0.5rem 0.2rem;
-    font-size: 1rem;
+    padding: 0.5rem 0.3rem;
+    font-size: 0.95rem;
     text-align: left;
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
   td::before {
@@ -175,11 +164,28 @@ td {
 
   .boton-ver, .boton-detalle {
     width: 100%;
-    font-size: 0.98rem;
-    padding: 10px 0;
+    font-size: 0.9rem;
+    padding: 8px 0;
     margin: 0.3rem 0;
     border-radius: 8px;
     text-align: center;
   }
 }
 
+/* ======= PANTALLAS MUY PEQUEÑAS (<400px) ======= */
+@media (max-width: 400px) {
+  .titulo {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.25rem;
+    border-radius: 8px 8px 16px 16px/8px 8px 20px 20px;
+  }
+
+  td {
+    font-size: 0.85rem;
+  }
+
+  .boton-ver, .boton-detalle {
+    font-size: 0.85rem;
+    padding: 6px 0;
+  }
+}

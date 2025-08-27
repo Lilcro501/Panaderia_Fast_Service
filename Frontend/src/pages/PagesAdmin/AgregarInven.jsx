@@ -12,8 +12,9 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 import axios from 'axios';
 
 // Estilos CSS para esta página
-import '../../assets/styles/AgregarInven.css';
+import '../../assets/styles/FormularioAdmin.css';
 import '../../assets/styles/Global.css';
+
 
 // Componente de formulario reutilizable para mostrar los campos
 import FormularioAdmin from '../../components/FormularioAdmin';
@@ -184,7 +185,7 @@ export default function AgregarInven() {
     // Lo que se muestra en pantalla
     return (
         <div className="contenedor_formulario_inventario">
-            <h2>Registrar nuevo producto</h2>
+            <h1 className='titulo'>Registrar nuevo producto</h1>
         
             {/* Componente de formulario que recibe los campos, la función de envío y los botones */}
             <FormularioAdmin

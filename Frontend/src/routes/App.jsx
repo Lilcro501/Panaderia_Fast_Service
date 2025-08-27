@@ -270,7 +270,7 @@ const AppRouter = () => {
         <Route path='/EditarTrabajador/:id' element={<PrivateRoute role="admin"><AdminLayout><EditarTrabajador /></AdminLayout></PrivateRoute>} />
         <Route path='/Cronograma' element={<PrivateRoute role="admin"><AdminLayout><Cronograma /></AdminLayout></PrivateRoute>} />
         <Route path='/AgregarCrono' element={<PrivateRoute role="admin"><AdminLayout><AgregarCrono /></AdminLayout></PrivateRoute>} />
-        <Route path='/EditarCrono/:id' element={<PrivateRoute role="admin"> <EditarCrono></EditarCrono></PrivateRoute>} />
+        <Route path='/EditarCrono/:id' element={<PrivateRoute role="admin"><AdminLayout><EditarCrono/></AdminLayout></PrivateRoute>} />
         <Route path='/HistorialPedido' element={<PrivateRoute role="admin"><AdminLayout><HistorialPedido /></AdminLayout> </PrivateRoute>} />
         <Route path='/CatalogoAdmin' element={<PrivateRoute role="admin"><AdminLayout><Catalogo_Admin /></AdminLayout></PrivateRoute>} />
         <Route path='/AdministrarInven' element={<PrivateRoute role="admin"><AdminLayout><AdministrarInven /></AdminLayout></PrivateRoute>} />

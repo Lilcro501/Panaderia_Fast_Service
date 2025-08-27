@@ -22,7 +22,6 @@ export default function EditarCrono() {
     };
 
     const camposFormulario = [
-        { nombre: 'nombre', etiqueta: 'Nombre Completo', tipo: 'text', requerido: false, deshabilitado: true },
         { nombre: 'titulo', etiqueta: 'Cargo', tipo: 'text', requerido: true },
         { nombre: 'descripcion', etiqueta: 'Actividades', tipo: 'textarea', requerido: true },
         { nombre: 'fecha_inicio', etiqueta: 'Fecha y hora de inicio', tipo: 'datetime-local', requerido: true },
@@ -64,7 +63,6 @@ export default function EditarCrono() {
                 const usuario = data.usuario_detalle || {};
 
                 setDatosIniciales({
-                    nombre: `${usuario.nombre || ''} ${usuario.apellido || ''}`,
                     titulo: data.titulo || '',
                     descripcion: data.descripcion || '',
                     fecha_inicio: formatearFecha(data.fecha_inicio),
@@ -79,6 +77,11 @@ export default function EditarCrono() {
 
     return (
         <div className="contenedor_formulario_inventario">
+            <h2 
+                className="titulo_seccion" 
+                style={{ textAlign: "center", color:'white'  }} >
+                Editar cronograma
+            </h2>
             {datosIniciales ? (
                 <FormularioAdmin
                     campos={camposFormulario}
