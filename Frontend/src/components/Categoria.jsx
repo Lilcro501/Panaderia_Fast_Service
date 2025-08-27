@@ -5,49 +5,46 @@ import Corazon from "./Corazon";
 import { useCarrito } from "../Context/CarritoContext";
 import { useFavoritos } from "../Context/FavoritosContext";
 import { Link } from "react-router-dom";
-import campana from '../assets/images/campana.png';
+import campana from "../assets/images/campana.png";
 import "../assets/styles/Global.css";
 import "../assets/styles/Categorias.css";
 
-const API_URL = import.meta.env.VITE_API_URL; // 👈 se toma la variable de entorno
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Categoria = ({ nombre }) => {
   const { agregarProducto, carrito } = useCarrito();
   const { esFavorito, agregarFavorito, eliminarFavorito } = useFavoritos();
+
   const [productos, setProductos] = useState([]);
   const [popup, setPopup] = useState(null);
-
-  // Estado para controlar modal de stock
   const [modalMensaje, setModalMensaje] = useState(null);
 
+  // 🔹 Cargar productos de la categoría
   useEffect(() => {
-    const nombreFormateado = nombre.trim().toLowerCase();
-    axios
-      .get(`${API_URL}/api/carrito/productos_categoria/${nombreFormateado}/`) // 👈 ya no es localhost
-      .then((res) => {
+    const fetchProductos = async () => {
+      try {
+        const nombreFormateado = nombre.trim().toLowerCase();
+        const res = await axios.get(`${API_URL}/api/carrito/productos_categoria/${nombreFormateado}/`);
         const productosFormateados = res.data.map((producto) => ({
-          id: Number(producto.id_producto ?? producto.id), // Forzar número
+          id: Number(producto.id_producto ?? producto.id),
           nameProduct: producto.nombre,
-          price: producto.precio,
+          price: parseFloat(producto.precio),
           image: producto.imagen,
           description: producto.descripcion,
           stock: producto.stock,
         }));
-
         setProductos(productosFormateados);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error al cargar productos:", error);
-      });
+        setModalMensaje("❌ No se pudieron cargar los productos de esta categoría.");
+      }
+    };
+
+    fetchProductos();
   }, [nombre]);
 
-  const mostrarModal = (mensaje) => {
-    setModalMensaje(mensaje);
-  };
-
-  const cerrarModal = () => {
-    setModalMensaje(null);
-  };
+  const mostrarModal = (mensaje) => setModalMensaje(mensaje);
+  const cerrarModal = () => setModalMensaje(null);
 
   const manejarAgregar = (producto) => {
     const productoEnCarrito = carrito.find((item) => item.id === producto.id);
@@ -58,7 +55,7 @@ const Categoria = ({ nombre }) => {
       setPopup(producto.nameProduct);
       setTimeout(() => setPopup(null), 2000);
     } else {
-      mostrarModal(`No puedes agregar más de ${producto.stock} unidades de ${producto.nameProduct}`);
+      mostrarModal(`⚠️ No puedes agregar más de ${producto.stock} unidades de ${producto.nameProduct}`);
     }
   };
 
@@ -83,8 +80,9 @@ const Categoria = ({ nombre }) => {
               <Link to={`/producto/${producto.id}`} className="link-producto">
                 <p className="producto-nombre">{producto.nameProduct}</p>
               </Link>
-              <p className="producto-precio">${producto.price}</p>
+              <p className="producto-precio">${producto.price.toLocaleString()}</p>
               <p className="producto-stock">Disponibles: {producto.stock}</p>
+
               <div className="acomodar-corazon-agregar">
                 <button
                   className="agregar"
@@ -94,24 +92,25 @@ const Categoria = ({ nombre }) => {
                   {producto.stock === 0 ? "Agotado" : "Añadir"}
                 </button>
 
-                <Corazon productoId={producto.id} />
+                <Corazon productoId={producto.id} esFavorito={esFavorito(producto.id)} />
               </div>
             </div>
           </div>
         ))}
       </div>
 
+      {/* Popup de agregado al carrito */}
       {popup && <div className="popup-mini">✅ {popup} añadido al carrito</div>}
 
       {/* Modal */}
       {modalMensaje && (
         <div className="modal-fondo" onClick={cerrarModal}>
-          <div className="modal-contenido" onClick={e => e.stopPropagation()}>
+          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
             <img src={campana} alt="alerta" width="20px" />
-            <br /> <br />
             <p>{modalMensaje}</p>
-            <br /> <br />
-            <button className="boton-moderno" onClick={cerrarModal}>Cerrar</button>
+            <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
+              <button className="boton-moderno" onClick={cerrarModal}>Cerrar</button>
+            </div>
           </div>
         </div>
       )}
