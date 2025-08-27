@@ -41,7 +41,7 @@ DEBUG = True
 
 #configuracion de los dominios que se van a utilizar en la aplicacion
 # esto es una medida de segirdad para que no se pueda acceder a la aplicacion desde otro dominio
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 #Esto indicara que aplicaciones se van a utilizar en el proyecto
