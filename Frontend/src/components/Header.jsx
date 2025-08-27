@@ -10,7 +10,7 @@ import ModalCarrito from './ModalCarrito';
 import { FaHeart } from "react-icons/fa";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { useCarrito } from '../context/CarritoContext'; // ajusta la ruta si tu archivo está en otra carpeta
+import { useCarrito } from '../Context/CarritoContext'; // ajusta la ruta si tu archivo está en otra carpeta
 
 const Header = () => {
   const [mostrarModal, setMostrarModal] = useState(false);
