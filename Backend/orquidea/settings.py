@@ -266,11 +266,13 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://panaderia-fast-service-1.onrender.com",  # frontend en Render
 ]
 
 #este campo define una lista de origenes de confianza para las solicitudes que incluyen un token CSRF, al especificar ,ss permite que las solicitudes desde este origen se consideren seguras para la proteccion contra CSRF
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
+    "https://panaderia-fast-service-1.onrender.com",  # frontend en Render
 ]
 
 #configuracion de correo para el registro de usuarios
