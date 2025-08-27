@@ -6,7 +6,6 @@ import { BiSolidCookie } from "react-icons/bi";
 import VentanaCookies from '../components/VentanaCookies';
 import { FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
 import { useRol } from '../Context/RolContext'; // Hook del 
-import { user } from "../Context/"
 
 const Footer = () => {
   const [mostrarCookies, setMostrarCookies] = useState(false);
