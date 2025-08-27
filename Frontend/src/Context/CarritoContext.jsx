@@ -1,31 +1,44 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import obtenerStockProducto from "../api/obtenerStockProducto";
+import axios from "axios";
 
 const CarritoContext = createContext();
 
 export const CarritoProvider = ({ children }) => {
-  // 🔹 Obtener datos del usuario logueado (ajusta según tu app)
-  const usuario = JSON.parse(sessionStorage.getItem("usuario")) || JSON.parse(sessionStorage.getItem("usuario"));
+  // 🔹 Obtener usuario logueado
+  const usuario = JSON.parse(sessionStorage.getItem("usuario"));
   const userId = usuario?.id || "anonimo";
 
-  // 🔹 Clave dinámica para el carrito de este usuario
+  // 🔹 Clave dinámica para sessionStorage
   const storageKey = `carrito_${userId}`;
 
-  // 🔹 Estado inicial del carrito para este usuario (sessionStorage)
+  // 🔹 Estado inicial
   const carritoInicial = JSON.parse(sessionStorage.getItem(storageKey)) || [];
   const [carrito, setCarrito] = useState(carritoInicial);
 
-  // 🔹 Guardar carrito en sessionStorage cada vez que cambie
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  // 🔹 Guardar carrito en sessionStorage al cambiar
   useEffect(() => {
     sessionStorage.setItem(storageKey, JSON.stringify(carrito));
   }, [carrito, storageKey]);
+
+  // 🔹 Función para obtener stock desde backend
+  const obtenerStockProducto = async (id) => {
+    try {
+      const res = await axios.get(`${API_URL}/api/carrito/producto/${id}/`);
+      return res.data.stock;
+    } catch (error) {
+      console.error("Error al obtener stock:", error);
+      return null;
+    }
+  };
 
   // 🔹 Agregar producto al carrito
   const agregarProducto = async (producto) => {
     const stockDisponible = await obtenerStockProducto(producto.id);
 
     if (stockDisponible === null) {
-      alert("No se pudo verificar el stock del producto.");
+      alert("❌ No se pudo verificar el stock del producto.");
       return;
     }
 
@@ -34,7 +47,7 @@ export const CarritoProvider = ({ children }) => {
       const cantidadActual = existe ? existe.quantity : 0;
 
       if (cantidadActual + 1 > stockDisponible) {
-        alert("No hay suficiente stock disponible.");
+        alert(`⚠️ Solo hay ${stockDisponible} unidades disponibles.`);
         return prev;
       }
 
@@ -50,7 +63,7 @@ export const CarritoProvider = ({ children }) => {
     });
   };
 
-  // 🔹 Quitar una unidad de un producto
+  // 🔹 Quitar una unidad
   const quitarProducto = (id) => {
     setCarrito((prev) =>
       prev
@@ -61,12 +74,12 @@ export const CarritoProvider = ({ children }) => {
     );
   };
 
-  // 🔹 Eliminar producto completamente
+  // 🔹 Eliminar completamente
   const eliminarProducto = (id) => {
     setCarrito((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // 🔹 Vaciar todo el carrito
+  // 🔹 Vaciar carrito
   const vaciarCarrito = () => setCarrito([]);
 
   return (
