@@ -2,28 +2,28 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../assets/styles/CarruselIncremento.css";
+import "../assets/styles/Global.css";
 import { useCarrito } from "../Context/CarritoContext";
 import { useRol } from "../Context/RolContext";
 import campana from "../assets/images/campana.png";
-import "../assets/styles/Global.css";
 
 export default function CarruselCatalogo() {
   const contenedorRef = useRef(null);
+  const navigate = useNavigate();
+
   const { carrito, agregarProducto, quitarProducto, eliminarProducto } = useCarrito();
   const { rol } = useRol();
+
   const [productos, setProductos] = useState([]);
   const [modalMensaje, setModalMensaje] = useState(null);
 
-  const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL; // 🌟 variable de entorno
 
-  // 🔹 Ahora cargamos productos aleatorios desde el backend
+  // 🔹 Cargar productos aleatorios
   useEffect(() => {
     const fetchProductosAleatorios = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8000/api/carrito/productos-aleatorios/?cantidad=12"
-        );
-
+        const res = await axios.get(`${API_URL}/api/carrito/productos-aleatorios/?cantidad=12`);
         const productosFormateados = res.data.map((p) => ({
           id: Number(p.id_producto ?? p.id),
           nameProduct: p.nombre,
@@ -32,26 +32,19 @@ export default function CarruselCatalogo() {
           stock: p.stock,
           image: p.imagen,
         }));
-
         setProductos(productosFormateados);
       } catch (error) {
         console.error("Error cargando productos aleatorios:", error);
+        mostrarModal("❌ No se pudieron cargar los productos.");
       }
     };
 
     fetchProductosAleatorios();
   }, []);
 
-  const obtenerCantidad = (id) => {
-    const item = carrito.find((p) => p.id === id);
-    return item ? item.quantity : 0;
-  };
+  const obtenerCantidad = (id) => carrito.find((p) => p.id === id)?.quantity || 0;
 
-  const scroll = (offset) => {
-    if (contenedorRef.current) {
-      contenedorRef.current.scrollBy({ left: offset, behavior: "smooth" });
-    }
-  };
+  const scroll = (offset) => contenedorRef.current?.scrollBy({ left: offset, behavior: "smooth" });
 
   const mostrarModal = (mensaje) => setModalMensaje(mensaje);
   const cerrarModal = () => setModalMensaje(null);
@@ -86,7 +79,7 @@ export default function CarruselCatalogo() {
     }
 
     try {
-      const res = await axios.get(`http://localhost:8000/api/carrito/producto/${producto.id}/`);
+      const res = await axios.get(`${API_URL}/api/carrito/producto/${producto.id}/`);
       const stockActual = res.data.stock;
       const cantidadActual = obtenerCantidad(producto.id);
 
@@ -136,21 +129,17 @@ export default function CarruselCatalogo() {
               <section className="number-input">
                 <button
                   className="disminucion"
-                  onClick={() => {
-                    if (rol === "cliente") quitarProducto(prod.id);
-                    else mostrarModal("❗ Solo los clientes pueden modificar la cantidad de productos.");
-                  }}
+                  onClick={() =>
+                    rol === "cliente"
+                      ? quitarProducto(prod.id)
+                      : mostrarModal("❗ Solo los clientes pueden modificar la cantidad de productos.")
+                  }
                   disabled={cantidad === 0}
                 >
                   −
                 </button>
 
-                <input
-                  type="number"
-                  min="0"
-                  value={cantidad}
-                  onChange={(e) => cambiarCantidadManual(e, prod)}
-                />
+                <input type="number" min="0" value={cantidad} onChange={(e) => cambiarCantidadManual(e, prod)} />
 
                 <button className="incremento" onClick={() => manejarAgregar(prod)}>
                   +
@@ -169,23 +158,21 @@ export default function CarruselCatalogo() {
         <div className="modal-fondo" onClick={cerrarModal}>
           <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
             <img src={campana} alt="alerta" width="20px" />
-            <br />
-            <br />
             <p>{modalMensaje}</p>
-            <br />
-            <br />
-            <button className="boton-moderno" onClick={cerrarModal}>
-              Cerrar
-            </button>
-            {rol !== "cliente" && (
-              <button
-                className="boton-moderno"
-                style={{backgroundColor: "#4CAF50" }}
-                onClick={() => navigate("/AccedeAqui")}
-              >
-                Iniciar Sesión  
+            <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
+              <button className="boton-moderno" onClick={cerrarModal}>
+                Cerrar
               </button>
-            )}
+              {rol !== "cliente" && (
+                <button
+                  className="boton-moderno"
+                  style={{ backgroundColor: "#4CAF50" }}
+                  onClick={() => navigate("/AccedeAqui")}
+                >
+                  Iniciar Sesión
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
