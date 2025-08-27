@@ -9,6 +9,8 @@ import campana from '../assets/images/campana.png';
 import "../assets/styles/Global.css";
 import "../assets/styles/Categorias.css";
 
+const API_URL = import.meta.env.VITE_API_URL; // 👈 se toma la variable de entorno
+
 const Categoria = ({ nombre }) => {
   const { agregarProducto, carrito } = useCarrito();
   const { esFavorito, agregarFavorito, eliminarFavorito } = useFavoritos();
@@ -21,13 +23,13 @@ const Categoria = ({ nombre }) => {
   useEffect(() => {
     const nombreFormateado = nombre.trim().toLowerCase();
     axios
-      .get(`http://localhost:8000/api/carrito/productos_categoria/${nombreFormateado}/`)
+      .get(`${API_URL}/api/carrito/productos_categoria/${nombreFormateado}/`) // 👈 ya no es localhost
       .then((res) => {
         const productosFormateados = res.data.map((producto) => ({
           id: Number(producto.id_producto ?? producto.id), // Forzar número
           nameProduct: producto.nombre,
           price: producto.precio,
-          image: producto.imagen ,
+          image: producto.imagen,
           description: producto.descripcion,
           stock: producto.stock,
         }));
@@ -67,40 +69,36 @@ const Categoria = ({ nombre }) => {
       </div>
 
       <div className="categoria-grid">
-        {productos.map((producto) => {
-          console.log("producto.id:", producto.id, typeof producto.id);
+        {productos.map((producto) => (
+          <div key={producto.id} className="producto-tarjeta">
+            <Link to={`/producto/${producto.id}`}>
+              <img 
+                src={producto.image}
+                alt={producto.nameProduct}
+                className="producto-imagen"
+              />
+            </Link>
 
-          return (
-            <div key={producto.id} className="producto-tarjeta">
-              <Link to={`/producto/${producto.id}`}>
-                <img 
-                  src={producto.image}
-                  alt={producto.nameProduct}
-                  className="producto-imagen"
-                />
+            <div className="producto-info">
+              <Link to={`/producto/${producto.id}`} className="link-producto">
+                <p className="producto-nombre">{producto.nameProduct}</p>
               </Link>
+              <p className="producto-precio">${producto.price}</p>
+              <p className="producto-stock">Disponibles: {producto.stock}</p>
+              <div className="acomodar-corazon-agregar">
+                <button
+                  className="agregar"
+                  onClick={() => manejarAgregar(producto)}
+                  disabled={producto.stock === 0}
+                >
+                  {producto.stock === 0 ? "Agotado" : "Añadir"}
+                </button>
 
-              <div className="producto-info">
-                <Link to={`/producto/${producto.id}`} className="link-producto">
-                  <p className="producto-nombre">{producto.nameProduct}</p>
-                </Link>
-                <p className="producto-precio">${producto.price}</p>
-                <p className="producto-stock">Disponibles: {producto.stock}</p>
-                <div className="acomodar-corazon-agregar">
-                  <button
-                    className="agregar"
-                    onClick={() => manejarAgregar(producto)}
-                    disabled={producto.stock === 0}
-                  >
-                    {producto.stock === 0 ? "Agotado" : "Añadir"}
-                  </button>
-
-                  <Corazon productoId={producto.id} />
-                </div>
+                <Corazon productoId={producto.id} />
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
 
       {popup && <div className="popup-mini">✅ {popup} añadido al carrito</div>}
