@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TablaBase from "../../components/TablaBase";
-import "../../assets/styles/estadospedido.css"
+import "../../assets/styles/estadopedido.css"
 
 import Boton from "../../components/Boton";
 import axios from "axios";  
