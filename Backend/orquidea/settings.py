@@ -94,6 +94,7 @@ INSTALLED_APPS = [
     # este es el apartado de apps, cada app creada se debe agregar en este apartado 
     #para que django pueda acceder a las carpetas de la aplicacion
     'administrador.apps.AdministradorConfig',
+    'orquidea' #app principal
     'carrito',
     'usuarios',
     'trabajador'
