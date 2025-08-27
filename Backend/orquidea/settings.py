@@ -178,6 +178,9 @@ WSGI_APPLICATION = 'orquidea.wsgi.application'
 
 #conexion y configuracion con la base de datos
 #aca realizamos la conexion con la base de datos para defiinir el motor y la base de datos en la cual se estaran almacenando los datos de entrada de la aplicacion 
+# --- Base de datos ---
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
