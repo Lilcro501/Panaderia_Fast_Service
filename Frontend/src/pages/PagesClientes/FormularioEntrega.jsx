@@ -157,8 +157,8 @@ const FormularioEntrega = () => {
     const hasErrors = Object.values(errors).some(error => error !== '');
     if (hasErrors) {
       setModalTitulo('Error de validación');
-      setModalMensaje('Por favor, corrige los errores en el formulario.');
-      setMostrarModal(true);
+      setModalMensaje('Por favor, valida de que los datos esten correctos y cumpla con todos los campos obligatorios');
+      setMostrarModal(true);  
       return false;
     }
     return true;

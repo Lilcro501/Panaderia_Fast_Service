@@ -35,7 +35,11 @@ export default function AgregarCrono() {
     }, []);
 
     const camposFormulario = [
-        { nombre: 'id_usuario', etiqueta: 'Trabajador', tipo: 'select', requerido: true, opciones: usuarios },
+        { nombre: 'id_usuario',
+            etiqueta: 'Trabajador', 
+            tipo: 'select', 
+            requerido: true, 
+            opciones: usuarios },
         { nombre: 'titulo', etiqueta: 'Cargo', tipo: 'text', requerido: true },
         { nombre: 'descripcion', etiqueta: 'Actividades', tipo: 'textarea', requerido: true },
         { nombre: 'fecha_inicio', etiqueta: 'Fecha y hora de inicio', tipo: 'datetime-local', requerido: true },
@@ -69,6 +73,11 @@ export default function AgregarCrono() {
 
     return (
         <div className="contenedor_formulario_inventario">
+            <h2 
+                className="titulo_seccion" 
+                style={{ textAlign: "center", color:'white'  }} >
+                Agregar Cronograma
+            </h2>
             <FormularioAdmin
                 campos={camposFormulario}
                 onSubmit={manejarEnvio}

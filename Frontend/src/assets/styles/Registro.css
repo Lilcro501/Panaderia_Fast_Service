@@ -217,6 +217,7 @@ input::placeholder {
 
 .Campo {
   position: relative;
+  color: black;
 }
 
 .Campo .Ojo {
@@ -233,6 +234,7 @@ input::placeholder {
 .Campo input[type="password"],
 .Campo input[type="text"] {
   padding-right: 40px; /* espacio para que el ojo no tape el texto */
+  color: #000;
 }
 
 #telefono {
@@ -241,6 +243,7 @@ input::placeholder {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+  color: #000;
 }
 
 #telefono:focus {

@@ -46,6 +46,13 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import EsAdmin, EsTrabajador, EsCliente
 
 
+from django.contrib.auth.models import User
+
+
+from rest_framework.response import Response
+from django.core.mail import EmailMessage
+from django.conf import settings
+
 import traceback
 
 #obtenemos el modelo de usuario que estamos utilzando con django
@@ -293,10 +300,21 @@ class ComentarioDetalleView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'pk'
 
 
-from django.contrib.auth.models import User
+# Mapeo de preguntas con emojis
+PREGUNTAS = {
+    "pregunta1": "⭐ Percepción general del servicio",
+    "pregunta2": "🤝 Amabilidad y atención",
+    "pregunta3": "🥐 Calidad del producto",
+    "pregunta4": "⚡ Agilidad en tu pedido"
+}
 
-
-import traceback
+# Mapeo de calificaciones con emojis
+CALIFICACIONES = {
+    0: "😡 Muy mala",
+    1: "🙁 Mala",
+    2: "🙂 Buena",
+    3: "🤩 Excelente"
+}
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -304,47 +322,101 @@ def enviar_encuesta(request):
     try:
         usuario = request.user  
         user_email = usuario.email if usuario.is_authenticated else None
-        
+
         data = request.data
         experiencia = data.get("experiencia", {})
         calificaciones = experiencia.get("calificaciones", {})
         respuestas = experiencia.get("respuestas", {})
         recomendacion = data.get("recomendacion", {})
 
-        # Función para ordenar y formatear preguntas y respuestas
-        def formatear_preguntas(diccionario):
-            # Ordenar por la clave asumiendo formato "pregunta1", "pregunta2", ...
-            items_ordenados = sorted(diccionario.items(), key=lambda x: x[0])
-            html = "<ul>"
-            for clave, valor in items_ordenados:
-                html += f"<li><strong>{clave}:</strong> {valor}</li>"
-            html += "</ul>"
-            return html
+        # Formatear calificaciones con emojis
+        calificaciones_html = ""
+        for key, valor in calificaciones.items():
+            texto_pregunta = PREGUNTAS.get(key, key)
+            calificaciones_html += f"""
+            <tr>
+              <td style="border:1px solid #ddd; background:#f9f9f9; width:50%;"><strong>{texto_pregunta}</strong></td>
+              <td style="border:1px solid #ddd;">{CALIFICACIONES.get(valor, valor)}</td>
+            </tr>
+            """
 
-        calificaciones_html = formatear_preguntas(calificaciones)
-        respuestas_html = formatear_preguntas(respuestas)
+        # Formatear respuestas de texto
+        respuestas_html = ""
+        for key, valor in respuestas.items():
+            texto_pregunta = PREGUNTAS.get(key, key)
+            respuestas_html += f"""
+            <tr>
+              <td style="border:1px solid #ddd; background:#f9f9f9; width:50%;"><strong>{texto_pregunta}</strong></td>
+              <td style="border:1px solid #ddd;">{valor}</td>
+            </tr>
+            """
 
         mensaje_html = f"""
-        <html>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6;">
-            <h2 style="color: #2E86C1;">Nueva Encuesta Recibida</h2>
-            <p><strong>Usuario:</strong> {user_email or 'Anónimo'}</p>
-            <h3>Calificaciones:</h3>
-            {calificaciones_html}
-            <h3>Respuestas:</h3>
-            {respuestas_html}
-            <h3>Recomendación:</h3>
-            <p><strong>Puntuación:</strong> {recomendacion.get('puntuacion')}</p>
-            <p><strong>Comentario:</strong> {recomendacion.get('comentario')}</p>
-            <hr>
-            <footer style="font-size: 0.8em; color: #777;">
-                Enviado automáticamente desde Panadería Fast Service
-            </footer>
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="UTF-8">
+          <title>Nueva Encuesta Recibida</title>
+        </head>
+        <body style="margin:0; padding:0; background-color:#f8f5f2; font-family: Arial, sans-serif;">
+          <table align="center" width="600" cellpadding="0" cellspacing="0" 
+                 style="border:1px solid #ddd; background-color:#ffffff; border-radius:10px; overflow:hidden;">
+            
+            <!-- Encabezado -->
+            <tr style="background-color:#6F4E37; color:white;">
+              <td align="center" style="padding:20px;">
+                <h2 style="margin:0;">🥖 Nueva Encuesta Recibida</h2>
+              </td>
+            </tr>
+
+            <!-- Datos de usuario -->
+            <tr>
+              <td style="padding:20px; color:#333; font-size:14px; line-height:1.6;">
+                <p><strong>Usuario:</strong> {user_email or 'Anónimo'}</p>
+              </td>
+            </tr>
+
+            <!-- Calificaciones -->
+            <tr>
+              <td style="padding:20px;">
+                <h3 style="color:#6F4E37; margin-bottom:10px;">Calificaciones</h3>
+                <table width="100%" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
+                  {calificaciones_html}
+                </table>
+              </td>
+            </tr>
+
+            <!-- Respuestas -->
+            <tr>
+              <td style="padding:20px;">
+                <h3 style="color:#6F4E37; margin-bottom:10px;">Respuestas</h3>
+                <table width="100%" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
+                  {respuestas_html}
+                </table>
+              </td>
+            </tr>
+
+            <!-- Recomendación -->
+            <tr>
+              <td style="padding:20px;">
+                <h3 style="color:#6F4E37; margin-bottom:10px;">Recomendación</h3>
+                <p><strong>Puntuación:</strong> {recomendacion.get('puntuacion')}</p>
+                <p><strong>Comentario:</strong> {recomendacion.get('comentario')}</p>
+              </td>
+            </tr>
+
+            <!-- Pie -->
+            <tr>
+              <td align="center" style="background-color:#f1f1f1; color:#777; padding:15px; font-size:12px;">
+                Enviado automáticamente desde <strong>Panadería Fast Service</strong> ☕
+              </td>
+            </tr>
+          </table>
         </body>
         </html>
         """
 
-        destinatarios = ["fservice28.076@gmail.com"]  # correo de la panadería
+        destinatarios = ["fservice28.076@gmail.com"]
 
         email = EmailMessage(
             subject="Nueva encuesta recibida",

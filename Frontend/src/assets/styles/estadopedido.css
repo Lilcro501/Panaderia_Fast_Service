@@ -301,13 +301,12 @@ table, th, td {
   text-align: center;
   font-weight: 500;
   box-shadow: 0 2px 4px rgba(0,0,0,0.15); /* Sutil sombra */
+  background-color: #a05a2c;
 }
 
 /* Anterior = gris */
 .boton-anterior {
-  width: 20px;
-  height: auto;
-  background-color: #7f8c8d;
+  background-color: #db9d15;
   color: #fff;
 }
 

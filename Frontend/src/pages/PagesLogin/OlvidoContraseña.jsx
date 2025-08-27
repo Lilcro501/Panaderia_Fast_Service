@@ -69,8 +69,8 @@ export default function OlvidoContraseña() {
       {modalErrorVisible && (
         <div className="modal-bienvenida">
           <div className="modal-contenido">
-            <h2>❌ Correo no registrado</h2>
-            <p>El correo que ingresaste no se encuentra en nuestra base de datos.</p>
+            <h2>Correo no registrado</h2>
+            <p>Error ingresa los datos de manera correcta</p>
             <button className="boton-aceptar" onClick={() => setModalErrorVisible(false)}>Aceptar</button>
           </div>
         </div>

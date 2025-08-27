@@ -18,10 +18,10 @@ const opciones = [
 ];
 
 const preguntas = [
-  { titulo: "Percepción general del servicio", texto: "¿Cómo fue tu experiencia?", id: "pregunta1" },
-  { titulo: "Amabilidad y atención", texto: "¿Se te atendió con amabilidad y cortesía?", id: "pregunta2" },
-  { titulo: "Calidad del producto", texto: "¿Qué producto consumiste más?", id: "pregunta3" },
-  { titulo: "Agilidad en tu pedido", texto: "¿En cuánto tiempo recibiste el pedido? ¿Te pareció adecuado el tiempo?", id: "pregunta4" }
+  { titulo: "⭐ Percepción general del servicio", texto: "¿Cómo fue tu experiencia?", id: "pregunta1" },
+  { titulo: "🤝 Amabilidad y atención", texto: "¿Se te atendió con amabilidad y cortesía?", id: "pregunta2" },
+  { titulo: "🥐 Calidad del producto", texto: "¿Qué producto consumiste más?", id: "pregunta3" },
+  { titulo: "⚡ Agilidad en tu pedido", texto: "¿En cuánto tiempo recibiste el pedido? ¿Te pareció adecuado el tiempo?", id: "pregunta4" }
 ];
 
 export default function EncuestaCompleta() {
@@ -34,7 +34,6 @@ export default function EncuestaCompleta() {
 
   const navigate = useNavigate();
 
-  // Manejo genérico de cambios
   const handleChange = (tipo, id, valor) => {
     if (tipo === "emoji") {
       setSeleccionadas(prev => ({ ...prev, [id]: valor }));
@@ -138,7 +137,7 @@ export default function EncuestaCompleta() {
       </section>
 
       <div className="contenedor-boton-final">
-        <button className="boton-siguiente" onClick={manejarSiguiente}>Enviar</button>
+        <button className="boton-moderno-v-2" onClick={manejarSiguiente}>Enviar</button>
       </div>
 
       {mostrarAlerta && (

@@ -15,6 +15,10 @@ function CatalogoPage() {
     const [products, setProducts] = useState([]);
     const [editingComments, setEditingComments] = useState(null);
 
+    const [paginaActual, setPaginaActual] = useState(1);
+    const productosPorPagina = 10;
+    const [totalPaginas, setTotalPaginas] = useState(1);
+
     const query = useQuery();
     const categoriaSeleccionada = query.get("categoria");
 
@@ -24,14 +28,22 @@ function CatalogoPage() {
             : `http://localhost:8000/api/administrador/productos/`;
 
         axios.get(url)
-            .then(response => setProducts(response.data))
+            .then(response => {
+                const allProducts = response.data;
+                setTotalPaginas(Math.ceil(allProducts.length / productosPorPagina));
+
+                const indiceUltimo = paginaActual * productosPorPagina;
+                const indicePrimero = indiceUltimo - productosPorPagina;
+                const productosPaginados = allProducts.slice(indicePrimero, indiceUltimo);
+
+                setProducts(productosPaginados);
+            })
             .catch(error => console.error("Error al obtener productos:", error));
     };
 
     useEffect(() => {
         obtenerProductos();
-    }, [categoriaSeleccionada]);
-
+    }, [categoriaSeleccionada, paginaActual]);
 
     const handleEditComments = (id_producto) => {
         const product = products.find(p => p.id_producto === id_producto);
@@ -53,6 +65,12 @@ function CatalogoPage() {
         setEditingComments(null);
     };
 
+    const cambiarPagina = (numero) => {
+        if (numero >= 1 && numero <= totalPaginas) {
+            setPaginaActual(numero);
+        }
+    };
+
     return (
         <>
             <CategoriasAdmin />
@@ -68,6 +86,27 @@ function CatalogoPage() {
                         ocultarEditarProducto={true}
                     />
                 ))}
+            </div>
+
+            {/* Paginación */}
+            <div className="paginacion">
+                <button onClick={() => cambiarPagina(paginaActual - 1)} disabled={paginaActual === 1}>
+                    Anterior
+                </button>
+
+                {[...Array(totalPaginas)].map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => cambiarPagina(index + 1)}
+                        className={paginaActual === index + 1 ? 'activo' : ''}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+
+                <button onClick={() => cambiarPagina(paginaActual + 1)} disabled={paginaActual === totalPaginas}>
+                    Siguiente
+                </button>
             </div>
 
             <EditCommentsModal

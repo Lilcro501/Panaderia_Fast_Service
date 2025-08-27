@@ -63,7 +63,7 @@
   top: 14px;
   right: 14px;
   font-size: 26px;
-  color: #ff6b6b;
+  color: #e5904a;
   cursor: pointer;
   transition: transform 0.2s ease, color 0.2s ease;
 }
@@ -172,7 +172,7 @@
 /* Botón moderno para ver carrito */
 .boton-moderno {
   padding: 14px 20px;
-  background: linear-gradient(135deg, #ff6b6b, #f06595);
+  background: #e5904a;
   color: white;
   font-weight: 700;
   font-size: 1rem;
@@ -184,7 +184,7 @@
   margin-top: auto;
 }
 .boton-moderno:hover {
-  background: linear-gradient(135deg, #f78ca0, #ff6b6b);
+  background: #e28437;
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }

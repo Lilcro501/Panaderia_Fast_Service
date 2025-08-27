@@ -3,68 +3,79 @@ import axios from "axios";
 import { getAccessToken } from "../../api/authservice";
 
 import "../../assets/styles/Global.css";
-import "../../assets/styles/CronogramaTrabajador.css"; // estilos solo para esta tabla
+import "../../assets/styles/CronogramaTrabajador.css";
 
 export default function CronogramaTrabajador() {
-    const [cronogramas, setCronogramas] = useState([]);
-    const id_usuario = sessionStorage.getItem("id_usuario");
+  const [cronogramas, setCronogramas] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const id_usuario = sessionStorage.getItem("id_usuario");
 
-    const obtenerCronogramas = async () => {
-        const token = getAccessToken();
+  const obtenerCronogramas = async () => {
+    const token = getAccessToken();
 
-        if (!token || !id_usuario) {
-            console.error("Token o id de usuario no encontrado, debes iniciar sesión");
-            return;
+    if (!token || !id_usuario) {
+      console.error("Token o id de usuario no encontrado, debes iniciar sesión");
+      setCargando(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/trabajador/cronograma/${id_usuario}/`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
+      );
+      setCronogramas(response.data);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        console.error("Token expirado o inválido, debe iniciar sesión nuevamente");
+      } else {
+        console.error("Error al obtener cronogramas:", error);
+      }
+    } finally {
+      setCargando(false);
+    }
+  };
 
-        try {
-            const response = await axios.get(
-                `http://localhost:8000/api/trabajador/cronograma/${id_usuario}/`,
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
-            setCronogramas(response.data);
-        } catch (error) {
-            if (error.response?.status === 401) {
-                console.error("Token expirado o inválido, debe iniciar sesión nuevamente");
-            } else {
-                console.error("Error al obtener cronogramas:", error);
-            }
-        }
-    };
+  useEffect(() => {
+    obtenerCronogramas();
+  }, []);
 
-    useEffect(() => {
-        obtenerCronogramas();
-    }, []);
+  return (
+    <main className="cronograma-trabajador">
+      <h1 className="titulo">Mi Cronograma</h1>
 
-    return (
-        <main className="cronograma-trabajador">
-            <h2>Mi Cronograma</h2>
-            <div className="tabla-cronograma">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Id Usuario</th>
-                            <th>Título</th>
-                            <th>Descripción</th>
-                            <th>Horario</th>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {cronogramas.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.id_usuario}</td>
-                                <td>{item.titulo}</td>
-                                <td>{item.descripcion}</td>
-                                <td>{item.hora_inicio} - {item.hora_fin}</td>
-                                <td>{item.fecha}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </main>
-    );
+      {cargando ? (
+        <p>Cargando cronogramas...</p>
+      ) : cronogramas.length === 0 ? (
+        <p>No hay cronogramas disponibles</p>
+      ) : (
+        <div className="tabla-cronograma">
+          <table>
+            <thead>
+              <tr>
+                <th>Id Usuario</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Horario</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cronogramas.map((item) => (
+                <tr key={item.id || `${item.id_usuario}-${item.fecha}`}>
+                  <td data-label="Id Usuario">{item.id_usuario}</td>
+                  <td data-label="Título">{item.titulo}</td>
+                  <td data-label="Descripción">{item.descripcion}</td>
+                  <td data-label="Horario">{item.hora_inicio} - {item.hora_fin}</td>
+                  <td data-label="Fecha">{new Date(item.fecha).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </main>
+  );
 }

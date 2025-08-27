@@ -13,7 +13,7 @@ const Inicio = () => {
 
   return (
     <>
-    <h1 className='titulo'>Bienvenido trabajador, gestiona las compras !</h1>
+    <h1 className='titulo'>Bienvenido trabajador</h1>
     <br />
     <div className="inicio-fondo">
 

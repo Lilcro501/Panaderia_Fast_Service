@@ -110,8 +110,6 @@ export default function Registro() {
     setMensajeErrorGeneral('');
 
     if (Object.keys(erroresValidados).length === 0) {
-      setModalVisible(true);
-
       try {
         const payload = {
           email: form.correo,
@@ -126,19 +124,25 @@ export default function Registro() {
 
         const response = await registrarUsuario(payload);
 
-        if (!(response.status === 201 || response.status === 200)) {
-          setModalVisible(false);
+        if (response.status === 201 || response.status === 200) {
+          setModalVisible(true); // Mostrar modal solo si el registro es exitoso
+        } else {
           setMensajeErrorGeneral('Hubo un problema en el registro.');
         }
       } catch (error) {
-        setModalVisible(false);
         console.error(error.response?.data || error);
         if (error.response) {
           const data = error.response.data;
-          if (data.email) setMensajeErrorGeneral('El correo ya está registrado.');
-          else setMensajeErrorGeneral(JSON.stringify(data));
-        } else if (error.request) setMensajeErrorGeneral('No se pudo conectar con el servidor.');
-        else setMensajeErrorGeneral('Ocurrió un error inesperado.');
+          if (data.email) {
+            setMensajeErrorGeneral('El correo ya está registrado.');
+          } else {
+            setMensajeErrorGeneral(data.message || 'Hubo un problema en el registro.');
+          }
+        } else if (error.request) {
+          setMensajeErrorGeneral('No se pudo conectar con el servidor.');
+        } else {
+          setMensajeErrorGeneral('Ocurrió un error inesperado.');
+        }
       }
     }
   };

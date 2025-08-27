@@ -1,4 +1,4 @@
-/* ESTILOS ORIGINALES */
+/* ==================== ESTILOS GENERALES ==================== */
 .recuadro-experiencia {
   background-color: transparent;
   padding: 10px 0;
@@ -36,6 +36,7 @@
   justify-content: center;
   gap: 16px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .emoji-opciones img {
@@ -112,7 +113,7 @@
   cursor: pointer;
 }
 
-/* ESTILOS NUEVOS: escala de recomendación del 0 al 10 */
+/* ==================== ESTILOS ESCALA CALIFICACIÓN ==================== */
 .recuadro-calificacion {
   margin-top: 30px;
   display: flex;
@@ -148,7 +149,7 @@
   color: white;
 }
 
-/* colores dependiendo del valor seleccionado */
+/* colores según valor */
 .numero-calificacion[data-valor="9"],
 .numero-calificacion[data-valor="10"] {
   background-color: #8BC34A; /* verde */
@@ -174,4 +175,113 @@
 
 .numero-calificacion.seleccionado[data-valor] {
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* ==================== MEDIA QUERIES RESPONSIVE ==================== */
+@media (max-width: 1024px) {
+  .recuadro-pregunta {
+    width: 80%;
+    padding: 18px;
+  }
+  .titulo-pregunta {
+    font-size: 18px;
+    padding: 10px 16px;
+  }
+  .texto-pregunta {
+    font-size: 1.1rem;
+    width: 80%;
+    padding: 8px 15px;
+  }
+  .input-respuesta {
+    width: 90%;
+    padding: 8px;
+    font-size: 15px;
+  }
+  .boton-siguiente {
+    width: 240px;
+    height: 40px;
+    font-size: 15px;
+  }
+  .emoji-opciones img {
+    width: 55px;
+  }
+  .numero-calificacion {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .recuadro-pregunta {
+    width: 90%;
+    padding: 15px;
+  }
+  .titulo-pregunta {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+  .texto-pregunta {
+    font-size: 1rem;
+    width: 90%;
+    padding: 6px 12px;
+  }
+  .input-respuesta {
+    width: 95%;
+    padding: 7px;
+    font-size: 14px;
+  }
+  .boton-siguiente {
+    width: 200px;
+    height: 38px;
+    font-size: 14px;
+  }
+  .emoji-opciones img {
+    width: 50px;
+  }
+  .numero-calificacion {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recuadro-pregunta {
+    width: 95%;
+    padding: 12px;
+  }
+  .titulo-pregunta {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+  .texto-pregunta {
+    font-size: 0.9rem;
+    width: 95%;
+    padding: 5px 10px;
+  }
+  .input-respuesta {
+    width: 100%;
+    padding: 6px;
+    font-size: 13px;
+  }
+  .boton-siguiente {
+    width: 180px;
+    height: 36px;
+    font-size: 13px;
+  }
+  .emoji-opciones {
+    gap: 10px;
+  }
+  .emoji-opciones img {
+    width: 45px;
+  }
+  .numero-calificacion {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+  .recuadro-calificacion {
+    gap: 8px;
+  }
 }

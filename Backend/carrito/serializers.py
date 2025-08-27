@@ -86,13 +86,14 @@ class ValoracionSerializer(serializers.ModelSerializer):
 
 #--------------------------------serializador para la factuta-trabajador -------------------------------------
 
+
 class FacturaSerializer(serializers.ModelSerializer):
-    clienteId = serializers.CharField(source='usuario.username', read_only=True)
+    clienteId = serializers.CharField(source='usuario.nombre', read_only=True)
 
     class Meta:
         model = Factura
-        fields = ['id', 'clienteId', 'metodo_pago', 'metodo_entrega', 'total']
-        
+        fields = ['id', 'clienteId', 'metodo_pago', 'metodo_entrega', 'total', 'fecha'] 
+
 
 class ProductoSerializer(serializers.ModelSerializer):
     class Meta:

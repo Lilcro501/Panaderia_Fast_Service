@@ -13,6 +13,11 @@ export default function Cronograma() {
     const encabezados = ['Nombre trabajador', 'Cargo', 'Actividades', 'Horarios', 'Fecha', 'Acciones'];
     const [filas, setFilas] = useState([]);
 
+    // --- Paginación ---
+    const [paginaActual, setPaginaActual] = useState(1);
+    const [totalPaginas, setTotalPaginas] = useState(1);
+    const cronogramasPorPagina = 10;
+
     // Estado de notificación
     const [notificacion, setNotificacion] = useState({
         visible: false,
@@ -41,7 +46,12 @@ export default function Cronograma() {
             .then(response => {
                 const cronogramas = response.data;
 
-                const filasConvertidas = cronogramas.map(item => {
+                // --- Paginación ---
+                const indiceUltimo = paginaActual * cronogramasPorPagina;
+                const indicePrimero = indiceUltimo - cronogramasPorPagina;
+                const cronogramasActuales = cronogramas.slice(indicePrimero, indiceUltimo);
+
+                const filasConvertidas = cronogramasActuales.map(item => {
                     const usuario = item.usuario_detalle || {};
                     const nombreCompleto = `${usuario.nombre || ''} ${usuario.apellido || ''}`;
                     const horario = `${item.hora_inicio} - ${item.hora_fin}`;
@@ -81,6 +91,7 @@ export default function Cronograma() {
                 });
 
                 setFilas(filasConvertidas);
+                setTotalPaginas(Math.ceil(cronogramas.length / cronogramasPorPagina));
             })
             .catch(error => {
                 console.error("Error al cargar cronogramas de trabajadores:", error);
@@ -92,7 +103,7 @@ export default function Cronograma() {
         try {
             await axios.delete(`http://localhost:8000/api/administrador/cronograma/${id}/`);
             mostrarNotificacion("✅ Cronograma eliminado correctamente.", "exito");
-            obtenerCronogramas(); // Refrescar lista
+            obtenerCronogramas();
         } catch (error) {
             console.error("Error al eliminar cronograma:", error);
             mostrarNotificacion("❌ No se pudo eliminar el cronograma.", "error");
@@ -101,15 +112,43 @@ export default function Cronograma() {
         }
     };
 
+    const cambiarPagina = (numero) => {
+        if (numero >= 1 && numero <= totalPaginas) {
+            setPaginaActual(numero);
+        }
+    };
+
     useEffect(() => {
         obtenerCronogramas();
-    }, []);
+    }, [paginaActual]);
 
     return (
         <>
             <div>
-                <h2 className="titulo">Cronograma Trabajadores</h2>
+                <h1 className="titulo">Cronograma Trabajadores</h1>
                 <TablaAdmin encabezados={encabezados} filas={filas} />
+                
+                {/* Paginación */}
+                <div className="paginacion">
+                    <button onClick={() => cambiarPagina(paginaActual - 1)} disabled={paginaActual === 1}>
+                        Anterior
+                    </button>
+
+                    {[...Array(totalPaginas)].map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => cambiarPagina(index + 1)}
+                            className={paginaActual === index + 1 ? 'activo' : ''}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+
+                    <button onClick={() => cambiarPagina(paginaActual + 1)} disabled={paginaActual === totalPaginas}>
+                        Siguiente
+                    </button>
+                </div>
+
                 <br />
             </div>
 
@@ -134,18 +173,8 @@ export default function Cronograma() {
                     <div className="modal-contenido">
                         <p>{confirmacion.mensaje}</p>
                         <div style={{ marginTop: "15px" }}>
-                            <button
-                                onClick={confirmacion.onConfirm}
-                                className="btn-confirmar"
-                            >
-                                Sí
-                            </button>
-                            <button
-                                onClick={() => setConfirmacion({ visible: false, mensaje: "", onConfirm: null })}
-                                className="btn-cancelar"
-                            >
-                                Cancelar
-                            </button>
+                            <button onClick={confirmacion.onConfirm} className="btn-confirmar">Sí</button>
+                            <button onClick={() => setConfirmacion({ visible: false, mensaje: "", onConfirm: null })} className="btn-cancelar">Cancelar</button>
                         </div>
                     </div>
                 </div>

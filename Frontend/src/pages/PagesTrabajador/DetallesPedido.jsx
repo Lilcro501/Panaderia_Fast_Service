@@ -124,7 +124,7 @@ const DetallesPedido = () => {
 
       {/* --- Botón volver --- */}
       <div className="contenedor-volver">
-        <button className="boton-volver" onClick={() => navigate(-1)}>
+        <button className="boton-moderno-v-2" onClick={() => navigate(-1)}>
           Volver
         </button>
       </div>
