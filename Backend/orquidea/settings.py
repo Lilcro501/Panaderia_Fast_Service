@@ -179,23 +179,16 @@ WSGI_APPLICATION = 'orquidea.wsgi.application'
 #conexion y configuracion con la base de datos
 #aca realizamos la conexion con la base de datos para defiinir el motor y la base de datos en la cual se estaran almacenando los datos de entrada de la aplicacion 
 DATABASES = {
-    #este es el nombre del conjunto de configuraciones de bases de datos que permite definir la base de datos
     'default': {
-        #este campo le inidca al backend que motor se va a utilzar para conectarse en la base de datos, en este caso es mysql
         'ENGINE': 'django.db.backends.mysql',
-        #este campo especifica el nombre de la base de datos 
-        'NAME': "fast_Service",
-        #este campo especifica el nombre del usuario que se utilzara para autenticar la conexion con la base de datos
-        'USER': "root",
-        #este campo especifica la constraseña asociada con el usuario
-        'PASSWORD': 'admin',
-        #este campo especifica la direccion del servidor de la base de datos
-        'HOST': 'localhost',
-        #este campo especifica el puerto en el que se encuentra el servidor de la base de datos
-        'PORT': '3306',
-        
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),  # Asegúrate de que sea así
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT', cast=int),
     }
 }
+
 
 
 # Password validation

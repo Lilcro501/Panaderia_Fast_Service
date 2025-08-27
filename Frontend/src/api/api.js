@@ -30,9 +30,10 @@ export const eliminarSesion = () => {
 
 // --- API instance ---
 const api = axios.create({
-  baseURL: "http://localhost:8000",
-  withCredentials: true, // importante si usas cookies HttpOnly
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
+  withCredentials: true,
 });
+
 
 // --- Interceptor de request ---
 api.interceptors.request.use((config) => {
