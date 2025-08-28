@@ -118,7 +118,7 @@ export default function Registro() {
         };
 
         console.log('Datos a enviar:', payload);
-
+        /*cambio de ruta */
         const response = await axios.post(`${API_URL}/api/usuarios/registro/`, payload);
 
         if (response.status === 201 || response.status === 200) {
