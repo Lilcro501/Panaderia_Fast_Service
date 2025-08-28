@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaUser, FaLock, FaUserLock, FaEye, FaEyeSlash, FaPhone } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
-import { registrarUsuario } from '../../api/login';
+import axios from 'axios';
 import orquidea from '../../assets/icons/ImagenOrquidea.png';
 import '../../assets/styles/Registro.css';
 
@@ -18,7 +18,6 @@ export default function Registro() {
   });
 
   useEffect(() => {
-    // Cargar datos no sensibles desde sessionStorage
     const datosGuardados = sessionStorage.getItem('registroForm');
     if (datosGuardados) {
       const parsedData = JSON.parse(datosGuardados);
@@ -40,8 +39,8 @@ export default function Registro() {
   const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
   const navigate = useNavigate();
 
-  // Dominios permitidos
   const dominiosValidos = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'example.co', 'example.com'];
+  const API_URL = import.meta.env.VITE_API_URL; // <-- Variable de entorno
 
   const validarDominioCorreo = (correo) => {
     const partes = correo.split('@');
@@ -53,7 +52,6 @@ export default function Registro() {
     window.location.href = '/';
   };
 
-  // 🔥 VALIDACIONES COMPLETAS
   const validar = () => {
     const nuevosErrores = {};
     const nombreRegex = /^[a-zA-ZÀ-ÿ\s]{2,}$/;
@@ -92,7 +90,6 @@ export default function Registro() {
     const nuevoForm = { ...form, [id]: nuevoValor };
     setForm(nuevoForm);
 
-    // Almacenar solo datos no sensibles en sessionStorage
     const datosParaGuardar = {
       nombres: nuevoForm.nombres,
       apellidos: nuevoForm.apellidos,
@@ -122,10 +119,10 @@ export default function Registro() {
 
         console.log('Datos a enviar:', payload);
 
-        const response = await registrarUsuario(payload);
+        const response = await axios.post(`${API_URL}/api/usuarios/`, payload);
 
         if (response.status === 201 || response.status === 200) {
-          setModalVisible(true); // Mostrar modal solo si el registro es exitoso
+          setModalVisible(true);
         } else {
           setMensajeErrorGeneral('Hubo un problema en el registro.');
         }
