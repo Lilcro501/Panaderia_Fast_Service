@@ -15,6 +15,8 @@ export default function EditarTrabajador() {
     const [datosIniciales, setDatosIniciales] = useState(null);
     const [cargando, setCargando] = useState(true);
 
+    const API_URL = import.meta.env.VITE_API_URL; // <-- Usamos la variable de entorno
+
     // Estado de notificación
     const [notificacion, setNotificacion] = useState({
         visible: false,
@@ -44,21 +46,19 @@ export default function EditarTrabajador() {
             return;
         }
 
-        axios.get(`http://localhost:8000/api/administrador/usuarios/${id}/`)
-            .then(res => {
-                setDatosIniciales(res.data);
-            })
+        axios.get(`${API_URL}/api/administrador/usuarios/${id}/`)
+            .then(res => setDatosIniciales(res.data))
             .catch(err => {
                 console.error("Error al cargar trabajador:", err);
                 mostrarNotificacion("No se pudo cargar el trabajador.", "error");
                 setTimeout(() => navigate("/AdministrarTrabajadores"), 2000);
             })
             .finally(() => setCargando(false));
-    }, [id, navigate]);
+    }, [id, navigate, API_URL]);
 
     const manejarEnvio = async (datos) => {
         try {
-            await axios.patch(`http://localhost:8000/api/administrador/usuarios/${id}/`, datos);
+            await axios.patch(`${API_URL}/api/administrador/usuarios/${id}/`, datos);
             mostrarNotificacion("✅ Trabajador actualizado con éxito.", "exito");
             setTimeout(() => navigate("/AdministrarTrabajadores"), 2000);
         } catch (error) {
@@ -68,18 +68,8 @@ export default function EditarTrabajador() {
     };
 
     const botones = [
-        {
-            texto: 'Actualizar',
-            tipo: 'submit',
-            clase: 'guardar',
-            onClick: null
-        },
-        {
-            texto: 'Cancelar',
-            tipo: 'button',
-            clase: 'salir',
-            onClick: () => navigate("/AdministrarTrabajadores")
-        }
+        { texto: 'Actualizar', tipo: 'submit', clase: 'guardar', onClick: null },
+        { texto: 'Cancelar', tipo: 'button', clase: 'salir', onClick: () => navigate("/AdministrarTrabajadores") }
     ];
 
     return (
@@ -99,19 +89,13 @@ export default function EditarTrabajador() {
                             return !regex.test(valor) ? "El correo electrónico no es válido" : null;
                         },
                         nombre: (valor) =>
-                            !valor || valor.trim().length < 2
-                                ? "El nombre debe tener al menos 2 caracteres"
-                                : null,
+                            !valor || valor.trim().length < 2 ? "El nombre debe tener al menos 2 caracteres" : null,
                         apellido: (valor) =>
-                            !valor || valor.trim().length < 2
-                                ? "El apellido debe tener al menos 2 caracteres"
-                                : null,
+                            !valor || valor.trim().length < 2 ? "El apellido debe tener al menos 2 caracteres" : null,
                         telefono: (valor) => {
                             if (!valor) return null;
                             const regex = /^[0-9]{10}$/;
-                            return !regex.test(valor)
-                                ? "El teléfono debe contener 10 dígitos"
-                                : null;
+                            return !regex.test(valor) ? "El teléfono debe contener 10 dígitos" : null;
                         }
                     }}
                 />
@@ -119,7 +103,6 @@ export default function EditarTrabajador() {
                 <p>Error al cargar los datos.</p>
             )}
 
-            {/* Renderizado condicional de la notificación */}
             {notificacion.visible && (
                 <div className={`modal-fondo modal-${notificacion.tipo}`}>
                     <div className="modal-contenido">
