@@ -24,9 +24,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from carrito.models import DetalleFactura
 from django.db.models import F
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 
-
+@cache_page(60 * 5)  # 5 minutos    
 class ProductoCreateView(APIView):
     def post(self, request):
         try:

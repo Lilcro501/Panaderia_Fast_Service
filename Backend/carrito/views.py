@@ -13,6 +13,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.core.mail import send_mail, EmailMessage
 
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 from .models import Producto
 
