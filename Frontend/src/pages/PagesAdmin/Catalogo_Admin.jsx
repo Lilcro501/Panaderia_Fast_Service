@@ -14,7 +14,6 @@ function useQuery() {
 function CatalogoPage() {
     const [products, setProducts] = useState([]);
     const [editingComments, setEditingComments] = useState(null);
-
     const [paginaActual, setPaginaActual] = useState(1);
     const productosPorPagina = 10;
     const [totalPaginas, setTotalPaginas] = useState(1);
@@ -22,10 +21,12 @@ function CatalogoPage() {
     const query = useQuery();
     const categoriaSeleccionada = query.get("categoria");
 
+    const API_URL = import.meta.env.VITE_API_URL; // <-- Variable de entorno
+
     const obtenerProductos = () => {
         const url = categoriaSeleccionada
-            ? `http://localhost:8000/api/administrador/productos/?categoria=${categoriaSeleccionada}`
-            : `http://localhost:8000/api/administrador/productos/`;
+            ? `${API_URL}/api/administrador/productos/?categoria=${categoriaSeleccionada}`
+            : `${API_URL}/api/administrador/productos/`;
 
         axios.get(url)
             .then(response => {
@@ -43,7 +44,7 @@ function CatalogoPage() {
 
     useEffect(() => {
         obtenerProductos();
-    }, [categoriaSeleccionada, paginaActual]);
+    }, [categoriaSeleccionada, paginaActual, API_URL]);
 
     const handleEditComments = (id_producto) => {
         const product = products.find(p => p.id_producto === id_producto);
@@ -51,7 +52,7 @@ function CatalogoPage() {
     };
 
     const handleSaveComments = (updatedProduct) => {
-        axios.patch(`http://localhost:8000/api/administrador/productos/${updatedProduct.id_producto}/`, {
+        axios.patch(`${API_URL}/api/administrador/productos/${updatedProduct.id_producto}/`, {
             comments: updatedProduct.comments
         })
             .then(() => {
