@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import TablaAdmin from '../../components/TablaAdmin';
 
 import agregar_documento from '../../assets/images/agregar_documento.png';
@@ -10,27 +10,16 @@ import eliminar_documento from '../../assets/images/eliminar_documento.png';
 import "../../assets/styles/Global.css";
 
 export default function Cronograma() {
+    const API_URL = import.meta.env.VITE_API_URL; // <-- Variable de entorno
+
     const encabezados = ['Nombre trabajador', 'Cargo', 'Actividades', 'Horarios', 'Fecha', 'Acciones'];
     const [filas, setFilas] = useState([]);
-
-    // --- Paginación ---
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const cronogramasPorPagina = 10;
 
-    // Estado de notificación
-    const [notificacion, setNotificacion] = useState({
-        visible: false,
-        mensaje: "",
-        tipo: ""
-    });
-
-    // Estado del modal de confirmación
-    const [confirmacion, setConfirmacion] = useState({
-        visible: false,
-        mensaje: "",
-        onConfirm: null
-    });
+    const [notificacion, setNotificacion] = useState({ visible: false, mensaje: "", tipo: "" });
+    const [confirmacion, setConfirmacion] = useState({ visible: false, mensaje: "", onConfirm: null });
 
     const mostrarNotificacion = (mensaje, tipo) => {
         setNotificacion({ visible: true, mensaje, tipo });
@@ -42,11 +31,10 @@ export default function Cronograma() {
     };
 
     const obtenerCronogramas = () => {
-        axios.get('http://localhost:8000/api/administrador/cronograma/trabajadores/')
+        axios.get(`${API_URL}/api/administrador/cronograma/trabajadores/`)
             .then(response => {
                 const cronogramas = response.data;
 
-                // --- Paginación ---
                 const indiceUltimo = paginaActual * cronogramasPorPagina;
                 const indicePrimero = indiceUltimo - cronogramasPorPagina;
                 const cronogramasActuales = cronogramas.slice(indicePrimero, indiceUltimo);
@@ -65,12 +53,7 @@ export default function Cronograma() {
                         fecha,
                         <div key={`acciones-${item.id_cronograma}`} className="acciones_tabla">
                             <Link to={`/EditarCrono/${item.id_cronograma}`}>
-                                <img
-                                    src={editar_documento}
-                                    alt="Editar"
-                                    title="Editar cronograma"
-                                    className="icono_tabla"
-                                />
+                                <img src={editar_documento} alt="Editar" title="Editar cronograma" className="icono_tabla" />
                             </Link>
                             <button
                                 onClick={() => pedirConfirmacion(
@@ -80,11 +63,7 @@ export default function Cronograma() {
                                 className="boton_eliminar_tabla"
                                 title="Eliminar cronograma"
                             >
-                                <img
-                                    src={eliminar_documento}
-                                    alt="Eliminar"
-                                    className="icono_tabla"
-                                />
+                                <img src={eliminar_documento} alt="Eliminar" className="icono_tabla" />
                             </button>
                         </div>
                     ];
@@ -101,7 +80,7 @@ export default function Cronograma() {
 
     const manejarEliminar = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/api/administrador/cronograma/${id}/`);
+            await axios.delete(`${API_URL}/api/administrador/cronograma/${id}/`);
             mostrarNotificacion("✅ Cronograma eliminado correctamente.", "exito");
             obtenerCronogramas();
         } catch (error) {
@@ -120,14 +99,14 @@ export default function Cronograma() {
 
     useEffect(() => {
         obtenerCronogramas();
-    }, [paginaActual]);
+    }, [paginaActual, API_URL]);
 
     return (
         <>
             <div>
                 <h1 className="titulo">Cronograma Trabajadores</h1>
                 <TablaAdmin encabezados={encabezados} filas={filas} />
-                
+
                 {/* Paginación */}
                 <div className="paginacion">
                     <button onClick={() => cambiarPagina(paginaActual - 1)} disabled={paginaActual === 1}>

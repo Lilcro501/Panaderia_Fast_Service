@@ -10,6 +10,8 @@ export default function EditarCrono() {
     const [datosIniciales, setDatosIniciales] = useState(null);
     const [notificacion, setNotificacion] = useState({ visible: false, mensaje: "", tipo: "" });
 
+    const API_URL = import.meta.env.VITE_API_URL; // <-- Variable de entorno
+
     const mostrarNotificacion = (mensaje, tipo) => {
         setNotificacion({ visible: true, mensaje, tipo });
         setTimeout(() => setNotificacion({ visible: false, mensaje: "", tipo: "" }), 2000);
@@ -30,7 +32,7 @@ export default function EditarCrono() {
 
     const manejarEnvio = async (datos) => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/administrador/cronograma/${id}/`);
+            const response = await axios.get(`${API_URL}/api/administrador/cronograma/${id}/`);
             const idUsuario = response.data.id_usuario;
 
             const payload = {
@@ -41,7 +43,7 @@ export default function EditarCrono() {
                 fecha_fin: datos.fecha_fin
             };
 
-            await axios.put(`http://localhost:8000/api/administrador/cronograma/${id}/`, payload);
+            await axios.put(`${API_URL}/api/administrador/cronograma/${id}/`, payload);
 
             mostrarNotificacion("✅ Cronograma actualizado correctamente", "exito");
             setTimeout(() => navigate('/Cronograma'), 2000);
@@ -57,10 +59,9 @@ export default function EditarCrono() {
     ];
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/administrador/cronograma/${id}/`)
+        axios.get(`${API_URL}/api/administrador/cronograma/${id}/`)
             .then(response => {
                 const data = response.data;
-                const usuario = data.usuario_detalle || {};
 
                 setDatosIniciales({
                     titulo: data.titulo || '',
@@ -73,13 +74,11 @@ export default function EditarCrono() {
                 console.error("Error al obtener cronograma:", error);
                 mostrarNotificacion("❌ Error al cargar los datos del cronograma", "error");
             });
-    }, [id]);
+    }, [id, API_URL]);
 
     return (
         <div className="contenedor_formulario_inventario">
-            <h2 
-                className="titulo_seccion" 
-                style={{ textAlign: "center", color:'white'  }} >
+            <h2 className="titulo_seccion" style={{ textAlign: "center", color:'white' }}>
                 Editar cronograma
             </h2>
             {datosIniciales ? (
