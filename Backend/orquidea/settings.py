@@ -264,10 +264,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 #Este campo define una lista de origenes permitidos que pueden realizar solicitudes a la Api de la aplicacion
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "https://panaderia-fast-service-1.onrender.com",  # frontend en Render
-]
+
 
 #este campo define una lista de origenes de confianza para las solicitudes que incluyen un token CSRF, al especificar ,ss permite que las solicitudes desde este origen se consideren seguras para la proteccion contra CSRF
 CSRF_TRUSTED_ORIGINS = [
@@ -292,6 +289,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 #autenticacion con google
 #este define los backends de la autenticacion que se utilzara en la aplicacion, a continuacio, se desgloza cada componente 
