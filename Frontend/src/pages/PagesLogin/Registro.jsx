@@ -119,7 +119,7 @@ export default function Registro() {
 
         console.log('Datos a enviar:', payload);
 
-        const response = await axios.post(`${API_URL}/api/usuarios/`, payload);
+        const response = await axios.post(`${API_URL}/api/usuarios/registro/`, payload);
 
         if (response.status === 201 || response.status === 200) {
           setModalVisible(true);
