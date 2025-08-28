@@ -8,7 +8,6 @@ import "../../assets/styles/Global.css";
 
 export default function AgregarTrabajador() {
     const navigate = useNavigate();
-    const API_URL = import.meta.env.VITE_API_URL; // ✅ Variable de entorno para la API
 
     // Estado de notificación
     const [notificacion, setNotificacion] = useState({
@@ -25,24 +24,52 @@ export default function AgregarTrabajador() {
     };
 
     const camposTrabajador = [
-        { nombre: 'email', etiqueta: 'Correo Electrónico', tipo: 'email', requerido: true },
-        { nombre: 'password', etiqueta: 'Contraseña', tipo: 'text', requerido: true },
-        { nombre: 'nombre', etiqueta: 'Nombre', tipo: 'text', requerido: true },
-        { nombre: 'apellido', etiqueta: 'Apellido', tipo: 'text', requerido: true },
-        { nombre: 'telefono', etiqueta: 'Teléfono', tipo: 'number', requerido: true },
-        { 
-            nombre: 'rol', 
-            etiqueta: 'Rol', 
-            tipo: 'select', 
-            opciones: [{ valor: 'trabajador', etiqueta: 'Trabajador' }], 
-            requerido: true 
+        {
+            nombre: 'email',
+            etiqueta: 'Correo Electrónico',
+            tipo: 'email',
+            requerido: true
+        },
+        {
+            nombre: 'password',
+            etiqueta: 'Contraseña',
+            tipo: 'text',
+            requerido: true
+        },
+        {
+            nombre: 'nombre',
+            etiqueta: 'Nombre',
+            tipo: 'text',
+            requerido: true
+        },
+        {
+            nombre: 'apellido',
+            etiqueta: 'Apellido',
+            tipo: 'text',
+            requerido: true
+        },
+        {
+            nombre: 'telefono',
+            etiqueta: 'Teléfono',
+            tipo: 'number',
+            requerido: true
+        },
+        {
+            nombre: 'rol',
+            etiqueta: 'Rol',
+            tipo: 'select',
+            opciones: [
+                { valor: 'trabajador', etiqueta: 'Trabajador' }
+            ],
+            requerido: true
         }
     ];
 
     const manejarEnvio = async (datos) => {
         try {
-            await axios.post(`${API_URL}/api/administrador/usuarios/`, datos);
-            mostrarNotificacion("✅ Trabajador guardado con éxito.", "exito");
+            // Use the environment variable VITE_API_URL
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/administrador/usuarios/`, datos);
+            mostrarNotificacion("Trabajador guardado con éxito.", "exito");
             setTimeout(() => navigate("/AdministrarTrabajadores"), 2000);
         } catch (error) {
             console.error("Error al guardar el trabajador:", error.response?.data || error);
@@ -51,8 +78,18 @@ export default function AgregarTrabajador() {
     };
 
     const botones = [
-        { texto: 'Aceptar', tipo: 'submit', clase: 'guardar', onClick: null },
-        { texto: 'Cancelar', tipo: 'button', clase: 'salir', onClick: () => navigate("/AdministrarTrabajadores") }
+        {
+            texto: 'Aceptar',
+            tipo: 'submit',
+            clase: 'guardar',
+            onClick: null
+        },
+        {
+            texto: 'Cancelar',
+            tipo: 'button',
+            clase: 'salir',
+            onClick: () => navigate("/AdministrarTrabajadores")
+        }
     ];
 
     return (
