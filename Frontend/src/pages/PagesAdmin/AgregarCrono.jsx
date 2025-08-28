@@ -4,6 +4,8 @@ import axios from 'axios';
 import FormularioAdmin from '../../components/FormularioAdmin';
 import "../../assets/styles/Global.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function AgregarCrono() {
     const navigate = useNavigate();
     const [usuarios, setUsuarios] = useState([]);
@@ -19,7 +21,7 @@ export default function AgregarCrono() {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/administrador/usuarios/')
+        axios.get(`${API_URL}/api/administrador/usuarios/`)
             .then(response => {
                 const trabajadoresFiltrados = response.data.filter(usuario => usuario.rol === "trabajador");
                 const opciones = trabajadoresFiltrados.map(usuario => ({
@@ -35,11 +37,7 @@ export default function AgregarCrono() {
     }, []);
 
     const camposFormulario = [
-        { nombre: 'id_usuario',
-            etiqueta: 'Trabajador', 
-            tipo: 'select', 
-            requerido: true, 
-            opciones: usuarios },
+        { nombre: 'id_usuario', etiqueta: 'Trabajador', tipo: 'select', requerido: true, opciones: usuarios },
         { nombre: 'titulo', etiqueta: 'Cargo', tipo: 'text', requerido: true },
         { nombre: 'descripcion', etiqueta: 'Actividades', tipo: 'textarea', requerido: true },
         { nombre: 'fecha_inicio', etiqueta: 'Fecha y hora de inicio', tipo: 'datetime-local', requerido: true },
@@ -56,7 +54,7 @@ export default function AgregarCrono() {
                 fecha_fin: new Date(datos.fecha_fin).toISOString()
             };
 
-            await axios.post("http://localhost:8000/api/administrador/cronograma/", datosAEnviar);
+            await axios.post(`${API_URL}/api/administrador/cronograma/`, datosAEnviar);
 
             mostrarNotificacion("✅ Cronograma guardado correctamente", "exito");
             setTimeout(() => navigate("/Cronograma"), 2000);
@@ -73,9 +71,7 @@ export default function AgregarCrono() {
 
     return (
         <div className="contenedor_formulario_inventario">
-            <h2 
-                className="titulo_seccion" 
-                style={{ textAlign: "center", color:'white'  }} >
+            <h2 className="titulo_seccion" style={{ textAlign: "center", color: 'white' }}>
                 Agregar Cronograma
             </h2>
             <FormularioAdmin
@@ -83,10 +79,10 @@ export default function AgregarCrono() {
                 onSubmit={manejarEnvio}
                 botonesPersonalizados={botones}
                 validacionesPersonalizadas={{
-                    id_usuario: (valor) => !valor ? "Debes seleccionar un trabajador" : null,
-                    titulo: (valor) => !valor || valor.trim() === "" ? "El cargo es obligatorio" : null,
-                    descripcion: (valor) => !valor || valor.trim().length < 5 ? "Las actividades deben tener al menos 5 caracteres" : null,
-                    fecha_inicio: (valor) => {
+                    id_usuario: valor => !valor ? "Debes seleccionar un trabajador" : null,
+                    titulo: valor => !valor || valor.trim() === "" ? "El cargo es obligatorio" : null,
+                    descripcion: valor => !valor || valor.trim().length < 5 ? "Las actividades deben tener al menos 5 caracteres" : null,
+                    fecha_inicio: valor => {
                         if (!valor) return "La fecha de inicio es obligatoria";
                         const inicio = new Date(valor);
                         return isNaN(inicio.getTime()) ? "La fecha de inicio no es válida" : null;
