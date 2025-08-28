@@ -156,7 +156,6 @@ export default function Registro() {
   return (
     <section className='Contenedor'>
       <div className='PanelIzquierdo'>
-        <h1>Bienvenido a la sección de registro</h1>
         <div className='ImagenOrquidea'>
           <img src={orquidea} alt='Registro' />
         </div>

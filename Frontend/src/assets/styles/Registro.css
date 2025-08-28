@@ -1,5 +1,4 @@
 .Contenedor {
-  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: stretch;
@@ -211,7 +210,7 @@ input::placeholder {
     width: 100%;
   }
   .Contenedor {
-    max-width: 90%;
+    max-width: 50%;
   }
 }
 

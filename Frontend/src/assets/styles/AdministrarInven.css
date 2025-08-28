@@ -30,10 +30,6 @@
     filter: brightness(1.1) saturate(1.2);
 }
 
-<<<<<<< HEAD
-
-
-=======
 /* 🔹 Media queries para hacerlo más adaptable */
 @media (max-width: 768px) {
     .iconos_acciones img {
@@ -52,4 +48,3 @@
         height: 40px;
     }
 }
->>>>>>> RamaComplementaria
