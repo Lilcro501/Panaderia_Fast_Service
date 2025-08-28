@@ -41,7 +41,7 @@ export default function PerfilInformacion() {
     // Si no están en sessionStorage, obtenerlos de la API
     const obtenerUsuario = async () => {
       try {
-        const response = await api.get("usuarios/perfil/", {
+        const response = await api.get("api/usuarios/perfil/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const datosUsuario = {
@@ -71,7 +71,7 @@ export default function PerfilInformacion() {
     const token = sessionStorage.getItem("access");
 
     try {
-      await api.put("usuarios/perfil/", usuario, {
+      await api.put("api/usuarios/perfil/", usuario, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -190,7 +190,7 @@ export function MostrarInformacion() {
     // Si no están en sessionStorage, obtenerlos de la API
     const obtenerUsuario = async () => {
       try {
-        const response = await api.get("usuarios/perfil/", {
+        const response = await api.get("api/usuarios/perfil/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsuario(response.data);
