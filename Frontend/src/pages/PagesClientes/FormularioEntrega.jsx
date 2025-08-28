@@ -393,16 +393,6 @@ const FormularioEntrega = () => {
               <input
                 type="radio"
                 name="entrega"
-                value="qr"
-                checked={metodoEntrega === 'qr'}
-                onChange={(e) => setMetodoEntrega(e.target.value)}
-              />
-              Pagar con QR
-            </label>
-            <label className="radio-option">
-              <input
-                type="radio"
-                name="entrega"
                 value="contraentrega"
                 checked={metodoEntrega === 'contraentrega'}
                 onChange={(e) => setMetodoEntrega(e.target.value)}
