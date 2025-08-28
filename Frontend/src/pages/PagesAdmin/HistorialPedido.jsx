@@ -8,13 +8,11 @@ export default function HistorialPedido() {
 
     // Estado para paginación
     const [paginaActual, setPaginaActual] = useState(1);
-    const facturasPorPagina = 5;
-
-    const API_URL = import.meta.env.VITE_API_URL; // <-- Variable de entorno
+    const facturasPorPagina = 5; // ✅ Número de facturas por página
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/api/administrador/facturas/`)
+            .get(`${import.meta.env.VITE_API_URL}/api/administrador/facturas/`)
             .then((res) => {
                 setFacturas(res.data);
                 setCargando(false);
@@ -23,7 +21,7 @@ export default function HistorialPedido() {
                 console.error("Error al obtener las facturas:", err);
                 setCargando(false);
             });
-    }, [API_URL]);
+    }, []);
 
     // Calcular facturas a mostrar en la página actual
     const indiceUltimaFactura = paginaActual * facturasPorPagina;
@@ -62,7 +60,7 @@ export default function HistorialPedido() {
                             </div>
                         ))}
 
-                        {/* Controles de paginación */}
+                        {/* 🔹 Controles de paginación */}
                         <div className="paginacion">
                             <button
                                 onClick={() => cambiarPagina(paginaActual - 1)}
