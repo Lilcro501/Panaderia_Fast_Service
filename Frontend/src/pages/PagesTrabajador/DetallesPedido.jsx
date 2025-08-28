@@ -14,12 +14,14 @@ const DetallesPedido = () => {
   const [cargando, setCargando] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL; // <-- variable de entorno
+
   useEffect(() => {
     const fetchPedido = async () => {
       try {
         const token = sessionStorage.getItem("access");
         const response = await axios.get(
-          `http://localhost:8000/api/trabajador/facturas/${id}/`,
+          `${API_URL}/api/trabajador/facturas/${id}/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -47,7 +49,7 @@ const DetallesPedido = () => {
     };
 
     fetchPedido();
-  }, [id]);
+  }, [id, API_URL]);
 
   const columnas = ["Producto", "Cantidad", "Precio unitario", "Precio total"];
 
@@ -70,7 +72,6 @@ const DetallesPedido = () => {
       <h2 className="titulo-detalles">Detalles del pedido #{id}</h2>
       <TablaBase columnas={columnas} datos={datosTabla} />
 
-      {/* --- Información adicional (tarjeta) --- */}
       <div className="info-adicional">
         <h3 className="subtitulo-info">Información del pedido</h3>
         <div className="grid-info">
@@ -105,14 +106,12 @@ const DetallesPedido = () => {
           </div>
         )}
 
-        {/* Total general */}
         <div className="total-general">
           <span>Total:</span>
           <strong>${totalGeneral.toLocaleString()}</strong>
         </div>
       </div>
 
-      {/* --- Modal comprobante --- */}
       {modalVisible && (
         <div
           className="modal-comprobante"
@@ -122,7 +121,6 @@ const DetallesPedido = () => {
         </div>
       )}
 
-      {/* --- Botón volver --- */}
       <div className="contenedor-volver">
         <button className="boton-moderno-v-2" onClick={() => navigate(-1)}>
           Volver

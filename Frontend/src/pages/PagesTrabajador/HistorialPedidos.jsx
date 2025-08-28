@@ -15,6 +15,8 @@ export default function HistorialPedidos() {
   const [paginaActual, setPaginaActual] = useState(1);
   const pedidosPorPagina = 5;
 
+  const API_URL = import.meta.env.VITE_API_URL; // <-- variable de entorno
+
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
@@ -25,7 +27,7 @@ export default function HistorialPedidos() {
         }
 
         const response = await axios.get(
-          "http://localhost:8000/api/trabajador/historial-pedidos/",
+          `${API_URL}/api/trabajador/historial-pedidos/`,
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -53,7 +55,7 @@ export default function HistorialPedidos() {
     };
 
     fetchPedidos();
-  }, []);
+  }, [API_URL]);
 
   // Filtrar pedidos
   const pedidosFiltrados = pedidos.filter((pedido) => {

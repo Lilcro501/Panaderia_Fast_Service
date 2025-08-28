@@ -10,6 +10,8 @@ export default function CronogramaTrabajador() {
   const [cargando, setCargando] = useState(true);
   const id_usuario = sessionStorage.getItem("id_usuario");
 
+  const API_URL = import.meta.env.VITE_API_URL; // <-- variable de entorno
+
   const obtenerCronogramas = async () => {
     const token = getAccessToken();
 
@@ -21,7 +23,7 @@ export default function CronogramaTrabajador() {
 
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/trabajador/cronograma/${id_usuario}/`,
+        `${API_URL}/api/trabajador/cronograma/${id_usuario}/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

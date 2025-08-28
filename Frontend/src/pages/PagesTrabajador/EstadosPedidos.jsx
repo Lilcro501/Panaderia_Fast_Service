@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TablaBase from "../../components/TablaBase";
-import "../../assets/styles/estadopedido.css"
-
+import "../../assets/styles/estadopedido.css";
 import Boton from "../../components/Boton";
 import axios from "axios";  
 
@@ -25,6 +24,8 @@ const EstadosPedidos = () => {
 
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL; // <-- variable de entorno
+
   const cargarEstadosLocales = () => {
     const estadosGuardados = sessionStorage.getItem("estadosPedidos");
     return estadosGuardados ? JSON.parse(estadosGuardados) : {};
@@ -41,7 +42,7 @@ const EstadosPedidos = () => {
       try {
         const token = sessionStorage.getItem("access");
         const response = await axios.get(
-          "http://localhost:8000/api/trabajador/estados-pedidos/",
+          `${API_URL}/api/trabajador/estados-pedidos/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -64,7 +65,7 @@ const EstadosPedidos = () => {
     };
 
     obtenerPedidos();
-  }, [estadosLocales]);
+  }, [estadosLocales, API_URL]);
 
   const mostrarNotificacion = (mensaje, tipo) => {
     setNotificacion({ visible: true, mensaje, tipo });
@@ -78,7 +79,7 @@ const EstadosPedidos = () => {
       const token = sessionStorage.getItem("access");
 
       await axios.post(
-        "http://localhost:8000/api/trabajador/actualizar-estado/",
+        `${API_URL}/api/trabajador/actualizar-estado/`,
         { id_factura: idFactura, proceso_pedido: nuevoProceso },
         { headers: { Authorization: `Bearer ${token}` } }
       );

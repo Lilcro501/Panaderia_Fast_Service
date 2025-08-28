@@ -16,6 +16,8 @@ const ListaPedidos = () => {
   const [paginaActual, setPaginaActual] = useState(1);
   const pedidosPorPagina = 5;
 
+  const API_URL = import.meta.env.VITE_API_URL; // ✅ variable de entorno
+
   const opcionesMotivo = [
     "Pago incompleto",
     "Pedidos no disponibles",
@@ -28,7 +30,7 @@ const ListaPedidos = () => {
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/trabajador/listar-pedidos/", {
+        const response = await axios.get(`${API_URL}/api/trabajador/listar-pedidos/`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("access")}`,
           },
@@ -40,7 +42,7 @@ const ListaPedidos = () => {
       }
     };
     fetchPedidos();
-  }, []);
+  }, [API_URL]);
 
   const columnas = [
     "ID Pedido",
@@ -121,7 +123,7 @@ const ListaPedidos = () => {
         accion: modal.tipo
       };
 
-      await axios.post("http://localhost:8000/api/trabajador/notificar-pedido/", payload, {
+      await axios.post(`${API_URL}/api/trabajador/notificar-pedido/`, payload, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("access")}`,
         },
